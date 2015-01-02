@@ -1,0 +1,1 @@
+SELECT id_proveedor, folio, fecha_registro, fecha_pago, subtotal, iva, total, pagada, status, numero_usuario FROM factura WHERE status = TRUE AND pagada = FALSE AND DATEDIFF(NOW(), fecha_registro) > (SELECT tiempo_limite_pago FROM proveedor_credito WHERE status = TRUE AND proveedor_credito.id_proveedor = factura.id_proveedor) ORDER BY fecha_registro ASC;

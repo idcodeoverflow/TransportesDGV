@@ -1,0 +1,1 @@
+SELECT id_bodega, nombre, status FROM bodega_reciclaje WHERE status = TRUE;
