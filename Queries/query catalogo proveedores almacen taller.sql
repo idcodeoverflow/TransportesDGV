@@ -1,0 +1,1 @@
+SELECT id_contacto_proveedor, nombre, apellidos, puesto, fecha_alta, fecha_baja, status, (SELECT GROUP_CONCAT(' ',nombre,': ',datos) FROM comunicacion_contacto WHERE comunicacion_contacto.id_contacto_proveedor = contacto_proveedor.id_contacto_proveedor) AS contacto FROM contacto_proveedor WHERE status = TRUE AND id_proveedor = $P{NUMERO_PROVEEDOR} ORDER BY nombre;

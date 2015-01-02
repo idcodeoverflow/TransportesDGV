@@ -1,0 +1,1 @@
+SELECT numero_operador, nombre, apellidos, fecha_ingreso, IFNULL(fecha_egreso, 'ACTIVO') AS fecha_egreso, status FROM operador ORDER BY nombre AND apellidos;
