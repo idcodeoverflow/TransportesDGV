@@ -2,41 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlOrdenesReparacion.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlSalidasAlmacen.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/SalidaOperador.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/UserHome.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ReporteReparacionesPUnidad.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/CargoUnidad.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/CargoOperadorExtemporaneo.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/TrabajoExterno.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlFamiliaRefacciones.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlInventarios.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/SalidaEspecial.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlUnidades.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/BuscarCampoSimple.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ReporteCostoReparaciones.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlPartes.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/EntradaAlmacen.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlGrupoRefacciones.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlOperadores.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlProveedores.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/Logging.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlSistema.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/SeleccionarCargoDirectoExtemporaneo.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/CargoUnidadExtemporaneo.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/TrabajoExternoExtemporaneo.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlUsuarios.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlContactoProveedor.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/CargoEspecial.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/CargoOperador.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/CambiosOrdenesReparacion.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlFacturasProveedor.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/CargoEspecialExtemporaneo.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ReporteOrdenReparacion.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/ControlDatosContacto.java</file>
-            <file>file:/C:/Users/David%20Israel/Documents/NetBeansProjects/AlmacenTransportesDGV/src/almacendgv/SeleccionarCargoDirecto.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
