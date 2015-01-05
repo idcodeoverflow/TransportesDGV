@@ -4,7 +4,7 @@
  */
 package almacendgv;
 
-//import beans.CargoBodegaDTO;
+import beans.CargoBodegaDTO;
 import beans.CargoEspecialDTO;
 import beans.CargoOperadorDTO;
 import beans.CargoUnidadDTO;
@@ -16,6 +16,7 @@ import beans.SalidaAlmacenDTO;
 import beans.TrabajoExternoDTO;
 import beans.UsuarioDTO;
 import bussines.LazyQueryBO;
+import data.CargoBodegaDAO;
 import data.CargoEspecialDAO;
 import data.CargoOperadorDAO;
 import data.CargoUnidadDAO;
@@ -41,7 +42,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     private FacturaDTO factura;
     private EntradaAlmacenDTO entradaAlmacen;
     private TrabajoExternoDTO trabajoEspecial;
-    //private CargoBodegaDTO cargoBodega;(Eliminado)
+    private CargoBodegaDTO cargoBodega;
     private CargoEspecialDTO cargoEspecial;
     private CargoOperadorDTO cargoOperador;
     private CargoUnidadDTO cargoUnidad;
@@ -62,8 +63,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             this.jTFacturas.setSelectionMode(0);
             this.jTConceptosFactura.setSelectionMode(0);
             this.estadoBotonesInicio();
-            //this.iva = 0.0;
-            //this.subtotal = 0.0;
+            this.iva = 0.0;
+            this.subtotal = 0.0;
             this.total = 0.0;
             this.agregar = false;
             if(UserHome.getUsuario().getPrivilegio() == 1){
@@ -90,6 +91,9 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     public void mostrarValores(){
         try{
             this.jTFUsuario.setText(UserHome.getUsuario().getNombre() + " " + UserHome.getUsuario().getApellidos());
+            this.jTFPorcentajeIVA.setText("16.00");
+            this.jTFSubtotal.setText("0.00");
+            this.jTFIVA.setText("0.00");
             this.jTFTotal.setText("0.00");
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Código error: 816\n" + ex.getMessage(),
@@ -115,6 +119,12 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         jTFFechaRegistro = new javax.swing.JTextField();
         jLFechaPago = new javax.swing.JLabel();
         jTFFechaPago = new javax.swing.JTextField();
+        jLSubtotal = new javax.swing.JLabel();
+        jTFSubtotal = new javax.swing.JTextField();
+        jLPorcentajeIVA = new javax.swing.JLabel();
+        jTFPorcentajeIVA = new javax.swing.JTextField();
+        jLIVA = new javax.swing.JLabel();
+        jTFIVA = new javax.swing.JTextField();
         jTFTotal = new javax.swing.JTextField();
         jLTotal = new javax.swing.JLabel();
         jLUsuario = new javax.swing.JLabel();
@@ -158,6 +168,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Facturas Proveedores - Sistema de Administración Mantenimiento");
+        setAlwaysOnTop(true);
 
         jLIdProveedor.setText("ID de Proveedor:");
 
@@ -172,6 +183,46 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
 
         jTFFechaPago.setEditable(false);
         jTFFechaPago.setFocusable(false);
+
+        jLSubtotal.setText("Subtotal:");
+
+        jTFSubtotal.setEditable(false);
+        jTFSubtotal.setFocusable(false);
+        jTFSubtotal.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFSubtotalCaretUpdate(evt);
+            }
+        });
+        jTFSubtotal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFSubtotalFocusLost(evt);
+            }
+        });
+
+        jLPorcentajeIVA.setText("% IVA:");
+
+        jTFPorcentajeIVA.setEditable(false);
+        jTFPorcentajeIVA.setFocusable(false);
+        jTFPorcentajeIVA.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFPorcentajeIVACaretUpdate(evt);
+            }
+        });
+        jTFPorcentajeIVA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFPorcentajeIVAFocusLost(evt);
+            }
+        });
+
+        jLIVA.setText("IVA:");
+
+        jTFIVA.setEditable(false);
+        jTFIVA.setFocusable(false);
+        jTFIVA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFIVAFocusLost(evt);
+            }
+        });
 
         jTFTotal.setEditable(false);
         jTFTotal.setFocusable(false);
@@ -585,23 +636,29 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLUsuario)
+                                    .addComponent(jLIVA)
+                                    .addComponent(jLSubtotal)
                                     .addComponent(jLFechaRegistro)
-                                    .addComponent(jLIdProveedor)
-                                    .addComponent(jLTotal))
+                                    .addComponent(jLIdProveedor))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTFFechaRegistro)
+                                    .addComponent(jTFSubtotal)
+                                    .addComponent(jTFIVA)
                                     .addComponent(jTFIdProveedor)
-                                    .addComponent(jTFUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(jTFTotal))
+                                    .addComponent(jTFUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLFolio)
-                                    .addComponent(jLFechaPago))
+                                    .addComponent(jLFechaPago)
+                                    .addComponent(jLPorcentajeIVA)
+                                    .addComponent(jLTotal))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTFFolioFactura, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(jTFFechaPago))))
+                                    .addComponent(jTFTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                                    .addComponent(jTFFolioFactura)
+                                    .addComponent(jTFFechaPago)
+                                    .addComponent(jTFPorcentajeIVA))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPConceptosFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPFacturas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -614,7 +671,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLUsuario)
@@ -633,8 +690,17 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             .addComponent(jTFFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLTotal)
-                            .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLSubtotal)
+                            .addComponent(jTFSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLPorcentajeIVA)
+                            .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLIVA)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTFIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLTotal)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jBCancelar)
@@ -642,7 +708,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             .addComponent(jBAgregar)
                             .addComponent(jBFinalizar)
                             .addComponent(jBPagar)))
-                    .addComponent(jPConceptosFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPConceptosFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPFacturas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -746,6 +812,93 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         this.eliminarDetalleFactura();
     }//GEN-LAST:event_jMIEliminarConceptoActionPerformed
 
+    private void jTFSubtotalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFSubtotalCaretUpdate
+        if(this.jTFTotal != null && !"".equals(this.jTFIVA.getText()) && 
+                !"".equals(this.jTFSubtotal.getText()) && 
+                !"".equals(this.jTFPorcentajeIVA.getText())){
+            try{
+                DecimalFormat formatoDecimal = new DecimalFormat("0.00");
+                double ivaT = (double)(Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText()) / 100.0);
+                this.jTFIVA.setText(formatoDecimal.format(ivaT));
+                
+                double totalT = (double)(Double.parseDouble(this.jTFSubtotal.getText()) + 
+                        Double.parseDouble(this.jTFIVA.getText()));
+                this.jTFTotal.setText(formatoDecimal.format(totalT));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Numero Error: 817\n" + ex.getMessage()
+                        + "\nError al intentar calcular el total.\nVerifique que los datos"
+                        + " ingresados\nson correctos.", "Error!!!", JOptionPane.ERROR_MESSAGE);
+                ErrorLogger.scribirLog("ControlFacturasProveedor jTFSubtotalCaretUpdate()", 817, UserHome.getUsuario(), ex);
+            }
+        } else {
+            try{
+                if("".equals(this.jTFSubtotal.getText())){
+                    this.jTFIVA.setText("0.00");
+                    this.jTFTotal.setText("0.00");
+                }
+                if("".equals(this.jTFIVA.getText())){
+                    this.jTFTotal.setText(this.jTFSubtotal.getText());
+                }
+                if("".equals(this.jTFPorcentajeIVA.getText())){
+                    this.jTFIVA.setText("0.00");
+                    this.jTFTotal.setText(this.jTFSubtotal.getText());
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Numero Error: 818\n" + ex.getMessage()
+                        + "\nError al intentar calcular el total.\nVerifique que los datos"
+                        + " ingresados\nson correctos.", "Error!!!", JOptionPane.ERROR_MESSAGE);
+                ErrorLogger.scribirLog("ControlFacturasProveedor jTFSubtotalCaretUpdate()", 818, UserHome.getUsuario(), ex);
+            }
+        }
+    }//GEN-LAST:event_jTFSubtotalCaretUpdate
+
+    private void jTFPorcentajeIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVACaretUpdate
+        if(this.jTFTotal != null && !"".equals(this.jTFIVA.getText()) && 
+                !"".equals(this.jTFSubtotal.getText()) && 
+                !"".equals(this.jTFPorcentajeIVA.getText())){
+            try{
+                DecimalFormat formatoDecimal = new DecimalFormat("0.00");
+                double ivaT = (double)(Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText()) / 100.0);
+                double totalT = (double)(Double.parseDouble(this.jTFSubtotal.getText()) + 
+                        Double.parseDouble(this.jTFIVA.getText()));
+                
+                this.jTFIVA.setText(formatoDecimal.format(ivaT));
+                this.jTFTotal.setText(formatoDecimal.format(totalT));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Numero Error: 819\n" + ex.getMessage()
+                        + "\nError al intentar calcular el total.\nVerifique que los datos"
+                        + " ingresados\nson correctos.", "Error!!!", JOptionPane.ERROR_MESSAGE);
+                ErrorLogger.scribirLog("ControlFacturasProveedor jTFPorcentajeIVACaretUpdate()", 819, UserHome.getUsuario(), ex);
+            }
+        } else {
+            if("".equals(this.jTFSubtotal.getText())){
+                this.jTFIVA.setText("0.00");
+                this.jTFTotal.setText("0.00");
+            }
+            if("".equals(this.jTFIVA.getText())){
+                this.jTFTotal.setText(this.jTFSubtotal.getText());
+            }
+            if("".equals(this.jTFPorcentajeIVA.getText())){
+                this.jTFIVA.setText("0.00");
+                this.jTFTotal.setText(this.jTFSubtotal.getText());
+            }
+        }
+    }//GEN-LAST:event_jTFPorcentajeIVACaretUpdate
+
+    private void jTFSubtotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFSubtotalFocusLost
+        this.onFormatErrorSetValue(this.jTFSubtotal, 0.00);
+    }//GEN-LAST:event_jTFSubtotalFocusLost
+
+    private void jTFPorcentajeIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVAFocusLost
+        this.onFormatErrorSetValue(this.jTFPorcentajeIVA, 16.00);
+    }//GEN-LAST:event_jTFPorcentajeIVAFocusLost
+
+    private void jTFIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFIVAFocusLost
+        this.onFormatErrorSetValue(this.jTFIVA, 0.00);
+    }//GEN-LAST:event_jTFIVAFocusLost
+
     private void jTConceptosFacturaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTConceptosFacturaMouseReleased
         this.obtenerDetalleFactura();
     }//GEN-LAST:event_jTConceptosFacturaMouseReleased
@@ -794,9 +947,11 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             }
             
             factura.setFolio(this.jTFFolioFactura.getText());
+            factura.setIva(Double.parseDouble(this.jTFIVA.getText()));
             factura.setPagada(false);
             factura.setProveedor(proveedor);
             factura.setStatus(true);
+            factura.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             factura.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             factura.setUsuario(UserHome.getUsuario());
 
@@ -839,9 +994,11 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                     Integer.parseInt(this.jTFIdProveedor.getText()), true, true, true);
             
             factura.setFolio(factura.getFolio());
+            factura.setIva(Double.parseDouble(this.jTFIVA.getText()));
             factura.setPagada(factura.isPagada());
             factura.setProveedor(factura.getProveedor());
             factura.setStatus(factura.isStatus());
+            factura.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             factura.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             factura.setUsuario(factura.getUsuario());
 
@@ -878,29 +1035,29 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                     Integer.parseInt(this.jTFIdProveedor.getText()), true, true, true);
             
             factura.setFolio(factura.getFolio());
-            factura.setIva(0.0);
+            factura.setIva(factura.getIva());
             factura.setPagada(true);
             factura.setProveedor(factura.getProveedor());
             factura.setStatus(factura.isStatus());
-            factura.setSubtotal(0.0);
+            factura.setSubtotal(factura.getSubtotal());
             factura.setTotal(factura.getTotal());
             factura.setUsuario(factura.getUsuario());
             
             if(guardarCambios){
                 String folioF = ((this.jTFFolioFactura != null && !"".equals(this.jTFFolioFactura.getText())) ? this.jTFFolioFactura.getText() : "");
-                //double ivaF = Double.parseDouble(((this.jTFIVA != null && !"".equals(this.jTFIVA.getText())) ? this.jTFIVA.getText() : "0.00"));
+                double ivaF = Double.parseDouble(((this.jTFIVA != null && !"".equals(this.jTFIVA.getText())) ? this.jTFIVA.getText() : "0.00"));
                 boolean pagadaF = true;
                 ProveedorDTO proveedorF = this.factura.getProveedor();
                 boolean statusF = this.factura.isStatus();
-                //double subtotalF = Double.parseDouble(((this.jTFSubtotal != null && !"".equals(this.jTFSubtotal.getText())) ? this.jTFSubtotal.getText() : "0.00"));
+                double subtotalF = Double.parseDouble(((this.jTFSubtotal != null && !"".equals(this.jTFSubtotal.getText())) ? this.jTFSubtotal.getText() : "0.00"));
                 double totalF = Double.parseDouble(((this.jTFTotal != null && !"".equals(this.jTFTotal.getText())) ? this.jTFTotal.getText() : "0.00"));
                 UsuarioDTO usuarioF = this.factura.getUsuario();
                 this.factura.setFolio(folioF);
-                this.factura.setIva(0.0);
+                this.factura.setIva(ivaF);
                 this.factura.setPagada(pagadaF);
                 this.factura.setProveedor(proveedorF);
                 this.factura.setStatus(statusF);
-                this.factura.setSubtotal(0.0);
+                this.factura.setSubtotal(subtotalF);
                 this.factura.setTotal(totalF);
                 this.factura.setUsuario(usuarioF);
                 acceso.modificarFactura(factura);
@@ -937,11 +1094,11 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             
             
             factura.setFolio(factura.getFolio());
-            factura.setIva(0.0);
+            factura.setIva(factura.getIva());
             factura.setPagada(true);
             factura.setProveedor(factura.getProveedor());
             factura.setStatus(factura.isStatus());
-            factura.setSubtotal(0.0);
+            factura.setSubtotal(factura.getSubtotal());
             factura.setTotal(factura.getTotal());
             factura.setUsuario(factura.getUsuario());
 
@@ -979,8 +1136,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                                 return;
                             }
                             break;
-                        case "C. Bodega"://(Eliminado)
-                            /*CargoBodegaDTO tempCargoBodega = new CargoBodegaDTO();
+                        case "C. Bodega":
+                            CargoBodegaDTO tempCargoBodega = new CargoBodegaDTO();
                             CargoBodegaDAO accesoCargoBodega = new CargoBodegaDAO();
                             int idCargoBodega = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
                             tempCargoBodega = accesoCargoBodega.obtenerCargoBodega(idCargoBodega);
@@ -989,7 +1146,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                                     + "solicitada, la orden de\nreparación asociada a este\nCargo de Bodega se ha finalizado.",
                                     "Operación no permitida!!!", JOptionPane.WARNING_MESSAGE);
                                 return;
-                            }*/
+                            }
                             break;
                         case "C. Especial":
                             CargoEspecialDTO tempCargoEspecial = new CargoEspecialDTO();
@@ -1062,13 +1219,13 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             tempTrabajoExterno = accesoTrabajos.obtenerTrabajoExterno(idTrabajoExterno, false);
                             accesoTrabajos.eliminarTrabajoExterno(tempTrabajoExterno);
                             break;
-                        case "C. Bodega"://(Eliminado)
-                            /*CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
+                        case "C. Bodega":
+                            CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
                             CargoBodegaDTO tempCargoBodega = new CargoBodegaDTO();
                             int idCargoBodega = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
                             
                             tempCargoBodega = accesoCBodegas.obtenerCargoBodega(idCargoBodega);
-                            accesoCBodegas.eliminarCargoBodega(tempCargoBodega);*/
+                            accesoCBodegas.eliminarCargoBodega(tempCargoBodega);
                             break;
                         case "C. Especial":
                             CargoEspecialDAO accesoCEspecial = new CargoEspecialDAO();
@@ -1143,11 +1300,11 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             }
             
             factura.setFolio(this.jTFFolioFactura.getText());
-            factura.setIva(0.0);
+            factura.setIva(Double.parseDouble(this.jTFIVA.getText()));
             factura.setPagada(true);
             factura.setProveedor(proveedor);
             factura.setStatus(true);
-            factura.setSubtotal(0.0);
+            factura.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             factura.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             factura.setUsuario(UserHome.getUsuario());
 
@@ -1249,8 +1406,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                         detalleError = trabajoEspecial.toString();
                         accesoTrabajos.eliminarTrabajoExterno(this.trabajoEspecial);
                         break;
-                    case "C. Bodega"://(Eliminado)
-                        /*CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
+                    case "C. Bodega":
+                        CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
                         if(this.cargoBodega.getOrdenReparacion().getFechaSalida() != null){
                             JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
                                 + "solicitada, la orden de\nreparación asociada a este\nCargo de Bodega se ha finalizado.",
@@ -1258,7 +1415,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             return;
                         }
                         detalleError = cargoBodega.toString();
-                        accesoCBodegas.eliminarCargoBodega(this.cargoBodega);*/
+                        accesoCBodegas.eliminarCargoBodega(this.cargoBodega);
                         break;
                     case "C. Especial":
                         CargoEspecialDAO accesoCEspecial = new CargoEspecialDAO();
@@ -1314,12 +1471,15 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             this.jTFFechaPago.setText(null);
             this.jTFFechaRegistro.setText(null);
             this.jTFFolioFactura.setText(null);
+            this.jTFIVA.setText(null);
             this.jTFIdProveedor.setText(null);
+            this.jTFPorcentajeIVA.setText(null);
+            this.jTFSubtotal.setText(null);
             this.jTFTotal.setText(null);
             this.jTFUsuario.setText(null);
 
             //Variables de Apoyo para manipulacion de detalles factura
-            //this.cargoBodega = null;(Eliminado)
+            this.cargoBodega = null;
             this.cargoEspecial = null;
             this.cargoOperador = null;
             this.cargoUnidad = null;
@@ -1423,7 +1583,10 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                 this.jTFFechaPago.setText(((factura.getFechaPago() != null) ? factura.getFechaPago().toString() : ""));
                 this.jTFFechaRegistro.setText(factura.getFechaRegistro().toString());
                 this.jTFFolioFactura.setText(factura.getFolio());
+                this.jTFIVA.setText(Double.toString(factura.getIva()));
                 this.jTFIdProveedor.setText(Integer.toString(factura.getProveedor().getIdProveedor()));
+                this.jTFPorcentajeIVA.setText("16.00");
+                this.jTFSubtotal.setText(Double.toString(factura.getSubtotal()));
                 this.jTFTotal.setText(Double.toString(factura.getTotal()));
                 this.jTFUsuario.setText(factura.getUsuario().getNombre() + " " + factura.getUsuario().getApellidos());
                 
@@ -1451,7 +1614,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         LazyQueryBO lazyQ = new LazyQueryBO();
         
         //Variables de Apoyo para manipulacion de detalles factura
-        //this.cargoBodega = null;(Eliminado)
+        this.cargoBodega = null;
         this.cargoEspecial = null;
         this.cargoOperador = null;
         this.cargoUnidad = null;
@@ -1505,8 +1668,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                 modelo.addRow(datos);
             }
 
-            //Cargos Bodegas (Eliminado)
-            /*
+            //Cargos Bodegas
+
             List<CargoBodegaDTO> cargosBodega = null;
             try {
                 cargosBodega = new CargoBodegaDAO().obtenerCargosBodegasPFactura(factura, false, false);
@@ -1524,8 +1687,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                                     formatD.format(cargoBodega.getTotal()), "C. Bodega"};
                 modelo.addRow(datos);
             }
-            */
-            
+
             //Cargos Especiales
 
             List<CargoEspecialDTO> cargosEspecial = null;
@@ -1609,10 +1771,10 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                         key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
                         this.trabajoEspecial = accesoTrabajos.obtenerTrabajoExterno(key, true);
                         break;
-                    case "C. Bodega"://(Eliminado)
-                        /*CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
+                    case "C. Bodega":
+                        CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
                         key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
-                        this.cargoBodega = accesoCBodegas.obtenerCargoBodega(key);*/
+                        this.cargoBodega = accesoCBodegas.obtenerCargoBodega(key);
                         break;
                     case "C. Especial":
                         CargoEspecialDAO accesoCEspecial = new CargoEspecialDAO();
@@ -1824,6 +1986,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         try{
             DecimalFormat formatD = new DecimalFormat("0.00");
             this.sumarDetallesFacturas();
+            this.jTFSubtotal.setText(formatD.format(this.subtotal));
+            this.jTFIVA.setText(formatD.format(this.iva));
             this.jTFTotal.setText(formatD.format(this.total));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 859\n" + ex.getMessage()
@@ -1856,7 +2020,10 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                 this.jTFFechaPago.setText(((factura.getFechaPago() != null) ? factura.getFechaPago().toString() : ""));
                 this.jTFFechaRegistro.setText(((factura.getFechaRegistro() != null) ? factura.getFechaRegistro().toString() : ""));
                 this.jTFFolioFactura.setText(((factura.getFolio() != null) ? factura.getFolio() : ""));
+                this.jTFIVA.setText(formatD.format(factura.getIva()));
                 this.jTFIdProveedor.setText(Integer.toString(factura.getProveedor().getIdProveedor()));
+                this.jTFPorcentajeIVA.setText("16.00");
+                this.jTFSubtotal.setText(formatD.format(factura.getSubtotal()));
                 this.jTFTotal.setText(formatD.format(factura.getTotal()));
                 this.jTFUsuario.setText(((factura.getUsuario() != null && factura.getUsuario().getNombre() != null) ? 
                         factura.getUsuario().getNombre() : "") + " " + ((factura.getUsuario() != null && 
@@ -1928,7 +2095,10 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel jLFechaPago;
     private javax.swing.JLabel jLFechaRegistro;
     private javax.swing.JLabel jLFolio;
+    private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLIdProveedor;
+    private javax.swing.JLabel jLPorcentajeIVA;
+    private javax.swing.JLabel jLSubtotal;
     private javax.swing.JLabel jLTotal;
     private javax.swing.JLabel jLUsuario;
     private javax.swing.JMenu jMArchivo;
@@ -1960,7 +2130,10 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     private javax.swing.JTextField jTFFechaPago;
     private javax.swing.JTextField jTFFechaRegistro;
     private javax.swing.JTextField jTFFolioFactura;
+    private javax.swing.JTextField jTFIVA;
     private javax.swing.JTextField jTFIdProveedor;
+    private javax.swing.JTextField jTFPorcentajeIVA;
+    private javax.swing.JTextField jTFSubtotal;
     private javax.swing.JTextField jTFTotal;
     private javax.swing.JTextField jTFUsuario;
     private javax.swing.JTable jTFacturas;

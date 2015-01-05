@@ -30,8 +30,12 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         try{
             initComponents();
             this.setLocationRelativeTo(null);
+            this.jTFSubtotal.setText("0.000");
+            this.jTFPorcentajeIVA.setText("16.000");
+            this.jTFIVA.setText("0.000");
             this.jTFPrecioUnitario.setText("0.000");
             this.jTFCantidad.setText("0.000");
+            this.jTFSubtotal.setText("0.000");
             this.jTFTotal.setText("0.000");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1050\n" + ex.getMessage(),
@@ -62,9 +66,13 @@ public class EntradaAlmacen extends javax.swing.JFrame {
             this.jTFFolio.setText(factura.getFolio());
             this.jTFProveedor.setText(factura.getProveedor().getNombre());
             this.jTFNumeroEntrada.setText(null);
+            this.jTFPorcentajeIVA.setText("16.000");
+            this.jTFIVA.setText("0.000");
             this.jTFPrecioUnitario.setText("0.000");
+            this.jTFSubtotal.setText("0.000");
             this.jTFCantidad.setText("0.000");
             this.jTFClaveRefaccion.setText(null);
+            this.jTFSubtotal.setText("0.000");
             this.jTFUsuario.setText(UserHome.getUsuario().getNombre() + " " + UserHome.getUsuario().getApellidos());
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1051\n" + ex.getMessage(),
@@ -94,6 +102,12 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         jTFCantidad = new javax.swing.JTextField();
         jLPrecioUnitario = new javax.swing.JLabel();
         jTFPrecioUnitario = new javax.swing.JTextField();
+        jLSubtotal = new javax.swing.JLabel();
+        jTFSubtotal = new javax.swing.JTextField();
+        jLPorcentajeIVA = new javax.swing.JLabel();
+        jTFPorcentajeIVA = new javax.swing.JTextField();
+        jLIVA = new javax.swing.JLabel();
+        jTFIVA = new javax.swing.JTextField();
         jBAgregarEntrada = new javax.swing.JButton();
         jLLogo = new javax.swing.JLabel();
         jLTotal = new javax.swing.JLabel();
@@ -163,6 +177,58 @@ public class EntradaAlmacen extends javax.swing.JFrame {
             }
         });
 
+        jLSubtotal.setText("Subtotal:");
+
+        jTFSubtotal.setEditable(false);
+        jTFSubtotal.setFocusable(false);
+        jTFSubtotal.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFSubtotalCaretUpdate(evt);
+            }
+        });
+        jTFSubtotal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFSubtotalFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFSubtotalFocusLost(evt);
+            }
+        });
+
+        jLPorcentajeIVA.setText("% IVA:");
+
+        jTFPorcentajeIVA.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFPorcentajeIVACaretUpdate(evt);
+            }
+        });
+        jTFPorcentajeIVA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFPorcentajeIVAFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFPorcentajeIVAFocusLost(evt);
+            }
+        });
+
+        jLIVA.setText("IVA:");
+
+        jTFIVA.setEditable(false);
+        jTFIVA.setFocusable(false);
+        jTFIVA.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFIVACaretUpdate(evt);
+            }
+        });
+        jTFIVA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFIVAFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFIVAFocusLost(evt);
+            }
+        });
+
         jBAgregarEntrada.setText("Agregar Entrada de Almacén");
         jBAgregarEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,6 +239,9 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
 
         jLTotal.setText("Total:");
+
+        jTFTotal.setEditable(false);
+        jTFTotal.setFocusable(false);
 
         jLUsuario.setText("Usuario:");
 
@@ -250,17 +319,23 @@ public class EntradaAlmacen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLTotal)
+                    .addComponent(jLPorcentajeIVA)
                     .addComponent(jLPrecioUnitario)
                     .addComponent(jLClaveRefaccion)
                     .addComponent(jLFolio)
                     .addComponent(jLUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(67, 67, 67))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(67, 67, 67)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
@@ -268,17 +343,22 @@ public class EntradaAlmacen extends javax.swing.JFrame {
                                     .addComponent(jTFUsuario))
                                 .addGap(49, 49, 49)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLIVA)
+                            .addComponent(jLSubtotal)
                             .addComponent(jLCantidad)
                             .addComponent(jLNumeroEntrada)
-                            .addComponent(jLProveedor)
-                            .addComponent(jLTotal))
+                            .addComponent(jLProveedor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTFIVA)
+                            .addComponent(jTFSubtotal)
                             .addComponent(jTFCantidad)
                             .addComponent(jTFNumeroEntrada)
-                            .addComponent(jTFProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jBAgregarEntrada, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jTFProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBAgregarEntrada)))
                 .addGap(18, 67, Short.MAX_VALUE)
                 .addComponent(jLLogo)
                 .addContainerGap())
@@ -309,13 +389,22 @@ public class EntradaAlmacen extends javax.swing.JFrame {
                     .addComponent(jLLogo))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLSubtotal)
+                    .addComponent(jTFSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLPrecioUnitario)
-                    .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLIVA)
+                    .addComponent(jTFIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLPorcentajeIVA)
+                    .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBAgregarEntrada)
                     .addComponent(jLTotal)
                     .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jBAgregarEntrada)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -349,12 +438,20 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         DecimalFormat format = new DecimalFormat("0.000");
         try{
             
-            if(!"".equals(this.jTFCantidad.getText()) && 
-                    !"".equals(this.jTFTotal.getText()) && 
-                    !"".equals(this.jTFPrecioUnitario.getText())){
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
             
-                double total = Double.parseDouble(this.jTFCantidad.getText()) +
+                double subtotal = Double.parseDouble(this.jTFCantidad.getText()) * 
                         Double.parseDouble(this.jTFPrecioUnitario.getText());
+                this.jTFSubtotal.setText(format.format(subtotal));
+
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
@@ -363,6 +460,102 @@ public class EntradaAlmacen extends javax.swing.JFrame {
             ErrorLogger.scribirLog("EntradaAlmacen jTFCantidadCaretUpdate()", 1052, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFCantidadCaretUpdate
+
+    private void jTFPrecioUnitarioCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioCaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+            
+                double subtotal = Double.parseDouble(this.jTFCantidad.getText()) * 
+                        Double.parseDouble(this.jTFPrecioUnitario.getText());
+                this.jTFSubtotal.setText(format.format(subtotal));
+
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+                
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1053\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("EntradaAlmacen jTFPrecioUnitarioCaretUpdate()", 1053, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
+
+    private void jTFSubtotalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFSubtotalCaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+                
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+                
+            }
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 1054\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("EntradaAlmacen jTFSubtotalCaretUpdate()", 1054, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFSubtotalCaretUpdate
+
+    private void jTFPorcentajeIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVACaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+                
+            
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+            
+            }
+            
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 1055\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("EntradaAlmacen jTFPorcentajeIVACaretUpdate()", 1055, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFPorcentajeIVACaretUpdate
+
+    private void jTFIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFIVACaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+            
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1056\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("EntradaAlmacen jTFIVACaretUpdate()", 1056, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFIVACaretUpdate
 
     private void jTFCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFCantidadFocusLost
         double cant = 0.00;
@@ -374,10 +567,6 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         this.onFormatErrorSetValue(this.jTFCantidad, cant);
     }//GEN-LAST:event_jTFCantidadFocusLost
 
-    private void jTFCantidadFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFCantidadFocusGained
-        this.prepararCaptura(this.jTFCantidad);
-    }//GEN-LAST:event_jTFCantidadFocusGained
-
     private void jTFPrecioUnitarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioFocusLost
         double cant = 0.00;
         try{
@@ -388,28 +577,55 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         this.onFormatErrorSetValue(this.jTFPrecioUnitario, cant);
     }//GEN-LAST:event_jTFPrecioUnitarioFocusLost
 
+    private void jTFSubtotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFSubtotalFocusLost
+        double cant = 0.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 0.00;
+        }
+        this.onFormatErrorSetValue(this.jTFSubtotal, cant);
+    }//GEN-LAST:event_jTFSubtotalFocusLost
+
+    private void jTFPorcentajeIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVAFocusLost
+        double cant = 16.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 16.00;
+        }
+        this.onFormatErrorSetValue(this.jTFPorcentajeIVA, cant);
+    }//GEN-LAST:event_jTFPorcentajeIVAFocusLost
+
+    private void jTFIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFIVAFocusLost
+        double cant = 0.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 0.00;
+        }
+        this.onFormatErrorSetValue(this.jTFIVA, cant);
+    }//GEN-LAST:event_jTFIVAFocusLost
+
+    private void jTFCantidadFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFCantidadFocusGained
+        this.prepararCaptura(this.jTFCantidad);
+    }//GEN-LAST:event_jTFCantidadFocusGained
+
     private void jTFPrecioUnitarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioFocusGained
         this.prepararCaptura(this.jTFPrecioUnitario);
     }//GEN-LAST:event_jTFPrecioUnitarioFocusGained
 
-    private void jTFPrecioUnitarioCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioCaretUpdate
-        DecimalFormat format = new DecimalFormat("0.000");
-        try{
-            if(!"".equals(this.jTFCantidad.getText()) && 
-                    !"".equals(this.jTFTotal.getText()) && 
-                    !"".equals(this.jTFPrecioUnitario.getText())){
-            
-                double total = Double.parseDouble(this.jTFCantidad.getText()) +
-                        Double.parseDouble(this.jTFPrecioUnitario.getText());
-                this.jTFTotal.setText(format.format(total));
-            }
+    private void jTFSubtotalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFSubtotalFocusGained
+        this.prepararCaptura(this.jTFSubtotal);
+    }//GEN-LAST:event_jTFSubtotalFocusGained
 
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1053\n" + ex.getMessage(),
-                "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("EntradaAlmacen jTFPrecioUnitarioCaretUpdate()", 1053, UserHome.getUsuario(), ex);
-        }
-    }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
+    private void jTFPorcentajeIVAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVAFocusGained
+        this.prepararCaptura(this.jTFPorcentajeIVA);
+    }//GEN-LAST:event_jTFPorcentajeIVAFocusGained
+
+    private void jTFIVAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFIVAFocusGained
+        this.prepararCaptura(this.jTFIVA);
+    }//GEN-LAST:event_jTFIVAFocusGained
 
     private void agregar(){
         EntradaAlmacenDTO entrada = new EntradaAlmacenDTO();
@@ -419,12 +635,12 @@ public class EntradaAlmacen extends javax.swing.JFrame {
             
             entrada.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
             entrada.setFactura(factura);
-            entrada.setIva(0.0);
+            entrada.setIva(Double.parseDouble(this.jTFIVA.getText()));
             entrada.setMonto(Double.parseDouble(this.jTFTotal.getText()));
             entrada.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
             entrada.setRefaccion(accesoRefaccion.obtenerRefaccion(this.jTFClaveRefaccion.getText(), true, true));
             entrada.setStatus(true);
-            entrada.setSubtotal(0.0);
+            entrada.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             entrada.setUsuario(UserHome.getUsuario());
             
             acceso.agregarEntradaAlmacen(entrada);
@@ -552,10 +768,13 @@ public class EntradaAlmacen extends javax.swing.JFrame {
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
     private javax.swing.JLabel jLFolio;
+    private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
     private javax.swing.JLabel jLNumeroEntrada;
+    private javax.swing.JLabel jLPorcentajeIVA;
     private javax.swing.JLabel jLPrecioUnitario;
     private javax.swing.JLabel jLProveedor;
+    private javax.swing.JLabel jLSubtotal;
     private javax.swing.JLabel jLTotal;
     private javax.swing.JLabel jLUsuario;
     private javax.swing.JMenu jMArchivo;
@@ -570,9 +789,12 @@ public class EntradaAlmacen extends javax.swing.JFrame {
     private javax.swing.JTextField jTFCantidad;
     private javax.swing.JTextField jTFClaveRefaccion;
     private javax.swing.JTextField jTFFolio;
+    private javax.swing.JTextField jTFIVA;
     private javax.swing.JTextField jTFNumeroEntrada;
+    private javax.swing.JTextField jTFPorcentajeIVA;
     private javax.swing.JTextField jTFPrecioUnitario;
     private javax.swing.JTextField jTFProveedor;
+    private javax.swing.JTextField jTFSubtotal;
     private javax.swing.JTextField jTFTotal;
     private javax.swing.JTextField jTFUsuario;
     // End of variables declaration//GEN-END:variables
