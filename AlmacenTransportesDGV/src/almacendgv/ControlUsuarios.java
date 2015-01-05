@@ -97,7 +97,7 @@ public class ControlUsuarios extends javax.swing.JFrame {
         jMIVerManual = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Usuarios - Grupo REMEX");
+        setTitle("Usuarios - Sistema de Administración Mantenimiento");
         setIconImage(getIconImage());
         setResizable(false);
 

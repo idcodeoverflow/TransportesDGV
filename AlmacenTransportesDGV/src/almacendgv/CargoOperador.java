@@ -42,7 +42,10 @@ public class CargoOperador extends javax.swing.JFrame {
             this.setLocationRelativeTo(null);
             this.obtenerOrdenesReparacion();
             this.jTFCantidad.setText("0.000");
+            this.jTFIVA.setText("0.000");
+            this.jTFPorcentajeIVA.setText("16.000");
             this.jTFPrecioUnitario.setText("0.000");
+            this.jTFSubtotal.setText("0.000");
             this.jTFTotal.setText("0.000");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 737\n" + ex.getMessage(),
@@ -54,6 +57,7 @@ public class CargoOperador extends javax.swing.JFrame {
     
     public void mostrarInformacion(){
         try{
+            this.jTFPorcentajeIVA.setText("16.000");
             this.jTFProveedor.setText(factura.getProveedor().getIdProveedor() + "# " + factura.getProveedor().getNombre());
             this.jTFFolio.setText(factura.getFolio());
             this.jTFUsuario.setText(UserHome.getUsuario().getNombre() + " " + UserHome.getUsuario().getApellidos());
@@ -113,6 +117,12 @@ public class CargoOperador extends javax.swing.JFrame {
         jTFPrecioUnitario = new javax.swing.JTextField();
         jLCantidad = new javax.swing.JLabel();
         jTFCantidad = new javax.swing.JTextField();
+        jLSubtotal = new javax.swing.JLabel();
+        jTFSubtotal = new javax.swing.JTextField();
+        jLPorcentajeIVA = new javax.swing.JLabel();
+        jTFPorcentajeIVA = new javax.swing.JTextField();
+        jLIVA = new javax.swing.JLabel();
+        jTFIVA = new javax.swing.JTextField();
         jLTotal = new javax.swing.JLabel();
         jTFTotal = new javax.swing.JTextField();
         jLLogo = new javax.swing.JLabel();
@@ -194,7 +204,62 @@ public class CargoOperador extends javax.swing.JFrame {
             }
         });
 
+        jLSubtotal.setText("Subtotal:");
+
+        jTFSubtotal.setEditable(false);
+        jTFSubtotal.setFocusable(false);
+        jTFSubtotal.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFSubtotalCaretUpdate(evt);
+            }
+        });
+        jTFSubtotal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFSubtotalFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFSubtotalFocusLost(evt);
+            }
+        });
+
+        jLPorcentajeIVA.setText("% IVA:");
+
+        jTFPorcentajeIVA.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFPorcentajeIVACaretUpdate(evt);
+            }
+        });
+        jTFPorcentajeIVA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFPorcentajeIVAFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFPorcentajeIVAFocusLost(evt);
+            }
+        });
+
+        jLIVA.setText("IVA:");
+
+        jTFIVA.setEditable(false);
+        jTFIVA.setFocusable(false);
+        jTFIVA.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFIVACaretUpdate(evt);
+            }
+        });
+        jTFIVA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFIVAFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFIVAFocusLost(evt);
+            }
+        });
+
         jLTotal.setText("Total:");
+
+        jTFTotal.setEditable(false);
+        jTFTotal.setFocusable(false);
 
         jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
 
@@ -281,18 +346,22 @@ public class CargoOperador extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLTotal)
+                    .addComponent(jLNumeroOperador)
+                    .addComponent(jLIVA)
+                    .addComponent(jLSubtotal)
                     .addComponent(jLPrecioUnitario)
                     .addComponent(jLNumeroCargoEspecial)
                     .addComponent(jLFolio)
                     .addComponent(jLUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTFUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(jTFNumeroOperador, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(jTFUsuario)
                     .addComponent(jTFFolio)
                     .addComponent(jTFCargoEspecial)
                     .addComponent(jTFPrecioUnitario)
-                    .addComponent(jTFTotal))
+                    .addComponent(jTFSubtotal)
+                    .addComponent(jTFIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -301,14 +370,16 @@ public class CargoOperador extends javax.swing.JFrame {
                             .addComponent(jLOrdenReparacion)
                             .addComponent(jLClaveRefaccion)
                             .addComponent(jLCantidad)
-                            .addComponent(jLNumeroOperador))
+                            .addComponent(jLPorcentajeIVA)
+                            .addComponent(jLTotal))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTFProveedor)
                             .addComponent(jCBOrdenReparacion, 0, 170, Short.MAX_VALUE)
                             .addComponent(jTFClaveRefaccion)
                             .addComponent(jTFCantidad)
-                            .addComponent(jTFNumeroOperador)))
+                            .addComponent(jTFPorcentajeIVA)
+                            .addComponent(jTFTotal)))
                     .addComponent(jBAgregarCargo, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 49, Short.MAX_VALUE)
                 .addComponent(jLLogo)
@@ -346,12 +417,21 @@ public class CargoOperador extends javax.swing.JFrame {
                     .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLTotal)
-                    .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLNumeroOperador)
-                    .addComponent(jTFNumeroOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLSubtotal)
+                    .addComponent(jTFSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLPorcentajeIVA)
+                    .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jBAgregarCargo)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLIVA)
+                    .addComponent(jTFIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLTotal)
+                    .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLNumeroOperador)
+                    .addComponent(jTFNumeroOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBAgregarCargo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -382,12 +462,20 @@ public class CargoOperador extends javax.swing.JFrame {
         DecimalFormat format = new DecimalFormat("0.000");
         try{
             
-            if(!"".equals(this.jTFCantidad.getText()) && 
-                    !"".equals(this.jTFTotal.getText()) && 
-                    !"".equals(this.jTFPrecioUnitario.getText())){
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
             
-                double total = Double.parseDouble(this.jTFCantidad.getText()) +
+                double subtotal = Double.parseDouble(this.jTFCantidad.getText()) * 
                         Double.parseDouble(this.jTFPrecioUnitario.getText());
+                this.jTFSubtotal.setText(format.format(subtotal));
+
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
@@ -401,12 +489,20 @@ public class CargoOperador extends javax.swing.JFrame {
         DecimalFormat format = new DecimalFormat("0.000");
         try{
             
-            if(!"".equals(this.jTFCantidad.getText()) && 
-                    !"".equals(this.jTFTotal.getText()) && 
-                    !"".equals(this.jTFPrecioUnitario.getText())){
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
             
-                double total = Double.parseDouble(this.jTFCantidad.getText()) +
+                double subtotal = Double.parseDouble(this.jTFCantidad.getText()) * 
                         Double.parseDouble(this.jTFPrecioUnitario.getText());
+                this.jTFSubtotal.setText(format.format(subtotal));
+
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
@@ -415,6 +511,75 @@ public class CargoOperador extends javax.swing.JFrame {
             ErrorLogger.scribirLog("CargoOperador jTFCantidadCaretUpdate()", 740, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFCantidadCaretUpdate
+
+    private void jTFSubtotalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFSubtotalCaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+                
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+                
+            }
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 741\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoOperador jTFSubtotalCaretUpdate()", 741, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFSubtotalCaretUpdate
+
+    private void jTFPorcentajeIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVACaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+                
+            
+            double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                    Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+            this.jTFIVA.setText(format.format(iva));
+            
+            double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                    Double.parseDouble(this.jTFIVA.getText());
+            this.jTFTotal.setText(format.format(total));
+            
+            }
+            
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 742\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoOperador jTFPorcentajeIVACaretUpdate()", 742, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFPorcentajeIVACaretUpdate
+
+    private void jTFIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFIVACaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+            
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+            
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 743\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoOperador jTFIVACaretUpdate()", 743, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFIVACaretUpdate
 
     private void jTFPrecioUnitarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioFocusLost
         double cant = 0.00;
@@ -436,6 +601,36 @@ public class CargoOperador extends javax.swing.JFrame {
         this.onFormatErrorSetValue(this.jTFCantidad, cant);
     }//GEN-LAST:event_jTFCantidadFocusLost
 
+    private void jTFSubtotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFSubtotalFocusLost
+        double cant = 0.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 0.00;
+        }
+        this.onFormatErrorSetValue(this.jTFSubtotal, cant);
+    }//GEN-LAST:event_jTFSubtotalFocusLost
+
+    private void jTFPorcentajeIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVAFocusLost
+        double cant = 16.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 16.00;
+        }
+        this.onFormatErrorSetValue(this.jTFPorcentajeIVA, cant);
+    }//GEN-LAST:event_jTFPorcentajeIVAFocusLost
+
+    private void jTFIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFIVAFocusLost
+        double cant = 0.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 0.00;
+        }
+        this.onFormatErrorSetValue(this.jTFIVA, cant);
+    }//GEN-LAST:event_jTFIVAFocusLost
+
     private void jTFPrecioUnitarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioFocusGained
         this.prepararCaptura(this.jTFPrecioUnitario);
     }//GEN-LAST:event_jTFPrecioUnitarioFocusGained
@@ -443,6 +638,18 @@ public class CargoOperador extends javax.swing.JFrame {
     private void jTFCantidadFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFCantidadFocusGained
         this.prepararCaptura(this.jTFCantidad);
     }//GEN-LAST:event_jTFCantidadFocusGained
+
+    private void jTFSubtotalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFSubtotalFocusGained
+        this.prepararCaptura(this.jTFSubtotal);
+    }//GEN-LAST:event_jTFSubtotalFocusGained
+
+    private void jTFPorcentajeIVAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVAFocusGained
+        this.prepararCaptura(this.jTFPorcentajeIVA);
+    }//GEN-LAST:event_jTFPorcentajeIVAFocusGained
+
+    private void jTFIVAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFIVAFocusGained
+        this.prepararCaptura(this.jTFIVA);
+    }//GEN-LAST:event_jTFIVAFocusGained
 
     private void jCBOrdenReparacionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jCBOrdenReparacionFocusLost
         try{
@@ -503,13 +710,13 @@ public class CargoOperador extends javax.swing.JFrame {
             //Agregar los datos de cargo directo
             cargoDirecto.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
             cargoDirecto.setFactura(fact);
-            cargoDirecto.setIva(0.0);
+            cargoDirecto.setIva(Double.parseDouble(this.jTFIVA.getText()));
             //cargoDirecto.setNumeroCargoDirecto();//No se agrega el numero de cargo directo por que se genera automaticamente
             cargoDirecto.setOrdenReparacion(ordenReparacion);
             cargoDirecto.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
             cargoDirecto.setRefaccion(refaccionReq);
             cargoDirecto.setStatus(true);
-            cargoDirecto.setSubtotal(0.0);
+            cargoDirecto.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             cargoDirecto.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             cargoDirecto.setUsuario(UserHome.getUsuario());
             numeroCargo = accesoCargoDirecto.obtenerUltimoCargoDirecto() + 1;
@@ -601,7 +808,10 @@ public class CargoOperador extends javax.swing.JFrame {
             this.jTFNumeroOperador.setText(null);
             this.jTFCantidad.setText("0.000");
             this.jTFClaveRefaccion.setText(null);
+            this.jTFIVA.setText("0.000");
+            this.jTFPorcentajeIVA.setText("16.000");
             this.jTFPrecioUnitario.setText("0.000");
+            this.jTFSubtotal.setText("0.000");
             this.jTFTotal.setText("0.000");
             this.jCBOrdenReparacion.removeAllItems();
             this.obtenerOrdenesReparacion();
@@ -709,12 +919,15 @@ public class CargoOperador extends javax.swing.JFrame {
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
     private javax.swing.JLabel jLFolio;
+    private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
     private javax.swing.JLabel jLNumeroCargoEspecial;
     private javax.swing.JLabel jLNumeroOperador;
     private javax.swing.JLabel jLOrdenReparacion;
+    private javax.swing.JLabel jLPorcentajeIVA;
     private javax.swing.JLabel jLPrecioUnitario;
     private javax.swing.JLabel jLProveedor;
+    private javax.swing.JLabel jLSubtotal;
     private javax.swing.JLabel jLTotal;
     private javax.swing.JLabel jLUsuario;
     private javax.swing.JMenu jMArchivo;
@@ -730,9 +943,12 @@ public class CargoOperador extends javax.swing.JFrame {
     private javax.swing.JTextField jTFCargoEspecial;
     private javax.swing.JTextField jTFClaveRefaccion;
     private javax.swing.JTextField jTFFolio;
+    private javax.swing.JTextField jTFIVA;
     private javax.swing.JTextField jTFNumeroOperador;
+    private javax.swing.JTextField jTFPorcentajeIVA;
     private javax.swing.JTextField jTFPrecioUnitario;
     private javax.swing.JTextField jTFProveedor;
+    private javax.swing.JTextField jTFSubtotal;
     private javax.swing.JTextField jTFTotal;
     private javax.swing.JTextField jTFUsuario;
     // End of variables declaration//GEN-END:variables

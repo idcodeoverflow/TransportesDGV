@@ -322,7 +322,7 @@ public class SalidaOperador extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getAccessibleContext().setAccessibleName("Salida Especial de Almacén - Grupo REMEX");
+        getAccessibleContext().setAccessibleName("Salida Especial de Almacén - Sistema de Administración Mantenimiento");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
