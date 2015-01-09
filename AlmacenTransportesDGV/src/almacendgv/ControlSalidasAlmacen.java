@@ -10,7 +10,6 @@ import beans.SalidaEspecialDTO;
 import beans.SalidaOperadorDTO;
 import beans.SalidaUnidadDTO;
 import data.SalidaAlmacenDAO;
-import data.SalidaBodegaDAO;
 import data.SalidaEspecialDAO;
 import data.SalidaOperadorDAO;
 import data.SalidaUnidadDAO;
@@ -581,7 +580,6 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
             
             SalidaAlmacenDAO acceso = new SalidaAlmacenDAO();
-            SalidaBodegaDAO accesoBodega = new SalidaBodegaDAO();
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoUnidad = new SalidaUnidadDAO();
