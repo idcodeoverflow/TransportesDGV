@@ -5,12 +5,10 @@
 package almacendgv;
 
 import beans.SalidaAlmacenDTO;
-import beans.SalidaBodegaDTO;
 import beans.SalidaEspecialDTO;
 import beans.SalidaOperadorDTO;
 import beans.SalidaUnidadDTO;
 import data.SalidaAlmacenDAO;
-import data.SalidaBodegaDAO;
 import data.SalidaEspecialDAO;
 import data.SalidaOperadorDAO;
 import data.SalidaUnidadDAO;
@@ -575,13 +573,11 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             int numeroSalida = 0;
             
             SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
-            SalidaBodegaDTO salidaBodega = new SalidaBodegaDTO();
             SalidaEspecialDTO salidaEspecial = new SalidaEspecialDTO();
             SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
             SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
             
             SalidaAlmacenDAO acceso = new SalidaAlmacenDAO();
-            SalidaBodegaDAO accesoBodega = new SalidaBodegaDAO();
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoUnidad = new SalidaUnidadDAO();
