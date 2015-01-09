@@ -4,7 +4,6 @@
  */
 package almacendgv;
 
-import beans.CargoBodegaDTO;
 import beans.CargoEspecialDTO;
 import beans.CargoOperadorDTO;
 import beans.CargoUnidadDTO;
@@ -41,7 +40,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     private FacturaDTO factura;
     private EntradaAlmacenDTO entradaAlmacen;
     private TrabajoExternoDTO trabajoEspecial;
-    private CargoBodegaDTO cargoBodega;
     private CargoEspecialDTO cargoEspecial;
     private CargoOperadorDTO cargoOperador;
     private CargoUnidadDTO cargoUnidad;
@@ -1447,7 +1445,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             this.jTFUsuario.setText(null);
 
             //Variables de Apoyo para manipulacion de detalles factura
-            this.cargoBodega = null;
             this.cargoEspecial = null;
             this.cargoOperador = null;
             this.cargoUnidad = null;
@@ -1582,7 +1579,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         LazyQueryBO lazyQ = new LazyQueryBO();
         
         //Variables de Apoyo para manipulacion de detalles factura
-        this.cargoBodega = null;
         this.cargoEspecial = null;
         this.cargoOperador = null;
         this.cargoUnidad = null;
