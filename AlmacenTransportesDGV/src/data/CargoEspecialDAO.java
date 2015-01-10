@@ -29,13 +29,25 @@ public class CargoEspecialDAO extends CargoDirectoDAO {
         PreparedStatement pstmt = null;
         Connection conn = null;
         String query = "INSERT INTO cargo_especial(id_cargo_especial, nombre_beneficiario,"
-                + " numero_cargo_directo) VALUES(NULL,?,?);";
+                + "fecha_registro, precio_unitario, cantidad, subtotal, iva, total, status,"
+                + "clave_refaccion, id_proveedor, folio, numero_usuario, numero_orden) "
+                + "VALUES(NULL,?,NOW(),?,?,?,?,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, cargo.getNombreBeneficiario());
-            pstmt.setInt(2, cargo.getNumeroCargoDirecto());
+            pstmt.setDouble(2, cargo.getPrecioUnitario());
+            pstmt.setDouble(3, cargo.getCantidad());
+            pstmt.setDouble(4, cargo.getSubtotal());
+            pstmt.setDouble(5, cargo.getIva());
+            pstmt.setDouble(6, cargo.getTotal());
+            pstmt.setBoolean(7, true);
+            pstmt.setString(8, cargo.getRefaccion().getClaveRefaccion());
+            pstmt.setInt(9, cargo.getFactura().getProveedor().getIdProveedor());
+            pstmt.setString(10, cargo.getFactura().getFolio());
+            pstmt.setInt(11, cargo.getUsuario().getNumeroUsuario());
+            pstmt.setInt(12, cargo.getOrdenReparacion().getNumeroOrden());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 427\n" + ex.getMessage(),
