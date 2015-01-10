@@ -28,14 +28,27 @@ public class CargoOperadorDAO extends CargoDirectoDAO {
     public boolean agregarCargoOperador(CargoOperadorDTO cargo) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "INSERT INTO cargo_operador(id_cargo_operador, numero_cargo_directo, "
-                + "numero_operador) VALUES(NULL,?,?);";
+        String query = "INSERT INTO cargo_especial(id_cargo_operador, numero_operador,"
+                + "fecha_registro, precio_unitario, cantidad, subtotal, iva, total, status,"
+                + "clave_refaccion, id_proveedor, folio, numero_usuario, numero_orden) "
+                + "VALUES(NULL,?,NOW(),?,?,?,?,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, cargo.getNumeroCargoDirecto());
-            pstmt.setInt(2, cargo.getOperador().getNumeroOperador());
+            pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, cargo.getOperador().getNumeroOperador());
+            pstmt.setDouble(2, cargo.getPrecioUnitario());
+            pstmt.setDouble(3, cargo.getCantidad());
+            pstmt.setDouble(4, cargo.getSubtotal());
+            pstmt.setDouble(5, cargo.getIva());
+            pstmt.setDouble(6, cargo.getTotal());
+            pstmt.setBoolean(7, true);
+            pstmt.setString(8, cargo.getRefaccion().getClaveRefaccion());
+            pstmt.setInt(9, cargo.getFactura().getProveedor().getIdProveedor());
+            pstmt.setString(10, cargo.getFactura().getFolio());
+            pstmt.setInt(11, cargo.getUsuario().getNumeroUsuario());
+            pstmt.setInt(12, cargo.getOrdenReparacion().getNumeroOrden());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 437\n" + ex.getMessage(),
