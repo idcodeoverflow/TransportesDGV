@@ -239,6 +239,59 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
         return salidasEspeciales;
     }
     
+    public List<SalidaEspecialDTO> obtenerSalidasEspecialesSinCanceladas(boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
+        List<SalidaEspecialDTO> salidasEspeciales = null;
+        SalidaEspecialDTO salidaEspecial = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        String query = "SELECT id_salida_especial, nombre_beneficiario, costo, status, cantidad, fecha_registro, "
+                + "clave_refaccion, numero_usuario, numero_orden, tipo FROM salida_especial WHERE status = ?;";
+        
+        try{
+            if(abrir){
+                DBConnection.createConnection();
+            }
+            conn = DBConnection.getConn();
+            pstmt = conn.prepareStatement(query);
+            pstmt.setBoolean(1, true);
+            rs = pstmt.executeQuery();
+            salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
+            while (rs.next()) {
+                salidaEspecial = new SalidaEspecialDTO(rs.getInt("id_salida_especial"), 
+                        rs.getString("nombre_beneficiario"), 
+                        null);//salida almacen
+                salidaEspecial.setCantidad(rs.getDouble("cantidad"));
+                salidaEspecial.setCosto(rs.getDouble("costo"));
+                salidaEspecial.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                salidaEspecial.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaEspecial.setOrdenReparacion(null);
+                salidaEspecial.setRefaccion(null);
+                salidaEspecial.setStatus(rs.getBoolean("status"));
+                salidaEspecial.setTipo(rs.getInt("tipo"));
+                salidaEspecial.setUsuario(null);
+                if(persistence){
+                    salidaEspecial.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
+                    salidaEspecial.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
+                    salidaEspecial.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
+                }
+                salidasEspeciales.add(salidaEspecial);
+            }
+            
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Código error: 2000\n" + e.getMessage(),
+                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(salidaEspecial.toString(), 2000, UserHome.getUsuario(), e);
+        } finally {
+            if(cerrar){
+                closeQuietly(conn);
+                closeQuietly(pstmt);
+            }
+        }
+        
+        return salidasEspeciales;
+    }
+    
     public List<SalidaEspecialDTO> obtenerSalidasEspecialesPReparacion(OrdenReparacionDTO ordenReparacion, 
             boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         List<SalidaEspecialDTO> salidasEspeciales = null;

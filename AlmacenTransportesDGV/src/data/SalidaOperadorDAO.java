@@ -238,6 +238,60 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
         return salidasOperador;
     }
     
+    public List<SalidaOperadorDTO> obtenerSalidasOperadoresSinCanceladas(boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
+        OperadorDAO accesoOperador = new OperadorDAO();
+        List<SalidaOperadorDTO> salidasOperador = null;
+        SalidaOperadorDTO salidaOperador = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        String query = "SELECT id_salida_operador, numero_operador, costo, status, cantidad, fecha_registro, "
+                + "clave_refaccion, numero_usuario, numero_orden, tipo FROM salida_operador WHERE status = ?;";
+        
+        try{
+            if(abrir){
+                DBConnection.createConnection();
+            }
+            conn = DBConnection.getConn();
+            pstmt = conn.prepareStatement(query);
+            pstmt.setBoolean(1, true);
+            rs = pstmt.executeQuery();
+            salidasOperador = new ArrayList<SalidaOperadorDTO>();
+            while (rs.next()) {
+                salidaOperador = new SalidaOperadorDTO(rs.getInt("id_salida_operador"), 
+                        accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false),
+                        null);//salida almacen
+                salidaOperador.setCantidad(rs.getDouble("cantidad"));
+                salidaOperador.setCosto(rs.getDouble("costo"));
+                salidaOperador.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                salidaOperador.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaOperador.setOrdenReparacion(null);
+                salidaOperador.setRefaccion(null);
+                salidaOperador.setStatus(rs.getBoolean("status"));
+                salidaOperador.setTipo(rs.getInt("tipo"));
+                salidaOperador.setUsuario(null);
+                if(persistence){
+                    salidaOperador.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
+                    salidaOperador.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
+                    salidaOperador.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
+                }
+                salidasOperador.add(salidaOperador);
+            }
+            
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Código error: 2001\n" + e.getMessage(),
+                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(salidaOperador.toString(), 2001, UserHome.getUsuario(), e);
+        } finally {
+            if(cerrar){
+                closeQuietly(conn);
+                closeQuietly(pstmt);
+            }
+        }
+        
+        return salidasOperador;
+    }
+    
     public List<SalidaOperadorDTO> obtenerSalidasOperadoresPReparacion(OrdenReparacionDTO ordenReparacion, 
             boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         OperadorDAO accesoOperador = new OperadorDAO();
