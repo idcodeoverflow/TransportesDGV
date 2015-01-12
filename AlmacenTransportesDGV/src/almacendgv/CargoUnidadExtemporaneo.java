@@ -677,8 +677,7 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIBuscarProveedorActionPerformed
 
     public void agregar(){
-        CargoDirectoDTO cargoDirecto = new CargoDirectoDTO();
-        CargoUnidadDTO cargoUnidad =  new CargoUnidadDTO();
+        CargoUnidadDTO cargoDirecto =  new CargoUnidadDTO();
         try{
             CargoDirectoDAO accesoCargoDirecto = new CargoDirectoDAO();
             CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
@@ -694,9 +693,7 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
             String folio = ((this.jTFFolio != null && !"".equals(this.jTFFolio.getText())) ? this.jTFFolio.getText() : "");
             String claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
             String claveUnidad = this.jCBClaveUnidad.getSelectedItem().toString();
-            boolean agregarCargoDirectoExitoso = false;
             boolean agregarCargoUnidadExitoso = false;
-            int numeroCargo = 0;
             int numeroProveedor = Integer.parseInt(nProveedor);
             int numeroOrdenReparacion = Integer.parseInt(nOrdenReparacion);
             
@@ -780,8 +777,6 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
             cargoDirecto.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             cargoDirecto.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             cargoDirecto.setUsuario(UserHome.getUsuario());
-            numeroCargo = accesoCargoDirecto.obtenerUltimoCargoDirecto() + 1;
-            cargoDirecto.setNumeroCargoDirecto(numeroCargo);
             
             //Validar que la cantidad sea válida
             if(cargoDirecto.getCantidad() < 1){
@@ -792,20 +787,9 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
             
             //Agregar los datos de cargo operador
             unidad = accesoUnidad.obtenerUnidad(claveUnidad, true, true, true);
-            cargoUnidad = new CargoUnidadDTO(1, unidad, cargoDirecto);
+            cargoDirecto.setUnidad(unidad);
             
-            agregarCargoDirectoExitoso = accesoCargoDirecto.agregarCargoDirecto(cargoDirecto);
-            agregarCargoUnidadExitoso = accesoCargoUnidad.agregarCargoUnidad(cargoUnidad);
-            
-            if(!agregarCargoUnidadExitoso && agregarCargoDirectoExitoso){
-                boolean reparacionExitosa = false;
-                reparacionExitosa = accesoCargoDirecto.repararErrorClasificacionCargoDirecto(cargoDirecto, accesoCargoDirecto.obtenerUltimoCargoDirecto() + 1);
-                if(reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1311\n" + "No se pudo reparar la tabla",
-                    "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1311, UserHome.getUsuario(), new Exception("#NA"));
-                }
-            }
+            agregarCargoUnidadExitoso = accesoCargoUnidad.agregarCargoUnidad(cargoDirecto);
             
             if(!agregarCargoUnidadExitoso){
                 boolean reparacionExitosa = false;
@@ -813,7 +797,7 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 1312\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoUnidad.toString(), 1312, UserHome.getUsuario(), new Exception("#NA"));
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1312, UserHome.getUsuario(), new Exception("#NA"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -826,14 +810,14 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 1313\n" + ex.getMessage(),
                         "Error al guardar datos en la BD!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString() + cargoUnidad.toString(), 1313, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoDirecto.toString(), 1313, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
                 CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
                 reparacionExitosa = accesoCargoUnidad.repararErrorAgregarCargoUnidad();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 1314\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString() + cargoUnidad.toString(), 1314, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1314, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -845,14 +829,14 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 1315\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString() + cargoUnidad.toString(), 1315, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoDirecto.toString(), 1315, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
                 CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
                 reparacionExitosa = accesoCargoUnidad.repararErrorAgregarCargoUnidad();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 1316\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString() + cargoUnidad.toString(), 1316, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1316, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
