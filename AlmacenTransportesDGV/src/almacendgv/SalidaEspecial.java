@@ -369,15 +369,13 @@ public class SalidaEspecial extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Aún no se agrega un beneficiario.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            SalidaEspecialDAO acceso = new SalidaEspecialDAO();
-            SalidaAlmacenDAO accesoAlmacen = new SalidaAlmacenDAO();
+            SalidaEspecialDAO accesoAlmacen = new SalidaEspecialDAO();
             OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
             OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
             RefaccionDTO refaccionReq = new RefaccionDTO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             this.mostrarPrecioRefaccion();
             
-            boolean agregarSalidaAlmacenExitoso = false;
             boolean agregarSalidaEspecialExitoso = false;
             double cantidadPiezas = Double.parseDouble(this.jTFCantidad.getText());
             double precioUnitarioRef = Double.parseDouble(this.jTFPrecioUnitario.getText());
@@ -385,7 +383,6 @@ public class SalidaEspecial extends javax.swing.JFrame {
             String claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
             double existenciaPiezas = accesoRefaccion.obtenerExistenciaRefaccion(claveRefaccion, true, true);
             int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
-            int numeroSalida = 0;
             String nombreBeneficiario = ((this.jTFBeneficiario != null && !"".equals(this.jTFBeneficiario.getText())) ? this.jTFBeneficiario.getText() : "");
             nombreBeneficiario = nombreBeneficiario.trim();
             
@@ -421,7 +418,6 @@ public class SalidaEspecial extends javax.swing.JFrame {
             salidaAlmacen.setTipo(2);
             salidaAlmacen.setUsuario(UserHome.getUsuario());
             
-            numeroSalida = accesoAlmacen.obtenerUltimaSalidaAlmacen() + 1;
             
             //Validar que la cantidad sea un valor válido
             if(salidaAlmacen.getCantidad() < 1){
@@ -430,17 +426,16 @@ public class SalidaEspecial extends javax.swing.JFrame {
                 return;
             }
             
-            agregarSalidaAlmacenExitoso = accesoAlmacen.agregarSalidaAlmacen(salidaAlmacen);
             
-            salidaAlmacen.setNumeroSalida(numeroSalida);
+            //salidaAlmacen.setNumeroSalida(numeroSalida);
             
             salidaEspecial = new SalidaEspecialDTO(0, nombreBeneficiario, salidaAlmacen);
             
-            agregarSalidaEspecialExitoso = acceso.agregarSalidaEspecial(salidaEspecial);
+            agregarSalidaEspecialExitoso = accesoAlmacen.agregarSalidaEspecial(salidaEspecial);
             
-            if(!agregarSalidaEspecialExitoso && agregarSalidaAlmacenExitoso){
+            if(!agregarSalidaEspecialExitoso){
                 boolean reparacionExitosa = false;
-                reparacionExitosa = accesoAlmacen.repararErrorClasificacionSalidaAlmacen(salidaAlmacen, acceso.obtenerUltimaSalidaAlmacen() + 1);
+                reparacionExitosa = accesoAlmacen.repararErrorAgregarSalidaEspecial();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 1085\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);

@@ -15,6 +15,7 @@ import data.SalidaUnidadDAO;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -585,31 +586,30 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             if(rowIndex > -1){
         
                 numeroSalida = Integer.parseInt(this.jTSalidasAlmacen.getValueAt(rowIndex, 0).toString());
-                salidaAlmacen = acceso.obtenerSalidaAlmacen(numeroSalida, true, true, true);
+                //salidaAlmacen = acceso.obtenerSalidaAlmacen(numeroSalida, true, true, true);
                 
-                acceso.eliminarSalidaAlmacen(salidaAlmacen);
                 
-                switch(salidaAlmacen.getTipo()){
-                    case 0:
+                switch(this.jTSalidasAlmacen.getValueAt(rowIndex, 7).toString()){
+                    case "":
                         break;
-                    case 1://(Eliminado)
+                    case "S. Bodega"://(Eliminado)
                         //Salidas de Bodega
                         //salidaBodega = accesoBodega.obtenerSalidaBodegaPSalidaAlmacen(numeroSalida, true, true, true);
                         //accesoBodega.eliminarSalidaBodega(salidaBodega);
                         break;
-                    case 2:
+                    case "S. Especial":
                         //Salidas Especiales
-                        salidaEspecial = accesoEspecial.obtenerSalidaEspecialPSalidaAlmacen(numeroSalida, true, true, true);
+                        salidaEspecial = accesoEspecial.obtenerSalidaEspecial(numeroSalida, true, true, true);
                         accesoEspecial.eliminarSalidaEspecial(salidaEspecial);
                         break;
-                    case 3:
+                    case "S. Operador":
                         //Salidas a Operador
-                        salidaOperador = accesoOperador.obtenerSalidaOperadorPSalidaAlmacen(numeroSalida, true, true, true);
+                        salidaOperador = accesoOperador.obtenerSalidaOperador(numeroSalida, true, true, true);
                         accesoOperador.eliminarSalidaOperador(salidaOperador);
                         break;
-                    case 4:
+                    case "S. Unidad":
                         //Salidas a Unidad
-                        salidaUnidad = accesoUnidad.obtenerSalidaUnidadPSalidaUnidad(numeroSalida, true, true, true);
+                        salidaUnidad = accesoUnidad.obtenerSalidaUnidad(numeroSalida, true, true, true);
                         accesoUnidad.eliminarSalidaUnidad(salidaUnidad);
                         break;
                 }
@@ -630,8 +630,13 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
 
     public void obtenerSalidas(){
         try{
-            SalidaAlmacenDAO accesoAlmacen = new SalidaAlmacenDAO();
+            SalidaEspecialDAO accesoSalidaEspecial = new SalidaEspecialDAO();
+            SalidaOperadorDAO accesoSalidaOperador = new SalidaOperadorDAO();
+            SalidaUnidadDAO accesoSalidaUnidad = new SalidaUnidadDAO();
             List<SalidaAlmacenDTO> salidasAlmacen = new ArrayList<SalidaAlmacenDTO>();
+            List<SalidaEspecialDTO> salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
+            List<SalidaOperadorDTO> salidasOperadores = new ArrayList<SalidaOperadorDTO>();
+            List<SalidaUnidadDTO> salidasUnidades = new ArrayList<SalidaUnidadDTO>();
             String tiposSalidas[] = {"", "S. Bodega", "S. Especial", "S. Operador", "S. Unidad"};
             int limite = 500;
 
@@ -644,7 +649,9 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
 
             try {
 
-                salidasAlmacen = accesoAlmacen.obtenerSalidasAlmacen(true, true, true);
+                salidasEspeciales = accesoSalidaEspecial.obtenerSalidasEspeciales(true, true, false);
+                salidasOperadores = accesoSalidaOperador.obtenerSalidasOperadores(true, false, false);
+                salidasUnidades = accesoSalidaUnidad.obtenerSalidasUnidad(true, false, true);
 
             } catch(SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Código error: 1005\n" + ex.getMessage()
@@ -658,7 +665,12 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                 ErrorLogger.scribirLog("ControlSalidasAlmacen obtenerSalidas()", 1006, UserHome.getUsuario(), ex);
             }
 
+            
             try{
+                salidasAlmacen.addAll(salidasEspeciales);
+                salidasAlmacen.addAll(salidasUnidades);
+                salidasAlmacen.addAll(salidasOperadores);
+                Collections.sort(salidasAlmacen);
                 for(SalidaAlmacenDTO salidaAlmacen : salidasAlmacen){
                     Object datos[] = {salidaAlmacen.getNumeroSalida(), salidaAlmacen.getOrdenReparacion().getNumeroOrden(), 
                         salidaAlmacen.getFechaRegistro(), salidaAlmacen.getRefaccion().getClaveRefaccion(), 
@@ -697,7 +709,6 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
             SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
             
-            SalidaAlmacenDAO acceso = new SalidaAlmacenDAO();
             //SalidaBodegaDAO accesoBodega = new SalidaBodegaDAO();
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
@@ -706,9 +717,47 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             if(rowIndex > -1){
         
                 numeroSalida = Integer.parseInt(this.jTSalidasAlmacen.getValueAt(rowIndex, 0).toString());
-                salidaAlmacen = acceso.obtenerSalidaAlmacen(numeroSalida, true, true, true);
-                this.salidaAlmacenActual = salidaAlmacen;
                 
+                
+                switch(this.jTSalidasAlmacen.getValueAt(rowIndex, 7).toString()){
+                    case "":
+                        break;
+                    case "S. Bodega"://(Eliminado)
+                        //Salidas de Bodega
+                        //salidaBodega = accesoBodega.obtenerSalidaBodegaPSalidaAlmacen(numeroSalida, true, true, true);
+                        //this.jTFReceptor.setText(((salidaBodega.getBodega().getNombre() != null) ? salidaBodega.getBodega().getNombre() : "" ));
+                        //this.jTFIdTipoSalida.setText(Integer.toString(salidaBodega.getIdSalidaBodega()));
+                        break;
+                    case "S. Especial":
+                        //Salidas Especiales
+                        salidaEspecial = accesoEspecial.obtenerSalidaEspecial(numeroSalida, true, true, true);
+                        this.jTFReceptor.setText(((salidaEspecial.getNombreBeneficiario() != null) ? salidaEspecial.getNombreBeneficiario() : "" ));
+                        this.jTFIdTipoSalida.setText(Integer.toString(salidaEspecial.getIdSalidaEspecial()));
+                        
+                        salidaAlmacen = salidaEspecial;
+                        this.salidaAlmacenActual = salidaEspecial;
+
+                        break;
+                    case "S, Operador":
+                        //Salidas a Operador
+                        salidaOperador = accesoOperador.obtenerSalidaOperador(numeroSalida, true, true, true);
+                        this.jTFReceptor.setText(Integer.toString(salidaOperador.getOperador().getNumeroOperador()) + "# " + 
+                                ((salidaOperador.getOperador().getNombre() != null) ? salidaOperador.getOperador().getNombre() : "" ) + " " +
+                                ((salidaOperador.getOperador().getApellidos() != null) ? salidaOperador.getOperador().getApellidos() : "" ));
+                        this.jTFIdTipoSalida.setText(Integer.toString(salidaOperador.getIdSalidaOperador()));
+                        salidaAlmacen = salidaOperador;
+                        this.salidaAlmacenActual = salidaAlmacen;
+
+                        break;
+                    case "S. Unidad":
+                        //Salidas a Unidad
+                        salidaUnidad = accesoUnidad.obtenerSalidaUnidad(numeroSalida, true, true, true);
+                        this.jTFReceptor.setText(((salidaUnidad.getTransporte().getClave() != null) ? salidaUnidad.getTransporte().getClave() : ""));
+                        this.jTFIdTipoSalida.setText(Integer.toString(salidaUnidad.getIdSalidaUnidad()));
+                        salidaAlmacen = salidaUnidad;
+                        this.salidaAlmacenActual = salidaAlmacen;
+                        break;
+                }
                 this.jTFCantidad.setText(Double.toString(salidaAlmacen.getCantidad()));
                 this.jTFClaveRefaccion.setText(((salidaAlmacen.getRefaccion().getClaveRefaccion() != null) ? salidaAlmacen.getRefaccion().getClaveRefaccion() : "" ));
                 this.jTFFecha.setText(((salidaAlmacen.getFechaRegistro() != null) ? salidaAlmacen.getFechaRegistro().toString() : "" ));
@@ -720,37 +769,6 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                         ((salidaAlmacen.getUsuario().getApellidos() != null) ? salidaAlmacen.getUsuario().getApellidos() : "" ));
                 this.jLNumeroOrden.setText("Orden de Reparación: " + Integer.toString(salidaAlmacen.getOrdenReparacion().getNumeroOrden()));
                 this.jLCancelada.setText(((salidaAlmacen.isStatus()) ? "" : "Cancelada"));
-                
-                switch(salidaAlmacen.getTipo()){
-                    case 0:
-                        break;
-                    case 1://(Eliminado)
-                        //Salidas de Bodega
-                        //salidaBodega = accesoBodega.obtenerSalidaBodegaPSalidaAlmacen(numeroSalida, true, true, true);
-                        //this.jTFReceptor.setText(((salidaBodega.getBodega().getNombre() != null) ? salidaBodega.getBodega().getNombre() : "" ));
-                        //this.jTFIdTipoSalida.setText(Integer.toString(salidaBodega.getIdSalidaBodega()));
-                        break;
-                    case 2:
-                        //Salidas Especiales
-                        salidaEspecial = accesoEspecial.obtenerSalidaEspecialPSalidaAlmacen(numeroSalida, true, true, true);
-                        this.jTFReceptor.setText(((salidaEspecial.getNombreBeneficiario() != null) ? salidaEspecial.getNombreBeneficiario() : "" ));
-                        this.jTFIdTipoSalida.setText(Integer.toString(salidaEspecial.getIdSalidaEspecial()));
-                        break;
-                    case 3:
-                        //Salidas a Operador
-                        salidaOperador = accesoOperador.obtenerSalidaOperadorPSalidaAlmacen(numeroSalida, true, true, true);
-                        this.jTFReceptor.setText(Integer.toString(salidaOperador.getOperador().getNumeroOperador()) + "# " + 
-                                ((salidaOperador.getOperador().getNombre() != null) ? salidaOperador.getOperador().getNombre() : "" ) + " " +
-                                ((salidaOperador.getOperador().getApellidos() != null) ? salidaOperador.getOperador().getApellidos() : "" ));
-                        this.jTFIdTipoSalida.setText(Integer.toString(salidaOperador.getIdSalidaOperador()));
-                        break;
-                    case 4:
-                        //Salidas a Unidad
-                        salidaUnidad = accesoUnidad.obtenerSalidaUnidadPSalidaUnidad(numeroSalida, true, true, true);
-                        this.jTFReceptor.setText(((salidaUnidad.getTransporte().getClave() != null) ? salidaUnidad.getTransporte().getClave() : ""));
-                        this.jTFIdTipoSalida.setText(Integer.toString(salidaUnidad.getIdSalidaUnidad()));
-                        break;
-                }
                 this.estadoBotonesClicSalidas();
             }
         } catch(SQLException ex) {
