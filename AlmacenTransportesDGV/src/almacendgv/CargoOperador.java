@@ -680,8 +680,7 @@ public class CargoOperador extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIBuscarParteActionPerformed
 
     public void agregar(){
-        CargoDirectoDTO cargoDirecto = new CargoDirectoDTO();
-        CargoOperadorDTO cargoOperador =  new CargoOperadorDTO();
+        CargoOperadorDTO cargoDirecto =  new CargoOperadorDTO();
         try{
             CargoDirectoDAO accesoCargoDirecto = new CargoDirectoDAO();
             CargoOperadorDAO accesoCargoOperador = new CargoOperadorDAO();
@@ -693,9 +692,7 @@ public class CargoOperador extends javax.swing.JFrame {
             OperadorDAO accesoOperador = new OperadorDAO();
             FacturaDTO fact = this.factura;
             String claveRefaccion = "";
-            boolean agregarCargoDirectoExitoso = false;
             boolean agregarCargoOperadorExitoso = false;
-            int numeroCargo = 0;
             claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
             
             //Validar que exista la clave de refaccion en el inventario
@@ -719,8 +716,6 @@ public class CargoOperador extends javax.swing.JFrame {
             cargoDirecto.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             cargoDirecto.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             cargoDirecto.setUsuario(UserHome.getUsuario());
-            numeroCargo = accesoCargoDirecto.obtenerUltimoCargoDirecto() + 1;
-            cargoDirecto.setNumeroCargoDirecto(numeroCargo);
             
             //Validar que la cantidad sea válida
             if(cargoDirecto.getCantidad() < 1){
@@ -731,20 +726,9 @@ public class CargoOperador extends javax.swing.JFrame {
             
             //Agregar los datos de cargo operador
             operador = accesoOperador.obtenerOperador(ordenReparacion.getOperador().getNumeroOperador(), true, true);
-            cargoOperador = new CargoOperadorDTO(1, operador, cargoDirecto);
+            cargoDirecto.setOperador(operador);
+            agregarCargoOperadorExitoso = accesoCargoOperador.agregarCargoOperador(cargoDirecto);
             
-            agregarCargoDirectoExitoso = accesoCargoDirecto.agregarCargoDirecto(cargoDirecto);
-            agregarCargoOperadorExitoso = accesoCargoOperador.agregarCargoOperador(cargoOperador);
-            
-            if(!agregarCargoOperadorExitoso && agregarCargoDirectoExitoso){
-                boolean reparacionExitosa = false;
-                reparacionExitosa = accesoCargoDirecto.repararErrorClasificacionCargoDirecto(cargoDirecto, accesoCargoDirecto.obtenerUltimoCargoDirecto() + 1);
-                if(reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 746\n" + "No se pudo reparar la tabla",
-                    "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 746, UserHome.getUsuario(), new Exception("#NA"));
-                }
-            }
             
             if(!agregarCargoOperadorExitoso){
                 boolean reparacionExitosa = false;
@@ -752,7 +736,7 @@ public class CargoOperador extends javax.swing.JFrame {
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 1343\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoOperador.toString(), 1343, UserHome.getUsuario(), new Exception("#NA"));
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1343, UserHome.getUsuario(), new Exception("#NA"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -765,14 +749,14 @@ public class CargoOperador extends javax.swing.JFrame {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 747\n" + ex.getMessage(),
                         "Error al guardar datos en la BD!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString() + cargoOperador.toString(), 747, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoDirecto.toString(), 747, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
                 CargoOperadorDAO accesoCargoOperador = new CargoOperadorDAO();
                 reparacionExitosa = accesoCargoOperador.repararErrorAgregarCargoOperador();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 748\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString() + cargoOperador.toString(), 748, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 748, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -784,14 +768,14 @@ public class CargoOperador extends javax.swing.JFrame {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 749\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString() + cargoOperador.toString(), 749, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoDirecto.toString(), 749, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
                 CargoOperadorDAO accesoCargoOperador = new CargoOperadorDAO();
                 reparacionExitosa = accesoCargoOperador.repararErrorAgregarCargoOperador();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 750\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString() + cargoOperador.toString(), 750, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 750, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);

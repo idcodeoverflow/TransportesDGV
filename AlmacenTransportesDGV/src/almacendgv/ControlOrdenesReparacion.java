@@ -1209,7 +1209,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
                 List<CargoEspecialDTO> cargosEspecial = null;
                 try {
-                    cargosEspecial = new CargoEspecialDAO().obtenerCargosEspecialesPReparacion(this.ordenReparacion, false, false);
+                    cargosEspecial = new CargoEspecialDAO().obtenerCargosEspecialesPReparacion(this.ordenReparacion, true, false, false);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Código error: 932\n" + ex.getMessage(),
                             "Error al acceder a los detalles de la reparación!!!", JOptionPane.ERROR_MESSAGE);
@@ -1230,7 +1230,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
                 List<CargoOperadorDTO> cargosOperador = null;
                 try {
-                    cargosOperador = new CargoOperadorDAO().obtenerCargosOperadoresPReparacion(this.ordenReparacion, false, false);
+                    cargosOperador = new CargoOperadorDAO().obtenerCargosOperadoresPReparacion(this.ordenReparacion, true, false, false);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Código error: 933\n" + ex.getMessage(),
                             "Error al acceder a los detalles de la reparación!!!", JOptionPane.ERROR_MESSAGE);
@@ -1251,7 +1251,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
                 List<CargoUnidadDTO> cargosUnidad = null;
                 try {
-                    cargosUnidad = new CargoUnidadDAO().obtenerCargosUnidadesPReparacion(this.ordenReparacion, false, false);
+                    cargosUnidad = new CargoUnidadDAO().obtenerCargosUnidadesPReparacion(this.ordenReparacion, true, false, false);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Código error: 934\n" + ex.getMessage(),
                             "Error al acceder a los detalles de la reparación!!!", JOptionPane.ERROR_MESSAGE);

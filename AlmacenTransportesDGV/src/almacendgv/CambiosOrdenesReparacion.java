@@ -374,7 +374,7 @@ public class CambiosOrdenesReparacion extends javax.swing.JFrame {
                     }
                     
                     //validar que no haya cargos directos activos a esa unidad
-                    cargosUnidades = accesoCargoUnidad.obtenerCargosUnidadesPReparacion(ordenReparacion, true, true);
+                    cargosUnidades = accesoCargoUnidad.obtenerCargosUnidadesPReparacion(ordenReparacion,true, true, true);
                     for(CargoUnidadDTO cargoUnidad : cargosUnidades){
                         if(cargoUnidad.getUnidad().getClave().equals(unidadTransporte.getClave())){
                             JOptionPane.showMessageDialog(null, "La unidad de transporte especificada\ntiene cargos directos "

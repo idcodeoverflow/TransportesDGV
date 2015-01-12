@@ -1137,7 +1137,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             CargoEspecialDTO tempCargoEspecial = new CargoEspecialDTO();
                             CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
                             int idCargoEspecial = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
-                            tempCargoEspecial = accesoCargoEspecial.obtenerCargoEspecial(idCargoEspecial);
+                            tempCargoEspecial = accesoCargoEspecial.obtenerCargoEspecial(idCargoEspecial, true, true, true);
                             if(tempCargoEspecial.getOrdenReparacion().getFechaSalida() != null){
                                 JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
                                     + "solicitada, la orden de\nreparación asociada a este\nCargo Especial se ha finalizado.",
@@ -1149,7 +1149,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             CargoOperadorDTO tempCargoOperador = new CargoOperadorDTO();
                             CargoOperadorDAO accesoCargoOperador = new CargoOperadorDAO();
                             int idCargoOperador = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
-                            tempCargoOperador = accesoCargoOperador.obtenerCargoOperador(idCargoOperador);
+                            tempCargoOperador = accesoCargoOperador.obtenerCargoOperador(idCargoOperador, true, true, true);
                             if(tempCargoOperador.getOrdenReparacion().getFechaSalida() != null){
                                 JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
                                     + "solicitada, la orden de\nreparación asociada a este\nCargo a Operador se ha finalizado.",
@@ -1161,7 +1161,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             CargoUnidadDTO tempCargoUnidad = new CargoUnidadDTO();
                             CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
                             int idCargoUnidad = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
-                            tempCargoUnidad = accesoCargoUnidad.obtenerCargoUnidad(idCargoUnidad);
+                            tempCargoUnidad = accesoCargoUnidad.obtenerCargoUnidad(idCargoUnidad, true, true, true);
                             if(tempCargoUnidad.getOrdenReparacion().getFechaSalida() != null){
                                 JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
                                     + "solicitada, la orden de\nreparación asociada a este\nCargo a Unidad de Transporte\nse ha finalizado.",
@@ -1209,7 +1209,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             CargoEspecialDTO tempCargoEspecial = new CargoEspecialDTO();
                             int idCargoEspecial = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
                             
-                            tempCargoEspecial = accesoCEspecial.obtenerCargoEspecial(idCargoEspecial);
+                            tempCargoEspecial = accesoCEspecial.obtenerCargoEspecial(idCargoEspecial, true, true, true);
                             accesoCEspecial.eliminarCargoEspecial(tempCargoEspecial);
                             break;
                         case "C. Operador":
@@ -1217,7 +1217,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             CargoOperadorDTO tempCargoOperador = new CargoOperadorDTO();
                             int idCargoOperador = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
                             
-                            tempCargoOperador = accesoCOperador.obtenerCargoOperador(idCargoOperador);
+                            tempCargoOperador = accesoCOperador.obtenerCargoOperador(idCargoOperador, true, true, true);
                             accesoCOperador.eliminarCargoOperador(tempCargoOperador);
                             break;
                         case "C. Unidad":
@@ -1225,7 +1225,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             CargoUnidadDTO tempCargoUnidad = new CargoUnidadDTO();
                             int idCargoUnidad = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
                             
-                            tempCargoUnidad = accesoCUnidad.obtenerCargoUnidad(idCargoUnidad);
+                            tempCargoUnidad = accesoCUnidad.obtenerCargoUnidad(idCargoUnidad, true, true, true);
                             accesoCUnidad.eliminarCargoUnidad(tempCargoUnidad);
                             break;
                     }
@@ -1638,7 +1638,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
 
             List<CargoEspecialDTO> cargosEspecial = null;
             try {
-                cargosEspecial = new CargoEspecialDAO().obtenerCargosEspecialesPFactura(factura, false, false);
+                cargosEspecial = new CargoEspecialDAO().obtenerCargosEspecialesPFactura(factura, true, false, false);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Código error: 848\n" + ex.getMessage(),
                         "Error al acceder a los detalles de la factura!!!", JOptionPane.ERROR_MESSAGE);
@@ -1658,7 +1658,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
 
             List<CargoOperadorDTO> cargosOperador = null;
             try {
-                cargosOperador = new CargoOperadorDAO().obtenerCargosOperadoresPFactura(factura, false, false);
+                cargosOperador = new CargoOperadorDAO().obtenerCargosOperadoresPFactura(factura, true, false, false);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Código error: 849\n" + ex.getMessage(),
                         "Error al acceder a los detalles de la factura!!!", JOptionPane.ERROR_MESSAGE);
@@ -1678,7 +1678,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
 
             List<CargoUnidadDTO> cargosUnidad = null;
             try {
-                cargosUnidad = new CargoUnidadDAO().obtenerCargosUnidadesPFactura(factura, false, false);
+                cargosUnidad = new CargoUnidadDAO().obtenerCargosUnidadesPFactura(factura, true, false, false);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Código error: 850\n" + ex.getMessage(),
                         "Error al acceder a los detalles de la factura!!!", JOptionPane.ERROR_MESSAGE);
@@ -1720,17 +1720,17 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                     case "C. Especial":
                         CargoEspecialDAO accesoCEspecial = new CargoEspecialDAO();
                         key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
-                        this.cargoEspecial = accesoCEspecial.obtenerCargoEspecial(key);
+                        this.cargoEspecial = accesoCEspecial.obtenerCargoEspecial(key, true, true, true);
                         break;
                     case "C. Operador":
                         CargoOperadorDAO accesoCOperador = new CargoOperadorDAO();
                         key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
-                        this.cargoOperador = accesoCOperador.obtenerCargoOperador(key);
+                        this.cargoOperador = accesoCOperador.obtenerCargoOperador(key, true, true, true);
                         break;
                     case "C. Unidad":
                         CargoUnidadDAO accesoCUnidad = new CargoUnidadDAO();
                         key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
-                        this.cargoUnidad = accesoCUnidad.obtenerCargoUnidad(key);
+                        this.cargoUnidad = accesoCUnidad.obtenerCargoUnidad(key, true, true, true);
                         break;
                 }
             } catch (SQLException ex) {

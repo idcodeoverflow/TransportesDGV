@@ -65,14 +65,25 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
     public void modificarCargoUnidad(CargoUnidadDTO cargo) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "UPDATE cargo_unidad SET clave = ? WHERE "
-                + "id_cargo_unidad = ?;";
+        String query = "UPDATE cargo_unidad SET clave = ?, "
+                + "fecha_registro = ?, precio_unitario = ?, cantidad = ?,"
+                + " subtotal = ?, iva = ?, total = ?, clave_refaccion = ?, "
+                + "id_proveedor = ?, folio = ? WHERE id_cargo_unidad = ?;";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, cargo.getUnidad().getClave());
-            pstmt.setInt(2, cargo.getIdCargoUnidad());
+            pstmt.setTimestamp(2, cargo.getFechaRegistro());
+            pstmt.setDouble(3, cargo.getPrecioUnitario());
+            pstmt.setDouble(4, cargo.getCantidad());
+            pstmt.setDouble(5, cargo.getSubtotal());
+            pstmt.setDouble(6, cargo.getIva());
+            pstmt.setDouble(7, cargo.getTotal());
+            pstmt.setString(8, cargo.getRefaccion().getClaveRefaccion());
+            pstmt.setInt(9, cargo.getFactura().getProveedor().getIdProveedor());
+            pstmt.setString(10, cargo.getFactura().getFolio());
+            pstmt.setInt(11, cargo.getIdCargoUnidad());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 448\n" + ex.getMessage(),
@@ -87,8 +98,8 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
     public void eliminarCargoUnidad(CargoUnidadDTO cargo) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "UPDATE cargo_directo SET fecha_registro = ?, status = ? WHERE numero_cargo_directo "
-                + "IN (SELECT numero_cargo_directo FROM cargo_unidad WHERE id_cargo_unidad = ?);";
+        String query = "UPDATE cargo_unidad SET fecha_registro = ?, status = ? WHERE"
+                + " id_cargo_unidad = ?;";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -107,23 +118,46 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
         }
     }
     
-    public CargoUnidadDTO obtenerCargoUnidad(int idCargoUnidad) throws SQLException{
+    public CargoUnidadDTO obtenerCargoUnidad(int idCargoUnidad, boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         CargoUnidadDTO cargo = null;
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String query = "SELECT id_cargo_unidad, numero_cargo_directo, clave FROM cargo_unidad WHERE "
-                + "id_cargo_unidad = ?;";
+        String query = "SELECT id_cargo_unidad, clave, fecha_registro, precio_unitario, cantidad, "
+                + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
+                + "folio, numero_usuario, numero_orden  FROM cargo_unidad WHERE "
+                + "id_cargo_unidad = ?";
         try{
-            DBConnection.createConnection();
+            if(abrir) {
+                DBConnection.createConnection();
+            }
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, idCargoUnidad);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 cargo = new CargoUnidadDTO(rs.getInt("id_cargo_unidad"), 
-                        new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false),
-                        new CargoDirectoDAO().obtenerCargoDirecto(rs.getInt("numero_cargo_directo"), true, false, false));
+                        null,//unidad transporte
+                        0,//numero cargo directo
+                        rs.getTimestamp("fecha_registro"),
+                        rs.getDouble("precio_unitario"),
+                        rs.getInt("cantidad"),
+                        rs.getDouble("subtotal"),
+                        rs.getDouble("iva"),
+                        rs.getDouble("total"),
+                        rs.getBoolean("status"),
+                        null,//refaccion
+                        null,//factura
+                        null,//usuario
+                        null//orden reparacion
+                        );
+                if(persistence){
+                    cargo.setUnidad(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
+                    cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
+                    cargo.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
+                    cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
+                    cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
+                }
             }
             
         } catch(Exception e){
@@ -131,21 +165,24 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog(cargo.toString(), 450, UserHome.getUsuario(), e);
         } finally {
-            closeQuietly(conn);
-            closeQuietly(pstmt);
+            if(cerrar) {
+                closeQuietly(conn);
+                closeQuietly(pstmt);
+            }
         }
         return cargo;
     }
     
-    public List<CargoUnidadDTO> obtenerCargosUnidades() throws SQLException{
+    public List<CargoUnidadDTO> obtenerCargosUnidades(boolean persistence) throws SQLException{
         List<CargoUnidadDTO> cargos = null;
         CargoUnidadDTO cargo = null;
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String query = "SELECT id_cargo_unidad, numero_cargo_directo, clave "
-                + "FROM cargo_unidad WHERE (SELECT status FROM cargo_directo WHERE "
-                + "cargo_directo.numero_cargo_directo = cargo_unidad.numero_cargo_directo) = ?;";
+        String query = "SELECT id_cargo_unidad, clave, fecha_registro, precio_unitario, cantidad, "
+                + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
+                + "folio, numero_usuario, numero_orden  FROM cargo_unidad WHERE "
+                + "status = ?";
         
         try{
             DBConnection.createConnection();
@@ -155,10 +192,28 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
             rs = pstmt.executeQuery();
             cargos = new ArrayList<CargoUnidadDTO>();
             while (rs.next()) {
-                cargo = new CargoUnidadDTO(
-                rs.getInt("id_cargo_unidad"),
-                new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false),
-                new CargoDirectoDAO().obtenerCargoDirecto(rs.getInt("numero_cargo_directo"), true, false, false));
+                cargo = new CargoUnidadDTO(rs.getInt("id_cargo_unidad"), 
+                        null,//unidad transporte
+                        0,//numero cargo directo
+                        rs.getTimestamp("fecha_registro"),
+                        rs.getDouble("precio_unitario"),
+                        rs.getInt("cantidad"),
+                        rs.getDouble("subtotal"),
+                        rs.getDouble("iva"),
+                        rs.getDouble("total"),
+                        rs.getBoolean("status"),
+                        null,//refaccion
+                        null,//factura
+                        null,//usuario
+                        null//orden reparacion
+                        );
+                if(persistence){
+                    cargo.setUnidad(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
+                    cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
+                    cargo.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
+                    cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
+                    cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
+                }
                 cargos.add(cargo);
             }
             
@@ -177,16 +232,16 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
     }
     
     public List<CargoUnidadDTO> obtenerCargosUnidadesPFactura(FacturaDTO factura, 
-            boolean abrir, boolean cerrar) throws SQLException{
+            boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         List<CargoUnidadDTO> cargos = null;
         CargoUnidadDTO cargo = null;
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String query = "SELECT id_cargo_unidad, numero_cargo_directo, clave "
-                + "FROM cargo_unidad WHERE numero_cargo_directo IN "
-                + "(SELECT numero_cargo_directo FROM cargo_directo WHERE "
-                + "id_proveedor = ? AND folio = ? AND status = ?);";
+        String query = "SELECT id_cargo_unidad, clave, fecha_registro, precio_unitario, cantidad, "
+                + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
+                + "folio, numero_usuario, numero_orden  FROM cargo_unidad WHERE "
+                + "id_proveedor = ? AND folio = ? AND status = ?";
         
         try{
             if(abrir){
@@ -200,10 +255,28 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
             rs = pstmt.executeQuery();
             cargos = new ArrayList<CargoUnidadDTO>();
             while (rs.next()) {
-                cargo = new CargoUnidadDTO(
-                rs.getInt("id_cargo_unidad"),
-                new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false),
-                new CargoDirectoDAO().obtenerCargoDirecto(rs.getInt("numero_cargo_directo"), true, false, false));
+                cargo = new CargoUnidadDTO(rs.getInt("id_cargo_unidad"), 
+                        null,//unidad transporte
+                        0,//numero cargo directo
+                        rs.getTimestamp("fecha_registro"),
+                        rs.getDouble("precio_unitario"),
+                        rs.getInt("cantidad"),
+                        rs.getDouble("subtotal"),
+                        rs.getDouble("iva"),
+                        rs.getDouble("total"),
+                        rs.getBoolean("status"),
+                        null,//refaccion
+                        null,//factura
+                        null,//usuario
+                        null//orden reparacion
+                        );
+                if(persistence){
+                    cargo.setUnidad(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
+                    cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
+                    cargo.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
+                    cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
+                    cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
+                }
                 cargos.add(cargo);
             }
             
@@ -224,16 +297,16 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
     }
     
     public List<CargoUnidadDTO> obtenerCargosUnidadesPReparacion(OrdenReparacionDTO ordenReparacion, 
-            boolean abrir, boolean cerrar) throws SQLException{
+            boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         List<CargoUnidadDTO> cargos = null;
         CargoUnidadDTO cargo = null;
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String query = "SELECT id_cargo_unidad, numero_cargo_directo, clave "
-                + "FROM cargo_unidad WHERE numero_cargo_directo IN "
-                + "(SELECT numero_cargo_directo FROM cargo_directo WHERE "
-                + "numero_orden = ? AND status = ?);";
+        String query = "SELECT id_cargo_unidad, clave, fecha_registro, precio_unitario, cantidad, "
+                + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
+                + "folio, numero_usuario, numero_orden  FROM cargo_unidad WHERE "
+                + "numero_orden = ? AND status = ?";
         
         try{
             if(abrir) {
@@ -246,10 +319,28 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
             rs = pstmt.executeQuery();
             cargos = new ArrayList<CargoUnidadDTO>();
             while (rs.next()) {
-                cargo = new CargoUnidadDTO(
-                rs.getInt("id_cargo_unidad"),
-                new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false),
-                new CargoDirectoDAO().obtenerCargoDirecto(rs.getInt("numero_cargo_directo"), true, false, false));
+                cargo = new CargoUnidadDTO(rs.getInt("id_cargo_unidad"), 
+                        null,//unidad transporte
+                        0,//numero cargo directo
+                        rs.getTimestamp("fecha_registro"),
+                        rs.getDouble("precio_unitario"),
+                        rs.getInt("cantidad"),
+                        rs.getDouble("subtotal"),
+                        rs.getDouble("iva"),
+                        rs.getDouble("total"),
+                        rs.getBoolean("status"),
+                        null,//refaccion
+                        null,//factura
+                        null,//usuario
+                        null//orden reparacion
+                        );
+                if(persistence){
+                    cargo.setUnidad(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
+                    cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
+                    cargo.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
+                    cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
+                    cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
+                }
                 cargos.add(cargo);
             }
             
@@ -275,8 +366,7 @@ public class CargoUnidadDAO extends CargoDirectoDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT IFNULL(SUM(total), 0.0) AS cargos_unidades FROM "
-                + "cargo_directo WHERE numero_orden = ? AND status = ? AND numero_cargo_directo "
-                + "IN(SELECT numero_cargo_directo FROM cargo_unidad);";
+                + "cargo_unidad WHERE numero_orden = ? AND status = ?;";
         try{
             if(abrir){
                 DBConnection.createConnection();
