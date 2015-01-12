@@ -1112,8 +1112,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             EntradaAlmacenDAO accesoEntradaAlmacen = new EntradaAlmacenDAO();
                             int idEntrada = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
                             tempEntradaAlmacen = accesoEntradaAlmacen.obtenerEntradaAlmacen(idEntrada, true);
-                            int idUltimaSalidaAlmacen = accesoSalidaAlmacen.obtenerUltimoNSalidaAlmacenPRefaccion(tempEntradaAlmacen.getRefaccion(), true, false);
-                            ultimaSalidaAlmacen = accesoSalidaAlmacen.obtenerSalidaAlmacen(idUltimaSalidaAlmacen, true, false, true);
+                            ultimaSalidaAlmacen = accesoSalidaAlmacen.obtenerUltimaSalidaAlmacenPRefaccion(tempEntradaAlmacen.getRefaccion(), true, false, true);
                             if(tempEntradaAlmacen.getFechaRegistro().before(ultimaSalidaAlmacen.getFechaRegistro()) && ultimaSalidaAlmacen.isStatus()){
                                 JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
                                     + "solicitada, ya existen salidas de\nalmacén de esta parte después de\nde la fecha de registro de\nentrada de almacén.",
@@ -1360,9 +1359,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                         SalidaAlmacenDTO ultimaSalidaAlmacen = new SalidaAlmacenDTO();
                         SalidaAlmacenDAO accesoSalidaAlmacen = new SalidaAlmacenDAO();
                         EntradaAlmacenDAO accesoEntradas = new EntradaAlmacenDAO();
-                        int idUltimaSalidaAlmacen = accesoSalidaAlmacen.obtenerUltimoNSalidaAlmacenPRefaccion(this.entradaAlmacen.getRefaccion(), true, false);
-                        ultimaSalidaAlmacen = accesoSalidaAlmacen.obtenerSalidaAlmacen(idUltimaSalidaAlmacen, true, false, true);
-                        
+                        ultimaSalidaAlmacen = accesoSalidaAlmacen.obtenerUltimaSalidaAlmacenPRefaccion(this.entradaAlmacen.getRefaccion(), true, false, true);
+                            
                         if(ultimaSalidaAlmacen != null && (this.entradaAlmacen.getFechaRegistro().before(ultimaSalidaAlmacen.getFechaRegistro()) && ultimaSalidaAlmacen.isStatus())){
                             JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
                                 + "solicitada, ya existen salidas de\nalmacén de esta parte después de\nde la fecha de registro de\nentrada de almacén.",

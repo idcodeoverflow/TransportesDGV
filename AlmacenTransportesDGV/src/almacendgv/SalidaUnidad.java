@@ -382,8 +382,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
         SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
         SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
         try{
-            SalidaAlmacenDAO accesoAlmacen = new SalidaAlmacenDAO();
-            SalidaUnidadDAO acceso = new SalidaUnidadDAO();
+            SalidaUnidadDAO accesoAlmacen = new SalidaUnidadDAO();
             UnidadTransporteDTO unidadTransporte = new UnidadTransporteDTO();
             UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
             OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
@@ -391,7 +390,6 @@ public class SalidaUnidad extends javax.swing.JFrame {
             RefaccionDTO refaccionReq = new RefaccionDTO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             
-            boolean agregarSalidaAlmacenExitoso = false;
             boolean agregarSalidaUnidadExitoso = false;
             this.mostrarPrecioRefaccion();
             double cantidadPiezas = Double.parseDouble(this.jTFCantidad.getText());
@@ -401,8 +399,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
             String claveTransporte = ((this.jCBClaveTransporte.getSelectedItem() != null & !"".equals(this.jCBClaveTransporte.getSelectedItem().toString())) ? this.jCBClaveTransporte.getSelectedItem().toString() : "");
             double existenciaPiezas = accesoRefaccion.obtenerExistenciaRefaccion(claveRefaccion, true, true);
             int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
-            int numeroSalida = 0;
-            
+             
             unidadTransporte = accesoUnidad.obtenerUnidad(claveTransporte, true, true, false);
             refaccionReq = accesoRefaccion.obtenerRefaccion(claveRefaccion, false, false);
             ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, false, true);
@@ -437,7 +434,6 @@ public class SalidaUnidad extends javax.swing.JFrame {
             salidaAlmacen.setTipo(4);
             salidaAlmacen.setUsuario(UserHome.getUsuario());
             
-            numeroSalida = accesoAlmacen.obtenerUltimaSalidaAlmacen() + 1;
             
             //Validar que la cantidad sea un valor válido
             if(salidaAlmacen.getCantidad() < 1){
@@ -446,17 +442,15 @@ public class SalidaUnidad extends javax.swing.JFrame {
                 return;
             }
             
-            agregarSalidaAlmacenExitoso = accesoAlmacen.agregarSalidaAlmacen(salidaAlmacen);
             
-            salidaAlmacen.setNumeroSalida(numeroSalida);
             
             salidaUnidad = new SalidaUnidadDTO(0, unidadTransporte, salidaAlmacen);
             
-            agregarSalidaUnidadExitoso = acceso.agregarSalidaUnidad(salidaUnidad);
+            agregarSalidaUnidadExitoso = accesoAlmacen.agregarSalidaUnidad(salidaUnidad);
             
-            if(!agregarSalidaUnidadExitoso && agregarSalidaAlmacenExitoso){
+            if(!agregarSalidaUnidadExitoso){
                 boolean reparacionExitosa = false;
-                reparacionExitosa = accesoAlmacen.repararErrorClasificacionSalidaAlmacen(salidaAlmacen, acceso.obtenerUltimaSalidaAlmacen() + 1);
+                reparacionExitosa = accesoAlmacen.repararErrorAgregarSalidaUnidad();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 1119\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);

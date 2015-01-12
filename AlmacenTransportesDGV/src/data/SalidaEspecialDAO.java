@@ -7,6 +7,7 @@ package data;
 import static utilidades.FinallyHandler.closeQuietly;
 import almacendgv.UserHome;
 import beans.OrdenReparacionDTO;
+import beans.RefaccionDTO;
 import beans.SalidaEspecialDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -339,6 +340,63 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
             JOptionPane.showMessageDialog(null, "Código error: 575\n" + e.getMessage(),
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog(salidaEspecial.toString(), 575, UserHome.getUsuario(), e);
+        } finally {
+            if(cerrar){
+                closeQuietly(conn);
+                closeQuietly(pstmt);
+            }
+        }
+        
+        return salidasEspeciales;
+    }
+    
+    public List<SalidaEspecialDTO> obtenerSalidasEspecialesPRefaccionSinCanceladas(RefaccionDTO refaccion, 
+            boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
+        List<SalidaEspecialDTO> salidasEspeciales = null;
+        SalidaEspecialDTO salidaEspecial = null;
+        ResultSet rs = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        String query = "SELECT id_salida_especial, nombre_beneficiario, costo, "
+                + "status, cantidad, fecha_registro, "
+                + "clave_refaccion, numero_usuario, numero_orden, tipo "
+                + "FROM salida_especial WHERE clave_refaccion = ? AND status = ?;";
+        
+        try{
+            if(abrir){
+                DBConnection.createConnection();
+            }
+            conn = DBConnection.getConn();
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, refaccion.getClaveRefaccion());
+            pstmt.setBoolean(2, true);
+            rs = pstmt.executeQuery();
+            salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
+            while (rs.next()) {
+                salidaEspecial = new SalidaEspecialDTO(rs.getInt("id_salida_especial"), 
+                        rs.getString("nombre_beneficiario"), 
+                        null);//salida almacen
+                salidaEspecial.setCantidad(rs.getDouble("cantidad"));
+                salidaEspecial.setCosto(rs.getDouble("costo"));
+                salidaEspecial.setFechaRegistro(rs.getTimestamp("fecha_registro"));
+                salidaEspecial.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaEspecial.setOrdenReparacion(null);
+                salidaEspecial.setRefaccion(null);
+                salidaEspecial.setStatus(rs.getBoolean("status"));
+                salidaEspecial.setTipo(rs.getInt("tipo"));
+                salidaEspecial.setUsuario(null);
+                if(persistence){
+                    salidaEspecial.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
+                    salidaEspecial.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
+                    salidaEspecial.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
+                }
+                salidasEspeciales.add(salidaEspecial);
+            }
+            
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Código error: 2003\n" + e.getMessage(),
+                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(salidaEspecial.toString(), 2003, UserHome.getUsuario(), e);
         } finally {
             if(cerrar){
                 closeQuietly(conn);

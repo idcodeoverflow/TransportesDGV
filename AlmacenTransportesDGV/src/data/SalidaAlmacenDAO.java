@@ -7,13 +7,19 @@ package data;
 import static utilidades.FinallyHandler.closeQuietly;
 import almacendgv.UserHome;
 import beans.OrdenReparacionDTO;
+import beans.RefaccionDTO;
 import beans.SalidaAlmacenDTO;
+import beans.SalidaEspecialDTO;
+import beans.SalidaOperadorDTO;
+import beans.SalidaUnidadDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logger.ErrorLogger;
 import support.DBConnection;
@@ -22,9 +28,9 @@ import support.DBConnection;
  *
  * @author David Israel
  */
-public class SalidaAlmacenDAO {
+public class SalidaAlmacenDAO{
     
-    public List<SalidaAlmacenDTO> obtenerSalidasAlmacenPReparacionSinCanceladas(OrdenReparacionDTO ordenReparacion, 
+    /*public List<SalidaAlmacenDTO> obtenerSalidasAlmacenPReparacionSinCanceladas(OrdenReparacionDTO ordenReparacion, 
             boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         OrdenReparacionDAO accesoOrdenReparacion = new OrdenReparacionDAO();
         RefaccionDAO accesoReparacion = new RefaccionDAO();
@@ -80,7 +86,7 @@ public class SalidaAlmacenDAO {
         }
         
         return salidasAlmacen;
-    }
+    }*/
     
     public double obtenerTotalSalidasTractoPReparacion(OrdenReparacionDTO ordenReparacion, boolean abrir, boolean cerrar) throws SQLException{
         ResultSet rs = null;
@@ -199,4 +205,43 @@ public class SalidaAlmacenDAO {
         return totalSalidasPlana;
     }
     
+    public SalidaAlmacenDTO obtenerUltimaSalidaAlmacenPRefaccion(RefaccionDTO refaccion, boolean persistence, boolean abrir, boolean cerrar){
+        SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
+        SalidaUnidadDAO accesoSalidaUnidad = new SalidaUnidadDAO();
+        SalidaOperadorDAO accesoSalidaOperador = new SalidaOperadorDAO();
+        SalidaEspecialDAO accesoSalidaEspecial = new SalidaEspecialDAO();
+        try {
+            
+            List<SalidaUnidadDTO> salidasUnidad = accesoSalidaUnidad.obtenerSalidasUnidadPRefaccionSinCanceladas(refaccion, false, true, false);
+            
+            for(SalidaAlmacenDTO salida : salidasUnidad){
+                if(null != salidaAlmacen || !salida.getFechaRegistro().after(salidaAlmacen.getFechaRegistro())){
+                    salidaAlmacen = salida;
+                }
+            }
+            
+            List<SalidaOperadorDTO> salidasOperador = accesoSalidaOperador.obtenerSalidasOperadorPRefaccionSinCanceladas(refaccion, false, false, false);
+            
+            for(SalidaAlmacenDTO salida : salidasOperador){
+                if(null != salidaAlmacen || !salida.getFechaRegistro().after(salidaAlmacen.getFechaRegistro())){
+                    salidaAlmacen = salida;
+                }
+            }
+            
+            List<SalidaEspecialDTO> salidasEspeciales = accesoSalidaEspecial.obtenerSalidasEspecialesPRefaccionSinCanceladas(refaccion, false, false, false);
+            
+            for(SalidaAlmacenDTO salida : salidasEspeciales){
+                if(null != salidaAlmacen || !salida.getFechaRegistro().after(salidaAlmacen.getFechaRegistro())){
+                    salidaAlmacen = salida;
+                }
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2006\n" + ex.getMessage(),
+                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(salidaAlmacen.toString(), 2006, UserHome.getUsuario(), ex);
+        }
+        return salidaAlmacen;
+    }
+
 }
