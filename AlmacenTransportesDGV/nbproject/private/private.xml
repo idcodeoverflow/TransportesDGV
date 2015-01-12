@@ -2,6 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/David/Documents/GitHub/TransportesDGV/AlmacenTransportesDGV/src/data/CargoOperadorDAO.java</file>
+            <file>file:/C:/Users/David/Documents/GitHub/TransportesDGV/AlmacenTransportesDGV/src/data/CargoUnidadDAO.java</file>
+            <file>file:/C:/Users/David/Documents/GitHub/TransportesDGV/AlmacenTransportesDGV/src/data/CargoEspecialDAO.java</file>
+            <file>file:/C:/Users/David/Documents/GitHub/TransportesDGV/AlmacenTransportesDGV/src/data/CargoDirectoDAO.java</file>
+        </group>
+>>>>>>> 8c42a31c88ac0b105a6dc52e327fc9d61dfcdb76
     </open-files>
 </project-private>

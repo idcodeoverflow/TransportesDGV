@@ -6,8 +6,6 @@
 
 package utilidades;
 
-import beans.BodegaReciclajeDTO;
-import beans.CargoBodegaDTO;
 import beans.CargoDirectoDTO;
 import beans.CargoEspecialDTO;
 import beans.CargoOperadorDTO;
@@ -27,7 +25,6 @@ import beans.ProveedorCreditoDTO;
 import beans.ProveedorDTO;
 import beans.RefaccionDTO;
 import beans.SalidaAlmacenDTO;
-import beans.SalidaBodegaDTO;
 import beans.SalidaEspecialDTO;
 import beans.SalidaOperadorDTO;
 import beans.SalidaUnidadDTO;
@@ -46,14 +43,6 @@ public class DataChecker {
     
     public DataChecker(){
         
-    }
-    
-    public static String nullCheck(BodegaReciclajeDTO bodegaReciclaje){
-        return ((bodegaReciclaje != null) ? bodegaReciclaje.toString() : "{BodegaReciclajeDTO}[null]");
-    }
-    
-    public static String nullCheck(CargoBodegaDTO cargoBodega){
-        return ((cargoBodega != null) ? cargoBodega.toString() : "{CargoBodegaDTO}[null]");
     }
     
     public static String nullCheck(CargoDirectoDTO cargoDirecto){
@@ -130,10 +119,6 @@ public class DataChecker {
     
     public static String nullCheck(SalidaAlmacenDTO salidaAlmacen){
         return ((salidaAlmacen != null) ? salidaAlmacen.toString() : "{SalidaAlmacenDTO}[null]");
-    }
-    
-    public static String nullCheck(SalidaBodegaDTO salidaBodega){
-        return ((salidaBodega != null) ? salidaBodega.toString() : "{SalidaBodegaDTO}[null]");
     }
     
     public static String nullCheck(SalidaEspecialDTO salidaEspecial){

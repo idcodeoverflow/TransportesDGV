@@ -4,7 +4,6 @@
  */
 package almacendgv;
 
-import beans.CargoBodegaDTO;
 import beans.CargoEspecialDTO;
 import beans.CargoOperadorDTO;
 import beans.CargoUnidadDTO;
@@ -16,7 +15,6 @@ import beans.SalidaAlmacenDTO;
 import beans.TrabajoExternoDTO;
 import beans.UsuarioDTO;
 import bussines.LazyQueryBO;
-import data.CargoBodegaDAO;
 import data.CargoEspecialDAO;
 import data.CargoOperadorDAO;
 import data.CargoUnidadDAO;
@@ -42,7 +40,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     private FacturaDTO factura;
     private EntradaAlmacenDTO entradaAlmacen;
     private TrabajoExternoDTO trabajoEspecial;
-    private CargoBodegaDTO cargoBodega;
     private CargoEspecialDTO cargoEspecial;
     private CargoOperadorDTO cargoOperador;
     private CargoUnidadDTO cargoUnidad;
@@ -1136,18 +1133,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                                 return;
                             }
                             break;
-                        case "C. Bodega":
-                            CargoBodegaDTO tempCargoBodega = new CargoBodegaDTO();
-                            CargoBodegaDAO accesoCargoBodega = new CargoBodegaDAO();
-                            int idCargoBodega = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
-                            tempCargoBodega = accesoCargoBodega.obtenerCargoBodega(idCargoBodega);
-                            if(tempCargoBodega.getOrdenReparacion().getFechaSalida() != null){
-                                JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
-                                    + "solicitada, la orden de\nreparación asociada a este\nCargo de Bodega se ha finalizado.",
-                                    "Operación no permitida!!!", JOptionPane.WARNING_MESSAGE);
-                                return;
-                            }
-                            break;
                         case "C. Especial":
                             CargoEspecialDTO tempCargoEspecial = new CargoEspecialDTO();
                             CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
@@ -1218,14 +1203,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             
                             tempTrabajoExterno = accesoTrabajos.obtenerTrabajoExterno(idTrabajoExterno, false);
                             accesoTrabajos.eliminarTrabajoExterno(tempTrabajoExterno);
-                            break;
-                        case "C. Bodega":
-                            CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
-                            CargoBodegaDTO tempCargoBodega = new CargoBodegaDTO();
-                            int idCargoBodega = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
-                            
-                            tempCargoBodega = accesoCBodegas.obtenerCargoBodega(idCargoBodega);
-                            accesoCBodegas.eliminarCargoBodega(tempCargoBodega);
                             break;
                         case "C. Especial":
                             CargoEspecialDAO accesoCEspecial = new CargoEspecialDAO();
@@ -1406,17 +1383,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                         detalleError = trabajoEspecial.toString();
                         accesoTrabajos.eliminarTrabajoExterno(this.trabajoEspecial);
                         break;
-                    case "C. Bodega":
-                        CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
-                        if(this.cargoBodega.getOrdenReparacion().getFechaSalida() != null){
-                            JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
-                                + "solicitada, la orden de\nreparación asociada a este\nCargo de Bodega se ha finalizado.",
-                                "Operación no permitida!!!", JOptionPane.WARNING_MESSAGE);
-                            return;
-                        }
-                        detalleError = cargoBodega.toString();
-                        accesoCBodegas.eliminarCargoBodega(this.cargoBodega);
-                        break;
                     case "C. Especial":
                         CargoEspecialDAO accesoCEspecial = new CargoEspecialDAO();
                         if(this.cargoEspecial.getOrdenReparacion().getFechaSalida() != null){
@@ -1479,7 +1445,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             this.jTFUsuario.setText(null);
 
             //Variables de Apoyo para manipulacion de detalles factura
-            this.cargoBodega = null;
             this.cargoEspecial = null;
             this.cargoOperador = null;
             this.cargoUnidad = null;
@@ -1614,7 +1579,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         LazyQueryBO lazyQ = new LazyQueryBO();
         
         //Variables de Apoyo para manipulacion de detalles factura
-        this.cargoBodega = null;
         this.cargoEspecial = null;
         this.cargoOperador = null;
         this.cargoUnidad = null;
@@ -1668,25 +1632,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                 modelo.addRow(datos);
             }
 
-            //Cargos Bodegas
-
-            List<CargoBodegaDTO> cargosBodega = null;
-            try {
-                cargosBodega = new CargoBodegaDAO().obtenerCargosBodegasPFactura(factura, false, false);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Código error: 847\n" + ex.getMessage(),
-                        "Error al acceder a los detalles de la factura!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog("ControlFacturasProveedor obtenerDetallesFactura()", 847, UserHome.getUsuario(), ex);
-            }
-
-            for(CargoBodegaDTO cargoBodega : cargosBodega){
-                Object datos[] = {cargoBodega.getIdCargoBodega(), cargoBodega.getRefaccion().getClaveRefaccion(),
-                                    cargoBodega.getRefaccion().getNombre(), cargoBodega.getCantidad(), 
-                                    formatD.format(cargoBodega.getPrecioUnitario()),
-                                    formatD.format(cargoBodega.getSubtotal()), formatD.format(cargoBodega.getIva()), 
-                                    formatD.format(cargoBodega.getTotal()), "C. Bodega"};
-                modelo.addRow(datos);
-            }
+            
 
             //Cargos Especiales
 
@@ -1770,11 +1716,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                         TrabajoExternoDAO accesoTrabajos = new TrabajoExternoDAO();
                         key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
                         this.trabajoEspecial = accesoTrabajos.obtenerTrabajoExterno(key, true);
-                        break;
-                    case "C. Bodega":
-                        CargoBodegaDAO accesoCBodegas = new CargoBodegaDAO();
-                        key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
-                        this.cargoBodega = accesoCBodegas.obtenerCargoBodega(key);
                         break;
                     case "C. Especial":
                         CargoEspecialDAO accesoCEspecial = new CargoEspecialDAO();
