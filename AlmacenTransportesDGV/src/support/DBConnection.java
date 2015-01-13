@@ -17,7 +17,7 @@ public final class DBConnection {
          private static Connection conn = null;
 	 private static final String userName = "root";
 	 private static final String password = "remex2013";
-	 private static final String url = "jdbc:mysql://localhost/inventario";//*/"jdbc:mysql://SERVIDORREMEX/inventario";
+	 private static final String url = "jdbc:mysql://localhost/inventario";
 	 
 	 public static void createConnection(){
             	 try{
