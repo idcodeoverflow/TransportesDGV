@@ -30,16 +30,15 @@ public class OrdenReparacionDAO {
         PreparedStatement pstmt = null;
         Connection conn = null;
         String query = "INSERT INTO orden_reparacion(numero_orden, fecha_entrada, "
-                + "fecha_salida, status, numero_operador, numero_usuario) VALUES(?,?,NULL,?,?,?);";
+                + "fecha_salida, status, numero_operador, numero_usuario) VALUES(NULL,?,NULL,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, orden.getNumeroOrden());
-            pstmt.setTimestamp(2, orden.getFechaEntrada());
-            pstmt.setBoolean(3, true);
-            pstmt.setInt(4, orden.getOperador().getNumeroOperador());
-            pstmt.setInt(5, orden.getUsuario().getNumeroUsuario());
+            pstmt.setTimestamp(1, orden.getFechaEntrada());
+            pstmt.setBoolean(2, true);
+            pstmt.setInt(3, orden.getOperador().getNumeroOperador());
+            pstmt.setInt(4, orden.getUsuario().getNumeroUsuario());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 511\n" + ex.getMessage(),
