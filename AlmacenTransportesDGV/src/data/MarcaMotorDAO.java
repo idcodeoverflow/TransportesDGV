@@ -90,14 +90,16 @@ public class MarcaMotorDAO {
         }
     }
     
-    public MarcaMotorDTO obtenerMarcaMotor(int idMarca) throws SQLException{
+    public MarcaMotorDTO obtenerMarcaMotor(int idMarca, boolean abrir, boolean cerrar) throws SQLException{
         MarcaMotorDTO marcaMotor = null;
         PreparedStatement pstmt = null;
         Connection conn = null;
         ResultSet rs = null;
         String query = "SELECT id_marca_motor, nombre, status FROM marca_motor WHERE id_marca_motor = ?;";
         try{
-            DBConnection.createConnection();
+            if(abrir){
+                DBConnection.createConnection();
+            }
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, marcaMotor.getIdMarcaMotor());
@@ -112,8 +114,10 @@ public class MarcaMotorDAO {
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog(marcaMotor.toString(), 2010, UserHome.getUsuario(), ex);
         } finally {
-            closeQuietly(conn);
-            closeQuietly(pstmt);
+            if(cerrar){
+                closeQuietly(conn);
+                closeQuietly(pstmt);
+            }
         }
         return marcaMotor;
     }
