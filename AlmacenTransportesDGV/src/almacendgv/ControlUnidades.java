@@ -8,6 +8,7 @@ import beans.MarcaUnidadDTO;
 import beans.TipoUnidadDTO;
 import beans.UnidadTransporteDTO;
 import data.LazyQueryDAO;
+import data.MarcaMotorDAO;
 import data.MarcaUnidadDAO;
 import data.TipoUnidadDAO;
 import data.UnidadTransporteDAO;
@@ -88,12 +89,12 @@ public class ControlUnidades extends javax.swing.JFrame {
         jTFFechaAlta = new javax.swing.JTextField();
         jLUsuario = new javax.swing.JLabel();
         jTFUsuario = new javax.swing.JTextField();
-        jLNumeroEconomico = new javax.swing.JLabel();
-        jTFNumeroEconomico = new javax.swing.JTextField();
+        jLClave = new javax.swing.JLabel();
+        jTFClave = new javax.swing.JTextField();
         jLVIN = new javax.swing.JLabel();
         jTFVIN = new javax.swing.JTextField();
         jLMarca = new javax.swing.JLabel();
-        jLIdentificadorAlfanumerico = new javax.swing.JLabel();
+        jLTipoUnidad = new javax.swing.JLabel();
         jLPlacas = new javax.swing.JLabel();
         jTFPlacas = new javax.swing.JTextField();
         jLAno = new javax.swing.JLabel();
@@ -118,6 +119,8 @@ public class ControlUnidades extends javax.swing.JFrame {
         jTFCPL = new javax.swing.JTextField();
         jPImage = new javax.swing.JPanel();
         jLImage = new javax.swing.JLabel();
+        jLNumeroEconomico = new javax.swing.JLabel();
+        jTFNumeroEconomico = new javax.swing.JTextField();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregar = new javax.swing.JMenuItem();
@@ -148,13 +151,13 @@ public class ControlUnidades extends javax.swing.JFrame {
         jTFUsuario.setEditable(false);
         jTFUsuario.setFocusable(false);
 
-        jLNumeroEconomico.setText("N° Económico:");
+        jLClave.setText("N° Económico:");
 
         jLVIN.setText("VIN:");
 
         jLMarca.setText("Marca:");
 
-        jLIdentificadorAlfanumerico.setText("Tipo de Unidad");
+        jLTipoUnidad.setText("Tipo de Unidad");
 
         jLPlacas.setText("Placas:");
 
@@ -221,14 +224,14 @@ public class ControlUnidades extends javax.swing.JFrame {
             jPCatalogoUnidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPCatalogoUnidadesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPCatalogoUnidadesLayout.setVerticalGroup(
             jPCatalogoUnidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPCatalogoUnidadesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -242,7 +245,14 @@ public class ControlUnidades extends javax.swing.JFrame {
 
         jLCPL.setText("CPL:");
 
+        jPImage.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
+
         jLImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/AGS TRANSPORTES 1.JPG"))); // NOI18N
+        jLImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                UnidadTransporteImagenMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPImageLayout = new javax.swing.GroupLayout(jPImage);
         jPImage.setLayout(jPImageLayout);
@@ -250,7 +260,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             jPImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPImageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLImage, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPImageLayout.setVerticalGroup(
@@ -260,6 +270,8 @@ public class ControlUnidades extends javax.swing.JFrame {
                 .addComponent(jLImage, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        jLNumeroEconomico.setText("N° Económico:");
 
         jMArchivo.setText("Archivo");
 
@@ -378,13 +390,20 @@ public class ControlUnidades extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPCatalogoUnidades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jBAgregar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBModificar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBDarBaja))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLPlacas)
                                     .addComponent(jLMarca)
-                                    .addComponent(jLNumeroEconomico)
+                                    .addComponent(jLClave)
                                     .addComponent(jLFechaAlta)
                                     .addComponent(jLColor)
                                     .addComponent(jLModeloMotor)
@@ -392,20 +411,21 @@ public class ControlUnidades extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTFFechaAlta)
-                                    .addComponent(jTFNumeroEconomico)
+                                    .addComponent(jTFClave)
                                     .addComponent(jTFPlacas, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(jCBMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jTFColor)
                                     .addComponent(jTFModeloMotor)
                                     .addComponent(jTFCPL))
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLUsuario)
                                     .addComponent(jLVIN)
-                                    .addComponent(jLIdentificadorAlfanumerico)
+                                    .addComponent(jLTipoUnidad)
                                     .addComponent(jLAno)
                                     .addComponent(jLMarcaMotor)
-                                    .addComponent(jLNSerieMotor))
+                                    .addComponent(jLNSerieMotor)
+                                    .addComponent(jLNumeroEconomico))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTFUsuario)
@@ -413,16 +433,10 @@ public class ControlUnidades extends javax.swing.JFrame {
                                     .addComponent(jTFModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(jCBTipoUnidad, 0, 200, Short.MAX_VALUE)
                                     .addComponent(jCBMarcaMotor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTFNSerieMotor)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBAgregar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBModificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBDarBaja)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jPCatalogoUnidades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jTFNSerieMotor)
+                                    .addComponent(jTFNumeroEconomico))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -441,44 +455,60 @@ public class ControlUnidades extends javax.swing.JFrame {
                             .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLClave)
+                            .addComponent(jTFClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLNumeroEconomico)
-                            .addComponent(jTFNumeroEconomico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLVIN)
-                            .addComponent(jTFVIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTFNumeroEconomico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLMarca)
-                            .addComponent(jLIdentificadorAlfanumerico)
-                            .addComponent(jCBMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCBTipoUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLPlacas)
-                            .addComponent(jTFPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLAno)
-                            .addComponent(jTFModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLColor)
-                            .addComponent(jTFColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCBMarcaMotor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLMarcaMotor))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLModeloMotor)
-                            .addComponent(jTFModeloMotor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLNSerieMotor)
-                            .addComponent(jTFNSerieMotor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLCPL)
-                            .addComponent(jTFCPL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBDarBaja)
-                            .addComponent(jBModificar)
-                            .addComponent(jBAgregar)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLMarca)
+                                    .addComponent(jCBMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLPlacas)
+                                    .addComponent(jTFPlacas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLColor)
+                                    .addComponent(jTFColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLModeloMotor)
+                                    .addComponent(jTFModeloMotor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLCPL)
+                                    .addComponent(jTFCPL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLVIN)
+                                    .addComponent(jTFVIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLTipoUnidad)
+                                    .addComponent(jCBTipoUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLAno)
+                                    .addComponent(jTFModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jCBMarcaMotor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLMarcaMotor))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLNSerieMotor)
+                                    .addComponent(jTFNSerieMotor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(jPImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jPCatalogoUnidades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBDarBaja)
+                    .addComponent(jBModificar)
+                    .addComponent(jBAgregar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPCatalogoUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -545,27 +575,61 @@ public class ControlUnidades extends javax.swing.JFrame {
         costoReparaciones.setLocationRelativeTo(null);
         costoReparaciones.setVisible(true);
     }//GEN-LAST:event_jMIReporteCostoReparacionesActionPerformed
+
+    private void UnidadTransporteImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UnidadTransporteImagenMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UnidadTransporteImagenMouseClicked
     
     public void agregar(){
         UnidadTransporteDTO unidad = new UnidadTransporteDTO();
         try {
-            if("".equals(this.jTFVIN.getText()) || this.jTFVIN == null){
+            if("".equals(this.jTFClave.getText()) || this.jTFClave == null){
                 JOptionPane.showMessageDialog(this, "Aún no se le agrega una clave\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if("".equals(this.jTFNumeroEconomico.getText()) || this.jTFNumeroEconomico == null){
-                JOptionPane.showMessageDialog(this, "Aún no se le agrega un numero\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Aún no se le agrega un número económico\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if("".equals(this.jTFPlacas.getText()) || this.jTFPlacas == null){
+                JOptionPane.showMessageDialog(this, "Aún no se le agregan placas\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if("".equals(this.jTFModelo.getText()) || this.jTFModelo == null){
+                JOptionPane.showMessageDialog(this, "Aún no se le agrega un modelo\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if("".equals(this.jTFNSerieMotor.getText()) || this.jTFNSerieMotor == null){
+                JOptionPane.showMessageDialog(this, "Aún no se le agrega un número de serie\nde motor a la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if("".equals(this.jTFModeloMotor.getText()) || this.jTFModeloMotor == null){
+                JOptionPane.showMessageDialog(this, "Aún no se le agrega un modelo\nde motor a la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if("".equals(this.jTFCPL.getText()) || this.jTFCPL == null){
+                JOptionPane.showMessageDialog(this, "Aún no se le agrega un CPL\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             String gr[] = this.jCBMarca.getSelectedItem().toString().split("#");
             int marca = Integer.parseInt(gr[0]);
+            
+            gr = this.jCBMarcaMotor.getSelectedItem().toString().split("#");
+            int marcaMotor = Integer.parseInt(gr[0]);
+            
             UnidadTransporteDAO acceso = new UnidadTransporteDAO();
-            unidad.setClave(this.jTFVIN.getText());
-            unidad.setNumeroUnidad(this.jTFNumeroEconomico.getText());
-            unidad.setMarca(new MarcaUnidadDAO().obtenerMarcaUnidad(marca, true, true));
-            unidad.setModelo(this.jTFModelo.getText());
-            unidad.setPlacas(this.jTFPlacas.getText());
+            unidad.setClave(this.jTFClave.getText());
+            unidad.setNoEconomico(this.jTFNumeroEconomico.getText());
+            unidad.setVin(this.jTFVIN.getText());
+            unidad.setMarcaUnidad(new MarcaUnidadDAO().obtenerMarcaUnidad(marca, true, true));
             unidad.setTipoUnidad(new TipoUnidadDAO().obtenerTipoUnidad(this.jCBTipoUnidad.getSelectedIndex() + 1, true, true));
+            unidad.setPlacas(this.jTFPlacas.getText());
+            unidad.setModelo(this.jTFModelo.getText());
+            unidad.setColor(this.jTFColor.getText());
+            unidad.setMarcaMotor(new MarcaMotorDAO().obtenerMarcaMotor(marcaMotor, true, true));
+            unidad.setModeloMotor(this.jTFModeloMotor.getText());
+            unidad.setNoSerieMotor(this.jTFNSerieMotor.getText());
+            unidad.setCpl(this.jTFCPL.getText());
         
             unidad.setUsuario(UserHome.getUsuario());
             acceso.altaUnidad(unidad);
@@ -593,7 +657,7 @@ public class ControlUnidades extends javax.swing.JFrame {
         
             unidad.setClave(this.jTFVIN.getText());
             unidad = acceso.obtenerUnidad(unidad.getClave(), true, true, true);
-            unidad.setNumeroUnidad(this.jTFNumeroEconomico.getText());
+            unidad.setNumeroUnidad(this.jTFClave.getText());
             unidad.setMarca(new MarcaUnidadDAO().obtenerMarcaUnidad(marca, true, true));
         
             unidad.setModelo(this.jTFModelo.getText());
@@ -628,7 +692,7 @@ public class ControlUnidades extends javax.swing.JFrame {
         
             unidad.setClave(this.jTFVIN.getText());
             unidad = acceso.obtenerUnidad(unidad.getClave(), true, true, true);
-            unidad.setNumeroUnidad(this.jTFNumeroEconomico.getText());
+            unidad.setNumeroUnidad(this.jTFClave.getText());
             unidad.setMarca(new MarcaUnidadDAO().obtenerMarcaUnidad(marca, true, true));
         
             unidad.setModelo(this.jTFModelo.getText());
@@ -665,7 +729,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             this.jTFModelo.setText(null);
             this.jTFVIN.setText(null);
             this.jTFFechaAlta.setText(null);
-            this.jTFNumeroEconomico.setText(null);
+            this.jTFClave.setText(null);
             this.jTFPlacas.setText(null);
             this.jTFUsuario.setText(UserHome.getUsuario().getNombre());
             DefaultTableModel modelo = (DefaultTableModel) this.jTCatalogoUnidades.getModel();
@@ -740,7 +804,7 @@ public class ControlUnidades extends javax.swing.JFrame {
                     }
                     this.jTFVIN.setText(transporte.getClave());
                     this.jTFFechaAlta.setText(transporte.getFechaInicio().toString());
-                    this.jTFNumeroEconomico.setText(transporte.getNumeroUnidad());
+                    this.jTFClave.setText(transporte.getNumeroUnidad());
                     this.jTFModelo.setText(transporte.getModelo());
                     this.jTFPlacas.setText(transporte.getPlacas());
                     this.jTFUsuario.setText(transporte.getUsuario().getNombre() + " " + transporte.getUsuario().getApellidos());
@@ -953,9 +1017,9 @@ public class ControlUnidades extends javax.swing.JFrame {
     private javax.swing.JComboBox jCBTipoUnidad;
     private javax.swing.JLabel jLAno;
     private javax.swing.JLabel jLCPL;
+    private javax.swing.JLabel jLClave;
     private javax.swing.JLabel jLColor;
     private javax.swing.JLabel jLFechaAlta;
-    private javax.swing.JLabel jLIdentificadorAlfanumerico;
     private javax.swing.JLabel jLImage;
     private javax.swing.JLabel jLMarca;
     private javax.swing.JLabel jLMarcaMotor;
@@ -963,6 +1027,7 @@ public class ControlUnidades extends javax.swing.JFrame {
     private javax.swing.JLabel jLNSerieMotor;
     private javax.swing.JLabel jLNumeroEconomico;
     private javax.swing.JLabel jLPlacas;
+    private javax.swing.JLabel jLTipoUnidad;
     private javax.swing.JLabel jLUsuario;
     private javax.swing.JLabel jLVIN;
     private javax.swing.JMenu jMArchivo;
@@ -985,6 +1050,7 @@ public class ControlUnidades extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTCatalogoUnidades;
     private javax.swing.JTextField jTFCPL;
+    private javax.swing.JTextField jTFClave;
     private javax.swing.JTextField jTFColor;
     private javax.swing.JTextField jTFFechaAlta;
     private javax.swing.JTextField jTFModelo;
