@@ -112,6 +112,9 @@ public class MailData {
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog("MailData:getMailAddresses()", 1361, UserHome.getUsuario(), ex);
         }
+        if(mails.isEmpty()){
+            return null;
+        }
         return mails;
     }
         

@@ -153,7 +153,7 @@ public class ControlUnidades extends javax.swing.JFrame {
         jTFUsuario.setEditable(false);
         jTFUsuario.setFocusable(false);
 
-        jLClave.setText("N° Económico:");
+        jLClave.setText("Clave:");
 
         jLVIN.setText("VIN:");
 
@@ -233,7 +233,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             jPCatalogoUnidadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPCatalogoUnidadesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -509,8 +509,8 @@ public class ControlUnidades extends javax.swing.JFrame {
                     .addComponent(jBDarBaja)
                     .addComponent(jBModificar)
                     .addComponent(jBAgregar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPCatalogoUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPCatalogoUnidades, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -808,11 +808,12 @@ public class ControlUnidades extends javax.swing.JFrame {
                     this.jTFUsuario.setText(transporte.getUsuario().getNombre() + " " + transporte.getUsuario().getApellidos());
 
                     this.jCBTipoUnidad.setSelectedIndex(transporte.getTipoUnidad().getIdTipo() - 1);
+                    this.jCBMarca.setSelectedIndex(0);
                     do{
                         gr = this.jCBMarca.getItemAt(indexGrupo).toString().split("#");
                         grupo = gr[1];
                         indexGrupo++;
-                    } while(grupo == null ? this.jTCatalogoUnidades.getValueAt(index, 1).toString() != null : !grupo.equals(this.jTCatalogoUnidades.getValueAt(index, 1).toString()));
+                    } while(grupo == null ? transporte.getMarcaUnidad().getNombre() != null : !grupo.equals(transporte.getMarcaUnidad().getNombre()));
                     if(indexGrupo > 0){
                         this.jCBMarca.setSelectedIndex(indexGrupo - 1);
                     }
@@ -826,7 +827,7 @@ public class ControlUnidades extends javax.swing.JFrame {
                         indexMMotor++;
                     } while(grupo == null ? transporte.getMarcaMotor().getNombre() != null : !grupo.equals(transporte.getMarcaMotor().getNombre()));
                     if(indexMMotor > 0){
-                        this.jCBMarca.setSelectedIndex(indexMMotor - 1);
+                        this.jCBMarcaMotor.setSelectedIndex(indexMMotor - 1);
                     }
                     
                     this.estadoBotonesClicUnidades();

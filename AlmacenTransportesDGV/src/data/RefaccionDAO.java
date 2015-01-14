@@ -194,9 +194,19 @@ public class RefaccionDAO {
         PreparedStatement pstmt = null;
         String query = "SELECT IFNULL((SELECT SUM(entradas.cantidad) AS inventario FROM "
                 + "(SELECT cantidad FROM entrada_almacen WHERE clave_refaccion = ?  "
-                + "AND status = ?) AS entradas),0.0) - IFNULL((SELECT SUM(salidas.cantidad) AS "
-                + "inventario FROM (SELECT cantidad FROM salida_almacen WHERE clave_refaccion = "
-                + "?  AND status = ?) AS salidas),0.0) AS existencia;";
+                + "AND status = ?) AS entradas),0.0) - "
+                
+                + "IFNULL((SELECT SUM(salidas_especial.cantidad) AS "
+                + "inventario FROM (SELECT cantidad FROM salida_especial WHERE clave_refaccion = "
+                + "?  AND status = ?) AS salidas_especial),0.0) - "
+                
+                + "IFNULL((SELECT SUM(salidas_unidad.cantidad) AS "
+                + "inventario FROM (SELECT cantidad FROM salida_unidad WHERE clave_refaccion = "
+                + "?  AND status = ?) AS salidas_unidad),0.0) - "
+                
+                + "IFNULL((SELECT SUM(salidas_operador.cantidad) AS "
+                + "inventario FROM (SELECT cantidad FROM salida_operador WHERE clave_refaccion = "
+                + "?  AND status = ?) AS salidas_operador),0.0) AS existencia;";
         try{
             if(abrir) {
                 DBConnection.createConnection();
@@ -207,6 +217,10 @@ public class RefaccionDAO {
             pstmt.setBoolean(2, true);
             pstmt.setString(3, claveRefaccion);
             pstmt.setBoolean(4, true);
+            pstmt.setString(5, claveRefaccion);
+            pstmt.setBoolean(6, true);
+            pstmt.setString(7, claveRefaccion);
+            pstmt.setBoolean(8, true);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 existencia = rs.getDouble("existencia");

@@ -60,6 +60,7 @@ public class Mailer extends Thread {
     
     public boolean send(String subject, String path, String fileName, int tipo){
         Calendar calendar = Calendar.getInstance();
+        MailData mailData = new MailData();
         
         try {
             BodyPart adjunto = new MimeBodyPart();
@@ -70,8 +71,11 @@ public class Mailer extends Thread {
             // Quien envia el correo
             message.setFrom(new InternetAddress(address.getUser()));
 
+            if(null == mailData.getMailAddresses(tipo)){
+                return false;
+            }
             // A quien va dirigido
-            for(String mail : new MailData().getMailAddresses(tipo)){
+            for(String mail : mailData.getMailAddresses(tipo)){
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(mail));
             }
             
@@ -84,15 +88,15 @@ public class Mailer extends Thread {
         } catch (AddressException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1366\n" + ex.getMessage(),
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("MailData:getMailAddresses()", 1366, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("Mailer:send()", 1366, UserHome.getUsuario(), ex);
         } catch (MessagingException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1367\n" + ex.getMessage(),
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("ErrorLogger:crearNuevoLog()", 1367, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("Mailer:send()", 1367, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1368\n" + ex.getMessage(),
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("ErrorLogger:crearNuevoLog()", 1368, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("Mailer:send()", 1368, UserHome.getUsuario(), ex);
         }
         
         return true;

@@ -16,10 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logger.ErrorLogger;
 import support.DBConnection;
@@ -29,64 +26,6 @@ import support.DBConnection;
  * @author David Israel
  */
 public class SalidaAlmacenDAO{
-    
-    /*public List<SalidaAlmacenDTO> obtenerSalidasAlmacenPReparacionSinCanceladas(OrdenReparacionDTO ordenReparacion, 
-            boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
-        OrdenReparacionDAO accesoOrdenReparacion = new OrdenReparacionDAO();
-        RefaccionDAO accesoReparacion = new RefaccionDAO();
-        UsuarioDAO accesoUsuario = new UsuarioDAO();
-        List<SalidaAlmacenDTO> salidasAlmacen = null;
-        SalidaAlmacenDTO salidaAlmacen = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT numero_salida, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, tipo FROM salida_almacen "
-                + "WHERE numero_orden = ? AND status = ?;";
-        
-        try{
-            if(abrir){
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            rs = pstmt.executeQuery();
-            salidasAlmacen = new ArrayList<SalidaAlmacenDTO>();
-            while (rs.next()) {
-                salidaAlmacen = new SalidaAlmacenDTO(
-                rs.getInt("numero_salida"),
-                rs.getDouble("costo"),
-                rs.getBoolean("status"),
-                rs.getDouble("cantidad"),
-                rs.getTimestamp("fecha_registro"),
-                null,//refaccion
-                null,//usuario
-                null,//orden de reparacion
-                rs.getInt("tipo"));
-                if(persistence){
-                    salidaAlmacen.setOrdenReparacion(accesoOrdenReparacion.obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
-                    salidaAlmacen.setRefaccion(accesoReparacion.obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
-                    salidaAlmacen.setUsuario(accesoUsuario.obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                }
-                
-                salidasAlmacen.add(salidaAlmacen);
-            }
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 554\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(salidaAlmacen.toString(), 554, UserHome.getUsuario(), e);
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        
-        return salidasAlmacen;
-    }*/
     
     public double obtenerTotalSalidasTractoPReparacion(OrdenReparacionDTO ordenReparacion, boolean abrir, boolean cerrar) throws SQLException{
         ResultSet rs = null;

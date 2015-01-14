@@ -51,7 +51,7 @@ public class MarcaMotorDAO {
     public void modificarMarcaMotor(MarcaMotorDTO marcaMotor) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "UPDATE marca_motor SET nombre = ? WHERE id_marca_unidad = ?;";
+        String query = "UPDATE marca_motor SET nombre = ? WHERE id_marca_motor = ?;";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -72,7 +72,7 @@ public class MarcaMotorDAO {
     public void eliminarMarcaMotor(MarcaMotorDTO marcaMotor) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "UPDATE marca_motor SET status = ? WHERE id_marca_unidad = ?;";
+        String query = "UPDATE marca_motor SET status = ? WHERE id_marca_motor = ?;";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -102,7 +102,7 @@ public class MarcaMotorDAO {
             }
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, marcaMotor.getIdMarcaMotor());
+            pstmt.setInt(1, idMarca);
             rs = pstmt.executeQuery();
             while(rs.next()){
                 marcaMotor = new MarcaMotorDTO(rs.getInt("id_marca_motor"), 
@@ -128,13 +128,12 @@ public class MarcaMotorDAO {
         PreparedStatement pstmt = null;
         Connection conn = null;
         ResultSet rs = null;
-        String query = "SELECT id_marca_motor, nombre, status FROM marca_motor WHERE id_marca_motor = ? AMD status = ?;";
+        String query = "SELECT id_marca_motor, nombre, status FROM marca_motor WHERE status = ?;";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, marcaMotor.getIdMarcaMotor());
-            pstmt.setBoolean(2, true);
+            pstmt.setBoolean(1, true);
             rs = pstmt.executeQuery();
             while(rs.next()){
                 marcaMotor = new MarcaMotorDTO(rs.getInt("id_marca_motor"), 
