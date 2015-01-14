@@ -128,7 +128,7 @@ public class MarcaMotorDAO {
         PreparedStatement pstmt = null;
         Connection conn = null;
         ResultSet rs = null;
-        String query = "SELECT id_marca_motor, nombre, status FROM marca_motor WHERE id_marca_motor = ? AMD status = ?;";
+        String query = "SELECT id_marca_motor, nombre, status FROM marca_motor WHERE id_marca_motor = ? AND status = ?;";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
