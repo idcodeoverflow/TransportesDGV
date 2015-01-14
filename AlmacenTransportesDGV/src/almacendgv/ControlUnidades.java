@@ -4,6 +4,7 @@
  */
 package almacendgv;
 
+import beans.MarcaMotorDTO;
 import beans.MarcaUnidadDTO;
 import beans.TipoUnidadDTO;
 import beans.UnidadTransporteDTO;
@@ -47,6 +48,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             this.obtenerMarcas();
             this.obtenerUnidades();
             this.obtenerTiposUnidades();
+            this.obtenerMarcasMotores();
             this.estadoBotonesInicio();
             this.jTCatalogoUnidades.setSelectionMode(0);
         } catch (Exception ex) {
@@ -191,11 +193,11 @@ public class ControlUnidades extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Clave", "Marca", "Tipo", "Placas", "Modelo"
+                "Clave", "Marca", "Tipo", "Placas", "Modelo", "No Economico"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -583,34 +585,10 @@ public class ControlUnidades extends javax.swing.JFrame {
     public void agregar(){
         UnidadTransporteDTO unidad = new UnidadTransporteDTO();
         try {
-            if("".equals(this.jTFClave.getText()) || this.jTFClave == null){
-                JOptionPane.showMessageDialog(this, "Aún no se le agrega una clave\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            if(!validaciones()){
                 return;
             }
-            if("".equals(this.jTFNumeroEconomico.getText()) || this.jTFNumeroEconomico == null){
-                JOptionPane.showMessageDialog(this, "Aún no se le agrega un número económico\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if("".equals(this.jTFPlacas.getText()) || this.jTFPlacas == null){
-                JOptionPane.showMessageDialog(this, "Aún no se le agregan placas\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if("".equals(this.jTFModelo.getText()) || this.jTFModelo == null){
-                JOptionPane.showMessageDialog(this, "Aún no se le agrega un modelo\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if("".equals(this.jTFNSerieMotor.getText()) || this.jTFNSerieMotor == null){
-                JOptionPane.showMessageDialog(this, "Aún no se le agrega un número de serie\nde motor a la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if("".equals(this.jTFModeloMotor.getText()) || this.jTFModeloMotor == null){
-                JOptionPane.showMessageDialog(this, "Aún no se le agrega un modelo\nde motor a la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if("".equals(this.jTFCPL.getText()) || this.jTFCPL == null){
-                JOptionPane.showMessageDialog(this, "Aún no se le agrega un CPL\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+            
             String gr[] = this.jCBMarca.getSelectedItem().toString().split("#");
             int marca = Integer.parseInt(gr[0]);
             
@@ -651,20 +629,30 @@ public class ControlUnidades extends javax.swing.JFrame {
     public void modificar(){
         UnidadTransporteDTO unidad = new UnidadTransporteDTO();
         try {
+            if(!validaciones()){
+                return;
+            }
+            
             String gr[] = this.jCBMarca.getSelectedItem().toString().split("#");
             int marca = Integer.parseInt(gr[0]);
             UnidadTransporteDAO acceso = new UnidadTransporteDAO();
         
-            unidad.setClave(this.jTFVIN.getText());
-            unidad = acceso.obtenerUnidad(unidad.getClave(), true, true, true);
-            unidad.setNumeroUnidad(this.jTFClave.getText());
-            unidad.setMarca(new MarcaUnidadDAO().obtenerMarcaUnidad(marca, true, true));
-        
-            unidad.setModelo(this.jTFModelo.getText());
-            unidad.setPlacas(this.jTFPlacas.getText());
-        
-            unidad.setTipoUnidad(new TipoUnidadDAO().obtenerTipoUnidad(this.jCBTipoUnidad.getSelectedIndex() + 1, true, true));
+            gr = this.jCBMarcaMotor.getSelectedItem().toString().split("#");
+            int marcaMotor = Integer.parseInt(gr[0]);
             
+            unidad.setClave(this.jTFClave.getText());
+            unidad.setNoEconomico(this.jTFNumeroEconomico.getText());
+            unidad.setVin(this.jTFVIN.getText());
+            unidad.setMarcaUnidad(new MarcaUnidadDAO().obtenerMarcaUnidad(marca, true, true));
+            unidad.setTipoUnidad(new TipoUnidadDAO().obtenerTipoUnidad(this.jCBTipoUnidad.getSelectedIndex() + 1, true, true));
+            unidad.setPlacas(this.jTFPlacas.getText());
+            unidad.setModelo(this.jTFModelo.getText());
+            unidad.setColor(this.jTFColor.getText());
+            unidad.setMarcaMotor(new MarcaMotorDAO().obtenerMarcaMotor(marcaMotor, true, true));
+            unidad.setModeloMotor(this.jTFModeloMotor.getText());
+            unidad.setNoSerieMotor(this.jTFNSerieMotor.getText());
+            unidad.setCpl(this.jTFCPL.getText());
+        
             unidad.setUsuario(UserHome.getUsuario());
         
             acceso.modificarUnidad(unidad);
@@ -686,19 +674,18 @@ public class ControlUnidades extends javax.swing.JFrame {
     public void baja(){
         UnidadTransporteDTO unidad = new UnidadTransporteDTO();
         try {
+            if("".equals(this.jTFClave.getText()) || this.jTFClave == null){
+                JOptionPane.showMessageDialog(this, "Aún no se especifica una clave\nde unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
             String gr[] = this.jCBMarca.getSelectedItem().toString().split("#");
-            int marca = Integer.parseInt(gr[0]);
             UnidadTransporteDAO acceso = new UnidadTransporteDAO();
         
-            unidad.setClave(this.jTFVIN.getText());
+            unidad.setClave(this.jTFClave.getText());
             unidad = acceso.obtenerUnidad(unidad.getClave(), true, true, true);
-            unidad.setNumeroUnidad(this.jTFClave.getText());
-            unidad.setMarca(new MarcaUnidadDAO().obtenerMarcaUnidad(marca, true, true));
-        
-            unidad.setModelo(this.jTFModelo.getText());
-            unidad.setPlacas(this.jTFPlacas.getText());
-        
             unidad.setTipoUnidad(new TipoUnidadDAO().obtenerTipoUnidad(this.jCBTipoUnidad.getSelectedIndex() + 1, true, true));
+            
             //Verificar que la unidad no tenga órdenes de reparación pendientes
             if(acceso.hayReparacionesPendientes(unidad, true, true)){
                 JOptionPane.showMessageDialog(null, "La unidad que se está dando de baja\ntiene órdenes de reparación pendientes.",
@@ -726,11 +713,16 @@ public class ControlUnidades extends javax.swing.JFrame {
     
     public void limpiar(){
         try{
-            this.jTFModelo.setText(null);
-            this.jTFVIN.setText(null);
-            this.jTFFechaAlta.setText(null);
+            this.jTFCPL.setText(null);
             this.jTFClave.setText(null);
+            this.jTFColor.setText(null);
+            this.jTFFechaAlta.setText(null);
+            this.jTFModelo.setText(null);
+            this.jTFModeloMotor.setText(null);
+            this.jTFNSerieMotor.setText(null);
+            this.jTFNumeroEconomico.setText(null);
             this.jTFPlacas.setText(null);
+            this.jTFVIN.setText(null);
             this.jTFUsuario.setText(UserHome.getUsuario().getNombre());
             DefaultTableModel modelo = (DefaultTableModel) this.jTCatalogoUnidades.getModel();
             while(modelo.getRowCount() > 0){
@@ -739,6 +731,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             this.obtenerUnidades();
             this.jCBMarca.setSelectedIndex(0);
             this.jCBTipoUnidad.setSelectedIndex(0);
+            this.jCBMarcaMotor.setSelectedIndex(0);
             this.estadoBotonesInicio();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1022\n" + ex.getMessage()
@@ -758,9 +751,9 @@ public class ControlUnidades extends javax.swing.JFrame {
                 modelo.removeRow(modelo.getRowCount() - 1);
             }
             for(UnidadTransporteDTO transporte : transportes){
-                Object datos[] = {transporte.getClave(), transporte.getMarca().getNombre(), 
+                Object datos[] = {transporte.getClave(), transporte.getMarcaUnidad().getNombre(), 
                     transporte.getTipoUnidad().getNombre(), transporte.getPlacas(),
-                    transporte.getModelo()};
+                    transporte.getModelo(), transporte.getNoEconomico()};
                 mensajeError = transporte.toString();
                 modelo.addRow(datos);
             }
@@ -802,11 +795,16 @@ public class ControlUnidades extends javax.swing.JFrame {
                                 "Error!!!", JOptionPane.ERROR_MESSAGE); 
                         ErrorLogger.scribirLog(transporte.toString() + "_clave_" + clave, 1026, UserHome.getUsuario(), ex);
                     }
-                    this.jTFVIN.setText(transporte.getClave());
+                    this.jTFCPL.setText(transporte.getCpl());
+                    this.jTFClave.setText(transporte.getClave());
+                    this.jTFColor.setText(transporte.getColor());
                     this.jTFFechaAlta.setText(transporte.getFechaInicio().toString());
-                    this.jTFClave.setText(transporte.getNumeroUnidad());
                     this.jTFModelo.setText(transporte.getModelo());
+                    this.jTFModeloMotor.setText(transporte.getModeloMotor());
+                    this.jTFNSerieMotor.setText(transporte.getNoSerieMotor());
+                    this.jTFNumeroEconomico.setText(transporte.getNoEconomico());
                     this.jTFPlacas.setText(transporte.getPlacas());
+                    this.jTFVIN.setText(transporte.getVin());
                     this.jTFUsuario.setText(transporte.getUsuario().getNombre() + " " + transporte.getUsuario().getApellidos());
 
                     this.jCBTipoUnidad.setSelectedIndex(transporte.getTipoUnidad().getIdTipo() - 1);
@@ -818,6 +816,19 @@ public class ControlUnidades extends javax.swing.JFrame {
                     if(indexGrupo > 0){
                         this.jCBMarca.setSelectedIndex(indexGrupo - 1);
                     }
+                    
+                    grupo = null;
+                    int indexMMotor = 0;
+                    this.jCBMarcaMotor.setSelectedIndex(0);
+                    do{
+                        gr = this.jCBMarcaMotor.getItemAt(indexMMotor).toString().split("#");
+                        grupo = gr[1];
+                        indexMMotor++;
+                    } while(grupo == null ? transporte.getMarcaMotor().getNombre() != null : !grupo.equals(transporte.getMarcaMotor().getNombre()));
+                    if(indexMMotor > 0){
+                        this.jCBMarca.setSelectedIndex(indexMMotor - 1);
+                    }
+                    
                     this.estadoBotonesClicUnidades();
                 }
             }
@@ -841,6 +852,31 @@ public class ControlUnidades extends javax.swing.JFrame {
                 Object datos = Integer.toString(marca.getIdMarca()) + "#" + marca.getNombre();
                 mensajeError = marca.toString();
                 this.jCBMarca.addItem(datos);
+            }
+        } catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1028\n" + ex.getMessage()
+                    + "\nError al intentar obtener las Marcas de Transporte de la BD.",
+                    "Error!!!", JOptionPane.ERROR_MESSAGE); 
+            ErrorLogger.scribirLog(mensajeError, 1028, UserHome.getUsuario(), ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1029\n" + ex.getMessage()
+                    + "\nError al intentar convertir las Marcas de Transporte.",
+                    "Error!!!", JOptionPane.ERROR_MESSAGE); 
+            ErrorLogger.scribirLog(mensajeError, 1029, UserHome.getUsuario(), ex);
+        }
+    } 
+    
+    private void obtenerMarcasMotores(){
+        String mensajeError = "";
+        try {
+            List<MarcaMotorDTO> marcas = new MarcaMotorDAO().obtenerMarcasMotores();
+            while(this.jCBMarcaMotor.getItemCount() > 0){
+                this.jCBMarcaMotor.removeItemAt(this.jCBMarcaMotor.getItemCount() - 1);
+            }
+            for(MarcaMotorDTO marca : marcas){
+                Object datos = Integer.toString(marca.getIdMarcaMotor()) + "#" + marca.getNombre();
+                mensajeError = marca.toString();
+                this.jCBMarcaMotor.addItem(datos);
             }
         } catch(SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1028\n" + ex.getMessage()
@@ -972,6 +1008,38 @@ public class ControlUnidades extends javax.swing.JFrame {
                             "Error error al mostrar los datos de tipos de unidades!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog(mensajeError, 1028, UserHome.getUsuario(), ex);
         }
+    }
+    
+    public boolean validaciones(){
+        if("".equals(this.jTFClave.getText()) || this.jTFClave == null){
+            JOptionPane.showMessageDialog(this, "Aún no se le agrega una clave\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if("".equals(this.jTFNumeroEconomico.getText()) || this.jTFNumeroEconomico == null){
+            JOptionPane.showMessageDialog(this, "Aún no se le agrega un número económico\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if("".equals(this.jTFPlacas.getText()) || this.jTFPlacas == null){
+            JOptionPane.showMessageDialog(this, "Aún no se le agregan placas\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if("".equals(this.jTFModelo.getText()) || this.jTFModelo == null){
+            JOptionPane.showMessageDialog(this, "Aún no se le agrega un modelo\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if("".equals(this.jTFNSerieMotor.getText()) || this.jTFNSerieMotor == null){
+            JOptionPane.showMessageDialog(this, "Aún no se le agrega un número de serie\nde motor a la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if("".equals(this.jTFModeloMotor.getText()) || this.jTFModeloMotor == null){
+            JOptionPane.showMessageDialog(this, "Aún no se le agrega un modelo\nde motor a la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if("".equals(this.jTFCPL.getText()) || this.jTFCPL == null){
+            JOptionPane.showMessageDialog(this, "Aún no se le agrega un CPL\na la unidad.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
     }
     
     /**
