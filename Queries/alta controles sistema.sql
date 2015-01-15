@@ -1,0 +1,1 @@
+INSERT INTO sistema(id_sistema, notificar_nueva_orden, notificar_fin_orden) VALUES(NULL, FALSE, FALSE); 

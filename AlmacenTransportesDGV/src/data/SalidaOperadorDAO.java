@@ -302,7 +302,7 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_operador, numero_operador, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, tipo FROM salida_operador"
+                + "clave_refaccion, numero_usuario, numero_orden, tipo FROM salida_operador "
                 + "WHERE numero_orden = ? AND status = ?;";
         
         try{
@@ -413,7 +413,7 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT IFNULL(SUM(costo), 0.0) AS salidas_operador FROM "
-                + "salida_almacen WHERE numero_orden = ? AND status = ?;";
+                + "salida_operador WHERE numero_orden = ? AND status = ?;";
         try{
             if(abrir){
                 DBConnection.createConnection();

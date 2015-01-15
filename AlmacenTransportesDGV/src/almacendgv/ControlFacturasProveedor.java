@@ -1837,7 +1837,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             this.jBFinalizar.setEnabled(false);
             this.jBCancelar.setEnabled(this.factura.isStatus());
             this.jBPagar.setEnabled(!this.factura.isPagada() && this.factura.isStatus());
-            this.jBModificar.setEnabled(factura.isStatus());
+            this.jBModificar.setEnabled(false);
             this.jBEntradaAlmacen.setEnabled(false);
             this.jBTrabajoExterno.setEnabled(false);
             this.jBCargoDirecto.setEnabled(false);
@@ -1847,7 +1847,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             this.jMIFinalizar.setEnabled(false);
             this.jMICancelar.setEnabled(this.factura.isStatus());
             this.jMIPagar.setEnabled(!this.factura.isPagada() && this.factura.isStatus());
-            this.jMIModificar.setEnabled(factura.isStatus());
+            this.jMIModificar.setEnabled(false);
             this.jMIEntradaAlmacen.setEnabled(false);
             this.jMITrabajoExterno.setEnabled(false);
             this.jMICargoDirecto.setEnabled(false);

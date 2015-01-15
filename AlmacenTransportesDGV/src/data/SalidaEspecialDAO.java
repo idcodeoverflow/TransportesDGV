@@ -413,7 +413,7 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT IFNULL(SUM(costo), 0.0) AS salidas_especiales FROM "
-                + "salida_almacen WHERE numero_orden = ? AND status = ?;";
+                + "salida_especial WHERE numero_orden = ? AND status = ?;";
         try{
             if(abrir){
                 DBConnection.createConnection();
