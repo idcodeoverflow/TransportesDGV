@@ -31,10 +31,6 @@ public class SalidaAlmacenDAO{
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String querySalidaEspecial = "SELECT IFNULL(SUM(costo), 0.0) AS total_salidas FROM salida_especial WHERE numero_orden = ? "
-                + "AND status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo != ?);";
-        String querySalidaOperador = "SELECT IFNULL(SUM(costo), 0.0) AS total_salidas FROM salida_operador WHERE numero_orden = ? "
-                + "AND status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo != ?);";
         String querySalidaUnidad = "SELECT IFNULL(SUM(costo), 0.0) AS total_salidas FROM salida_unidad WHERE numero_orden = ? "
                 + "AND status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo != ?);";
         double totalSalidasTracto = 0;
@@ -44,24 +40,6 @@ public class SalidaAlmacenDAO{
                 DBConnection.createConnection();
             }
             conn = DBConnection.getConn();
-            //Salida Especial
-            pstmt = conn.prepareStatement(querySalidaEspecial);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            pstmt.setInt(3, 2);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalSalidasTracto = rs.getDouble("total_salidas");
-            }
-            //Salida Operador
-            pstmt = conn.prepareStatement(querySalidaOperador);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            pstmt.setInt(3, 2);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalSalidasTracto += rs.getDouble("total_salidas");
-            }
             //Salida Unidad
             pstmt = conn.prepareStatement(querySalidaUnidad);
             pstmt.setInt(1, ordenReparacion.getNumeroOrden());
@@ -90,10 +68,6 @@ public class SalidaAlmacenDAO{
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String querySalidaEspecial = "SELECT IFNULL(SUM(costo), 0.0) AS total_salidas FROM salida_especial WHERE numero_orden = ? "
-                + "AND status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo = ?);";
-        String querySalidaOperador = "SELECT IFNULL(SUM(costo), 0.0) AS total_salidas FROM salida_operador WHERE numero_orden = ? "
-                + "AND status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo = ?);";
         String querySalidaUnidad = "SELECT IFNULL(SUM(costo), 0.0) AS total_salidas FROM salida_unidad WHERE numero_orden = ? "
                 + "AND status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo = ?);";
         double totalSalidasPlana = 0;
@@ -103,24 +77,6 @@ public class SalidaAlmacenDAO{
                 DBConnection.createConnection();
             }
             conn = DBConnection.getConn();
-            //Salida Especial
-            pstmt = conn.prepareStatement(querySalidaEspecial);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            pstmt.setInt(3, 2);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalSalidasPlana = rs.getDouble("total_salidas");
-            }
-            //Salida Operador
-            pstmt = conn.prepareStatement(querySalidaOperador);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            pstmt.setInt(3, 2);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalSalidasPlana += rs.getDouble("total_salidas");
-            }
             //Salida Unidad
             pstmt = conn.prepareStatement(querySalidaUnidad);
             pstmt.setInt(1, ordenReparacion.getNumeroOrden());

@@ -303,7 +303,7 @@ public class CargoEspecialDAO extends CargoDirectoDAO {
         String query = "SELECT id_cargo_especial, nombre_beneficiario, fecha_registro, precio_unitario, cantidad, "
                 + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
                 + "folio, numero_usuario, numero_orden  FROM cargo_especial WHERE "
-                + "numero_orden = ? AND status = ;";
+                + "numero_orden = ? AND status = ?;";
         
         try{
             if(abrir) {
@@ -362,7 +362,7 @@ public class CargoEspecialDAO extends CargoDirectoDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT IFNULL(SUM(total), 0.0) AS cargos_especiales FROM "
-                + "cargo_directo WHERE numero_orden = ? AND status = ?;";
+                + "cargo_especial WHERE numero_orden = ? AND status = ?;";
         try{
             if(abrir){
                 DBConnection.createConnection();
