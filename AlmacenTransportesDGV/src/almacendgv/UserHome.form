@@ -397,8 +397,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jBInventario" pref="137" max="32767" attributes="0"/>
-                      <Component id="jBProveedores" max="32767" attributes="0"/>
+                      <Component id="jBInventario" max="32767" attributes="0"/>
+                      <Component id="jBFacturasProveedor" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -421,7 +421,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jBUnidades" alignment="3" min="-2" pref="66" max="-2" attributes="0"/>
-                      <Component id="jBProveedores" alignment="3" min="-2" pref="66" max="-2" attributes="0"/>
+                      <Component id="jBFacturasProveedor" alignment="3" min="-2" pref="66" max="-2" attributes="0"/>
                       <Component id="jBSAlmacen" alignment="3" min="-2" pref="66" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -474,15 +474,15 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBUnidadesActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jBProveedores">
+        <Component class="javax.swing.JButton" name="jBFacturasProveedor">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/Provider-32.png"/>
+              <Image iconType="3" name="/icons/EntryRegister-32.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Proveedores"/>
+            <Property name="text" type="java.lang.String" value="Facturas Prov."/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBProveedoresActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBFacturasProveedorActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jBSAlmacen">
