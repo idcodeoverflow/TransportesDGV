@@ -375,7 +375,9 @@ public class SalidaUnidad extends javax.swing.JFrame {
     }//GEN-LAST:event_jTFCantidadCaretUpdate
 
     private void jCBOrdenReparacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBOrdenReparacionItemStateChanged
-        this.mostrarUnidadesTransportePReparacion();
+        if(jCBOrdenReparacion.getSelectedIndex() > -1){
+            this.mostrarUnidadesTransportePReparacion();
+        }
     }//GEN-LAST:event_jCBOrdenReparacionItemStateChanged
 
     private void agregar(){

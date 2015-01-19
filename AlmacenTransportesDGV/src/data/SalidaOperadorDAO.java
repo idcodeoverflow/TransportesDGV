@@ -80,7 +80,7 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
     public void eliminarSalidaOperador(SalidaOperadorDTO salida) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "UPDATE salida_almacen SET status = ?, fecha_registro = ? "
+        String query = "UPDATE salida_operador SET status = ?, fecha_registro = ? "
                 + "WHERE id_salida_operador = ?;";
         try{
             DBConnection.createConnection();
@@ -118,13 +118,13 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
             pstmt.setInt(1, idSalidaOperador);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                salidaOperador = new SalidaOperadorDTO(rs.getInt("id_salida_operador"), 
-                        accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false),
-                        null);//salida almacen
+                salidaOperador = new SalidaOperadorDTO();
+                salidaOperador.setIdSalidaOperador(rs.getInt("id_salida_operador"));
+                salidaOperador.setOperador(accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false));
                 salidaOperador.setCantidad(rs.getDouble("cantidad"));
                 salidaOperador.setCosto(rs.getDouble("costo"));
                 salidaOperador.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaOperador.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaOperador.setNumeroSalida(rs.getInt("id_salida_operador"));
                 salidaOperador.setOrdenReparacion(null);
                 salidaOperador.setRefaccion(null);
                 salidaOperador.setStatus(rs.getBoolean("status"));
@@ -149,43 +149,7 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
         
         return salidaOperador;
     }
-    /*
-    public SalidaOperadorDTO obtenerSalidaOperadorPSalidaAlmacen(int numeroSalida, boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
-        SalidaOperadorDTO salidaOperador = null;
-        SalidaAlmacenDAO accesoSalida = new SalidaAlmacenDAO();
-        OperadorDAO accesoOperador = new OperadorDAO();
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT id_salida_operador, numero_operador, numero_salida FROM "
-                + "salida_operador WHERE numero_salida = ?;";
-        try{
-            if(abrir) {
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, numeroSalida);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                salidaOperador = new SalidaOperadorDTO(rs.getInt("id_salida_operador"), 
-                        accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false), 
-                        accesoSalida.obtenerSalidaAlmacen(rs.getInt("numero_salida"), persistence, false, false));
-            }
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 582\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(salidaOperador.toString(), 582, UserHome.getUsuario(), e);
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        
-        return salidaOperador;
-    }
-    */
+    
     public List<SalidaOperadorDTO> obtenerSalidasOperadores(boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         OperadorDAO accesoOperador = new OperadorDAO();
         List<SalidaOperadorDTO> salidasOperador = null;
@@ -205,13 +169,13 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasOperador = new ArrayList<SalidaOperadorDTO>();
             while (rs.next()) {
-                salidaOperador = new SalidaOperadorDTO(rs.getInt("id_salida_operador"), 
-                        accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false),
-                        null);//salida almacen
+                salidaOperador = new SalidaOperadorDTO();
+                salidaOperador.setIdSalidaOperador(rs.getInt("id_salida_operador"));
+                salidaOperador.setOperador(accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false));
                 salidaOperador.setCantidad(rs.getDouble("cantidad"));
                 salidaOperador.setCosto(rs.getDouble("costo"));
                 salidaOperador.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaOperador.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaOperador.setNumeroSalida(rs.getInt("id_salida_operador"));
                 salidaOperador.setOrdenReparacion(null);
                 salidaOperador.setRefaccion(null);
                 salidaOperador.setStatus(rs.getBoolean("status"));
@@ -259,13 +223,13 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasOperador = new ArrayList<SalidaOperadorDTO>();
             while (rs.next()) {
-                salidaOperador = new SalidaOperadorDTO(rs.getInt("id_salida_operador"), 
-                        accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false),
-                        null);//salida almacen
+                salidaOperador = new SalidaOperadorDTO();
+                salidaOperador.setIdSalidaOperador(rs.getInt("id_salida_operador"));
+                salidaOperador.setOperador(accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false));
                 salidaOperador.setCantidad(rs.getDouble("cantidad"));
                 salidaOperador.setCosto(rs.getDouble("costo"));
                 salidaOperador.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaOperador.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaOperador.setNumeroSalida(rs.getInt("id_salida_operador"));
                 salidaOperador.setOrdenReparacion(null);
                 salidaOperador.setRefaccion(null);
                 salidaOperador.setStatus(rs.getBoolean("status"));
@@ -316,13 +280,13 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasOperador = new ArrayList<SalidaOperadorDTO>();
             while (rs.next()) {
-                salidaOperador = new SalidaOperadorDTO(rs.getInt("id_salida_operador"), 
-                        accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false),
-                        null);//salida almacen
+                salidaOperador = new SalidaOperadorDTO();
+                salidaOperador.setIdSalidaOperador(rs.getInt("id_salida_operador"));
+                salidaOperador.setOperador(accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false));
                 salidaOperador.setCantidad(rs.getDouble("cantidad"));
                 salidaOperador.setCosto(rs.getDouble("costo"));
                 salidaOperador.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaOperador.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaOperador.setNumeroSalida(rs.getInt("id_salida_operador"));
                 salidaOperador.setOrdenReparacion(null);
                 salidaOperador.setRefaccion(null);
                 salidaOperador.setStatus(rs.getBoolean("status"));
@@ -373,13 +337,13 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasOperador = new ArrayList<SalidaOperadorDTO>();
             while (rs.next()) {
-                salidaOperador = new SalidaOperadorDTO(rs.getInt("id_salida_operador"), 
-                        accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false),
-                        null);//salida almacen
+                salidaOperador = new SalidaOperadorDTO();
+                salidaOperador.setIdSalidaOperador(rs.getInt("id_salida_operador"));
+                salidaOperador.setOperador(accesoOperador.obtenerOperador(rs.getInt("numero_operador"), false, false));
                 salidaOperador.setCantidad(rs.getDouble("cantidad"));
                 salidaOperador.setCosto(rs.getDouble("costo"));
                 salidaOperador.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaOperador.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaOperador.setNumeroSalida(rs.getInt("id_salida_operador"));
                 salidaOperador.setOrdenReparacion(null);
                 salidaOperador.setRefaccion(null);
                 salidaOperador.setStatus(rs.getBoolean("status"));

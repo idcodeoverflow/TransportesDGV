@@ -573,12 +573,10 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             int rowIndex = this.jTSalidasAlmacen.getSelectedRow();
             int numeroSalida = 0;
             
-            SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
             SalidaEspecialDTO salidaEspecial = new SalidaEspecialDTO();
             SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
             SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
             
-            SalidaAlmacenDAO acceso = new SalidaAlmacenDAO();
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoUnidad = new SalidaUnidadDAO();
@@ -586,16 +584,12 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             if(rowIndex > -1){
         
                 numeroSalida = Integer.parseInt(this.jTSalidasAlmacen.getValueAt(rowIndex, 0).toString());
-                //salidaAlmacen = acceso.obtenerSalidaAlmacen(numeroSalida, true, true, true);
-                
+                    
                 
                 switch(this.jTSalidasAlmacen.getValueAt(rowIndex, 7).toString()){
                     case "":
                         break;
                     case "S. Bodega"://(Eliminado)
-                        //Salidas de Bodega
-                        //salidaBodega = accesoBodega.obtenerSalidaBodegaPSalidaAlmacen(numeroSalida, true, true, true);
-                        //accesoBodega.eliminarSalidaBodega(salidaBodega);
                         break;
                     case "S. Especial":
                         //Salidas Especiales
@@ -704,12 +698,10 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             DecimalFormat formatD = new DecimalFormat("0.00");
             
             SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
-            //SalidaBodegaDTO salidaBodega = new SalidaBodegaDTO();
             SalidaEspecialDTO salidaEspecial = new SalidaEspecialDTO();
             SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
             SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
             
-            //SalidaBodegaDAO accesoBodega = new SalidaBodegaDAO();
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoUnidad = new SalidaUnidadDAO();
@@ -724,9 +716,6 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                         break;
                     case "S. Bodega"://(Eliminado)
                         //Salidas de Bodega
-                        //salidaBodega = accesoBodega.obtenerSalidaBodegaPSalidaAlmacen(numeroSalida, true, true, true);
-                        //this.jTFReceptor.setText(((salidaBodega.getBodega().getNombre() != null) ? salidaBodega.getBodega().getNombre() : "" ));
-                        //this.jTFIdTipoSalida.setText(Integer.toString(salidaBodega.getIdSalidaBodega()));
                         break;
                     case "S. Especial":
                         //Salidas Especiales
@@ -738,7 +727,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                         this.salidaAlmacenActual = salidaEspecial;
 
                         break;
-                    case "S, Operador":
+                    case "S. Operador":
                         //Salidas a Operador
                         salidaOperador = accesoOperador.obtenerSalidaOperador(numeroSalida, true, true, true);
                         this.jTFReceptor.setText(Integer.toString(salidaOperador.getOperador().getNumeroOperador()) + "# " + 

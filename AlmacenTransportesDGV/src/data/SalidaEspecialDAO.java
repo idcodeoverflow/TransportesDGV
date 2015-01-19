@@ -81,7 +81,7 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
     public void eliminarSalidaEspecial(SalidaEspecialDTO salida) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "UPDATE salida_almacen SET status = ?, fecha_registro = ? "
+        String query = "UPDATE salida_especial SET status = ?, fecha_registro = ? "
                 + "WHERE id_salida_especial = ?;";
         try{
             DBConnection.createConnection();
@@ -119,13 +119,13 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
             pstmt.setInt(1, idSalidaEspecial);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                salidaEspecial = new SalidaEspecialDTO(rs.getInt("id_salida_especial"), 
-                        rs.getString("nombre_beneficiario"), 
-                        null);//salida almacen
+                salidaEspecial = new SalidaEspecialDTO();
+                salidaEspecial.setIdSalidaEspecial(rs.getInt("id_salida_especial"));
+                salidaEspecial.setNombreBeneficiario(rs.getString("nombre_beneficiario"));
                 salidaEspecial.setCantidad(rs.getDouble("cantidad"));
                 salidaEspecial.setCosto(rs.getDouble("costo"));
                 salidaEspecial.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaEspecial.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaEspecial.setNumeroSalida(rs.getInt("id_salida_especial"));
                 salidaEspecial.setOrdenReparacion(null);
                 salidaEspecial.setRefaccion(null);
                 salidaEspecial.setStatus(rs.getBoolean("status"));
@@ -150,44 +150,7 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
         
         return salidaEspecial;
     }
-    /*
-    public SalidaEspecialDTO obtenerSalidaEspecialPSalidaAlmacen(int numeroSalida, boolean persistence, 
-            boolean abrir, boolean cerrar) throws SQLException{
-        SalidaEspecialDTO salidaEspecial = null;
-        SalidaAlmacenDAO accesoSalida = new SalidaAlmacenDAO();
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT id_salida_especial, nombre_beneficiario, numero_salida FROM "
-                + "salida_especial WHERE numero_salida = ?;";
-        
-        try{
-            if(abrir) {
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, numeroSalida);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                salidaEspecial = new SalidaEspecialDTO(rs.getInt("id_salida_especial"), 
-                        rs.getString("nombre_beneficiario"), 
-                        accesoSalida.obtenerSalidaAlmacen(rs.getInt("numero_salida"), persistence, false, false));
-            }
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 573\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(salidaEspecial.toString(), 573, UserHome.getUsuario(), e);
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        
-        return salidaEspecial;
-    }
-    */
+    
     public List<SalidaEspecialDTO> obtenerSalidasEspeciales(boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         List<SalidaEspecialDTO> salidasEspeciales = null;
         SalidaEspecialDTO salidaEspecial = null;
@@ -206,13 +169,13 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
             while (rs.next()) {
-                salidaEspecial = new SalidaEspecialDTO(rs.getInt("id_salida_especial"), 
-                        rs.getString("nombre_beneficiario"), 
-                        null);//salida almacen
+                salidaEspecial = new SalidaEspecialDTO();
+                salidaEspecial.setIdSalidaEspecial(rs.getInt("id_salida_especial"));
+                salidaEspecial.setNombreBeneficiario(rs.getString("nombre_beneficiario"));
                 salidaEspecial.setCantidad(rs.getDouble("cantidad"));
                 salidaEspecial.setCosto(rs.getDouble("costo"));
                 salidaEspecial.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaEspecial.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaEspecial.setNumeroSalida(rs.getInt("id_salida_especial"));
                 salidaEspecial.setOrdenReparacion(null);
                 salidaEspecial.setRefaccion(null);
                 salidaEspecial.setStatus(rs.getBoolean("status"));
@@ -259,13 +222,13 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
             while (rs.next()) {
-                salidaEspecial = new SalidaEspecialDTO(rs.getInt("id_salida_especial"), 
-                        rs.getString("nombre_beneficiario"), 
-                        null);//salida almacen
+                salidaEspecial = new SalidaEspecialDTO();
+                salidaEspecial.setIdSalidaEspecial(rs.getInt("id_salida_especial"));
+                salidaEspecial.setNombreBeneficiario(rs.getString("nombre_beneficiario"));
                 salidaEspecial.setCantidad(rs.getDouble("cantidad"));
                 salidaEspecial.setCosto(rs.getDouble("costo"));
                 salidaEspecial.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaEspecial.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaEspecial.setNumeroSalida(rs.getInt("id_salida_especial"));
                 salidaEspecial.setOrdenReparacion(null);
                 salidaEspecial.setRefaccion(null);
                 salidaEspecial.setStatus(rs.getBoolean("status"));
@@ -316,13 +279,13 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
             while (rs.next()) {
-                salidaEspecial = new SalidaEspecialDTO(rs.getInt("id_salida_especial"), 
-                        rs.getString("nombre_beneficiario"), 
-                        null);//salida almacen
+                salidaEspecial = new SalidaEspecialDTO();
+                salidaEspecial.setIdSalidaEspecial(rs.getInt("id_salida_especial"));
+                salidaEspecial.setNombreBeneficiario(rs.getString("nombre_beneficiario"));
                 salidaEspecial.setCantidad(rs.getDouble("cantidad"));
                 salidaEspecial.setCosto(rs.getDouble("costo"));
                 salidaEspecial.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaEspecial.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaEspecial.setNumeroSalida(rs.getInt("id_salida_especial"));
                 salidaEspecial.setOrdenReparacion(null);
                 salidaEspecial.setRefaccion(null);
                 salidaEspecial.setStatus(rs.getBoolean("status"));
@@ -373,13 +336,13 @@ public class SalidaEspecialDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
             while (rs.next()) {
-                salidaEspecial = new SalidaEspecialDTO(rs.getInt("id_salida_especial"), 
-                        rs.getString("nombre_beneficiario"), 
-                        null);//salida almacen
+                salidaEspecial = new SalidaEspecialDTO();
+                salidaEspecial.setIdSalidaEspecial(rs.getInt("id_salida_especial"));
+                salidaEspecial.setNombreBeneficiario(rs.getString("nombre_beneficiario"));
                 salidaEspecial.setCantidad(rs.getDouble("cantidad"));
                 salidaEspecial.setCosto(rs.getDouble("costo"));
                 salidaEspecial.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaEspecial.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaEspecial.setNumeroSalida(rs.getInt("id_salida_especial"));
                 salidaEspecial.setOrdenReparacion(null);
                 salidaEspecial.setRefaccion(null);
                 salidaEspecial.setStatus(rs.getBoolean("status"));

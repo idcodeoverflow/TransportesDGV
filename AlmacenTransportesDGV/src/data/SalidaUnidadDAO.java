@@ -83,7 +83,7 @@ public class SalidaUnidadDAO extends SalidaAlmacenDAO {
     public void eliminarSalidaUnidad(SalidaUnidadDTO salida) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "UPDATE salida_almacen SET status = ?, fecha_registro = ? "
+        String query = "UPDATE salida_unidad SET status = ?, fecha_registro = ? "
                 + "WHERE id_salida_unidad = ?;";
         try{
             DBConnection.createConnection();
@@ -122,13 +122,13 @@ public class SalidaUnidadDAO extends SalidaAlmacenDAO {
             pstmt.setInt(1, idSalidaUnidad);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                salidaUnidad = new SalidaUnidadDTO(rs.getInt("id_salida_unidad"), 
-                        accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false), 
-                        null);//salida almacen
+                salidaUnidad = new SalidaUnidadDTO();
+                salidaUnidad.setIdSalidaUnidad(rs.getInt("id_salida_unidad"));
+                salidaUnidad.setTransporte(accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false));
                 salidaUnidad.setCantidad(rs.getDouble("cantidad"));
                 salidaUnidad.setCosto(rs.getDouble("costo"));
                 salidaUnidad.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaUnidad.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaUnidad.setNumeroSalida(rs.getInt("id_salida_unidad"));
                 salidaUnidad.setOrdenReparacion(null);
                 salidaUnidad.setRefaccion(null);
                 salidaUnidad.setStatus(rs.getBoolean("status"));
@@ -153,44 +153,7 @@ public class SalidaUnidadDAO extends SalidaAlmacenDAO {
         
         return salidaUnidad;
     }
-    /*
-    public SalidaUnidadDTO obtenerSalidaUnidadPSalidaUnidad(int numeroSalida, boolean persistence, 
-            boolean abrir, boolean cerrar) throws SQLException{
-        SalidaUnidadDTO salidaUnidad = null;
-        SalidaAlmacenDAO accesoSalida = new SalidaAlmacenDAO();
-        UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT id_salida_unidad, numero_salida, clave FROM "
-                + "salida_unidad WHERE numero_salida = ?;";
-        try{
-            if(abrir) {
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, numeroSalida);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                salidaUnidad = new SalidaUnidadDTO(rs.getInt("id_salida_unidad"), 
-                        accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false), 
-                        accesoSalida.obtenerSalidaAlmacen(rs.getInt("numero_salida"), persistence, false, false));
-            }
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 592\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(salidaUnidad.toString(), 592, UserHome.getUsuario(), e);
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        
-        return salidaUnidad;
-    }
-    */
+    
     public List<SalidaUnidadDTO> obtenerSalidasUnidad(boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
         List<SalidaUnidadDTO> salidasUnidad = null;
@@ -209,13 +172,13 @@ public class SalidaUnidadDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasUnidad = new ArrayList<SalidaUnidadDTO>();
             while (rs.next()) {
-                salidaUnidad = new SalidaUnidadDTO(rs.getInt("id_salida_unidad"), 
-                        accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false), 
-                        null);//salida almacen
+                salidaUnidad = new SalidaUnidadDTO();
+                salidaUnidad.setIdSalidaUnidad(rs.getInt("id_salida_unidad"));
+                salidaUnidad.setTransporte(accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false));
                 salidaUnidad.setCantidad(rs.getDouble("cantidad"));
                 salidaUnidad.setCosto(rs.getDouble("costo"));
                 salidaUnidad.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaUnidad.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaUnidad.setNumeroSalida(rs.getInt("id_salida_unidad"));
                 salidaUnidad.setOrdenReparacion(null);
                 salidaUnidad.setRefaccion(null);
                 salidaUnidad.setStatus(rs.getBoolean("status"));
@@ -264,13 +227,13 @@ public class SalidaUnidadDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasUnidad = new ArrayList<SalidaUnidadDTO>();
             while (rs.next()) {
-                salidaUnidad = new SalidaUnidadDTO(rs.getInt("id_salida_unidad"), 
-                        accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false), 
-                        null);//salida almacen
+                salidaUnidad = new SalidaUnidadDTO();
+                salidaUnidad.setIdSalidaUnidad(rs.getInt("id_salida_unidad"));
+                salidaUnidad.setTransporte(accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false));
                 salidaUnidad.setCantidad(rs.getDouble("cantidad"));
                 salidaUnidad.setCosto(rs.getDouble("costo"));
                 salidaUnidad.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaUnidad.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaUnidad.setNumeroSalida(rs.getInt("id_salida_unidad"));
                 salidaUnidad.setOrdenReparacion(null);
                 salidaUnidad.setRefaccion(null);
                 salidaUnidad.setStatus(rs.getBoolean("status"));
@@ -322,13 +285,13 @@ public class SalidaUnidadDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasUnidad = new ArrayList<SalidaUnidadDTO>();
             while (rs.next()) {
-                salidaUnidad = new SalidaUnidadDTO(rs.getInt("id_salida_unidad"), 
-                        accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false), 
-                        null);//salida almacen
+                salidaUnidad = new SalidaUnidadDTO();
+                salidaUnidad.setIdSalidaUnidad(rs.getInt("id_salida_unidad"));
+                salidaUnidad.setTransporte(accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false));
                 salidaUnidad.setCantidad(rs.getDouble("cantidad"));
                 salidaUnidad.setCosto(rs.getDouble("costo"));
                 salidaUnidad.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaUnidad.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaUnidad.setNumeroSalida(rs.getInt("id_salida_unidad"));
                 salidaUnidad.setOrdenReparacion(null);
                 salidaUnidad.setRefaccion(null);
                 salidaUnidad.setStatus(rs.getBoolean("status"));
@@ -380,13 +343,13 @@ public class SalidaUnidadDAO extends SalidaAlmacenDAO {
             rs = pstmt.executeQuery();
             salidasUnidad = new ArrayList<SalidaUnidadDTO>();
             while (rs.next()) {
-                salidaUnidad = new SalidaUnidadDTO(rs.getInt("id_salida_unidad"), 
-                        accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false), 
-                        null);//salida almacen
+                salidaUnidad = new SalidaUnidadDTO();
+                salidaUnidad.setIdSalidaUnidad(rs.getInt("id_salida_unidad"));
+                salidaUnidad.setTransporte(accesoUnidad.obtenerUnidad(rs.getString("clave"), persistence, false, false));
                 salidaUnidad.setCantidad(rs.getDouble("cantidad"));
                 salidaUnidad.setCosto(rs.getDouble("costo"));
                 salidaUnidad.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaUnidad.setNumeroSalida(rs.getInt("numero_salida"));
+                salidaUnidad.setNumeroSalida(rs.getInt("id_salida_unidad"));
                 salidaUnidad.setOrdenReparacion(null);
                 salidaUnidad.setRefaccion(null);
                 salidaUnidad.setStatus(rs.getBoolean("status"));
