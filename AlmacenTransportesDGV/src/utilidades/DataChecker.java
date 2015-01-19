@@ -33,6 +33,7 @@ import beans.TrabajoExternoDTO;
 import beans.TransporteReparacionDTO;
 import beans.UnidadTransporteDTO;
 import beans.UsuarioDTO;
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 /**
@@ -159,6 +160,10 @@ public class DataChecker {
     
     public static String nullCheck(Timestamp fecha){
         return ((fecha != null) ? fecha.toString() : "null");
+    }
+    
+    public static String nullCheck(Blob imagen){
+        return ((imagen != null) ? "imagen" : "null");
     }
     
 }

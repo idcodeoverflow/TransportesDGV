@@ -181,13 +181,21 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Component id="jPCatalogoUnidades" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jBAgregar" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jBModificar" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jBDarBaja" linkSize="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLPlacas" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLMarca" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLNumeroEconomico" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLClave" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLFechaAlta" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLColor" alignment="1" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLModeloMotor" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -196,21 +204,22 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jTFFechaAlta" max="32767" attributes="0"/>
-                                  <Component id="jTFNumeroEconomico" max="32767" attributes="0"/>
+                                  <Component id="jTFClave" max="32767" attributes="0"/>
                                   <Component id="jTFPlacas" pref="200" max="32767" attributes="0"/>
                                   <Component id="jCBMarca" max="32767" attributes="0"/>
                                   <Component id="jTFColor" max="32767" attributes="0"/>
                                   <Component id="jTFModeloMotor" max="32767" attributes="0"/>
                                   <Component id="jTFCPL" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLUsuario" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLVIN" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLIdentificadorAlfanumerico" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLTipoUnidad" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLAno" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLMarcaMotor" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLNSerieMotor" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLNumeroEconomico" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -220,20 +229,13 @@
                                   <Component id="jCBTipoUnidad" pref="200" max="32767" attributes="0"/>
                                   <Component id="jCBMarcaMotor" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jTFNSerieMotor" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jTFNumeroEconomico" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jBAgregar" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jBModificar" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jBDarBaja" linkSize="1" min="-2" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jPImage" max="32767" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jPImage" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jPCatalogoUnidades" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -242,7 +244,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -253,53 +255,78 @@
                       </Group>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLClave" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTFClave" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLNumeroEconomico" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTFNumeroEconomico" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLVIN" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFVIN" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLMarca" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLIdentificadorAlfanumerico" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCBMarca" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCBTipoUnidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLPlacas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFPlacas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLAno" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFModelo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLColor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFColor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCBMarcaMotor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLMarcaMotor" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLModeloMotor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFModeloMotor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLNSerieMotor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFNSerieMotor" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLCPL" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFCPL" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jBDarBaja" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jBModificar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jBAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCBMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLPlacas" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFPlacas" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLColor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFColor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLModeloMotor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFModeloMotor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLCPL" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFCPL" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLVIN" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFVIN" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLTipoUnidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jCBTipoUnidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLAno" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFModelo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jCBMarcaMotor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLMarcaMotor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLNSerieMotor" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTFNSerieMotor" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
                   <Component id="jPImage" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jBDarBaja" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBModificar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="jPCatalogoUnidades" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -327,12 +354,12 @@
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLNumeroEconomico">
+    <Component class="javax.swing.JLabel" name="jLClave">
       <Properties>
-        <Property name="text" type="java.lang.String" value="N&#xb0; Econ&#xf3;mico:"/>
+        <Property name="text" type="java.lang.String" value="Clave:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTFNumeroEconomico">
+    <Component class="javax.swing.JTextField" name="jTFClave">
     </Component>
     <Component class="javax.swing.JLabel" name="jLVIN">
       <Properties>
@@ -346,7 +373,7 @@
         <Property name="text" type="java.lang.String" value="Marca:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLIdentificadorAlfanumerico">
+    <Component class="javax.swing.JLabel" name="jLTipoUnidad">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tipo de Unidad"/>
       </Properties>
@@ -403,7 +430,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="834" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="810" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -412,7 +439,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="326" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="238" max="32767" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -429,12 +456,13 @@
             <Component class="javax.swing.JTable" name="jTCatalogoUnidades">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="5" rowCount="0">
+                  <Table columnCount="6" rowCount="0">
                     <Column editable="false" title="Clave" type="java.lang.Object"/>
                     <Column editable="false" title="Marca" type="java.lang.Object"/>
                     <Column editable="false" title="Tipo" type="java.lang.Object"/>
                     <Column editable="false" title="Placas" type="java.lang.Object"/>
                     <Column editable="false" title="Modelo" type="java.lang.Object"/>
+                    <Column editable="false" title="No Economico" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -533,13 +561,22 @@
     <Component class="javax.swing.JTextField" name="jTFCPL">
     </Component>
     <Container class="javax.swing.JPanel" name="jPImage">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder roundedCorners="true">
+              <Color PropertyName="color" blue="66" green="66" red="66" type="rgb"/>
+            </LineBorder>
+          </Border>
+        </Property>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLImage" max="32767" attributes="0"/>
+                  <Component id="jLImage" min="-2" pref="221" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -561,8 +598,18 @@
               <Image iconType="3" name="/icons/AGS TRANSPORTES 1.JPG"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="UnidadTransporteImagenMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLNumeroEconomico">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="N&#xb0; Econ&#xf3;mico:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTFNumeroEconomico">
+    </Component>
   </SubComponents>
 </Form>

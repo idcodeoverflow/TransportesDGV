@@ -11,7 +11,7 @@ import static utilidades.DataChecker.nullCheck;
  *
  * @author David Israel
  */
-public class SalidaAlmacenDTO {
+public class SalidaAlmacenDTO implements Comparable<SalidaAlmacenDTO>{
     
     private int numeroSalida;
     private double costo;
@@ -121,6 +121,10 @@ public class SalidaAlmacenDTO {
         } catch (NullPointerException ex) {
             return null;
         }
+    }
+
+    public int compareTo(SalidaAlmacenDTO o) {
+        return fechaRegistro.compareTo(o.getFechaRegistro()) * -1;
     }
     
 }

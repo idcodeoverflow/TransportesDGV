@@ -399,8 +399,7 @@ public class SalidaOperador extends javax.swing.JFrame {
         SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
         SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
         try{
-            SalidaAlmacenDAO accesoAlmacen = new SalidaAlmacenDAO();
-            SalidaOperadorDAO acceso = new SalidaOperadorDAO();
+            SalidaOperadorDAO accesoAlmacen = new SalidaOperadorDAO();
             OperadorDTO operadorTransporte = new OperadorDTO();
             OperadorDAO accesoOperador = new OperadorDAO();
             OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
@@ -409,7 +408,6 @@ public class SalidaOperador extends javax.swing.JFrame {
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             this.mostrarPrecioRefaccion();
             
-            boolean agregarSalidaAlmacenExitoso = false;
             boolean agregarSalidaOperadorExitoso = false;
             double cantidadPiezas = Double.parseDouble(this.jTFCantidad.getText());
             double precioUnitarioRef = Double.parseDouble(this.jTFPrecioUnitario.getText());
@@ -449,7 +447,6 @@ public class SalidaOperador extends javax.swing.JFrame {
             salidaAlmacen.setTipo(3);
             salidaAlmacen.setUsuario(UserHome.getUsuario());
             
-            numeroSalida = accesoAlmacen.obtenerUltimaSalidaAlmacen() + 1;
             
             //Validar que la cantidad sea un valor válido
             if(salidaAlmacen.getCantidad() < 1){
@@ -458,17 +455,16 @@ public class SalidaOperador extends javax.swing.JFrame {
                 return;
             }
             
-            agregarSalidaAlmacenExitoso = accesoAlmacen.agregarSalidaAlmacen(salidaAlmacen);
             
             salidaAlmacen.setNumeroSalida(numeroSalida);
             
             salidaOperador = new SalidaOperadorDTO(0, operadorTransporte, salidaAlmacen);
             
-            agregarSalidaOperadorExitoso = acceso.agregarSalidaOperador(salidaOperador);
+            agregarSalidaOperadorExitoso = accesoAlmacen.agregarSalidaOperador(salidaOperador);
             
-            if(!agregarSalidaOperadorExitoso && agregarSalidaAlmacenExitoso){
+            if(!agregarSalidaOperadorExitoso){
                 boolean reparacionExitosa = false;
-                reparacionExitosa = accesoAlmacen.repararErrorClasificacionSalidaAlmacen(salidaAlmacen, acceso.obtenerUltimaSalidaAlmacen() + 1);
+                reparacionExitosa = accesoAlmacen.repararErrorAgregarSalidaOperador();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 1103\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);

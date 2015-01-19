@@ -661,7 +661,6 @@ public class CargoUnidad extends javax.swing.JFrame {
     public void agregar(){
         CargoUnidadDTO cargoDirecto =  new CargoUnidadDTO();
         try{
-            CargoDirectoDAO accesoCargoDirecto = new CargoDirectoDAO();
             CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             RefaccionDTO refaccionReq = new RefaccionDTO();
@@ -672,7 +671,6 @@ public class CargoUnidad extends javax.swing.JFrame {
             FacturaDTO fact = this.factura;
             String claveRefaccion = "";
             boolean agregarCargoUnidadExitoso = false;
-            int numeroCargo = 0;
             claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
             
             //Validar que la refaccion exista en el inventario
@@ -697,7 +695,6 @@ public class CargoUnidad extends javax.swing.JFrame {
             cargoDirecto.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
             cargoDirecto.setFactura(fact);
             cargoDirecto.setIva(Double.parseDouble(this.jTFIVA.getText()));
-            //cargoDirecto.setNumeroCargoDirecto();//No se agrega el numero de cargo directo por que se genera automaticamente
             cargoDirecto.setOrdenReparacion(ordenReparacion);
             cargoDirecto.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
             cargoDirecto.setRefaccion(refaccionReq);
@@ -877,19 +874,20 @@ public class CargoUnidad extends javax.swing.JFrame {
     
     private void mostrarUnidadesPOrdenReparacion(){
         try{
-            int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
-            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
-            OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
-            TransporteReparacionDAO accesoTReparacion = new TransporteReparacionDAO();
-            ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, true, true);
-            List<TransporteReparacionDTO> transportes = accesoTReparacion.obtenerTransportesPReparacion(ordenReparacion, true, true, true, true);
-            
-            this.jCBClaveUnidad.removeAllItems();
-            
-            for(TransporteReparacionDTO transporte : transportes){
-                this.jCBClaveUnidad.addItem(transporte.getTransporte().getClave());
+            if(jCBOrdenReparacion.getSelectedIndex() > -1){
+                int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
+                OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
+                OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
+                TransporteReparacionDAO accesoTReparacion = new TransporteReparacionDAO();
+                ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, true, true);
+                List<TransporteReparacionDTO> transportes = accesoTReparacion.obtenerTransportesPReparacion(ordenReparacion, true, true, true, true);
+
+                this.jCBClaveUnidad.removeAllItems();
+
+                for(TransporteReparacionDTO transporte : transportes){
+                    this.jCBClaveUnidad.addItem(transporte.getTransporte().getClave());
+                }
             }
-            
         } catch(SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1205\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);

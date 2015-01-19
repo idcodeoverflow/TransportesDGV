@@ -7,12 +7,19 @@ package data;
 import static utilidades.FinallyHandler.closeQuietly;
 import almacendgv.UserHome;
 import beans.UnidadTransporteDTO;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import logger.ErrorLogger;
 import support.DBConnection;
@@ -28,6 +35,64 @@ public class UnidadTransporteDAO {
      */
     public UnidadTransporteDAO(){}
     
+    public void guardarImagenTransporte(String ruta, UnidadTransporteDTO unidad) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        FileInputStream fis = null;
+        File file = null;
+        String query = "UPDATE unidad_transporte SET imagen = ? WHERE clave = ?;";
+        try{
+            DBConnection.createConnection();
+            conn = DBConnection.getConn();
+            file = new File(ruta);
+            fis = new FileInputStream(file);
+            pstmt = conn.prepareStatement(query);
+            pstmt.setBinaryStream(1, fis, (int)file.length());
+            pstmt.setString(2, unidad.getClave());
+            pstmt.executeUpdate();
+            
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Código error: 2012\n" + e.getMessage(),
+                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(unidad.toString(), 2012, UserHome.getUsuario(), e);
+        } finally {
+            closeQuietly(conn);
+            closeQuietly(pstmt);
+        }
+    }    
+    
+    public Image getImagenUnidadTransporte(UnidadTransporteDTO unidadTransporte) throws SQLException {
+        Image imagen = null;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        Blob blob = null;
+        byte []data = null;
+        BufferedImage bfImage = null;
+        ResultSet rs = null;
+        String query = "SELECT imagen FROM unidad_transporte WHERE clave = ?;";
+        try{
+            DBConnection.createConnection();
+            conn = DBConnection.getConn();
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, unidadTransporte.getClave());
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                blob = rs.getBlob("imagen");
+                data = blob.getBytes(1, (int)blob.length());
+                bfImage = ImageIO.read(new ByteArrayInputStream(data));
+                imagen = bfImage;
+            }
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Código error: 2013\n" + e.getMessage(),
+                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(unidadTransporte.toString(), 2013, UserHome.getUsuario(), e);
+        } finally {
+            closeQuietly(conn);
+            closeQuietly(pstmt);
+        }
+        return imagen;
+    }
+    
     /**
      * Crea un nuevo registro en la base de datos con la informacion de un 
      * Objeto del tipo UnidadDTO.
@@ -37,22 +102,29 @@ public class UnidadTransporteDAO {
     public void altaUnidad(UnidadTransporteDTO unidad) throws SQLException{
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String query = "INSERT INTO unidad_transporte(clave, numero_unidad, placas, modelo, "
-                + "fecha_inicio, fecha_fin, status, id_tipo, id_marca, numero_usuario) "
-                + "VALUES(?, ?, ?, ?, NOW(), null, ?, ?, ?, ?);";
+        String query = "INSERT INTO unidad_transporte(clave, no_economico, vin, placas, "
+                + "modelo, color, modelo_motor, no_serie_motor, cpl, imagen, "
+                + "fecha_inicio, fecha_fin, status, id_tipo, id_marca, id_marca_motor, "
+                + "numero_usuario) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, null, NOW(), null, ?, ?, ?, ?, ?);";
         
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, unidad.getClave());
-            pstmt.setString(2, unidad.getNumeroUnidad());
-            pstmt.setString(3, unidad.getPlacas());
-            pstmt.setString(4, unidad.getModelo());
-            pstmt.setBoolean(5, true);
-            pstmt.setInt(6, unidad.getTipoUnidad().getIdTipo());
-            pstmt.setInt(7, unidad.getMarca().getIdMarca());
-            pstmt.setInt(8, unidad.getUsuario().getNumeroUsuario());
+            pstmt.setString(2, unidad.getNoEconomico());
+            pstmt.setString(3, unidad.getVin());
+            pstmt.setString(4, unidad.getPlacas());
+            pstmt.setString(5, unidad.getModelo());
+            pstmt.setString(6, unidad.getColor());
+            pstmt.setString(7, unidad.getModeloMotor());
+            pstmt.setString(8, unidad.getNoSerieMotor());
+            pstmt.setString(9, unidad.getCpl());
+            pstmt.setBoolean(10, true);
+            pstmt.setInt(11, unidad.getTipoUnidad().getIdTipo());
+            pstmt.setInt(12, unidad.getMarcaUnidad().getIdMarca());
+            pstmt.setInt(13, unidad.getMarcaMotor().getIdMarcaMotor());
+            pstmt.setInt(14, unidad.getUsuario().getNumeroUsuario());
             pstmt.executeUpdate();
             
         } catch(Exception e){
@@ -74,24 +146,31 @@ public class UnidadTransporteDAO {
     public void modificarUnidad(UnidadTransporteDTO unidad) throws SQLException{
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String query = "UPDATE unidad_transporte SET numero_unidad = ?, "
-                + "placas = ?, modelo = ?, fecha_inicio = ?, fecha_fin = ?, "
-                + "status = ?, id_tipo = ?, id_marca = ? WHERE clave = ?;";
+        String query = "UPDATE unidad_transporte SET no_economico = ?, vin = ?, "
+                + "placas = ?, modelo = ?, color = ?, modelo_motor = ?, no_serie_motor = ?,"
+                + "cpl = ?, fecha_inicio = ?, fecha_fin = ?, status = ?, id_tipo = ?, "
+                + "id_marca = ?, id_marca_motor = ?, numero_usuario = ? WHERE clave = ?;";
         
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
-            //pst.setString(1, unidad.getClave());
-            pstmt.setString(1, unidad.getNumeroUnidad());
-            pstmt.setString(2, unidad.getPlacas());
-            pstmt.setString(3, unidad.getModelo());
-            pstmt.setTimestamp(4, unidad.getFechaInicio());
-            pstmt.setTimestamp(5, unidad.getFechaFin());
-            pstmt.setBoolean(6, true);
-            pstmt.setInt(7, unidad.getTipoUnidad().getIdTipo());
-            pstmt.setInt(8, unidad.getMarca().getIdMarca());
-            pstmt.setString(9, unidad.getClave());
+            pstmt.setString(1, unidad.getNoEconomico());
+            pstmt.setString(2, unidad.getVin());
+            pstmt.setString(3, unidad.getPlacas());
+            pstmt.setString(4, unidad.getModelo());
+            pstmt.setString(5, unidad.getColor());
+            pstmt.setString(6, unidad.getModeloMotor());
+            pstmt.setString(7, unidad.getNoSerieMotor());
+            pstmt.setString(8, unidad.getCpl());
+            pstmt.setTimestamp(9, unidad.getFechaInicio());
+            pstmt.setTimestamp(10, unidad.getFechaFin());
+            pstmt.setBoolean(11, true);
+            pstmt.setInt(12, unidad.getTipoUnidad().getIdTipo());
+            pstmt.setInt(13, unidad.getMarcaUnidad().getIdMarca());
+            pstmt.setInt(14, unidad.getMarcaMotor().getIdMarcaMotor());
+            pstmt.setInt(15, unidad.getUsuario().getNumeroUsuario());
+            pstmt.setString(16, unidad.getClave());
             pstmt.executeUpdate();
             
         } catch(Exception e){
@@ -149,8 +228,9 @@ public class UnidadTransporteDAO {
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String query = "SELECT clave, numero_unidad, placas, modelo, fecha_inicio, "
-                + "fecha_fin, status, id_tipo, id_marca, numero_usuario FROM "
+        String query = "SELECT clave, no_economico, vin, placas, modelo, color, "
+                + "modelo_motor, no_serie_motor, cpl, fecha_inicio, fecha_fin, "
+                + "status, id_tipo, id_marca, id_marca_motor, numero_usuario FROM "
                 + "unidad_transporte WHERE clave = ?";// AND status = ?;";//Se elimino el filtrado de registros activos
         try{
             if(abrir){
@@ -164,18 +244,24 @@ public class UnidadTransporteDAO {
             while (rs.next()) {
                 unidad = new UnidadTransporteDTO();
                 unidad.setClave(rs.getString("clave"));
-                unidad.setNumeroUnidad(rs.getString("numero_unidad"));
+                unidad.setNoEconomico(rs.getString("no_economico"));
+                unidad.setVin(rs.getString("vin"));
                 unidad.setPlacas(rs.getString("placas"));
                 unidad.setModelo(rs.getString("modelo"));
+                unidad.setColor(rs.getString("color"));
+                unidad.setModeloMotor(rs.getString("modelo_motor"));
+                unidad.setNoSerieMotor(rs.getString("no_serie_motor"));
+                unidad.setCpl(rs.getString("cpl"));
                 unidad.setFechaInicio(rs.getTimestamp("fecha_inicio"));
                 unidad.setFechaFin(rs.getTimestamp("fecha_fin"));
                 unidad.setStatus(rs.getBoolean("status"));
                 if(persistence){
                     unidad.setTipoUnidad(new TipoUnidadDAO().obtenerTipoUnidad(rs.getInt("id_tipo"), false, false));
-                    unidad.setMarca(new MarcaUnidadDAO().obtenerMarcaUnidad(rs.getInt("id_marca"), false, false));
+                    unidad.setMarcaUnidad(new MarcaUnidadDAO().obtenerMarcaUnidad(rs.getInt("id_marca"), false, false));
+                    unidad.setMarcaMotor(new MarcaMotorDAO().obtenerMarcaMotor(rs.getInt("id_marca_motor"), false, false));
                     unidad.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
                 }
-                unidad.setStatus(rs.getBoolean("status"));
+                
             }
             
         } catch(Exception e){
@@ -206,8 +292,10 @@ public class UnidadTransporteDAO {
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String query = "SELECT clave, numero_unidad, placas, modelo, fecha_inicio, fecha_fin,"
-                + "status, id_tipo, id_marca, numero_usuario FROM unidad_transporte WHERE status = ?;";
+        String query = "SELECT clave, no_economico, vin, placas, modelo, color, "
+                + "modelo_motor, no_serie_motor, cpl, fecha_inicio, fecha_fin, "
+                + "status, id_tipo, id_marca, id_marca_motor, numero_usuario FROM "
+                + "unidad_transporte WHERE status = ?";
         
         try{
             DBConnection.createConnection();
@@ -217,24 +305,24 @@ public class UnidadTransporteDAO {
             rs = pstmt.executeQuery();
             unidades = new ArrayList<UnidadTransporteDTO>();
             while (rs.next()) {
-                unidad = new UnidadTransporteDTO(
-                rs.getString("clave"),
-                rs.getString("numero_unidad"),
-                rs.getString("placas"),
-                rs.getString("modelo"),
-                rs.getTimestamp("fecha_inicio"),
-                rs.getTimestamp("fecha_fin"),
-                rs.getBoolean("status"),
-                null,//tipo
-                null,//marca
-                null);//usuario
+                unidad = new UnidadTransporteDTO();
+                unidad.setClave(rs.getString("clave"));
+                unidad.setNoEconomico(rs.getString("no_economico"));
+                unidad.setVin(rs.getString("vin"));
+                unidad.setPlacas(rs.getString("placas"));
+                unidad.setModelo(rs.getString("modelo"));
+                unidad.setColor(rs.getString("color"));
+                unidad.setModeloMotor(rs.getString("modelo_motor"));
+                unidad.setNoSerieMotor(rs.getString("no_serie_motor"));
+                unidad.setCpl(rs.getString("cpl"));
+                unidad.setFechaInicio(rs.getTimestamp("fecha_inicio"));
+                unidad.setFechaFin(rs.getTimestamp("fecha_fin"));
+                unidad.setStatus(rs.getBoolean("status"));
                 if(persistence){
-                    unidad.setTipoUnidad(new TipoUnidadDAO().
-                            obtenerTipoUnidad(rs.getInt("id_tipo"), false, false));
-                    unidad.setMarca(new MarcaUnidadDAO().
-                            obtenerMarcaUnidad(rs.getInt("id_marca"), false, false));
-                    unidad.setUsuario(new UsuarioDAO().
-                            obtenerUsuario(rs.getInt("numero_usuario"), false, false));
+                    unidad.setTipoUnidad(new TipoUnidadDAO().obtenerTipoUnidad(rs.getInt("id_tipo"), false, false));
+                    unidad.setMarcaUnidad(new MarcaUnidadDAO().obtenerMarcaUnidad(rs.getInt("id_marca"), false, false));
+                    unidad.setMarcaMotor(new MarcaMotorDAO().obtenerMarcaMotor(rs.getInt("id_marca_motor"), false, false));
+                    unidad.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
                 }
                 unidades.add(unidad);
             }

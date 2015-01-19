@@ -67,7 +67,6 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
     private OrdenReparacionDTO ordenReparacion;
     private CargoUnidadDTO cargoUnidad;
-    //private CargoBodegaDTO cargoBodega;(Eliminado)
     private CargoEspecialDTO cargoEspecial;
     private CargoOperadorDTO cargoOperador;
     
@@ -751,23 +750,22 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
     private void agregar(){
         
-        OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
+        OrdenReparacionDTO ordenReparacionLocal = new OrdenReparacionDTO();
         TransporteReparacionDTO trPlana = new TransporteReparacionDTO();
         TransporteReparacionDTO trTracto = new TransporteReparacionDTO();
+        int max = 0;
         try{
             UnidadTransporteDTO tracto = null;
             UnidadTransporteDTO plana = null;
             LazyQueryBO lazyQ = new LazyQueryBO();
             OrdenReparacionDAO acceso = new OrdenReparacionDAO();
-            OperadorDTO operador = new OperadorDTO();
+            OperadorDTO operador;
             OperadorDAO accesoOperador = new OperadorDAO();
             UnidadTransporteDAO accesoTransporte = new UnidadTransporteDAO();
             TransporteReparacionDAO accesoTransporteReparacion = new TransporteReparacionDAO();
             UsuarioDTO usuarioAlta = UserHome.getUsuario();
             int kilometrajeTracto = 0;
             int kilometrajePlana = 0;
-            int max = 0;
-            int numeroOrden = Integer.parseInt(this.jTFNumeroOrden.getText());
             boolean usaPlana = (!"".equals(this.jTFClavePlana.getText()) && this.jTFClavePlana.getText() != null);
             boolean usaTracto = (!"".equals(this.jTFClaveTracto.getText()) && this.jTFClaveTracto.getText() != null);
             boolean usaKilometrajePlana = (!"".equals(this.jTFKilometrajePlana.getText()) && this.jTFKilometrajePlana.getText() != null);
@@ -801,8 +799,6 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             
             operador = accesoOperador.obtenerOperador(Integer.parseInt(this.jTFNumeroOperador.getText()), false, false);
             
-            lazyQ.endLazyQuery();
-            
             if(!operador.isStatus() || (plana != null && !plana.isStatus()) || (tracto != null && !tracto.isStatus())){
                 JOptionPane.showMessageDialog(null, "Código error: 916\nAl menos un Operador o "
                         + "Transporte está dado de baja.", "Error!!!", JOptionPane.ERROR_MESSAGE);
@@ -810,7 +806,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 return;
             }
             
-            if(operador == null){
+            if(null == operador){
                 JOptionPane.showMessageDialog(null, "El operador que ha ingresado "
                         + "no esta dado de alta en la base de datos.", "Advertencia!!!", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -828,13 +824,11 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 return;
             }
             
-            
             if(permitirPlana){
-                
                 if(plana.getTipoUnidad().getIdTipo() == 2 || plana.getTipoUnidad().getIdTipo() == 8){
                     trPlana.setKilometraje(kilometrajePlana);
                     trPlana.setTransporte(plana);
-                    trPlana.setOrdenReparacion(ordenReparacion);
+                    trPlana.setOrdenReparacion(ordenReparacionLocal);
                     trPlana.setDescripcion(((!"".equals(this.jTADescripcionPlana.getText()) 
                             && this.jTADescripcionPlana.getText() != null) ? this.jTADescripcionPlana.getText() : ""));
                     trPlana.setStatus(true);
@@ -843,14 +837,13 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                             + "Plana\nno corresponde a una Plana o Thermo.", "Error!!!", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-            
             }
+            
             if(permitirTracto){
-                
                 if(tracto.getTipoUnidad().getIdTipo() != 2 && tracto.getTipoUnidad().getIdTipo() != 8){
                     trTracto.setKilometraje(kilometrajeTracto);
                     trTracto.setTransporte(tracto);
-                    trTracto.setOrdenReparacion(ordenReparacion);
+                    trTracto.setOrdenReparacion(ordenReparacionLocal);
                     trTracto.setDescripcion(((!"".equals(this.jTADescripcionTracto.getText()) 
                             && this.jTADescripcionTracto.getText() != null) ? this.jTADescripcionTracto.getText() : ""));
                     trTracto.setStatus(true);
@@ -861,22 +854,19 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 }
             }
             
-            /*ordenReparacion.setCargosDirectos(null);
-            ordenReparacion.setFechaEntrada(null);
-            ordenReparacion.setFechaSalida(null); //No aplica*/
-            ordenReparacion.setNumeroOrden(numeroOrden);
-            ordenReparacion.setOperador(operador);
-            ordenReparacion.setPlana(plana);
-            //ordenReparacion.setSalidasAlmacen(null);
-            ordenReparacion.setStatus(true);
-            ordenReparacion.setTracto(tracto);
-            ordenReparacion.setUsuario(UserHome.getUsuario());
+            ordenReparacionLocal.setOperador(operador);
+            ordenReparacionLocal.setPlana(plana);
+            ordenReparacionLocal.setStatus(true);
+            ordenReparacionLocal.setTracto(tracto);
+            ordenReparacionLocal.setUsuario(UserHome.getUsuario());
             
-            acceso.agregarOrdenReparacion(ordenReparacion);
-            //max = acceso.obtenerUltimaOrdenReparacion(true, true); ya no aplica ya que se cambio de auto-incrementable el campo a captura manual.
-            //ordenReparacion.setNumeroOrden(max); ya no aplica ya que se cambio de auto-incrementable el campo a captura manual.
-            trPlana.setOrdenReparacion(ordenReparacion);
-            trTracto.setOrdenReparacion(ordenReparacion);
+            acceso.agregarOrdenReparacion(ordenReparacionLocal);
+            max = acceso.obtenerUltimaOrdenReparacion(true, false); 
+            lazyQ.endLazyQuery();
+            
+            ordenReparacionLocal.setNumeroOrden(max); 
+            trPlana.setOrdenReparacion(ordenReparacionLocal);
+            trTracto.setOrdenReparacion(ordenReparacionLocal);
             trTracto.setUsuario(usuarioAlta);
             trPlana.setUsuario(usuarioAlta);
             trPlana.setUsuarioBaja(null);
@@ -894,16 +884,14 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 this.enviarReportePorMail(ABRIR_ORDEN);
             }
             
-            
             this.limpiar();
-            //this.estadoBotonesAlIniciar(); se implementa en el metodo limpiar()
             
         } catch(SQLException ex) {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 917\n" + ex.getMessage()
                         + "\nError al intentar guardar los datos.",
                         "Error!!!", JOptionPane.ERROR_MESSAGE); 
-                ErrorLogger.scribirLog(ordenReparacion.toString() + trPlana.toString() + trTracto.toString(), 917, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(ordenReparacionLocal.toString() + trPlana.toString() + trTracto.toString(), 917, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
                 OrdenReparacionDAO accesoOrdenReparacion = new OrdenReparacionDAO();
                 reparacionExitosa = accesoOrdenReparacion.repararErrorAgregarOrdenReparacion();
@@ -922,7 +910,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Código error: 919\n" + ex.getMessage()
                         + "\nError al intentar obtener los datos ingresados.",
                         "Error!!!", JOptionPane.ERROR_MESSAGE); 
-                ErrorLogger.scribirLog(ordenReparacion.toString() + trPlana.toString() + trTracto.toString(), 919, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(ordenReparacionLocal.toString() + trPlana.toString() + trTracto.toString(), 919, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
                 OrdenReparacionDAO accesoOrdenReparacion = new OrdenReparacionDAO();
                 reparacionExitosa = accesoOrdenReparacion.repararErrorAgregarOrdenReparacion();
@@ -1164,13 +1152,12 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
     }
     
     public void obtenerCargosDirectos(){
-        String mensajeError = ""/*, errorBodegas = ""*/, errorUnidades = "", errorEspeciales = "", errorOperadores = "", errorExternos = "";
+        String mensajeError = "", errorUnidades = "", errorEspeciales = "", errorOperadores = "", errorExternos = "";
         try{
             DecimalFormat formatD = new DecimalFormat("0.00");
             LazyQueryBO lazyQ = new LazyQueryBO();
 
             //Variables de Apoyo para manipulacion de detalles factura
-            //this.cargoBodega = null;
             this.cargoEspecial = null;
             this.cargoOperador = null;
             this.cargoUnidad = null;
@@ -1182,29 +1169,8 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             }
             if(this.ordenReparacion != null){
                 mensajeError = ordenReparacion.toString();
-                //Cargos Bodegas
-                //(Eliminado)
-                /*
-                List<CargoBodegaDTO> cargosBodega = null;
                 lazyQ.startLazyQuery();//abrir conexion para obtener LazyObjects
-
-                try {
-                    cargosBodega = new CargoBodegaDAO().obtenerCargosBodegasPReparacion(this.ordenReparacion, false, false);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Código error: 931\n" + ex.getMessage(),
-                            "Error al acceder a los detalles de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(ordenReparacion.toString(), 931, UserHome.getUsuario(), ex);
-                }
-
-                for(CargoBodegaDTO cargoBodega : cargosBodega){
-                    errorBodegas = cargoBodega.toString();
-                    Object datos[] = {cargoBodega.getNumeroCargoDirecto(), cargoBodega.getFactura().getFolio(),
-                        cargoBodega.getFactura().getProveedor().getNombre(), 
-                        cargoBodega.getBodega().getNombre(), cargoBodega.getRefaccion().getClaveRefaccion(),
-                        cargoBodega.getCantidad(), formatD.format(cargoBodega.getTotal()), "C. Bodega"};
-                    modelo.addRow(datos);
-                }
-                mensajeError += errorBodegas;*/
+                
                 //Cargos Especiales
 
                 List<CargoEspecialDTO> cargosEspecial = null;
@@ -1218,7 +1184,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
                 for(CargoEspecialDTO cargoEspecial : cargosEspecial){
                     errorEspeciales = cargoEspecial.toString();
-                    Object datos[] = {cargoEspecial.getNumeroCargoDirecto(), cargoEspecial.getFactura().getFolio(),
+                    Object datos[] = {cargoEspecial.getIdCargoEspecial(), cargoEspecial.getFactura().getFolio(),
                         cargoEspecial.getFactura().getProveedor().getNombre(), 
                         cargoEspecial.getNombreBeneficiario(), cargoEspecial.getRefaccion().getClaveRefaccion(),
                         cargoEspecial.getCantidad(), formatD.format(cargoEspecial.getTotal()), "C. Especial"};
@@ -1239,7 +1205,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
                 for(CargoOperadorDTO cargoOperador : cargosOperador){
                     errorOperadores = cargoOperador.toString();
-                    Object datos[] = {cargoOperador.getNumeroCargoDirecto(), cargoOperador.getFactura().getFolio(),
+                    Object datos[] = {cargoOperador.getIdCargoOperador(), cargoOperador.getFactura().getFolio(),
                         cargoOperador.getFactura().getProveedor().getNombre(), 
                         cargoOperador.getOperador().getNumeroOperador() + "# " + cargoOperador.getOperador().getNombre() + 
                         " " + cargoOperador.getOperador().getApellidos(), cargoOperador.getRefaccion().getClaveRefaccion(), 
@@ -1260,7 +1226,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
                 for(CargoUnidadDTO cargoUnidad : cargosUnidad){
                     errorUnidades = cargoUnidad.toString();
-                    Object datos[] = {cargoUnidad.getNumeroCargoDirecto(), cargoUnidad.getFactura().getFolio(),
+                    Object datos[] = {cargoUnidad.getIdCargoUnidad(), cargoUnidad.getFactura().getFolio(),
                         cargoUnidad.getFactura().getProveedor().getNombre(), 
                         cargoUnidad.getUnidad().getClave(), cargoUnidad.getRefaccion().getClaveRefaccion(), 
                         cargoUnidad.getCantidad(), formatD.format(cargoUnidad.getTotal()), "C. Unidad"};
@@ -1307,17 +1273,13 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
     public void obtenerSalidasAlmacen(){
         String mensajeError = "", errorUnidades = "", errorOperadores = "", errorEspeciales = "" /*,errorBodegas = ""*/;
         try{
-            SalidaAlmacenDAO accesoAlmacen = new SalidaAlmacenDAO();
-            //SalidaBodegaDAO accesoBodega = new SalidaBodegaDAO();(Eliminado)
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoUnidad = new SalidaUnidadDAO();
 
-            List<SalidaAlmacenDTO> salidasAlmacen = new ArrayList<SalidaAlmacenDTO>();
-            //List<SalidaBodegaDTO> salidasBodega = new ArrayList<SalidaBodegaDTO>();(Eliminado)
-            List<SalidaEspecialDTO> salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
-            List<SalidaOperadorDTO> salidasOperador = new ArrayList<SalidaOperadorDTO>();
-            List<SalidaUnidadDTO> salidasUnidad = new ArrayList<SalidaUnidadDTO>();
+            List<SalidaEspecialDTO> salidasEspeciales = null;
+            List<SalidaOperadorDTO> salidasOperador = null;
+            List<SalidaUnidadDTO> salidasUnidad = null;
 
             DecimalFormat formatD = new DecimalFormat("0.00");
             LazyQueryBO lazyQ = new LazyQueryBO();
@@ -1327,32 +1289,10 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 modelo.removeRow(modelo.getRowCount() - 1);
             }
             if(this.ordenReparacion != null){
-                //Salidas Bodegas
-                //(Eliminado)
-                /*
-                mensajeError = ordenReparacion.toString();
-                salidasBodega = null;
                 lazyQ.startLazyQuery();//abrir conexion para obtener LazyObjects
-
-                try {
-                    salidasBodega = accesoBodega.obtenerSalidasBodegaPReparacion(this.ordenReparacion, true, false, false);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Código error: 937\n" + ex.getMessage(),
-                            "Error al acceder a los detalles de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(ordenReparacion.toString(), 937, UserHome.getUsuario(), ex);
-                }
-
-                for(SalidaBodegaDTO salidaBodega : salidasBodega){
-                    errorBodegas = salidaBodega.toString();
-                    Object datos[] = {salidaBodega.getNumeroSalida(), salidaBodega.getBodega().getNombre(),
-                        salidaBodega.getRefaccion().getClaveRefaccion(), 
-                        salidaBodega.getCantidad(), formatD.format(salidaBodega.getCosto() / salidaBodega.getCantidad()),
-                        formatD.format(salidaBodega.getCosto()), "S. Bodega"};
-                    modelo.addRow(datos);
-                }
-                mensajeError += errorBodegas;*/
-                //Salidas Especiales
+                mensajeError = ordenReparacion.toString();
                 
+                //Salidas Especiales
                 try {
                     salidasEspeciales = accesoEspecial.obtenerSalidasEspecialesPReparacion(this.ordenReparacion, true, false, false);
                 } catch (SQLException ex) {
@@ -1371,10 +1311,10 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 }
 
                 mensajeError += errorEspeciales;
+                
                 //Salidas Operadores
-
                 try {
-                    salidasOperador = new SalidaOperadorDAO().obtenerSalidasOperadoresPReparacion(this.ordenReparacion, true, false, false);
+                    salidasOperador = accesoOperador.obtenerSalidasOperadoresPReparacion(this.ordenReparacion, true, false, false);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Código error: 939\n" + ex.getMessage(),
                             "Error al acceder a los detalles de la reparación!!!", JOptionPane.ERROR_MESSAGE);
@@ -1392,10 +1332,10 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 }
 
                 mensajeError += errorOperadores;
+                
                 //Salidas Unidades
-
                 try {
-                    salidasUnidad = new SalidaUnidadDAO().obtenerSalidasUnidadPReparacion(this.ordenReparacion, true, false, false);
+                    salidasUnidad = accesoUnidad.obtenerSalidasUnidadPReparacion(this.ordenReparacion, true, false, false);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Código error: 940\n" + ex.getMessage(),
                             "Error al acceder a los detalles de la reparacion!!!", JOptionPane.ERROR_MESSAGE);

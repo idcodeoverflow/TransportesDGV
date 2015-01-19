@@ -28,10 +28,6 @@ public class CargoDirectoDAO {
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String queryCargoEspecial = "SELECT IFNULL(SUM(total), 0.0) AS total_cargos FROM cargo_especial WHERE numero_orden = ? AND "
-                + "status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo != ?);";
-        String queryCargoOperador = "SELECT IFNULL(SUM(total), 0.0) AS total_cargos FROM cargo_operador WHERE numero_orden = ? AND "
-                + "status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo != ?);";
         String queryCargoUnidad = "SELECT IFNULL(SUM(total), 0.0) AS total_cargos FROM cargo_unidad WHERE numero_orden = ? AND "
                 + "status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo != ?);";
         double totalCargosTracto = 0.0;
@@ -41,24 +37,7 @@ public class CargoDirectoDAO {
                 DBConnection.createConnection();
             }
             conn = DBConnection.getConn();
-            //Cargo Especial
-            pstmt = conn.prepareStatement(queryCargoEspecial);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            pstmt.setInt(3, 2);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalCargosTracto = rs.getDouble("total_cargos");
-            }
-            //Cargo Operador
-            pstmt = conn.prepareStatement(queryCargoOperador);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            pstmt.setInt(3, 2);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalCargosTracto += rs.getDouble("total_cargos");
-            }
+            
             //Cargo Unidad
             pstmt = conn.prepareStatement(queryCargoUnidad);
             pstmt.setInt(1, ordenReparacion.getNumeroOrden());
@@ -87,10 +66,6 @@ public class CargoDirectoDAO {
         ResultSet rs = null;
         Connection conn = null;
         PreparedStatement pstmt = null;
-        String queryCargoEspecial = "SELECT IFNULL(SUM(total), 0.0) AS total_cargos FROM cargo_especial WHERE numero_orden = ? AND "
-                + "status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo = ?);";
-        String queryCargoOperador = "SELECT IFNULL(SUM(total), 0.0) AS total_cargos FROM cargo_operador WHERE numero_orden = ? AND "
-                + "status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo = ?);";
         String queryCargoUnidad = "SELECT IFNULL(SUM(total), 0.0) AS total_cargos FROM cargo_unidad WHERE numero_orden = ? AND "
                 + "status = ? AND clave IN (SELECT clave FROM unidad_transporte WHERE id_tipo = ?);";
         double totalCargosTracto = 0.0;
@@ -100,24 +75,6 @@ public class CargoDirectoDAO {
                 DBConnection.createConnection();
             }
             conn = DBConnection.getConn();
-            //Cargo Especial
-            pstmt = conn.prepareStatement(queryCargoEspecial);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            pstmt.setInt(3, 2);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalCargosTracto = rs.getDouble("total_cargos");
-            }
-            //Cargo Operador
-            pstmt = conn.prepareStatement(queryCargoOperador);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            pstmt.setInt(3, 2);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalCargosTracto += rs.getDouble("total_cargos");
-            }
             //Cargo Unidad
             pstmt = conn.prepareStatement(queryCargoUnidad);
             pstmt.setInt(1, ordenReparacion.getNumeroOrden());

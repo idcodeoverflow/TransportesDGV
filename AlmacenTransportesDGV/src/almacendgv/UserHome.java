@@ -107,12 +107,12 @@ public class UserHome extends javax.swing.JFrame {
         jMICatalogoTransportes = new javax.swing.JMenuItem();
         jMICatalogoTransportesCBajas = new javax.swing.JMenuItem();
         jMModulos = new javax.swing.JMenu();
-        jMIControlSistema = new javax.swing.JMenuItem();
         jMIInvetarios = new javax.swing.JMenuItem();
         jMManejoRefacciones = new javax.swing.JMenu();
         jMIRefacciones = new javax.swing.JMenuItem();
         jMIFamiliasRefacciones = new javax.swing.JMenuItem();
         jMIGruposRefacciones = new javax.swing.JMenuItem();
+        jMIMarcasMotores = new javax.swing.JMenuItem();
         jMIOperadores = new javax.swing.JMenuItem();
         jMIProveedores = new javax.swing.JMenuItem();
         jMIRegistroFacturas = new javax.swing.JMenuItem();
@@ -445,15 +445,6 @@ public class UserHome extends javax.swing.JFrame {
 
         jMModulos.setText("Modulos");
 
-        jMIControlSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_MASK));
-        jMIControlSistema.setText("Control Sistema");
-        jMIControlSistema.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMIControlSistemaActionPerformed(evt);
-            }
-        });
-        jMModulos.add(jMIControlSistema);
-
         jMIInvetarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         jMIInvetarios.setText("Inventarios");
         jMIInvetarios.addActionListener(new java.awt.event.ActionListener() {
@@ -491,6 +482,15 @@ public class UserHome extends javax.swing.JFrame {
         jMManejoRefacciones.add(jMIGruposRefacciones);
 
         jMModulos.add(jMManejoRefacciones);
+
+        jMIMarcasMotores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_MASK));
+        jMIMarcasMotores.setText("Marcas Motores");
+        jMIMarcasMotores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIMarcasMotoresActionPerformed(evt);
+            }
+        });
+        jMModulos.add(jMIMarcasMotores);
 
         jMIOperadores.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jMIOperadores.setText("Operadores");
@@ -733,9 +733,9 @@ public class UserHome extends javax.swing.JFrame {
         costoReparaciones.setVisible(true);
     }//GEN-LAST:event_jMIReporteCostoReparacionesActionPerformed
 
-    private void jMIControlSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIControlSistemaActionPerformed
-        this.controlSistema();
-    }//GEN-LAST:event_jMIControlSistemaActionPerformed
+    private void jMIMarcasMotoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIMarcasMotoresActionPerformed
+        this.marcasMotores();
+    }//GEN-LAST:event_jMIMarcasMotoresActionPerformed
 
     private void usuarios(){
         try{
@@ -758,6 +758,18 @@ public class UserHome extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Código error: 1158\n" + ex.getMessage(),
                     "Error al abrir Inventarios!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog("UserHome inventarios()", 1158, UserHome.getUsuario(), ex);
+        }
+    }
+    
+    private void marcasMotores(){
+        try{
+            ControlMarcasMotores controlMarcasMotores = new ControlMarcasMotores();
+            controlMarcasMotores.setLocationRelativeTo(null);
+            controlMarcasMotores.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2028\n" + ex.getMessage(),
+                    "Error al abrir Inventarios!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("UserHome marcasMotores()", 2028, UserHome.getUsuario(), ex);
         }
     }
     
@@ -1265,17 +1277,6 @@ public class UserHome extends javax.swing.JFrame {
         }
     }
     
-    private void controlSistema(){
-        try{
-            ControlSistema sistema = new ControlSistema();
-            sistema.setLocationRelativeTo(null);
-            sistema.setVisible(true);
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1377\n" + ex.getMessage(),
-                    "Error al abrir Operadores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome operadores()", 1377, UserHome.getUsuario(), ex);
-        }
-    } 
     
     /**
      * @param args the command line arguments
@@ -1330,10 +1331,10 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMICatalogoTransportes;
     private javax.swing.JMenuItem jMICatalogoTransportesCBajas;
     private javax.swing.JMenuItem jMICerrarSesion;
-    private javax.swing.JMenuItem jMIControlSistema;
     private javax.swing.JMenuItem jMIFamiliasRefacciones;
     private javax.swing.JMenuItem jMIGruposRefacciones;
     private javax.swing.JMenuItem jMIInvetarios;
+    private javax.swing.JMenuItem jMIMarcasMotores;
     private javax.swing.JMenuItem jMIOperadores;
     private javax.swing.JMenuItem jMIProveedores;
     private javax.swing.JMenuItem jMIRefacciones;
