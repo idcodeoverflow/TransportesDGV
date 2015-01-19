@@ -79,7 +79,7 @@ public class UserHome extends javax.swing.JFrame {
         jBInventario = new javax.swing.JButton();
         jBReparaciones = new javax.swing.JButton();
         jBUnidades = new javax.swing.JButton();
-        jBProveedores = new javax.swing.JButton();
+        jBFacturasProveedor = new javax.swing.JButton();
         jBSAlmacen = new javax.swing.JButton();
         jPPartesBajasInventario = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -160,11 +160,11 @@ public class UserHome extends javax.swing.JFrame {
             }
         });
 
-        jBProveedores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Provider-32.png"))); // NOI18N
-        jBProveedores.setText("Proveedores");
-        jBProveedores.addActionListener(new java.awt.event.ActionListener() {
+        jBFacturasProveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/EntryRegister-32.png"))); // NOI18N
+        jBFacturasProveedor.setText("Facturas Prov.");
+        jBFacturasProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBProveedoresActionPerformed(evt);
+                jBFacturasProveedorActionPerformed(evt);
             }
         });
 
@@ -187,8 +187,8 @@ public class UserHome extends javax.swing.JFrame {
                     .addComponent(jBRefacciones, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPModulosPrincipalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBInventario, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-                    .addComponent(jBProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBInventario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBFacturasProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPModulosPrincipalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBSAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,7 +209,7 @@ public class UserHome extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPModulosPrincipalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBFacturasProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBSAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -624,9 +624,9 @@ public class UserHome extends javax.swing.JFrame {
         this.unidades();
     }//GEN-LAST:event_jBUnidadesActionPerformed
 
-    private void jBProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBProveedoresActionPerformed
-        this.proveedores();
-    }//GEN-LAST:event_jBProveedoresActionPerformed
+    private void jBFacturasProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFacturasProveedorActionPerformed
+        this.facturas();
+    }//GEN-LAST:event_jBFacturasProveedorActionPerformed
 
     private void jBSAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSAlmacenActionPerformed
         this.salidas();
@@ -1313,8 +1313,8 @@ public class UserHome extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBFacturasProveedor;
     private javax.swing.JButton jBInventario;
-    private javax.swing.JButton jBProveedores;
     private javax.swing.JButton jBRefacciones;
     private javax.swing.JButton jBReparaciones;
     private javax.swing.JButton jBSAlmacen;
