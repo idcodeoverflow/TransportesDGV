@@ -74,7 +74,7 @@ public class SeleccionarCargoDirecto extends javax.swing.JFrame {
 
         jLTipoCargoDirecto.setText("Tipo de Cargo Directo:");
 
-        jCBTipoCargoDirecto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cargo a Unidad de Transporte", "Cargo a Operador", "Cargo Especial" }));
+        jCBTipoCargoDirecto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cargo a Unidad de Transporte", "Cargo a Operador", "Cargo Especial", "Cargo Taller" }));
         jCBTipoCargoDirecto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCBTipoCargoDirectoActionPerformed(evt);

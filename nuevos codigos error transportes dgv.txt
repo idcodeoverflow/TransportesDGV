@@ -47,6 +47,7 @@
 2046 -> public double obtenerTotalSalidasTallerPReparacion() Exception
 2047 -> public int obtenerUltimoIdSalidaTallerCCanceladas() Exception
 2048 -> public boolean reestablecerAutoincrementSalidaTaller() Exception
+2049 -> private void salidasTaller() Exception
 
 
 

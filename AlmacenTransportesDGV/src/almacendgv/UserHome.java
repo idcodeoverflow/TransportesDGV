@@ -118,6 +118,7 @@ public class UserHome extends javax.swing.JFrame {
         jMIRegistroFacturas = new javax.swing.JMenuItem();
         jMIReparaciones = new javax.swing.JMenuItem();
         jMISalidasAlmacen = new javax.swing.JMenuItem();
+        jMISalidasTaller = new javax.swing.JMenuItem();
         jMIUsuarios = new javax.swing.JMenuItem();
         jMIUnidadesTransporte = new javax.swing.JMenuItem();
         jMAyuda = new javax.swing.JMenu();
@@ -537,6 +538,15 @@ public class UserHome extends javax.swing.JFrame {
         });
         jMModulos.add(jMISalidasAlmacen);
 
+        jMISalidasTaller.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMISalidasTaller.setText("Salidas Taller");
+        jMISalidasTaller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMISalidasTallerActionPerformed(evt);
+            }
+        });
+        jMModulos.add(jMISalidasTaller);
+
         jMIUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jMIUsuarios.setText("Usuarios");
         jMIUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -737,6 +747,22 @@ public class UserHome extends javax.swing.JFrame {
         this.marcasMotores();
     }//GEN-LAST:event_jMIMarcasMotoresActionPerformed
 
+    private void jMISalidasTallerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMISalidasTallerActionPerformed
+        this.salidasTaller();
+    }//GEN-LAST:event_jMISalidasTallerActionPerformed
+
+    private void salidasTaller(){
+        try{
+            SalidaTaller salidaTaller = new SalidaTaller();
+            salidaTaller.setLocationRelativeTo(null);
+            salidaTaller.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2049\n" + ex.getMessage(),
+                    "Error al abrir Usuarios!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("UserHome usuarios()", 2049, UserHome.getUsuario(), ex);
+        }
+    }
+    
     private void usuarios(){
         try{
             ControlUsuarios users = new ControlUsuarios();
@@ -1346,6 +1372,7 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIReporteOrdenReparacion;
     private javax.swing.JMenuItem jMIReporteReparacionesPUnidad;
     private javax.swing.JMenuItem jMISalidasAlmacen;
+    private javax.swing.JMenuItem jMISalidasTaller;
     private javax.swing.JMenuItem jMISalir;
     private javax.swing.JMenuItem jMIUnidadesTransporte;
     private javax.swing.JMenuItem jMIUsuarios;
