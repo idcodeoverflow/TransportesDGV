@@ -49,5 +49,25 @@
 2048 -> public boolean reestablecerAutoincrementSalidaTaller() Exception
 2049 -> private void salidasTaller() Exception
 2050 -> private void agregarSalidaTaller() Exception
+2051 -> public SalidaTaller() Exception
+2052 -> Salida Taller private void agregar() Reparar tabla
+2053 -> private void agregar() SQLException
+2054 -> Salida Taller private void agregar() Reparar tabla
+2055 -> private void agregar() Exception
+2056 -> Salida Taller private void agregar() Reparar tabla
+2057 -> SalidaTaller private void limpiar() Exception
+2058 -> SalidaTaller private double obtenerRefaccionPrecioUnitario() SQLException
+2059 -> SalidaTaller private double obtenerRefaccionPrecioUnitario() Exception
+2060 -> SalidaTaller private void calcularTotal() Exception
+2061 -> SalidaTaller private void prepararCaptura() Exception
+2062 -> SalidaTaller private void valorOriginal() Exception
+2063 -> SalidaTaller public void mostrarValores() Exception
+2064 -> SalidaTaller private void obtenerOrdenesReparacionPendientes() SQLException
+2065 -> SalidaTaller private void obtenerOrdenesReparacionPendientes() Exception
+2066 -> SalidaTaller private boolean validarTransportesPReparacion() SQLException
+2067 -> SalidaTaller private boolean validarTransportesPReparacion() Exception
+2068 -> SalidaTaller private void mostrarPrecioRefaccion() Exception
+2069 -> SalidaTaller private void mostrarUnidadesTransportePReparacion() SQLException
+2070 -> SalidaTaller private void mostrarUnidadesTransportePReparacion() Exception
 
 
