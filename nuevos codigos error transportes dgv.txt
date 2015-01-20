@@ -1,0 +1,52 @@
+2000 -> public List<SalidaEspecialDTO> obtenerSalidasEspecialesSinCanceladas
+2001 -> public List<SalidaOperadorDTO> obtenerSalidasOperadoresSinCanceladas
+2002 ->  public List<SalidaUnidadDTO> obtenerSalidasUnidadSinCanceladas
+2003 -> public List<SalidaEspecialDTO> obtenerSalidasEspecialesPRefaccion
+2004 -> public List<SalidaOperadorDTO> obtenerSalidasOperadoresPRefaccionSinCanceladas
+2005 -> public List<SalidaUnidadDTO> obtenerSalidasUnidadPRefaccionSinCanceladas
+2006 -> public SalidaAlmacenDTO obtenerUltimaSalidaAlmacenPRefaccion
+2007 -> public void agregarMarcaMotor(MarcaMotorDTO marcaMotor) 
+2008 -> public void modificarMarcaMotor(MarcaMotorDTO marcaMotor)
+2009 -> public void eliminarMarcaMotor(MarcaMotorDTO marcaMotor) 
+2010 -> public MarcaMotorDTO obtenerMarcaMotor(int idMarca) 
+2011 -> public List<MarcaMotorDTO> obtenerMarcasMotores() 
+2012 -> public void guardarImagenTransporte(String ruta, UnidadTransporteDTO unidad)
+2013 -> public Image getImagenUnidadTransporte(UnidadTransporteDTO unidadTransporte)
+2014 -> public ControlMarcasMotores() 
+2015 -> private void agregar() SQLException
+2016 -> private void agregar() Exception
+2017 -> private void modificar() SQLException
+2018 -> private void modificar() Exception
+2019 -> private void eliminar() SQLException
+2020 -> private void eliminar() Exception
+2021 -> private void limpiar()
+2022 -> private void obtenerMarcaMotor() SQLException
+2023 -> private void obtenerMarcaMotor() Exception
+2024 -> private void obtenerMarcasMotor() SQLException
+2025 -> private void obtenerMarcasMotor() Exception
+2026 -> private void estadoBotonesInicio()
+2027 -> private void estadoBotonesClicOperadores()
+2028 -> private void marcasMotores()
+2029 -> public boolean agregarCargoTaller() Exception
+2030 -> public void modificarCargoTaller(CargoTallerDTO cargo) Exception
+2031 -> public void eliminarCargoTaller(CargoTallerDTO cargo) Exception
+2032 -> public CargoTallerDTO obtenerCargoTaller() Exception
+2033 -> public List<CargoTallerDTO> obtenerCargosTaller() Exception
+2034 -> public List<CargoTallerDTO> obtenerCargosTallerPFactura() Exception
+2035 -> public List<CargoTallerDTO> obtenerCargosTallerPReparacion() Exception
+2036 -> public double obtenerTotalCargosTallerPReparacion() Exception
+2037 -> public int obtenerUltimoIdCargoTallerCCanceladas() Exception
+2038 -> public boolean reestablecerAutoincrementCargoTaller() Exception
+2039 -> public boolean agregarSalidaTaller() Exception
+2040 -> public void eliminarSalidaTaller() Exception
+2041 -> public SalidaTallerDTO obtenerSalidaTaller() Exception
+2042 -> public List<SalidaTallerDTO> obtenerSalidasTaller() Exception
+2043 -> public List<SalidaTallerDTO> obtenerSalidasTallerSinCanceladas() Exception
+2044 -> public List<SalidaTallerDTO> obtenerSalidasTallerPReparacion() Exception
+2045 -> public List<SalidaTallerDTO> obtenerSalidasTallerPRefaccionSinCanceladas() Exception
+2046 -> public double obtenerTotalSalidasTallerPReparacion() Exception
+2047 -> public int obtenerUltimoIdSalidaTallerCCanceladas() Exception
+2048 -> public boolean reestablecerAutoincrementSalidaTaller() Exception
+
+
+
