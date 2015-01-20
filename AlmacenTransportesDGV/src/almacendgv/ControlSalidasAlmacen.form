@@ -184,6 +184,8 @@
                       <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
+                              <Component id="jBSalidaEspecial1" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jBSalidaEspecial" linkSize="1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jBSalidaOperador" linkSize="1" min="-2" max="-2" attributes="0"/>
@@ -231,7 +233,7 @@
                           <Component id="jLNumeroOrden" min="-2" max="-2" attributes="0"/>
                           <Component id="jLCancelada" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="105" max="32767" attributes="0"/>
+                      <EmptySpace pref="98" max="32767" attributes="0"/>
                       <Component id="jLLogo" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -290,6 +292,7 @@
                   <Component id="jBSalidaTransporte" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jBSalidaOperador" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jBSalidaEspecial" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBSalidaEspecial1" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jPSalidasAlmacen" max="32767" attributes="0"/>
@@ -578,6 +581,14 @@
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="jBSalidaEspecial1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Salida Taller"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBSalidaEspecial1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
