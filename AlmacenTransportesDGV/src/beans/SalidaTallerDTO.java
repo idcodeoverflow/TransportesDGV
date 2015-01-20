@@ -14,6 +14,7 @@ import static utilidades.DataChecker.nullCheck;
 public class SalidaTallerDTO extends SalidaAlmacenDTO {
     
     private int idSalidaTaller;
+    private UnidadTransporteDTO unidadTransporte;
 
     public SalidaTallerDTO() {
         super();
@@ -24,9 +25,10 @@ public class SalidaTallerDTO extends SalidaAlmacenDTO {
         this.idSalidaTaller = idSalidaEspecial;
     }
     
-    public SalidaTallerDTO(int idSalidaEspecial, SalidaAlmacenDTO salidaAlmacen){
+    public SalidaTallerDTO(int idSalidaEspecial, UnidadTransporteDTO unidadTransporte, SalidaAlmacenDTO salidaAlmacen){
         super(salidaAlmacen.getNumeroSalida(), salidaAlmacen.getCosto(), salidaAlmacen.isStatus(), salidaAlmacen.getCantidad(), salidaAlmacen.getFechaRegistro(), salidaAlmacen.getRefaccion(), salidaAlmacen.getUsuario(), salidaAlmacen.getOrdenReparacion(), salidaAlmacen.getTipo());
         this.idSalidaTaller = idSalidaEspecial;
+        this.unidadTransporte = unidadTransporte;
     }
 
     public int getIdSalidaTaller() {
@@ -37,14 +39,23 @@ public class SalidaTallerDTO extends SalidaAlmacenDTO {
         this.idSalidaTaller = idSalidaTaller;
     }
 
+     public UnidadTransporteDTO getUnidadTransporte() {
+        return unidadTransporte;
+    }
+
+    public void setUnidadTransporte(UnidadTransporteDTO unidadTransporte) {
+        this.unidadTransporte = unidadTransporte;
+    }
+    
     @Override
     public String toString(){
         try {
             return "{SalidaTallerDTO}[(idSalidaEspecial:" + this.idSalidaTaller + 
+                    "),(unidadTransporte:" + nullCheck(unidadTransporte) +
                     "),(salidaAlmacen:" + nullCheck(super.toString()) + ")]";
         } catch (NullPointerException ex) {
             return null;
         }
     }
-    
+
 }

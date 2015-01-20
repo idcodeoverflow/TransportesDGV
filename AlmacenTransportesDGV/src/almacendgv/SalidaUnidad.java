@@ -187,7 +187,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
 
         jMIAgregarSalida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         jMIAgregarSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Apply-16.png"))); // NOI18N
-        jMIAgregarSalida.setText("Agregar Salida Operador");
+        jMIAgregarSalida.setText("Agregar Salida a Unidad");
         jMIAgregarSalida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMIAgregarSalidaActionPerformed(evt);
@@ -323,7 +323,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getAccessibleContext().setAccessibleName("Salida Especial de Almacén - Sistema de Administración Mantenimiento");
+        getAccessibleContext().setAccessibleName("Salida Especial de Almacén - Grupo REMEX");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

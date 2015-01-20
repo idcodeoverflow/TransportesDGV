@@ -87,7 +87,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
         jLLogo = new javax.swing.JLabel();
         jLNumeroOrden = new javax.swing.JLabel();
         jLCancelada = new javax.swing.JLabel();
-        jBSalidaEspecial1 = new javax.swing.JButton();
+        jBSalidaTaller = new javax.swing.JButton();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMSalidasAlmacén = new javax.swing.JMenu();
@@ -261,10 +261,10 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
         jLCancelada.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLCancelada.setForeground(new java.awt.Color(255, 0, 0));
 
-        jBSalidaEspecial1.setText("Salida Taller");
-        jBSalidaEspecial1.addActionListener(new java.awt.event.ActionListener() {
+        jBSalidaTaller.setText("Salida Taller");
+        jBSalidaTaller.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBSalidaEspecial1ActionPerformed(evt);
+                jBSalidaTallerActionPerformed(evt);
             }
         });
 
@@ -381,7 +381,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jBSalidaEspecial1)
+                                .addComponent(jBSalidaTaller)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jBSalidaEspecial)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -427,7 +427,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBCancelarSalida, jBSalidaEspecial, jBSalidaEspecial1, jBSalidaOperador, jBSalidaTransporte});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBCancelarSalida, jBSalidaEspecial, jBSalidaOperador, jBSalidaTaller, jBSalidaTransporte});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,7 +473,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                     .addComponent(jBSalidaTransporte)
                     .addComponent(jBSalidaOperador)
                     .addComponent(jBSalidaEspecial)
-                    .addComponent(jBSalidaEspecial1))
+                    .addComponent(jBSalidaTaller))
                 .addGap(18, 18, 18)
                 .addComponent(jPSalidasAlmacen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -534,9 +534,9 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
         this.obtenerSalida();
     }//GEN-LAST:event_jTSalidasAlmacenMouseReleased
 
-    private void jBSalidaEspecial1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalidaEspecial1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBSalidaEspecial1ActionPerformed
+    private void jBSalidaTallerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalidaTallerActionPerformed
+        this.agregarSalidaTaller();
+    }//GEN-LAST:event_jBSalidaTallerActionPerformed
 
     private void agregarSalidaEspecial(){
         try{
@@ -580,6 +580,21 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                         + "\nError al intentar abrir Salida a Unidad.",
                         "Error!!!", JOptionPane.ERROR_MESSAGE); 
             ErrorLogger.scribirLog("ControlSalidasAlmacen agregarSalidaUnidad()", 1002, UserHome.getUsuario(), ex);
+        }
+    }
+    
+    private void agregarSalidaTaller(){
+        try{
+            SalidaTaller salidaTaller = new SalidaTaller();
+            salidaTaller.mostrarValores();
+            salidaTaller.setControlSalidas(this);
+            salidaTaller.setLocationRelativeTo(null);
+            salidaTaller.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2050\n" + ex.getMessage()
+                        + "\nError al intentar abrir Salida a Unidad.",
+                        "Error!!!", JOptionPane.ERROR_MESSAGE); 
+            ErrorLogger.scribirLog("ControlSalidasAlmacen agregarSalidaUnidad()", 2050, UserHome.getUsuario(), ex);
         }
     }
     
@@ -891,8 +906,8 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBCancelarSalida;
     private javax.swing.JButton jBSalidaEspecial;
-    private javax.swing.JButton jBSalidaEspecial1;
     private javax.swing.JButton jBSalidaOperador;
+    private javax.swing.JButton jBSalidaTaller;
     private javax.swing.JButton jBSalidaTransporte;
     private javax.swing.JLabel jLCancelada;
     private javax.swing.JLabel jLCantidad;

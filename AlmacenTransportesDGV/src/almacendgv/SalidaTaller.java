@@ -7,11 +7,14 @@ package almacendgv;
 import beans.OrdenReparacionDTO;
 import beans.RefaccionDTO;
 import beans.SalidaAlmacenDTO;
-import beans.SalidaEspecialDTO;
+import beans.SalidaTallerDTO;
+import beans.TransporteReparacionDTO;
+import beans.UnidadTransporteDTO;
 import data.OrdenReparacionDAO;
 import data.RefaccionDAO;
-import data.SalidaAlmacenDAO;
-import data.SalidaEspecialDAO;
+import data.SalidaTallerDAO;
+import data.TransporteReparacionDAO;
+import data.UnidadTransporteDAO;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -46,9 +49,9 @@ public class SalidaTaller extends javax.swing.JFrame {
 
             this.actualizarListas();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1084\n" + ex.getMessage(),
-                    "Error al iniciar ventana Salida Especial!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("Constructor SalidaEspecial()", 1084, UserHome.getUsuario(), ex);
+            JOptionPane.showMessageDialog(null, "Código error: 1118\n" + ex.getMessage(),
+                    "Error al iniciar ventana Salida a Unidad de Transporte!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("Constructor SalidaUnidad()", 1118, UserHome.getUsuario(), ex);
             this.dispose();
         }
     }
@@ -94,10 +97,10 @@ public class SalidaTaller extends javax.swing.JFrame {
         jTFPrecioUnitario = new javax.swing.JTextField();
         jLTotal = new javax.swing.JLabel();
         jTFTotal = new javax.swing.JTextField();
-        jLBeneficiario = new javax.swing.JLabel();
+        jLClaveTransporte = new javax.swing.JLabel();
         jBAgregarSalida = new javax.swing.JButton();
         jLLogo = new javax.swing.JLabel();
-        jTFBeneficiario = new javax.swing.JTextField();
+        jCBClaveTransporte = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregarSalida = new javax.swing.JMenuItem();
@@ -109,7 +112,7 @@ public class SalidaTaller extends javax.swing.JFrame {
         jMIVerManual = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Salida Especial de Almacen - Sistema de Administración Mantenimiento");
+        setTitle("Salida de Almacén a Taller - Sistema de Administración Mantenimiento");
 
         jLUsuario.setText("Usuario:");
 
@@ -127,6 +130,12 @@ public class SalidaTaller extends javax.swing.JFrame {
         jTFNumeroSalida.setFocusable(false);
 
         jLOrdenReparacion.setText("Orden de Reparación:");
+
+        jCBOrdenReparacion.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCBOrdenReparacionItemStateChanged(evt);
+            }
+        });
 
         jLClaveRefaccion.setText("Clave Refacción:");
 
@@ -159,9 +168,12 @@ public class SalidaTaller extends javax.swing.JFrame {
 
         jLTotal.setText("Total:");
 
-        jLBeneficiario.setText("Beneficiario:");
+        jTFTotal.setEditable(false);
+        jTFTotal.setFocusable(false);
 
-        jBAgregarSalida.setText("Agregar Salida Especial");
+        jLClaveTransporte.setText("Clave Transporte:");
+
+        jBAgregarSalida.setText("Agregar Salida a Taller");
         jBAgregarSalida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBAgregarSalidaActionPerformed(evt);
@@ -174,7 +186,7 @@ public class SalidaTaller extends javax.swing.JFrame {
 
         jMIAgregarSalida.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         jMIAgregarSalida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Apply-16.png"))); // NOI18N
-        jMIAgregarSalida.setText("Agregar Salida Especial");
+        jMIAgregarSalida.setText("Agregar Salida Taller");
         jMIAgregarSalida.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMIAgregarSalidaActionPerformed(evt);
@@ -241,7 +253,7 @@ public class SalidaTaller extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLBeneficiario)
+                    .addComponent(jLClaveTransporte)
                     .addComponent(jLPrecioUnitario)
                     .addComponent(jLClaveRefaccion)
                     .addComponent(jLNumeroSalida)
@@ -252,7 +264,7 @@ public class SalidaTaller extends javax.swing.JFrame {
                     .addComponent(jTFNumeroSalida)
                     .addComponent(jTFClaveRefaccion)
                     .addComponent(jTFPrecioUnitario)
-                    .addComponent(jTFBeneficiario))
+                    .addComponent(jCBClaveTransporte, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -268,7 +280,7 @@ public class SalidaTaller extends javax.swing.JFrame {
                             .addComponent(jTFCantidad)
                             .addComponent(jTFTotal)))
                     .addComponent(jBAgregarSalida))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLLogo)
                 .addContainerGap())
         );
@@ -304,9 +316,9 @@ public class SalidaTaller extends javax.swing.JFrame {
                             .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLBeneficiario)
+                            .addComponent(jLClaveTransporte)
                             .addComponent(jBAgregarSalida)
-                            .addComponent(jTFBeneficiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jCBClaveTransporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -361,52 +373,57 @@ public class SalidaTaller extends javax.swing.JFrame {
         this.calcularTotal();
     }//GEN-LAST:event_jTFCantidadCaretUpdate
 
+    private void jCBOrdenReparacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBOrdenReparacionItemStateChanged
+        if(jCBOrdenReparacion.getSelectedIndex() > -1){
+            this.mostrarUnidadesTransportePReparacion();
+        }
+    }//GEN-LAST:event_jCBOrdenReparacionItemStateChanged
+
     private void agregar(){
         SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
-        SalidaEspecialDTO salidaEspecial = new SalidaEspecialDTO();
+        SalidaTallerDTO salidaTaller = new SalidaTallerDTO();
         try{
-            if("".equals(this.jTFBeneficiario.getText()) || this.jTFBeneficiario == null){
-                JOptionPane.showMessageDialog(this, "Aún no se agrega un beneficiario.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            SalidaEspecialDAO accesoAlmacen = new SalidaEspecialDAO();
+            SalidaTallerDAO accesoAlmacen = new SalidaTallerDAO();
+            UnidadTransporteDTO unidadTransporte = new UnidadTransporteDTO();
+            UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
             OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
             OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
             RefaccionDTO refaccionReq = new RefaccionDTO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
-            this.mostrarPrecioRefaccion();
             
-            boolean agregarSalidaEspecialExitoso = false;
+            boolean agregarSalidaUnidadExitoso = false;
+            this.mostrarPrecioRefaccion();
             double cantidadPiezas = Double.parseDouble(this.jTFCantidad.getText());
             double precioUnitarioRef = Double.parseDouble(this.jTFPrecioUnitario.getText());
             double costo = cantidadPiezas * precioUnitarioRef;
             String claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
+            String claveTransporte = ((this.jCBClaveTransporte.getSelectedItem() != null & !"".equals(this.jCBClaveTransporte.getSelectedItem().toString())) ? this.jCBClaveTransporte.getSelectedItem().toString() : "");
             double existenciaPiezas = accesoRefaccion.obtenerExistenciaRefaccion(claveRefaccion, true, true);
             int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
-            String nombreBeneficiario = ((this.jTFBeneficiario != null && !"".equals(this.jTFBeneficiario.getText())) ? this.jTFBeneficiario.getText() : "");
-            nombreBeneficiario = nombreBeneficiario.trim();
-            
-            refaccionReq = accesoRefaccion.obtenerRefaccion(claveRefaccion, true, false);
+             
+            unidadTransporte = accesoUnidad.obtenerUnidad(claveTransporte, true, true, false);
+            refaccionReq = accesoRefaccion.obtenerRefaccion(claveRefaccion, false, false);
             ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, false, true);
             
-            //validar que exista la clave de refaccion en el inventario
+            //validar existencia de la clave de refaccion en el inventario
             if(refaccionReq == null){
                 JOptionPane.showMessageDialog(null, "La clave de refacción\nno existe en el inventario.",
                     "Refacción no econtrada!!!", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             
-            //validar la cantidad de piezas en el inventario
+            //validar cantidad de piezas en el inventario
             if(existenciaPiezas < cantidadPiezas){
                 JOptionPane.showMessageDialog(null, "El inventario actual no\npuede cubrir la salida\nde almacén indicada",
                     "Inventario insuficiente!!!", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             
-            //validar que nombre del beneficiario sea valido
-            if(nombreBeneficiario.equals("")){
-                JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de\nbeneficiario.",
-                    "Nombre de Beneficiario inválido!!!", JOptionPane.WARNING_MESSAGE);
+            //Validar que la unidad se encuentre en la orden de reparacion
+            if(!this.validarTransportesPReparacion(claveTransporte, ordenReparacion)){
+                JOptionPane.showMessageDialog(null, "La clave de Unidad de Transporte\nno pertenece "
+                        + "a la orden de\nreparación indicada.\nVerifique los datos e inténtelo\notra vez."
+                        , "Datos Erroneos!!!", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             
@@ -415,7 +432,7 @@ public class SalidaTaller extends javax.swing.JFrame {
             salidaAlmacen.setOrdenReparacion(ordenReparacion);
             salidaAlmacen.setRefaccion(refaccionReq);
             salidaAlmacen.setStatus(true);
-            salidaAlmacen.setTipo(2);
+            salidaAlmacen.setTipo(4);
             salidaAlmacen.setUsuario(UserHome.getUsuario());
             
             
@@ -427,20 +444,18 @@ public class SalidaTaller extends javax.swing.JFrame {
             }
             
             
-            //salidaAlmacen.setNumeroSalida(numeroSalida);
             
-            salidaEspecial = new SalidaEspecialDTO(0, nombreBeneficiario, salidaAlmacen);
+            salidaTaller = new SalidaTallerDTO(0, unidadTransporte, salidaAlmacen);
             
-            agregarSalidaEspecialExitoso = accesoAlmacen.agregarSalidaEspecial(salidaEspecial);
+            agregarSalidaUnidadExitoso = accesoAlmacen.agregarSalidaTaller(salidaTaller);
             
-            if(!agregarSalidaEspecialExitoso){
+            if(!agregarSalidaUnidadExitoso){
                 boolean reparacionExitosa = false;
-                reparacionExitosa = accesoAlmacen.repararErrorAgregarSalidaEspecial();
+                reparacionExitosa = accesoAlmacen.repararErrorAgregarSalidaTaller();
                 if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1085\n" + "No se pudo reparar la tabla",
+                    JOptionPane.showMessageDialog(null, "Código error: 1119\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaEspecial.toString(), 1085, UserHome.getUsuario(), new Exception("#NA"));
-
+                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 1119, UserHome.getUsuario(), new Exception("#NA"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -453,44 +468,44 @@ public class SalidaTaller extends javax.swing.JFrame {
             
         } catch (SQLException ex) {
             try {
-                JOptionPane.showMessageDialog(null, "Código error: 1086\n" + ex.getMessage(),
+                JOptionPane.showMessageDialog(null, "Código error: 1120\n" + ex.getMessage(),
                         "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaEspecial.toString(), 1086, UserHome.getUsuario(), ex);
-                boolean reparacionExitosa = false;
-                SalidaEspecialDAO accesoSalidaEspecial = new SalidaEspecialDAO();
-                reparacionExitosa = accesoSalidaEspecial.repararErrorAgregarSalidaEspecial();
-                if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1087\n" + "No se pudo reparar la tabla",
-                    "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaEspecial.toString(), 1087, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 1120, UserHome.getUsuario(), ex);
 
+                boolean reparacionExitosa = false;
+                SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
+                reparacionExitosa = accesoSalidaTaller.repararErrorAgregarSalidaTaller();
+                if(!reparacionExitosa){
+                    JOptionPane.showMessageDialog(null, "Código error: 1121\n" + "No se pudo reparar la tabla",
+                    "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
+                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 1121, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException ex1) {
-                //Logger.getLogger(SalidaEspecial.class.getName()).log(Level.SEVERE, null, ex1);
+                //Logger.getLogger(SalidaUnidad.class.getName()).log(Level.SEVERE, null, ex1);
             }
         } catch (Exception ex) {
             try {
-                JOptionPane.showMessageDialog(null, "Código error: 1088\n" + ex.getMessage(),
+                JOptionPane.showMessageDialog(null, "Código error: 1122\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaEspecial.toString(), 1088, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 1122, UserHome.getUsuario(), ex);
 
                 boolean reparacionExitosa = false;
-                SalidaEspecialDAO accesoSalidaEspecial = new SalidaEspecialDAO();
-                reparacionExitosa = accesoSalidaEspecial.repararErrorAgregarSalidaEspecial();
+                SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
+                reparacionExitosa = accesoSalidaTaller.repararErrorAgregarSalidaTaller();
                 if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1089\n" + "No se pudo reparar la tabla",
+                    JOptionPane.showMessageDialog(null, "Código error: 1123\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaEspecial.toString(), 1089, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 1123, UserHome.getUsuario(), ex);
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException ex1) {
-                //Logger.getLogger(SalidaEspecial.class.getName()).log(Level.SEVERE, null, ex1);
+                //Logger.getLogger(SalidaUnidad.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
       
@@ -502,15 +517,14 @@ public class SalidaTaller extends javax.swing.JFrame {
             this.jTFFecha.setText(null);
             this.jTFNumeroSalida.setText(null);
             this.jCBOrdenReparacion.setSelectedIndex(0);
-            this.jTFBeneficiario.setText(null);
+            this.jCBClaveTransporte.removeAllItems();
             this.mostrarValores();
             this.actualizarListas();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1090\n"
+            JOptionPane.showMessageDialog(null, "Código error: 1124\n"
                     + "Error al limpiar los datos.", "Error!!!",
                     JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial limpiar()", 1090, UserHome.getUsuario(), ex);
-
+            ErrorLogger.scribirLog("SalidaUnidad limpiar()", 1124, UserHome.getUsuario(), ex);
         }
     }
     
@@ -530,15 +544,14 @@ public class SalidaTaller extends javax.swing.JFrame {
             precio = refaccion.obtenerPrecioRefaccion(claveRefaccion, true, true);
         } catch (SQLException ex) {
             precio = 0.00;
-            JOptionPane.showMessageDialog(null, "Código error: 1091\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1125\n" + ex.getMessage(),
                     "Error al obtener el precio de la refaccion en la BD!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial obtenerRefaccionPrecioUnitario()", 1091, UserHome.getUsuario(), ex);
-
+            ErrorLogger.scribirLog("SalidaUnidad obtenerRefaccionPrecioUnitario()", 1125, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
             precio = 0.00;
-            JOptionPane.showMessageDialog(null, "Código error: 1092\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1126\n" + ex.getMessage(),
                     "Error al obtener el precio!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial obtenerRefaccionPrecioUnitario()", 1092, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("SalidaUnidad obtenerRefaccionPrecioUnitario()", 1126, UserHome.getUsuario(), ex);
         }
         return precio;
     }
@@ -554,9 +567,9 @@ public class SalidaTaller extends javax.swing.JFrame {
             double totalRef = (double)(cantidadReq * precio);
             this.jTFTotal.setText(formatD.format(totalRef));
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1093\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1127\n" + ex.getMessage(),
                     "Error al calcular el total!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial calcularTotal()", 1093, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("SalidaUnidad calcularTotal()", 1127, UserHome.getUsuario(), ex);
         }
     }
     
@@ -565,10 +578,10 @@ public class SalidaTaller extends javax.swing.JFrame {
             this.valorOriginal = ((campo != null && !"".equals(campo.getText())) ? campo.getText() : "");
             campo.setText(null);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1094\n"
+            JOptionPane.showMessageDialog(null, "Código error: 1128\n"
                     + "Error al tomar el valor del campo.", "Error!!!",
                     JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial prepararCaptura()", 1094, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("SalidaUnidad prepararCaptura()", 1128, UserHome.getUsuario(), ex);
         }
     }
     
@@ -577,10 +590,10 @@ public class SalidaTaller extends javax.swing.JFrame {
             campo.setText(this.valorOriginal);
             this.valorOriginal = null;
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1095\n"
+            JOptionPane.showMessageDialog(null, "Código error: 1129\n"
                     + "Error al insertar el valor\noriginal del campo.", "Error!!!",
                     JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial valorOriginal()", 1095, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("SalidaUnidad valorOriginal()", 1129, UserHome.getUsuario(), ex);
         }
     }
     
@@ -591,10 +604,10 @@ public class SalidaTaller extends javax.swing.JFrame {
             this.jTFPrecioUnitario.setText("0.000");
             this.jTFTotal.setText("0.000");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1096\n"
+            JOptionPane.showMessageDialog(null, "Código error: 1130\n"
                     + "Error al mostrar los valores.", "Error!!!",
                     JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial mostrarValores()", 1096, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("SalidaUnidad mostrarValores()", 1130, UserHome.getUsuario(), ex);
         }
     }
     
@@ -607,13 +620,13 @@ public class SalidaTaller extends javax.swing.JFrame {
                 this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1097\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1131\n" + ex.getMessage(),
                     "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial obtenerOrdenesReparacionPendientes()", 1097, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("SalidaUnidad obtenerOrdenesReparacionPendientes()", 1131, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1098\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1132\n" + ex.getMessage(),
                     "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial obtenerOrdenesReparacionPendientes()", 1098, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("SalidaUnidad obtenerOrdenesReparacionPendientes()", 1132, UserHome.getUsuario(), ex);
         }
     }
     
@@ -636,6 +649,29 @@ public class SalidaTaller extends javax.swing.JFrame {
         }
     }
     
+    private boolean validarTransportesPReparacion(String claveTransporte, OrdenReparacionDTO reparacion){
+        try{
+            TransporteReparacionDAO accesoTransporteReparacion = new TransporteReparacionDAO();
+            List<TransporteReparacionDTO> transportes = accesoTransporteReparacion.
+                    obtenerTransportesPReparacion(reparacion, true, true, true, true);
+
+            for(TransporteReparacionDTO transporte : transportes){
+                if(claveTransporte.equals(transporte.getTransporte().getClave())){
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1133\n" + ex.getMessage(),
+                    "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("SalidaUnidad validarTransportesPReparacion()", 1133, UserHome.getUsuario(), ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1134\n" + ex.getMessage(),
+                    "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("SalidaUnidad validarTransportesPReparacion()", 1134, UserHome.getUsuario(), ex);
+        }
+        return false;
+    }
+    
     private void actualizarListas(){
         this.obtenerOrdenesReparacionPendientes();
     }
@@ -645,12 +681,40 @@ public class SalidaTaller extends javax.swing.JFrame {
             DecimalFormat formatD = new DecimalFormat("0.000");
             this.jTFPrecioUnitario.setText(formatD.format(this.obtenerRefaccionPrecioUnitario()));
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1099\n" + ex.getMessage() 
+            JOptionPane.showMessageDialog(null, "Código error: 1135\n" + ex.getMessage()
                     + "\nError al obtener el precio de la refacción.\nSe borrara la información de"
                     + "\nlos campos de texto por seguridad.", "Error!!!",
                         JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaEspecial mostrarPrecioRefaccion()", 1099, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("SalidaUnidad mostrarPrecioRefaccion()", 1135, UserHome.getUsuario(), ex);
             this.limpiar();
+        }
+    }
+    
+    private void mostrarUnidadesTransportePReparacion(){
+        String mensajeError = "";
+        try{
+            int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
+            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
+            OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
+            TransporteReparacionDAO accesoTReparacion = new TransporteReparacionDAO();
+            ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, true, true);
+            List<TransporteReparacionDTO> transportes = accesoTReparacion.obtenerTransportesPReparacion(ordenReparacion, true, true, true, true);
+            
+            this.jCBClaveTransporte.removeAllItems();
+            
+            for(TransporteReparacionDTO transporte : transportes){
+                this.jCBClaveTransporte.addItem(transporte.getTransporte().getClave());
+                mensajeError = transporte.toString();
+            }
+            
+        } catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1214\n" + ex.getMessage(),
+                        "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(mensajeError, 1214, UserHome.getUsuario(), ex);
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1215\n" + ex.getMessage(),
+                        "Error al obtener los datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(mensajeError, 1215, UserHome.getUsuario(), ex);
         }
     }
     
@@ -691,10 +755,11 @@ public class SalidaTaller extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarSalida;
+    private javax.swing.JComboBox jCBClaveTransporte;
     private javax.swing.JComboBox jCBOrdenReparacion;
-    private javax.swing.JLabel jLBeneficiario;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
+    private javax.swing.JLabel jLClaveTransporte;
     private javax.swing.JLabel jLFecha;
     private javax.swing.JLabel jLLogo;
     private javax.swing.JLabel jLNumeroSalida;
@@ -711,7 +776,6 @@ public class SalidaTaller extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIVerManual;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JTextField jTFBeneficiario;
     private javax.swing.JTextField jTFCantidad;
     private javax.swing.JTextField jTFClaveRefaccion;
     private javax.swing.JTextField jTFFecha;

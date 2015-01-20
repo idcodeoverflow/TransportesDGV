@@ -17,7 +17,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icons/Apply-16.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Agregar Salida Especial"/>
+                <Property name="text" type="java.lang.String" value="Agregar Salida Taller"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIAgregarSalidaActionPerformed"/>
@@ -100,7 +100,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Salida Especial de Almacen - Sistema de Administraci&#xf3;n Mantenimiento"/>
+    <Property name="title" type="java.lang.String" value="Salida de Almac&#xe9;n a Taller - Sistema de Administraci&#xf3;n Mantenimiento"/>
   </Properties>
   <AccessibilityProperties>
     <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Salida Especial de Almac&#xe9;n - Grupo REMEX"/>
@@ -128,7 +128,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLBeneficiario" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLClaveTransporte" min="-2" max="-2" attributes="0"/>
                   <Component id="jLPrecioUnitario" min="-2" max="-2" attributes="0"/>
                   <Component id="jLClaveRefaccion" min="-2" max="-2" attributes="0"/>
                   <Component id="jLNumeroSalida" min="-2" max="-2" attributes="0"/>
@@ -140,7 +140,7 @@
                   <Component id="jTFNumeroSalida" max="32767" attributes="0"/>
                   <Component id="jTFClaveRefaccion" max="32767" attributes="0"/>
                   <Component id="jTFPrecioUnitario" max="32767" attributes="0"/>
-                  <Component id="jTFBeneficiario" max="32767" attributes="0"/>
+                  <Component id="jCBClaveTransporte" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -161,7 +161,7 @@
                   </Group>
                   <Component id="jBAgregarSalida" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="23" max="32767" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
               <Component id="jLLogo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -203,9 +203,9 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLBeneficiario" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLClaveTransporte" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jBAgregarSalida" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFBeneficiario" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCBClaveTransporte" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -259,6 +259,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCBOrdenReparacionItemStateChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLClaveRefaccion">
       <Properties>
@@ -299,15 +302,19 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTFTotal">
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLBeneficiario">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Beneficiario:"/>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLClaveTransporte">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clave Transporte:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jBAgregarSalida">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Agregar Salida Especial"/>
+        <Property name="text" type="java.lang.String" value="Agregar Salida a Taller"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBAgregarSalidaActionPerformed"/>
@@ -320,7 +327,12 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTFBeneficiario">
+    <Component class="javax.swing.JComboBox" name="jCBClaveTransporte">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
