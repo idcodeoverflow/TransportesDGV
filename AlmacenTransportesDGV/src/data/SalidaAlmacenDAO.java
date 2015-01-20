@@ -11,6 +11,7 @@ import beans.RefaccionDTO;
 import beans.SalidaAlmacenDTO;
 import beans.SalidaEspecialDTO;
 import beans.SalidaOperadorDTO;
+import beans.SalidaTallerDTO;
 import beans.SalidaUnidadDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -105,6 +106,7 @@ public class SalidaAlmacenDAO{
         SalidaUnidadDAO accesoSalidaUnidad = new SalidaUnidadDAO();
         SalidaOperadorDAO accesoSalidaOperador = new SalidaOperadorDAO();
         SalidaEspecialDAO accesoSalidaEspecial = new SalidaEspecialDAO();
+        SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
         try {
             
             List<SalidaUnidadDTO> salidasUnidad = accesoSalidaUnidad.obtenerSalidasUnidadPRefaccionSinCanceladas(refaccion, false, true, false);
@@ -126,6 +128,14 @@ public class SalidaAlmacenDAO{
             List<SalidaEspecialDTO> salidasEspeciales = accesoSalidaEspecial.obtenerSalidasEspecialesPRefaccionSinCanceladas(refaccion, false, false, false);
             
             for(SalidaAlmacenDTO salida : salidasEspeciales){
+                if(null != salidaAlmacen || !salida.getFechaRegistro().after(salidaAlmacen.getFechaRegistro())){
+                    salidaAlmacen = salida;
+                }
+            }
+            
+            List<SalidaTallerDTO> salidasTaller = accesoSalidaTaller.obtenerSalidasTallerPRefaccionSinCanceladas(refaccion, false, false, false);
+            
+            for(SalidaAlmacenDTO salida : salidasTaller){
                 if(null != salidaAlmacen || !salida.getFechaRegistro().after(salidaAlmacen.getFechaRegistro())){
                     salidaAlmacen = salida;
                 }

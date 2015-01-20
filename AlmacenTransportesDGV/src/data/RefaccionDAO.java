@@ -206,7 +206,13 @@ public class RefaccionDAO {
                 
                 + "IFNULL((SELECT SUM(salidas_operador.cantidad) AS "
                 + "inventario FROM (SELECT cantidad FROM salida_operador WHERE clave_refaccion = "
-                + "?  AND status = ?) AS salidas_operador),0.0) AS existencia;";
+                + "?  AND status = ?) AS salidas_operador),0.0) - "
+                
+                + "IFNULL((SELECT SUM(salidas_taller.cantidad) AS "
+                + "inventario FROM (SELECT cantidad FROM salida_taller WHERE clave_refaccion = "
+                + "?  AND status = ?) AS salidas_taller),0.0) "
+                
+                + "AS existencia;";
         try{
             if(abrir) {
                 DBConnection.createConnection();
