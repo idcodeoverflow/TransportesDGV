@@ -7,10 +7,12 @@ package almacendgv;
 import beans.SalidaAlmacenDTO;
 import beans.SalidaEspecialDTO;
 import beans.SalidaOperadorDTO;
+import beans.SalidaTallerDTO;
 import beans.SalidaUnidadDTO;
 import data.SalidaAlmacenDAO;
 import data.SalidaEspecialDAO;
 import data.SalidaOperadorDAO;
+import data.SalidaTallerDAO;
 import data.SalidaUnidadDAO;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -606,10 +608,12 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             SalidaEspecialDTO salidaEspecial = new SalidaEspecialDTO();
             SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
             SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
+            SalidaTallerDTO salidaTaller = new SalidaTallerDTO();
             
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoUnidad = new SalidaUnidadDAO();
+            SalidaTallerDAO accesoTaller = new SalidaTallerDAO();
             
             if(rowIndex > -1){
         
@@ -635,6 +639,10 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                         //Salidas a Unidad
                         salidaUnidad = accesoUnidad.obtenerSalidaUnidad(numeroSalida, true, true, true);
                         accesoUnidad.eliminarSalidaUnidad(salidaUnidad);
+                    case "S. Taller":
+                        //Salidas a Taller
+                        salidaTaller = accesoTaller.obtenerSalidaTaller(numeroSalida, true, true, true);
+                        accesoTaller.eliminarSalidaTaller(salidaTaller);
                         break;
                 }
                 this.limpiar();
@@ -657,11 +665,13 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             SalidaEspecialDAO accesoSalidaEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoSalidaOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoSalidaUnidad = new SalidaUnidadDAO();
+            SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
             List<SalidaAlmacenDTO> salidasAlmacen = new ArrayList<SalidaAlmacenDTO>();
             List<SalidaEspecialDTO> salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
             List<SalidaOperadorDTO> salidasOperadores = new ArrayList<SalidaOperadorDTO>();
             List<SalidaUnidadDTO> salidasUnidades = new ArrayList<SalidaUnidadDTO>();
-            String tiposSalidas[] = {"", "S. Bodega", "S. Especial", "S. Operador", "S. Unidad"};
+            List<SalidaTallerDTO> salidasTaller = new ArrayList<SalidaTallerDTO>();
+            String tiposSalidas[] = {"", "S. Bodega", "S. Especial", "S. Operador", "S. Unidad", "S. Taller"};
             int limite = 500;
 
             DecimalFormat formatD = new DecimalFormat("0.00");
@@ -675,6 +685,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
 
                 salidasEspeciales = accesoSalidaEspecial.obtenerSalidasEspeciales(true, true, false);
                 salidasOperadores = accesoSalidaOperador.obtenerSalidasOperadores(true, false, false);
+                salidasTaller = accesoSalidaTaller.obtenerSalidasTaller(true, false, false);
                 salidasUnidades = accesoSalidaUnidad.obtenerSalidasUnidad(true, false, true);
 
             } catch(SQLException ex) {
@@ -694,6 +705,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                 salidasAlmacen.addAll(salidasEspeciales);
                 salidasAlmacen.addAll(salidasUnidades);
                 salidasAlmacen.addAll(salidasOperadores);
+                salidasAlmacen.addAll(salidasTaller);
                 Collections.sort(salidasAlmacen);
                 for(SalidaAlmacenDTO salidaAlmacen : salidasAlmacen){
                     Object datos[] = {salidaAlmacen.getNumeroSalida(), salidaAlmacen.getOrdenReparacion().getNumeroOrden(), 
@@ -724,17 +736,19 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
         try {
             int rowIndex = this.jTSalidasAlmacen.getSelectedRow();
             int numeroSalida = 0;
-            String tiposSalidas[] = {"", "Salida Bodega", "Salida Especial", "Salida Operador", "Salida Unidad"};
+            String tiposSalidas[] = {"", "Salida Bodega", "Salida Especial", "Salida Operador", "Salida Unidad", "Salida Taller"};
             DecimalFormat formatD = new DecimalFormat("0.00");
             
             SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
             SalidaEspecialDTO salidaEspecial = new SalidaEspecialDTO();
             SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
             SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
+            SalidaTallerDTO salidaTaller = new SalidaTallerDTO();
             
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoUnidad = new SalidaUnidadDAO();
+            SalidaTallerDAO accesoTaller = new SalidaTallerDAO();
             
             if(rowIndex > -1){
         
@@ -776,6 +790,13 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                         salidaAlmacen = salidaUnidad;
                         this.salidaAlmacenActual = salidaAlmacen;
                         break;
+                    case "S. Taller":
+                        //Salidas a Taller
+                        salidaTaller = accesoTaller.obtenerSalidaTaller(numeroSalida, true, true, true);
+                        this.jTFReceptor.setText(((salidaTaller.getUnidadTransporte().getClave() != null) ? salidaTaller.getUnidadTransporte().getClave() : ""));
+                        this.jTFIdTipoSalida.setText(Integer.toString(salidaTaller.getIdSalidaTaller()));
+                        salidaAlmacen = salidaTaller;
+                        this.salidaAlmacenActual = salidaTaller;
                 }
                 this.jTFCantidad.setText(Double.toString(salidaAlmacen.getCantidad()));
                 this.jTFClaveRefaccion.setText(((salidaAlmacen.getRefaccion().getClaveRefaccion() != null) ? salidaAlmacen.getRefaccion().getClaveRefaccion() : "" ));
