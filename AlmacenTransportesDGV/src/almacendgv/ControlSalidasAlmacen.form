@@ -184,7 +184,7 @@
                       <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="jBSalidaEspecial1" linkSize="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jBSalidaTaller" linkSize="1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jBSalidaEspecial" linkSize="1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -292,7 +292,7 @@
                   <Component id="jBSalidaTransporte" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jBSalidaOperador" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jBSalidaEspecial" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jBSalidaEspecial1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBSalidaTaller" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jPSalidasAlmacen" max="32767" attributes="0"/>
@@ -582,12 +582,12 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jBSalidaEspecial1">
+    <Component class="javax.swing.JButton" name="jBSalidaTaller">
       <Properties>
         <Property name="text" type="java.lang.String" value="Salida Taller"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBSalidaEspecial1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBSalidaTallerActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

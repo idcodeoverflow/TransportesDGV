@@ -17,7 +17,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icons/Apply-16.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Agregar Salida Operador"/>
+                <Property name="text" type="java.lang.String" value="Agregar Salida a Unidad"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIAgregarSalidaActionPerformed"/>
