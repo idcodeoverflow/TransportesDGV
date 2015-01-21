@@ -9,7 +9,6 @@ import beans.SalidaEspecialDTO;
 import beans.SalidaOperadorDTO;
 import beans.SalidaTallerDTO;
 import beans.SalidaUnidadDTO;
-import data.SalidaAlmacenDAO;
 import data.SalidaEspecialDAO;
 import data.SalidaOperadorDAO;
 import data.SalidaTallerDAO;
@@ -603,12 +602,12 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
     private void cancelarSalida(){
         try {
             int rowIndex = this.jTSalidasAlmacen.getSelectedRow();
-            int numeroSalida = 0;
+            int numeroSalida;
             
-            SalidaEspecialDTO salidaEspecial = new SalidaEspecialDTO();
-            SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
-            SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
-            SalidaTallerDTO salidaTaller = new SalidaTallerDTO();
+            SalidaEspecialDTO salidaEspecial;
+            SalidaOperadorDTO salidaOperador;
+            SalidaUnidadDTO salidaUnidad;
+            SalidaTallerDTO salidaTaller;
             
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
@@ -666,11 +665,11 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
             SalidaOperadorDAO accesoSalidaOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoSalidaUnidad = new SalidaUnidadDAO();
             SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
-            List<SalidaAlmacenDTO> salidasAlmacen = new ArrayList<SalidaAlmacenDTO>();
-            List<SalidaEspecialDTO> salidasEspeciales = new ArrayList<SalidaEspecialDTO>();
-            List<SalidaOperadorDTO> salidasOperadores = new ArrayList<SalidaOperadorDTO>();
-            List<SalidaUnidadDTO> salidasUnidades = new ArrayList<SalidaUnidadDTO>();
-            List<SalidaTallerDTO> salidasTaller = new ArrayList<SalidaTallerDTO>();
+            List<SalidaAlmacenDTO> salidasAlmacen = new ArrayList<>();
+            List<SalidaEspecialDTO> salidasEspeciales = new ArrayList<>();
+            List<SalidaOperadorDTO> salidasOperadores = new ArrayList<>();
+            List<SalidaUnidadDTO> salidasUnidades = new ArrayList<>();
+            List<SalidaTallerDTO> salidasTaller = new ArrayList<>();
             String tiposSalidas[] = {"", "S. Bodega", "S. Especial", "S. Operador", "S. Unidad", "S. Taller"};
             int limite = 500;
 
@@ -735,15 +734,15 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
     private void obtenerSalida(){
         try {
             int rowIndex = this.jTSalidasAlmacen.getSelectedRow();
-            int numeroSalida = 0;
+            int numeroSalida;
             String tiposSalidas[] = {"", "Salida Bodega", "Salida Especial", "Salida Operador", "Salida Unidad", "Salida Taller"};
             DecimalFormat formatD = new DecimalFormat("0.00");
             
             SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
-            SalidaEspecialDTO salidaEspecial = new SalidaEspecialDTO();
-            SalidaOperadorDTO salidaOperador = new SalidaOperadorDTO();
-            SalidaUnidadDTO salidaUnidad = new SalidaUnidadDTO();
-            SalidaTallerDTO salidaTaller = new SalidaTallerDTO();
+            SalidaEspecialDTO salidaEspecial;
+            SalidaOperadorDTO salidaOperador;
+            SalidaUnidadDTO salidaUnidad;
+            SalidaTallerDTO salidaTaller;
             
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();

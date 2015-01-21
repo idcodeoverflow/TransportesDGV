@@ -435,15 +435,12 @@ public class SalidaTaller extends javax.swing.JFrame {
             salidaAlmacen.setTipo(4);
             salidaAlmacen.setUsuario(UserHome.getUsuario());
             
-            
             //Validar que la cantidad sea un valor válido
             if(salidaAlmacen.getCantidad() < 1){
                 JOptionPane.showMessageDialog(null, "La cantidad ingresada no es válida",
                     "Cantidad inválida!!!", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
-            
             
             salidaTaller = new SalidaTallerDTO(0, unidadTransporte, salidaAlmacen);
             
