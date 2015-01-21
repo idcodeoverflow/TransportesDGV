@@ -31,7 +31,7 @@ public class CargoTallerDAO extends CargoDirectoDAO {
         String query = "INSERT INTO cargo_taller(id_cargo_taller, "
                 + "fecha_registro, precio_unitario, cantidad, subtotal, iva, total, status,"
                 + "clave_refaccion, id_proveedor, folio, numero_usuario, numero_orden, clave) "
-                + "VALUES(NULL,NOW(),?,?,?,?,?,?,?,?,?,?,?);";
+                + "VALUES(NULL,NOW(),?,?,?,?,?,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();

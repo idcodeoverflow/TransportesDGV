@@ -371,7 +371,7 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
                     !"".equals(this.jTFTotal.getText()) && 
                     !"".equals(this.jTFPrecioUnitario.getText())){
             
-                double total = Double.parseDouble(this.jTFCantidad.getText()) +
+                double total = Double.parseDouble(this.jTFCantidad.getText()) *
                         Double.parseDouble(this.jTFPrecioUnitario.getText());
                 this.jTFTotal.setText(format.format(total));
             }
@@ -390,7 +390,7 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
                     !"".equals(this.jTFTotal.getText()) && 
                     !"".equals(this.jTFPrecioUnitario.getText())){
             
-                double total = Double.parseDouble(this.jTFCantidad.getText()) +
+                double total = Double.parseDouble(this.jTFCantidad.getText()) *
                         Double.parseDouble(this.jTFPrecioUnitario.getText());
                 this.jTFTotal.setText(format.format(total));
             }
