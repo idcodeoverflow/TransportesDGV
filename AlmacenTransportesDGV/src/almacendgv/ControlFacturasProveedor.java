@@ -6,6 +6,7 @@ package almacendgv;
 
 import beans.CargoEspecialDTO;
 import beans.CargoOperadorDTO;
+import beans.CargoTallerDTO;
 import beans.CargoUnidadDTO;
 import beans.EntradaAlmacenDTO;
 import beans.FacturaDTO;
@@ -17,6 +18,7 @@ import beans.UsuarioDTO;
 import bussines.LazyQueryBO;
 import data.CargoEspecialDAO;
 import data.CargoOperadorDAO;
+import data.CargoTallerDAO;
 import data.CargoUnidadDAO;
 import data.EntradaAlmacenDAO;
 import data.FacturaDAO;
@@ -43,6 +45,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     private CargoEspecialDTO cargoEspecial;
     private CargoOperadorDTO cargoOperador;
     private CargoUnidadDTO cargoUnidad;
+    private CargoTallerDTO cargoTaller;
     private double subtotal;
     private double iva;
     private double total;
@@ -1168,6 +1171,18 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                                 return;
                             }
                             break;
+                        case "C. Taller":
+                            CargoTallerDTO tempCargoTaller = new CargoTallerDTO();
+                            CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
+                            int idCargoTaller = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
+                            tempCargoTaller = accesoCargoTaller.obtenerCargoTaller(idCargoTaller, true, true, true);
+                            if(tempCargoTaller.getOrdenReparacion().getFechaSalida() != null){
+                                JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
+                                    + "solicitada, la orden de\nreparación asociada a este\nCargo a Taller\nse ha finalizado.",
+                                    "Operación no permitida!!!", JOptionPane.WARNING_MESSAGE);
+                                return;
+                            }
+                            break;
                     }
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Código error: 826\n" + ex.getMessage()
@@ -1226,6 +1241,14 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             
                             tempCargoUnidad = accesoCUnidad.obtenerCargoUnidad(idCargoUnidad, true, true, true);
                             accesoCUnidad.eliminarCargoUnidad(tempCargoUnidad);
+                            break;
+                        case "C. Taller":
+                            CargoTallerDAO accesoCTaller = new CargoTallerDAO();
+                            CargoTallerDTO tempCargoTaller = new CargoTallerDTO();
+                            int idCargoTaller = Integer.parseInt(this.jTConceptosFactura.getValueAt(tableIndex, 0).toString());
+                            
+                            tempCargoTaller = accesoCTaller.obtenerCargoTaller(idCargoTaller, true, true, true);
+                            accesoCTaller.eliminarCargoTaller(tempCargoTaller);
                             break;
                     }
                 } catch (SQLException ex) {
@@ -1414,6 +1437,17 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                         detalleError = cargoUnidad.toString();
                         accesoCUnidad.eliminarCargoUnidad(this.cargoUnidad);
                         break;
+                    case "C. Taller":
+                        CargoTallerDAO accesoCTaller = new CargoTallerDAO();
+                        if(this.cargoTaller.getOrdenReparacion().getFechaSalida() != null){
+                            JOptionPane.showMessageDialog(null, "\nNo se puede realizar la operación\n"
+                                + "solicitada, la orden de\nreparación asociada a este\nCargo a Unidad de Transporte\nse ha finalizado.",
+                                "Operación no permitida!!!", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                        detalleError = cargoTaller.toString();
+                        accesoCTaller.eliminarCargoTaller(this.cargoTaller);
+                        break;
                 }
                 this.actualizarTablas();
             } catch (SQLException ex) {
@@ -1446,23 +1480,13 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             this.cargoEspecial = null;
             this.cargoOperador = null;
             this.cargoUnidad = null;
+            this.cargoTaller = null;
             this.entradaAlmacen = null;
             this.trabajoEspecial = null;
             this.factura = null; //esta variable se iguala a nulo para limpiar detalles de factura
             //Terminan variables de Apoyo
 
             this.mostrarValores();
-            /* Segmento removido ya que se efectua en la actulizacion de tablas
-            DefaultTableModel modelo = (DefaultTableModel) this.jTConceptosFactura.getModel();
-            while(modelo.getRowCount() > 0){
-                modelo.removeRow(modelo.getRowCount() - 1);
-            }
-
-            DefaultTableModel modelo2 = (DefaultTableModel) this.jTFacturas.getModel();
-            while(modelo2.getRowCount() > 0){
-                modelo2.removeRow(modelo2.getRowCount() - 1);
-            }
-            */
             this.actualizarTablas();
             this.estadoBotonesInicio();
         } catch(Exception ex){
@@ -1475,20 +1499,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
 
     public void actualizarTablas(){
         try{
-        /*
-          Segmento removido ya que se efectua en la actulizacion de conceptos de facturas
-        DefaultTableModel modelo = (DefaultTableModel) this.jTConceptosFactura.getModel();
-        while(modelo.getRowCount() > 0){
-            modelo.removeRow(modelo.getRowCount() - 1);
-        }
-         Segmento removido ya que se efectua en la actulizacion de facturas
-        DefaultTableModel modelo2 = (DefaultTableModel) this.jTFacturas.getModel();
-        while(modelo2.getRowCount() > 0){
-            modelo2.removeRow(modelo2.getRowCount() - 1);
-        }
-        */
-        this.obtenerFacturas();
-        this.obtenerDetallesFactura();
+            this.obtenerFacturas();
+            this.obtenerDetallesFactura();
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Código error: 840\n" + ex.getMessage()
                     + "\nError al actualizar las tablas.",
@@ -1580,6 +1592,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         this.cargoEspecial = null;
         this.cargoOperador = null;
         this.cargoUnidad = null;
+        this.cargoTaller = null;
         this.entradaAlmacen = null;
         this.trabajoEspecial = null;
         //Terminan variables de Apoyo
@@ -1629,8 +1642,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                                     formatD.format(trabajo.getMonto()), "T. Externo"};
                 modelo.addRow(datos);
             }
-
-            
 
             //Cargos Especiales
 
@@ -1691,6 +1702,27 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                                     formatD.format(cargoUnidad.getTotal()), "C. Unidad"};
                 modelo.addRow(datos);
             }
+
+            //Cargos Taller
+            
+            List<CargoTallerDTO> cargosTaller = null;
+            try {
+                cargosTaller = new CargoTallerDAO().obtenerCargosTallerPFactura(factura, true, false, false);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Código error: 850\n" + ex.getMessage(),
+                        "Error al acceder a los detalles de la factura!!!", JOptionPane.ERROR_MESSAGE);
+                ErrorLogger.scribirLog("ControlFacturasProveedor obtenerDetallesFactura()", 2071, UserHome.getUsuario(), ex);
+            }
+
+            for(CargoTallerDTO cargoTaller : cargosTaller){
+                Object datos[] = {cargoTaller.getIdCargoTaller(), cargoTaller.getRefaccion().getClaveRefaccion(),
+                                    cargoTaller.getRefaccion().getNombre(), cargoTaller.getCantidad(), 
+                                    formatD.format(cargoTaller.getPrecioUnitario()),
+                                    formatD.format(cargoTaller.getSubtotal()), formatD.format(cargoTaller.getIva()), 
+                                    formatD.format(cargoTaller.getTotal()), "C. Taller"};
+                modelo.addRow(datos);
+            }
+            
             lazyQ.endLazyQuery();
         }
         this.actualizarCamposTotalFactura();
@@ -1729,6 +1761,11 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                         CargoUnidadDAO accesoCUnidad = new CargoUnidadDAO();
                         key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
                         this.cargoUnidad = accesoCUnidad.obtenerCargoUnidad(key, true, true, true);
+                        break;
+                    case "C. Taller":
+                        CargoTallerDAO accesoCTaller = new CargoTallerDAO();
+                        key = Integer.parseInt(this.jTConceptosFactura.getValueAt(index, 0).toString());
+                        this.cargoTaller = accesoCTaller.obtenerCargoTaller(key, true, true, true);
                         break;
                 }
             } catch (SQLException ex) {

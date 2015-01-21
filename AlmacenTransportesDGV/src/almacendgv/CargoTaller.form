@@ -100,7 +100,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Cargo a Unidad de Transporte - Sistema de Administraci&#xf3;n Mantenimiento"/>
+    <Property name="title" type="java.lang.String" value="Cargo a Taller - Sistema de Administraci&#xf3;n Mantenimiento"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMBMenu"/>

@@ -4,16 +4,14 @@
  */
 package almacendgv;
 
-import beans.CargoDirectoDTO;
-import beans.CargoUnidadDTO;
+import beans.CargoTallerDTO;
 import beans.FacturaDTO;
 import beans.OrdenReparacionDTO;
 import beans.RefaccionDTO;
 import beans.TransporteReparacionDTO;
 import beans.UnidadTransporteDTO;
 import beans.UsuarioDTO;
-import data.CargoDirectoDAO;
-import data.CargoUnidadDAO;
+import data.CargoTallerDAO;
 import data.OrdenReparacionDAO;
 import data.RefaccionDAO;
 import data.TransporteReparacionDAO;
@@ -28,7 +26,7 @@ import logger.ErrorLogger;
  *
  * @author David Israel
  */
-public class CargoUnidad extends javax.swing.JFrame {
+public class CargoTaller extends javax.swing.JFrame {
 
     private FacturaDTO factura;
     private UsuarioDTO usuario;    
@@ -38,7 +36,7 @@ public class CargoUnidad extends javax.swing.JFrame {
     /**
      * Creates new form CargoEspecial
      */
-    public CargoUnidad() {
+    public CargoTaller() {
         try{
             initComponents();
             this.setLocationRelativeTo(null);
@@ -142,7 +140,7 @@ public class CargoUnidad extends javax.swing.JFrame {
         jMIVerManual = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cargo a Unidad de Transporte - Sistema de Administración Mantenimiento");
+        setTitle("Cargo a Taller - Sistema de Administración Mantenimiento");
 
         jLUsuario.setText("Usuario:");
 
@@ -659,9 +657,9 @@ public class CargoUnidad extends javax.swing.JFrame {
     }//GEN-LAST:event_jCBOrdenReparacionActionPerformed
 
     public void agregar(){
-        CargoUnidadDTO cargoDirecto =  new CargoUnidadDTO();
+        CargoTallerDTO cargoTaller =  new CargoTallerDTO();
         try{
-            CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
+            CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             RefaccionDTO refaccionReq = new RefaccionDTO();
             OrdenReparacionDAO accesoOrdenReparacion = new OrdenReparacionDAO();
@@ -670,7 +668,7 @@ public class CargoUnidad extends javax.swing.JFrame {
             UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
             FacturaDTO fact = this.factura;
             String claveRefaccion = "";
-            boolean agregarCargoUnidadExitoso = false;
+            boolean agregarCargoTallerExitoso = false;
             claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
             
             //Validar que la refaccion exista en el inventario
@@ -692,19 +690,19 @@ public class CargoUnidad extends javax.swing.JFrame {
             }
             
             //Agregar los datos de cargo directo
-            cargoDirecto.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
-            cargoDirecto.setFactura(fact);
-            cargoDirecto.setIva(Double.parseDouble(this.jTFIVA.getText()));
-            cargoDirecto.setOrdenReparacion(ordenReparacion);
-            cargoDirecto.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
-            cargoDirecto.setRefaccion(refaccionReq);
-            cargoDirecto.setStatus(true);
-            cargoDirecto.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
-            cargoDirecto.setTotal(Double.parseDouble(this.jTFTotal.getText()));
-            cargoDirecto.setUsuario(UserHome.getUsuario());
+            cargoTaller.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
+            cargoTaller.setFactura(fact);
+            cargoTaller.setIva(Double.parseDouble(this.jTFIVA.getText()));
+            cargoTaller.setOrdenReparacion(ordenReparacion);
+            cargoTaller.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
+            cargoTaller.setRefaccion(refaccionReq);
+            cargoTaller.setStatus(true);
+            cargoTaller.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
+            cargoTaller.setTotal(Double.parseDouble(this.jTFTotal.getText()));
+            cargoTaller.setUsuario(UserHome.getUsuario());
             
             //Validar que la cantidad sea válida
-            if(cargoDirecto.getCantidad() < 1){
+            if(cargoTaller.getCantidad() < 1){
                 JOptionPane.showMessageDialog(null, "La cantidad ingresada no es válida",
                     "Cantidad inválida!!!", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -712,17 +710,17 @@ public class CargoUnidad extends javax.swing.JFrame {
             
             //Agregar los datos de cargo operador
             unidad = accesoUnidad.obtenerUnidad(this.jCBClaveUnidad.getSelectedItem().toString(), true, true, true);
-            cargoDirecto.setUnidad(unidad);
+            cargoTaller.setUnidad(unidad);
             
-            agregarCargoUnidadExitoso = accesoCargoUnidad.agregarCargoUnidad(cargoDirecto);
+            agregarCargoTallerExitoso = accesoCargoTaller.agregarCargoTaller(cargoTaller);
             
-            if(!agregarCargoUnidadExitoso){
+            if(!agregarCargoTallerExitoso){
                 boolean reparacionExitosa = false;
-                reparacionExitosa = accesoCargoUnidad.repararErrorAgregarCargoUnidad();
+                reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 1344\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1344, UserHome.getUsuario(), new Exception("#NA"));
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 1344, UserHome.getUsuario(), new Exception("#NA"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -735,14 +733,14 @@ public class CargoUnidad extends javax.swing.JFrame {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 763\n" + ex.getMessage(),
                         "Error al guardar datos en la BD!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString(), 763, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoTaller.toString(), 763, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
-                CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
-                reparacionExitosa = accesoCargoUnidad.repararErrorAgregarCargoUnidad();
+                CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
+                reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 764\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 764, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 764, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -754,14 +752,14 @@ public class CargoUnidad extends javax.swing.JFrame {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 765\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString(), 765, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoTaller.toString(), 765, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
-                CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
-                reparacionExitosa = accesoCargoUnidad.repararErrorAgregarCargoUnidad();
+                CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
+                reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 766\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 766, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 766, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -916,20 +914,21 @@ public class CargoUnidad extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CargoUnidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CargoTaller.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CargoUnidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CargoTaller.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CargoUnidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CargoTaller.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CargoUnidad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CargoTaller.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CargoUnidad().setVisible(true);
+                new CargoTaller().setVisible(true);
             }
         });
     }
