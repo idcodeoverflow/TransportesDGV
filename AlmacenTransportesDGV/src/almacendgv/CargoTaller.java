@@ -4,16 +4,18 @@
  */
 package almacendgv;
 
-import beans.CargoDirectoDTO;
-import beans.CargoEspecialDTO;
+import beans.CargoTallerDTO;
 import beans.FacturaDTO;
 import beans.OrdenReparacionDTO;
 import beans.RefaccionDTO;
+import beans.TransporteReparacionDTO;
+import beans.UnidadTransporteDTO;
 import beans.UsuarioDTO;
-import data.CargoDirectoDAO;
-import data.CargoEspecialDAO;
+import data.CargoTallerDAO;
 import data.OrdenReparacionDAO;
 import data.RefaccionDAO;
+import data.TransporteReparacionDAO;
+import data.UnidadTransporteDAO;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -27,37 +29,42 @@ import logger.ErrorLogger;
 public class CargoTaller extends javax.swing.JFrame {
 
     private FacturaDTO factura;
-    private UsuarioDTO usuario;
+    private UsuarioDTO usuario;    
     private ControlFacturasProveedor controlFacturas;
     private String valorOriginal;
-
+    
     /**
      * Creates new form CargoEspecial
      */
     public CargoTaller() {
-        initComponents();
-        try {
+        try{
+            initComponents();
             this.setLocationRelativeTo(null);
             this.obtenerOrdenesReparacion();
-            this.limpiarCampos();
+            this.jTFCantidad.setText("0.000");
+            this.jTFIVA.setText("0.000");
+            this.jTFPorcentajeIVA.setText("16.000");
+            this.jTFPrecioUnitario.setText("0.000");
+            this.jTFSubtotal.setText("0.000");
+            this.jTFTotal.setText("0.000");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 720\n" + ex.getMessage(),
-                    "Error al iniciar ventana Cargo Especial!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("Constructor CargoEspecial()", 720, UserHome.getUsuario(), ex);
+            JOptionPane.showMessageDialog(null, "Código error: 755\n" + ex.getMessage(),
+                "Error al iniciar ventana Cargo a Unidad\nde Transporte!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("Constructor CargoUnidad()", 755, UserHome.getUsuario(), ex);
             this.dispose();
         }
     }
-
-    public void mostrarInformacion() {
-        try {
+    
+    public void mostrarInformacion(){
+        try{
             this.jTFPorcentajeIVA.setText("16.000");
             this.jTFProveedor.setText(factura.getProveedor().getIdProveedor() + "# " + factura.getProveedor().getNombre());
             this.jTFFolio.setText(factura.getFolio());
             this.jTFUsuario.setText(UserHome.getUsuario().getNombre() + " " + UserHome.getUsuario().getApellidos());
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 721\n" + ex.getMessage(),
-                    "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial mostrarInformacion()", 721, UserHome.getUsuario(), ex);
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 756\n" + ex.getMessage(),
+                    "Error al mostrar los datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidad mostrarInformacion()", 756, UserHome.getUsuario(), ex);
         }
     }
 
@@ -75,16 +82,16 @@ public class CargoTaller extends javax.swing.JFrame {
 
     public void setUsuario(UsuarioDTO usuario) {
         this.usuario = usuario;
-    }
-
-    public ControlFacturasProveedor getControlFacturas() {
+    }    
+    
+    public ControlFacturasProveedor getControlFacturas(){
         return this.controlFacturas;
     }
-
-    public void setControlFacturas(ControlFacturasProveedor controlFacturas) {
+    
+    public void setControlFacturas(ControlFacturasProveedor controlFacturas){
         this.controlFacturas = controlFacturas;
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -102,7 +109,7 @@ public class CargoTaller extends javax.swing.JFrame {
         jTFFolio = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
         jCBOrdenReparacion = new javax.swing.JComboBox();
-        jLNumeroCargoEspecial = new javax.swing.JLabel();
+        jLNumeroCargoTransporte = new javax.swing.JLabel();
         jTFCargoEspecial = new javax.swing.JTextField();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
@@ -120,8 +127,8 @@ public class CargoTaller extends javax.swing.JFrame {
         jTFTotal = new javax.swing.JTextField();
         jLLogo = new javax.swing.JLabel();
         jBAgregarCargo = new javax.swing.JButton();
-        jLBeneficiario = new javax.swing.JLabel();
-        jTFBeneficiario = new javax.swing.JTextField();
+        jLClaveUnidad = new javax.swing.JLabel();
+        jCBClaveUnidad = new javax.swing.JComboBox();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregar = new javax.swing.JMenuItem();
@@ -133,7 +140,7 @@ public class CargoTaller extends javax.swing.JFrame {
         jMIVerManual = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cargo Especial - Sistema de Administración Mantenimiento");
+        setTitle("Cargo a Taller - Sistema de Administración Mantenimiento");
 
         jLUsuario.setText("Usuario:");
 
@@ -152,7 +159,13 @@ public class CargoTaller extends javax.swing.JFrame {
 
         jLOrdenReparacion.setText("Orden de Reparación:");
 
-        jLNumeroCargoEspecial.setText("# Cargo Especial:");
+        jCBOrdenReparacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBOrdenReparacionActionPerformed(evt);
+            }
+        });
+
+        jLNumeroCargoTransporte.setText("# Cargo Transporte:");
 
         jTFCargoEspecial.setEditable(false);
         jTFCargoEspecial.setFocusable(false);
@@ -250,14 +263,14 @@ public class CargoTaller extends javax.swing.JFrame {
 
         jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
 
-        jBAgregarCargo.setText("Agregar Cargo Especial");
+        jBAgregarCargo.setText("Agregar Cargo Unidad");
         jBAgregarCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBAgregarCargoActionPerformed(evt);
             }
         });
 
-        jLBeneficiario.setText("Nombre del Beneficiario:");
+        jLClaveUnidad.setText("Clave de Unidad:");
 
         jMArchivo.setText("Archivo");
 
@@ -330,22 +343,22 @@ public class CargoTaller extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLBeneficiario)
+                    .addComponent(jLClaveUnidad)
                     .addComponent(jLIVA)
                     .addComponent(jLSubtotal)
                     .addComponent(jLPrecioUnitario)
-                    .addComponent(jLNumeroCargoEspecial)
+                    .addComponent(jLNumeroCargoTransporte)
                     .addComponent(jLFolio)
                     .addComponent(jLUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTFBeneficiario, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                     .addComponent(jTFUsuario)
                     .addComponent(jTFFolio)
                     .addComponent(jTFCargoEspecial)
                     .addComponent(jTFPrecioUnitario)
                     .addComponent(jTFSubtotal)
-                    .addComponent(jTFIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                    .addComponent(jTFIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(jCBClaveUnidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -365,7 +378,7 @@ public class CargoTaller extends javax.swing.JFrame {
                             .addComponent(jTFPorcentajeIVA)
                             .addComponent(jTFTotal)))
                     .addComponent(jBAgregarCargo, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 34, Short.MAX_VALUE)
                 .addComponent(jLLogo)
                 .addContainerGap())
         );
@@ -388,7 +401,7 @@ public class CargoTaller extends javax.swing.JFrame {
                             .addComponent(jCBOrdenReparacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLNumeroCargoEspecial)
+                            .addComponent(jLNumeroCargoTransporte)
                             .addComponent(jTFCargoEspecial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLClaveRefaccion)
                             .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -413,9 +426,9 @@ public class CargoTaller extends javax.swing.JFrame {
                     .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLBeneficiario)
-                    .addComponent(jTFBeneficiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBAgregarCargo))
+                    .addComponent(jLClaveUnidad)
+                    .addComponent(jBAgregarCargo)
+                    .addComponent(jCBClaveUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -444,131 +457,132 @@ public class CargoTaller extends javax.swing.JFrame {
 
     private void jTFPrecioUnitarioCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioCaretUpdate
         DecimalFormat format = new DecimalFormat("0.000");
-        try {
-
-            if (!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText())
-                    && !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText())
-                    && !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())) {
-
-                double subtotal = Double.parseDouble(this.jTFCantidad.getText())
-                        * Double.parseDouble(this.jTFPrecioUnitario.getText());
+        try{
+            
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+            
+                double subtotal = Double.parseDouble(this.jTFCantidad.getText()) * 
+                        Double.parseDouble(this.jTFPrecioUnitario.getText());
                 this.jTFSubtotal.setText(format.format(subtotal));
 
-                double iva = (double) ((Double.parseDouble(this.jTFSubtotal.getText())
-                        * Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
                 this.jTFIVA.setText(format.format(iva));
 
-                double total = Double.parseDouble(this.jTFSubtotal.getText())
-                        + Double.parseDouble(this.jTFIVA.getText());
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 722\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 757\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial jTFPrecioUnitarioCaretUpdate()", 722, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad jTFPrecioUnitarioCaretUpdate()", 757, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
 
     private void jTFCantidadCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFCantidadCaretUpdate
         DecimalFormat format = new DecimalFormat("0.000");
-        try {
-
-            if (!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText())
-                    && !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText())
-                    && !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())) {
-
-                double subtotal = Double.parseDouble(this.jTFCantidad.getText())
-                        * Double.parseDouble(this.jTFPrecioUnitario.getText());
+        try{
+            
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+            
+                double subtotal = Double.parseDouble(this.jTFCantidad.getText()) * 
+                        Double.parseDouble(this.jTFPrecioUnitario.getText());
                 this.jTFSubtotal.setText(format.format(subtotal));
 
-                double iva = (double) ((Double.parseDouble(this.jTFSubtotal.getText())
-                        * Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
                 this.jTFIVA.setText(format.format(iva));
 
-                double total = Double.parseDouble(this.jTFSubtotal.getText())
-                        + Double.parseDouble(this.jTFIVA.getText());
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 723\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 758\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial jTFCantidadCaretUpdate()", 723, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad jTFCantidadCaretUpdate()", 758, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFCantidadCaretUpdate
 
     private void jTFSubtotalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFSubtotalCaretUpdate
         DecimalFormat format = new DecimalFormat("0.000");
-        try {
-            if (!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText())
-                    && !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText())
-                    && !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())) {
-
-                double iva = (double) ((Double.parseDouble(this.jTFSubtotal.getText())
-                        * Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+                
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
                 this.jTFIVA.setText(format.format(iva));
 
-                double total = Double.parseDouble(this.jTFSubtotal.getText())
-                        + Double.parseDouble(this.jTFIVA.getText());
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
-
+                
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 724\n" + ex.getMessage(),
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 759\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial jTFSubtotalCaretUpdate()", 724, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad jTFSubtotalCaretUpdate()", 759, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFSubtotalCaretUpdate
 
     private void jTFPorcentajeIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVACaretUpdate
         DecimalFormat format = new DecimalFormat("0.000");
-        try {
-            if (!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText())
-                    && !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText())
-                    && !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())) {
-
-                double iva = (double) ((Double.parseDouble(this.jTFSubtotal.getText())
-                        * Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+                
+            
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
                 this.jTFIVA.setText(format.format(iva));
 
-                double total = Double.parseDouble(this.jTFSubtotal.getText())
-                        + Double.parseDouble(this.jTFIVA.getText());
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
-
+            
             }
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 725\n" + ex.getMessage(),
+            
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 760\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial jTFPorcentajeIVACaretUpdate()", 725, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad jTFPorcentajeIVACaretUpdate()", 760, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFPorcentajeIVACaretUpdate
 
     private void jTFIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFIVACaretUpdate
         DecimalFormat format = new DecimalFormat("0.000");
-        try {
-
-            if (!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText())
-                    && !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText())
-                    && !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())) {
-
-                double total = Double.parseDouble(this.jTFSubtotal.getText())
-                        + Double.parseDouble(this.jTFIVA.getText());
+        try{
+            
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+            
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
-
+            
             }
-
+            
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 726\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 761\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial jTFIVACaretUpdate()", 726, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad jTFIVACaretUpdate()", 761, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFIVACaretUpdate
 
     private void jTFPrecioUnitarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioFocusLost
         double cant = 0.00;
-        try {
+        try{
             cant = Double.parseDouble(this.valorOriginal);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             cant = 0.00;
         }
         this.onFormatErrorSetValue(this.jTFPrecioUnitario, cant);
@@ -576,9 +590,9 @@ public class CargoTaller extends javax.swing.JFrame {
 
     private void jTFCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFCantidadFocusLost
         double cant = 0.00;
-        try {
+        try{
             cant = Double.parseDouble(this.valorOriginal);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             cant = 0.00;
         }
         this.onFormatErrorSetValue(this.jTFCantidad, cant);
@@ -586,9 +600,9 @@ public class CargoTaller extends javax.swing.JFrame {
 
     private void jTFSubtotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFSubtotalFocusLost
         double cant = 0.00;
-        try {
+        try{
             cant = Double.parseDouble(this.valorOriginal);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             cant = 0.00;
         }
         this.onFormatErrorSetValue(this.jTFSubtotal, cant);
@@ -596,9 +610,9 @@ public class CargoTaller extends javax.swing.JFrame {
 
     private void jTFPorcentajeIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVAFocusLost
         double cant = 16.00;
-        try {
+        try{
             cant = Double.parseDouble(this.valorOriginal);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             cant = 16.00;
         }
         this.onFormatErrorSetValue(this.jTFPorcentajeIVA, cant);
@@ -606,9 +620,9 @@ public class CargoTaller extends javax.swing.JFrame {
 
     private void jTFIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFIVAFocusLost
         double cant = 0.00;
-        try {
+        try{
             cant = Double.parseDouble(this.valorOriginal);
-        } catch (Exception ex) {
+        } catch(Exception ex) {
             cant = 0.00;
         }
         this.onFormatErrorSetValue(this.jTFIVA, cant);
@@ -638,141 +652,128 @@ public class CargoTaller extends javax.swing.JFrame {
         this.buscar();
     }//GEN-LAST:event_jMIBuscarParteActionPerformed
 
-    public void agregar() {
-        CargoEspecialDTO cargoDirecto = new CargoEspecialDTO();
-        try {
-            if ("".equals(this.jTFBeneficiario.getText()) || this.jTFBeneficiario == null) {
-                JOptionPane.showMessageDialog(this, "Aún no se agrega un beneficiario.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            CargoDirectoDAO accesoCargoDirecto = new CargoDirectoDAO();
-            CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
+    private void jCBOrdenReparacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBOrdenReparacionActionPerformed
+        this.mostrarUnidadesPOrdenReparacion();
+    }//GEN-LAST:event_jCBOrdenReparacionActionPerformed
+
+    public void agregar(){
+        CargoTallerDTO cargoTaller =  new CargoTallerDTO();
+        try{
+            CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             RefaccionDTO refaccionReq = new RefaccionDTO();
-            OrdenReparacionDAO ordenReparacion = new OrdenReparacionDAO();
+            OrdenReparacionDAO accesoOrdenReparacion = new OrdenReparacionDAO();
+            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
+            UnidadTransporteDTO unidad = new UnidadTransporteDTO();
+            UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
             FacturaDTO fact = this.factura;
-            String nombreBeneficiario = "";
             String claveRefaccion = "";
-            boolean agregarCargoEspecialExitoso = false;
-            nombreBeneficiario = ((this.jTFBeneficiario != null && !"".equals(this.jTFBeneficiario.getText())) ? this.jTFBeneficiario.getText() : "");
-            nombreBeneficiario = nombreBeneficiario.trim();
+            boolean agregarCargoTallerExitoso = false;
             claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
-
-            //validar que exista la clave de refaccion en el inventario
-            refaccionReq = accesoRefaccion.obtenerRefaccion(claveRefaccion, true, true);
-            if (refaccionReq == null) {
-                JOptionPane.showMessageDialog(null, "La clave de refacción\nno existe en el inventario.",
-                        "Refacción no econtrada!!!", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            //validar que nombre del beneficiario sea valido
-            if (nombreBeneficiario.equals("")) {
-                JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de\nbeneficiario.",
-                        "Nombre de Beneficiario inválido!!!", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            //Agregar los datos de cargo directo
-            cargoDirecto.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
-            cargoDirecto.setFactura(fact);
-            cargoDirecto.setIva(Double.parseDouble(this.jTFIVA.getText()));
-            //cargoDirecto.setNumeroCargoDirecto();//No se agrega el numero de cargo directo por que se genera automaticamente
-            cargoDirecto.setOrdenReparacion(ordenReparacion.
-                    obtenerOrdenReparacion(Integer.parseInt(this.jCBOrdenReparacion.
-                                    getSelectedItem().toString()), true, true, true));
-            cargoDirecto.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
-            cargoDirecto.setRefaccion(refaccionReq);
-            cargoDirecto.setStatus(true);
-            cargoDirecto.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
-            cargoDirecto.setTotal(Double.parseDouble(this.jTFTotal.getText()));
-            cargoDirecto.setUsuario(UserHome.getUsuario());
-            cargoDirecto.setNombreBeneficiario(nombreBeneficiario);
             
+            //Validar que la refaccion exista en el inventario
+            refaccionReq = accesoRefaccion.obtenerRefaccion(claveRefaccion, true, true);
+            if(refaccionReq == null){
+                JOptionPane.showMessageDialog(null, "La clave de refacción\nno existe en el inventario.",
+                    "Refacción no econtrada!!!", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            ordenReparacion = accesoOrdenReparacion.obtenerOrdenReparacion(Integer.parseInt(this.jCBOrdenReparacion.
+                    getSelectedItem().toString()), true, true, true);
+            //Validar que la unidad se encuentre en la orden de reparacion
+            if(!this.validarTransportesPReparacion(this.jCBClaveUnidad.getSelectedItem().toString(), ordenReparacion)){
+                JOptionPane.showMessageDialog(null, "La clave de Unidad de Transporte\nno pertenece "
+                        + "a la orden de\nreparación indicada.\nVerifique los datos e inténtelo\notra vez."
+                        , "Datos Erroneos!!!", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            //Agregar los datos de cargo directo
+            cargoTaller.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
+            cargoTaller.setFactura(fact);
+            cargoTaller.setIva(Double.parseDouble(this.jTFIVA.getText()));
+            cargoTaller.setOrdenReparacion(ordenReparacion);
+            cargoTaller.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
+            cargoTaller.setRefaccion(refaccionReq);
+            cargoTaller.setStatus(true);
+            cargoTaller.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
+            cargoTaller.setTotal(Double.parseDouble(this.jTFTotal.getText()));
+            cargoTaller.setUsuario(UserHome.getUsuario());
             
             //Validar que la cantidad sea válida
-            if (cargoDirecto.getCantidad() < 1) {
+            if(cargoTaller.getCantidad() < 1){
                 JOptionPane.showMessageDialog(null, "La cantidad ingresada no es válida",
-                        "Cantidad inválida!!!", JOptionPane.WARNING_MESSAGE);
+                    "Cantidad inválida!!!", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
             
-            agregarCargoEspecialExitoso = accesoCargoEspecial.agregarCargoEspecial(cargoDirecto);
-
-            if (!agregarCargoEspecialExitoso) {
+            //Agregar los datos de cargo operador
+            unidad = accesoUnidad.obtenerUnidad(this.jCBClaveUnidad.getSelectedItem().toString(), true, true, true);
+            cargoTaller.setUnidad(unidad);
+            
+            agregarCargoTallerExitoso = accesoCargoTaller.agregarCargoTaller(cargoTaller);
+            
+            if(!agregarCargoTallerExitoso){
                 boolean reparacionExitosa = false;
-                reparacionExitosa = accesoCargoEspecial.repararErrorAgregarCargoEspecial();
-                if (!reparacionExitosa) {
-                    JOptionPane.showMessageDialog(null, "Código error: 1342\n" + "No se pudo reparar la tabla",
-                            "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1342, UserHome.getUsuario(), new Exception("#NA"));
+                reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
+                if(!reparacionExitosa){
+                    JOptionPane.showMessageDialog(null, "Código error: 1344\n" + "No se pudo reparar la tabla",
+                    "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 1344, UserHome.getUsuario(), new Exception("#NA"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
-                            "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
+                    "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-
-            this.controlFacturas.actualizarTablas();
+            
             this.limpiar();
+            this.controlFacturas.actualizarTablas();
         } catch (SQLException ex) {
             try {
-                JOptionPane.showMessageDialog(null, "Código error: 728\n" + ex.getMessage(),
-                        "Error al guardar datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString(), 728, UserHome.getUsuario(), ex);
+                JOptionPane.showMessageDialog(null, "Código error: 763\n" + ex.getMessage(),
+                        "Error al guardar datos en la BD!!!", JOptionPane.ERROR_MESSAGE);
+                ErrorLogger.scribirLog(cargoTaller.toString(), 763, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
-                CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
-                reparacionExitosa = accesoCargoEspecial.repararErrorAgregarCargoEspecial();
-                if (!reparacionExitosa) {
-                    JOptionPane.showMessageDialog(null, "Código error: 729\n" + "No se pudo reparar la tabla",
-                            "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 729, UserHome.getUsuario(), ex);
+                CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
+                reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
+                if(!reparacionExitosa){
+                    JOptionPane.showMessageDialog(null, "Código error: 764\n" + "No se pudo reparar la tabla",
+                    "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 764, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
-                            "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
+                    "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException ex1) {
-                //Logger.getLogger(CargoEspecial.class.getName()).log(Level.SEVERE, null, ex1);
+                //Logger.getLogger(CargoUnidad.class.getName()).log(Level.SEVERE, null, ex1);
             }
-        } catch (Exception ex) {
+        } catch (Exception ex){
             try {
-                JOptionPane.showMessageDialog(null, "Código error: 730\n" + ex.getMessage(),
+                JOptionPane.showMessageDialog(null, "Código error: 765\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString(), 730, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoTaller.toString(), 765, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
-                CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
-                reparacionExitosa = accesoCargoEspecial.repararErrorAgregarCargoEspecial();
-                if (!reparacionExitosa) {
-                    JOptionPane.showMessageDialog(null, "Código error: 731\n" + "No se pudo reparar la tabla",
-                            "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 731, UserHome.getUsuario(), ex);
+                CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
+                reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
+                if(!reparacionExitosa){
+                    JOptionPane.showMessageDialog(null, "Código error: 766\n" + "No se pudo reparar la tabla",
+                    "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 766, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
-                            "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
+                    "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException ex1) {
-                //Logger.getLogger(CargoEspecial.class.getName()).log(Level.SEVERE, null, ex1);
+                //Logger.getLogger(CargoUnidad.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
-
+        
     }
-
-    public void limpiar() {
-        try {
-            this.limpiarCampos();
-            this.jCBOrdenReparacion.removeAllItems();
-            this.obtenerOrdenesReparacion();
-            this.jCBOrdenReparacion.setSelectedIndex(0);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 732\n" + ex.getMessage(),
-                    "Error al limpiar los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial limpiar()", 732, UserHome.getUsuario(), ex);
-        }
-    }
-
-    private void limpiarCampos() {
-        try {
-            this.jTFBeneficiario.setText(null);
+    
+    public void limpiar(){
+        try{
+            this.jCBClaveUnidad.removeAllItems();
             this.jTFCantidad.setText("0.000");
             this.jTFClaveRefaccion.setText(null);
             this.jTFIVA.setText("0.000");
@@ -780,71 +781,122 @@ public class CargoTaller extends javax.swing.JFrame {
             this.jTFPrecioUnitario.setText("0.000");
             this.jTFSubtotal.setText("0.000");
             this.jTFTotal.setText("0.000");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 733\n" + ex.getMessage(),
+            this.jCBOrdenReparacion.removeAllItems();
+            this.obtenerOrdenesReparacion();
+            this.jCBOrdenReparacion.setSelectedIndex(0);
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 767\n" + ex.getMessage(),
                     "Error al limpiar los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial limpiarCampos()", 733, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad limpiar()", 767, UserHome.getUsuario(), ex);
         }
     }
-
-    public void obtenerOrdenesReparacion() {
-        String mensajeError = "";
+    
+    public void obtenerOrdenesReparacion(){
         try {
             List<OrdenReparacionDTO> ordenesReparacion = new OrdenReparacionDAO().
                     obtenerOrdenesReparacionPendientes(true);
-            for (OrdenReparacionDTO ordenReparacion : ordenesReparacion) {
-                mensajeError = ordenReparacion.toString();
+            for(OrdenReparacionDTO ordenReparacion : ordenesReparacion){
                 this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 734\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 768\n" + ex.getMessage(),
                     "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(mensajeError, 734, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad obtenerOrdenesReparacion()", 768, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 735\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 769\n" + ex.getMessage(),
                     "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(mensajeError, 735, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad obtenerOrdenesReparacion()", 769, UserHome.getUsuario(), ex);
         }
     }
+    
+    private boolean validarTransportesPReparacion(String claveTransporte, OrdenReparacionDTO reparacion){
+        try{
+            TransporteReparacionDAO accesoTransporteReparacion = new TransporteReparacionDAO();
+            List<TransporteReparacionDTO> transportes = accesoTransporteReparacion.
+                    obtenerTransportesPReparacion(reparacion, true, true, true, true);
 
-    private void onFormatErrorSetValue(javax.swing.JTextField campo, double value) {
-        DecimalFormat formatD = new DecimalFormat("0.000");
-        try {
+            for(TransporteReparacionDTO transporte : transportes){
+                if(claveTransporte.equals(transporte.getTransporte().getClave())){
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 770\n" + ex.getMessage(),
+                    "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidad validarTransportesPReparacion()", 770, UserHome.getUsuario(), ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 771\n" + ex.getMessage(),
+                    "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidad validarTransportePReparacion()", 771, UserHome.getUsuario(), ex);
+        }
+        return false;
+    }
+    
+    private void onFormatErrorSetValue(javax.swing.JTextField campo, double value){
+        DecimalFormat formatD  = new DecimalFormat("0.000");
+        try{
             double n = Double.parseDouble(campo.getText());
             campo.setText(formatD.format(n));
         } catch (Exception ex) {
             campo.setText(formatD.format(value));
         }
     }
-
-    private void onFormatErrorSetValue(javax.swing.JTextField campo, int value) {
-        try {
-            int n = (int) (Double.parseDouble(campo.getText()));
+    
+    private void onFormatErrorSetValue(javax.swing.JTextField campo, int value){
+        try{
+            int n = (int)(Double.parseDouble(campo.getText()));
             campo.setText(Integer.toString(n));
         } catch (Exception ex) {
             campo.setText(Integer.toString(value));
         }
     }
-
-    private void prepararCaptura(javax.swing.JTextField campo) {
-        try {
+    
+    private void prepararCaptura(javax.swing.JTextField campo){
+        try{
             this.valorOriginal = ((campo != null && !"".equals(campo.getText())) ? campo.getText() : "");
             campo.setText(null);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 736\n" + ex.getMessage(),
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 772\n" + ex.getMessage(),
                     "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecial prepararCaptura()", 736, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidad prepararCaptura()", 772, UserHome.getUsuario(), ex);
         }
     }
-
-    private void buscar() {
+    
+    private void buscar(){
         BuscarCampoSimple buscarCampo = new BuscarCampoSimple();
         buscarCampo.setTipoRespuesta(1);
         buscarCampo.setRecibirTexto(this.jTFClaveRefaccion);
         buscarCampo.setLocationRelativeTo(null);
         buscarCampo.setVisible(true);
     }
+    
+    private void mostrarUnidadesPOrdenReparacion(){
+        try{
+            if(jCBOrdenReparacion.getSelectedIndex() > -1){
+                int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
+                OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
+                OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
+                TransporteReparacionDAO accesoTReparacion = new TransporteReparacionDAO();
+                ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, true, true);
+                List<TransporteReparacionDTO> transportes = accesoTReparacion.obtenerTransportesPReparacion(ordenReparacion, true, true, true, true);
 
+                this.jCBClaveUnidad.removeAllItems();
+
+                for(TransporteReparacionDTO transporte : transportes){
+                    this.jCBClaveUnidad.addItem(transporte.getTransporte().getClave());
+                }
+            }
+        } catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1205\n" + ex.getMessage(),
+                        "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidad mostrarUnidadesPOrdenReparacion()", 1205, UserHome.getUsuario(), ex);
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1206\n" + ex.getMessage(),
+                        "Error al obtener los datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidad mostrarUnidadesPOrdenReparacion()", 1206, UserHome.getUsuario(), ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -882,14 +934,15 @@ public class CargoTaller extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarCargo;
+    private javax.swing.JComboBox jCBClaveUnidad;
     private javax.swing.JComboBox jCBOrdenReparacion;
-    private javax.swing.JLabel jLBeneficiario;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
+    private javax.swing.JLabel jLClaveUnidad;
     private javax.swing.JLabel jLFolio;
     private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
-    private javax.swing.JLabel jLNumeroCargoEspecial;
+    private javax.swing.JLabel jLNumeroCargoTransporte;
     private javax.swing.JLabel jLOrdenReparacion;
     private javax.swing.JLabel jLPorcentajeIVA;
     private javax.swing.JLabel jLPrecioUnitario;
@@ -906,7 +959,6 @@ public class CargoTaller extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMILimpiar;
     private javax.swing.JMenuItem jMISalir;
     private javax.swing.JMenuItem jMIVerManual;
-    private javax.swing.JTextField jTFBeneficiario;
     private javax.swing.JTextField jTFCantidad;
     private javax.swing.JTextField jTFCargoEspecial;
     private javax.swing.JTextField jTFClaveRefaccion;

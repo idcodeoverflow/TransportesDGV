@@ -432,7 +432,7 @@ public class SalidaTaller extends javax.swing.JFrame {
             salidaAlmacen.setOrdenReparacion(ordenReparacion);
             salidaAlmacen.setRefaccion(refaccionReq);
             salidaAlmacen.setStatus(true);
-            salidaAlmacen.setTipo(4);
+            salidaAlmacen.setTipo(5);
             salidaAlmacen.setUsuario(UserHome.getUsuario());
             
             //Validar que la cantidad sea un valor válido

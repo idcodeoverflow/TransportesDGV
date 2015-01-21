@@ -69,5 +69,5 @@
 2068 -> SalidaTaller private void mostrarPrecioRefaccion() Exception
 2069 -> SalidaTaller private void mostrarUnidadesTransportePReparacion() SQLException
 2070 -> SalidaTaller private void mostrarUnidadesTransportePReparacion() Exception
-
+2071 -> ControlFacturasProveedor obtenerDetallesFactura() cargos a taller Exception
 
