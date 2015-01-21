@@ -710,7 +710,7 @@ public class SalidaTaller extends javax.swing.JFrame {
         } catch(SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2069\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(mensajeError, 2068, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog(mensajeError, 2069, UserHome.getUsuario(), ex);
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2070\n" + ex.getMessage(),
                         "Error al obtener los datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
