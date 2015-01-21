@@ -9,7 +9,6 @@ import almacendgv.UserHome;
 import beans.OrdenReparacionDTO;
 import beans.RefaccionDTO;
 import beans.SalidaTallerDTO;
-import beans.UnidadTransporteDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +30,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         String query = "INSERT INTO salida_taller(id_salida_taller, costo, status, "
                 + "cantidad, fecha_registro, clave_refaccion, numero_usuario, "
-                + "numero_orden, clave) VALUES(NULL,?,?,?,NOW(),?,?,?,?);";
+                + "numero_orden, clave, tipo) VALUES(NULL,?,?,?,NOW(),?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -43,6 +42,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
             pstmt.setInt(5, salida.getUsuario().getNumeroUsuario());
             pstmt.setInt(6, salida.getOrdenReparacion().getNumeroOrden());
             pstmt.setString(7, salida.getUnidadTransporte().getClave());
+            pstmt.setInt(8, salida.getTipo());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2039\n" + ex.getMessage(),
@@ -108,7 +108,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave FROM salida_taller "
+                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo FROM salida_taller "
                 + "WHERE id_salida_taller = ?;";
         try{
             if(abrir) {
@@ -129,6 +129,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setRefaccion(null);
                 salidaTaller.setStatus(rs.getBoolean("status"));
                 salidaTaller.setUsuario(null);
+                salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
                     salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
@@ -157,7 +158,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave FROM salida_taller;";
+                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo FROM salida_taller;";
         
         try{
             if(abrir){
@@ -178,6 +179,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setRefaccion(null);
                 salidaTaller.setStatus(rs.getBoolean("status"));
                 salidaTaller.setUsuario(null);
+                salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
                     salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
@@ -209,7 +211,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave FROM salida_taller WHERE status = ?;";
+                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo FROM salida_taller WHERE status = ?;";
         
         try{
             if(abrir){
@@ -231,6 +233,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setRefaccion(null);
                 salidaTaller.setStatus(rs.getBoolean("status"));
                 salidaTaller.setUsuario(null);
+                salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
                     salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
@@ -263,7 +266,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, "
                 + "status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave "
+                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo "
                 + "FROM salida_taller WHERE numero_orden = ? AND status = ?;";
         
         try{
@@ -287,6 +290,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setRefaccion(null);
                 salidaTaller.setStatus(rs.getBoolean("status"));
                 salidaTaller.setUsuario(null);
+                salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
                     salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
@@ -319,7 +323,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, "
                 + "status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave "
+                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo "
                 + "FROM salida_taller WHERE clave_refaccion = ? AND status = ?;";
         
         try{
@@ -343,6 +347,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setRefaccion(null);
                 salidaTaller.setStatus(rs.getBoolean("status"));
                 salidaTaller.setUsuario(null);
+                salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
                     salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
