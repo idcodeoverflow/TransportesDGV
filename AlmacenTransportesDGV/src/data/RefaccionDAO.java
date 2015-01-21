@@ -227,6 +227,8 @@ public class RefaccionDAO {
             pstmt.setBoolean(6, true);
             pstmt.setString(7, claveRefaccion);
             pstmt.setBoolean(8, true);
+            pstmt.setString(9, claveRefaccion);
+            pstmt.setBoolean(10, true);
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 existencia = rs.getDouble("existencia");
