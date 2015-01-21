@@ -217,6 +217,12 @@ public class SeleccionarCargoDirecto extends javax.swing.JFrame {
                 cargoEspecial.setControlFacturas(controlFacturas);
                 cargoEspecial.mostrarInformacion();
                 cargoEspecial.setVisible(true);
+            } else if(this.jCBTipoCargoDirecto.getSelectedIndex() == 3) {
+                CargoTaller cargoTaller = new CargoTaller();
+                cargoTaller.setFactura(factura);
+                cargoTaller.setControlFacturas(controlFacturas);
+                cargoTaller.mostrarInformacion();
+                cargoTaller.setVisible(true);
             }
             this.dispose();
         } catch (Exception ex) {
