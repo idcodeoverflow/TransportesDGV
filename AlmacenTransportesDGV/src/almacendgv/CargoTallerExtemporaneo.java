@@ -5,18 +5,23 @@
 package almacendgv;
 
 import beans.CargoDirectoDTO;
-import beans.CargoEspecialDTO;
+import beans.CargoUnidadDTO;
 import beans.FacturaDTO;
 import beans.OrdenReparacionDTO;
 import beans.RefaccionDTO;
+import beans.TransporteReparacionDTO;
+import beans.UnidadTransporteDTO;
 import beans.UsuarioDTO;
 import data.CargoDirectoDAO;
-import data.CargoEspecialDAO;
+import data.CargoUnidadDAO;
 import data.FacturaDAO;
 import data.OrdenReparacionDAO;
 import data.RefaccionDAO;
+import data.TransporteReparacionDAO;
+import data.UnidadTransporteDAO;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.List;
 import javax.swing.JOptionPane;
 import logger.ErrorLogger;
 
@@ -24,7 +29,7 @@ import logger.ErrorLogger;
  *
  * @author David Israel
  */
-public class CargoTallerExtemporaneo extends javax.swing.JFrame {
+public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
 
     private FacturaDTO factura;
     private UsuarioDTO usuario;    
@@ -34,11 +39,16 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
     /**
      * Creates new form CargoEspecial
      */
-    public CargoTallerExtemporaneo() {
+    public CargoUnidadExtemporaneo() {
         try{
             initComponents();
             this.setLocationRelativeTo(null);
-            this.limpiarCampos();
+            this.jTFCantidad.setText("0.000");
+            this.jTFIVA.setText("0.000");
+            this.jTFPorcentajeIVA.setText("16.000");
+            this.jTFPrecioUnitario.setText("0.000");
+            this.jTFSubtotal.setText("0.000");
+            this.jTFTotal.setText("0.000");
             
             //verificar que el usuario tenga los privilegios para ejecutar la acción
             if(UserHome.getUsuario().getPrivilegio() != 1){
@@ -47,9 +57,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 return;
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1271\n" + ex.getMessage(),
-                    "Error al iniciar ventana Cargo Especial!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("Constructor CargoEspecialExtemporaneo()", 1271, UserHome.getUsuario(), ex);
+            JOptionPane.showMessageDialog(null, "Código error: 1304\n" + ex.getMessage(),
+                "Error al iniciar ventana Cargo a Unidad\nde Transporte!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("Constructor CargoUnidadExtemporaneo()", 1304, UserHome.getUsuario(), ex);
             this.dispose();
         }
     }
@@ -59,9 +69,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             this.jTFPorcentajeIVA.setText("16.000");
             this.jTFUsuario.setText(UserHome.getUsuario().getNombre() + " " + UserHome.getUsuario().getApellidos());
         } catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1272\n" + ex.getMessage(),
-                    "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo mostrarInformacion()", 1272, UserHome.getUsuario(), ex);
+            JOptionPane.showMessageDialog(null, "Código error: 1305\n" + ex.getMessage(),
+                    "Error al mostrar los datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo mostrarInformacion()", 1305, UserHome.getUsuario(), ex);
         }
     }
 
@@ -105,7 +115,7 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         jLFolio = new javax.swing.JLabel();
         jTFFolio = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jLNumeroCargoEspecial = new javax.swing.JLabel();
+        jLNumeroCargoTransporte = new javax.swing.JLabel();
         jTFCargoEspecial = new javax.swing.JTextField();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
@@ -123,8 +133,8 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         jTFTotal = new javax.swing.JTextField();
         jLLogo = new javax.swing.JLabel();
         jBAgregarCargo = new javax.swing.JButton();
-        jLBeneficiario = new javax.swing.JLabel();
-        jTFBeneficiario = new javax.swing.JTextField();
+        jLClaveUnidad = new javax.swing.JLabel();
+        jCBClaveUnidad = new javax.swing.JComboBox();
         jTFOrdenReparacion = new javax.swing.JTextField();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
@@ -138,7 +148,7 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         jMIVerManual = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cargo Especial Extemporáneo - Sistema de Administración Mantenimiento");
+        setTitle("Cargo a Unidad de Transporte Extemporáneo - Sistema de Administración Mantenimiento");
 
         jLUsuario.setText("Usuario:");
 
@@ -151,7 +161,7 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
 
         jLOrdenReparacion.setText("Orden de Reparación:");
 
-        jLNumeroCargoEspecial.setText("# Cargo Especial:");
+        jLNumeroCargoTransporte.setText("# Cargo Transporte:");
 
         jTFCargoEspecial.setEditable(false);
         jTFCargoEspecial.setFocusable(false);
@@ -249,14 +259,20 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
 
         jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
 
-        jBAgregarCargo.setText("Agregar Cargo Especial");
+        jBAgregarCargo.setText("Agregar Cargo Unidad");
         jBAgregarCargo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBAgregarCargoActionPerformed(evt);
             }
         });
 
-        jLBeneficiario.setText("Nombre del Beneficiario:");
+        jLClaveUnidad.setText("Clave de Unidad:");
+
+        jTFOrdenReparacion.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFOrdenReparacionFocusLost(evt);
+            }
+        });
 
         jMArchivo.setText("Archivo");
 
@@ -339,22 +355,22 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLBeneficiario)
+                    .addComponent(jLClaveUnidad)
                     .addComponent(jLIVA)
                     .addComponent(jLSubtotal)
                     .addComponent(jLPrecioUnitario)
-                    .addComponent(jLNumeroCargoEspecial)
+                    .addComponent(jLNumeroCargoTransporte)
                     .addComponent(jLFolio)
                     .addComponent(jLUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTFBeneficiario, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                     .addComponent(jTFUsuario)
                     .addComponent(jTFFolio)
                     .addComponent(jTFCargoEspecial)
                     .addComponent(jTFPrecioUnitario)
                     .addComponent(jTFSubtotal)
-                    .addComponent(jTFIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                    .addComponent(jTFIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(jCBClaveUnidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -374,7 +390,7 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                             .addComponent(jTFTotal)
                             .addComponent(jTFOrdenReparacion)))
                     .addComponent(jBAgregarCargo, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 34, Short.MAX_VALUE)
                 .addComponent(jLLogo)
                 .addContainerGap())
         );
@@ -397,7 +413,7 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                             .addComponent(jTFOrdenReparacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLNumeroCargoEspecial)
+                            .addComponent(jLNumeroCargoTransporte)
                             .addComponent(jTFCargoEspecial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLClaveRefaccion)
                             .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -422,9 +438,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                     .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLBeneficiario)
-                    .addComponent(jTFBeneficiario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBAgregarCargo))
+                    .addComponent(jLClaveUnidad)
+                    .addComponent(jBAgregarCargo)
+                    .addComponent(jCBClaveUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -472,9 +488,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1273\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1306\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo jTFPrecioUnitarioCaretUpdate()", 1273, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFPrecioUnitarioCaretUpdate()", 1306, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
 
@@ -499,9 +515,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1274\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1307\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo jTFCantidadCaretUpdate()", 1274, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFCantidadCaretUpdate()", 1307, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFCantidadCaretUpdate
 
@@ -522,9 +538,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 
             }
         } catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1275\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1308\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo jTFSubtotalCaretUpdate()", 1275, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFSubtotalCaretUpdate()", 1308, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFSubtotalCaretUpdate
 
@@ -536,20 +552,20 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                     !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
                 
             
-                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
-                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
-                this.jTFIVA.setText(format.format(iva));
-
-                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
-                        Double.parseDouble(this.jTFIVA.getText());
-                this.jTFTotal.setText(format.format(total));
+            double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                    Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+            this.jTFIVA.setText(format.format(iva));
+            
+            double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                    Double.parseDouble(this.jTFIVA.getText());
+            this.jTFTotal.setText(format.format(total));
             
             }
             
         } catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1276\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1309\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo jTFPorcentajeIVACaretUpdate()", 1276, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFPorcentajeIVACaretUpdate()", 1309, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFPorcentajeIVACaretUpdate
 
@@ -568,9 +584,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             }
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1277\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1310\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo jTFIVACaretUpdate()", 1277, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFIVACaretUpdate()", 1310, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFIVACaretUpdate
 
@@ -648,39 +664,55 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         this.buscar();
     }//GEN-LAST:event_jMIBuscarParteActionPerformed
 
+    private void jTFOrdenReparacionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFOrdenReparacionFocusLost
+        if(this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())){
+            this.mostrarUnidadesPOrdenReparacion();
+        } else if(this.jCBClaveUnidad != null) {
+            this.jCBClaveUnidad.removeAllItems();
+        }
+    }//GEN-LAST:event_jTFOrdenReparacionFocusLost
+
     private void jMIBuscarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIBuscarProveedorActionPerformed
         this.buscarProveedor();
     }//GEN-LAST:event_jMIBuscarProveedorActionPerformed
 
     public void agregar(){
-        CargoEspecialDTO cargoDirecto =  new CargoEspecialDTO();
+        CargoUnidadDTO cargoDirecto =  new CargoUnidadDTO();
         try{
-            if("".equals(this.jTFBeneficiario.getText()) || this.jTFBeneficiario == null){
-                JOptionPane.showMessageDialog(this, "Aún no se agrega un beneficiario.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
             CargoDirectoDAO accesoCargoDirecto = new CargoDirectoDAO();
-            CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
-            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
+            CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             RefaccionDTO refaccionReq = new RefaccionDTO();
-            FacturaDAO accesoFactura = new FacturaDAO();
             OrdenReparacionDAO accesoOrdenReparacion = new OrdenReparacionDAO();
-            FacturaDTO fact = this.factura;
-            String nombreBeneficiario = "";
-            String claveRefaccion = "";
-            String folioFactura = ((this.jTFFolio != null && !"".equals(this.jTFFolio.getText())) ? this.jTFFolio.getText() : "");
+            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
+            UnidadTransporteDTO unidad = new UnidadTransporteDTO();
+            UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
+            FacturaDAO accesoFactura = new FacturaDAO();
             String nProveedor = ((this.jTFProveedor != null && !"".equals(this.jTFProveedor.getText())) ? this.jTFProveedor.getText() : "");
-            String nOrdenReparacion = ((this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())) ? 
-                    this.jTFOrdenReparacion.getText() : "");
-            int numeroProveedor = 0;
-            int numeroOrdenReparacion = 0;
-            boolean agregarCargoEspecialExitoso = false;
-            nombreBeneficiario = ((this.jTFBeneficiario != null && !"".equals(this.jTFBeneficiario.getText())) ? this.jTFBeneficiario.getText() : "");
-            nombreBeneficiario = nombreBeneficiario.trim();
+            String nOrdenReparacion = ((this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())) ? this.jTFOrdenReparacion.getText() : "");
+            String folio = ((this.jTFFolio != null && !"".equals(this.jTFFolio.getText())) ? this.jTFFolio.getText() : "");
+            String claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
+            String claveUnidad = this.jCBClaveUnidad.getSelectedItem().toString();
+            boolean agregarCargoUnidadExitoso = false;
+            int numeroProveedor = Integer.parseInt(nProveedor);
+            int numeroOrdenReparacion = Integer.parseInt(nOrdenReparacion);
+            
+            //obtener clave de refaccion
             claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
-            numeroProveedor = Integer.parseInt(nProveedor);
-            numeroOrdenReparacion = Integer.parseInt(nOrdenReparacion);
+            
+            //obtener factura
+            factura = accesoFactura.obtenerFactura(folio, numeroProveedor, true, true, true);
+            
+            //obtener orden de reparacion
+            ordenReparacion = accesoOrdenReparacion.obtenerOrdenReparacion(numeroOrdenReparacion, true, true, true);
+            
+            //Validar que la unidad se encuentre en la orden de reparacion
+            if(!this.validarTransportesPReparacion(this.jCBClaveUnidad.getSelectedItem().toString(), ordenReparacion)){
+                JOptionPane.showMessageDialog(null, "La clave de Unidad de Transporte\nno pertenece "
+                        + "a la orden de\nreparación indicada.\nVerifique los datos e inténtelo\notra vez."
+                        , "Datos Erroneos!!!", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             
             //verificar que el usuario tenga los privilegios para ejecutar la acción
             if(UserHome.getUsuario().getPrivilegio() != 1){
@@ -688,15 +720,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                         + "necesarios para ejecutar la acción.", "Privilegios insuficientes", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
-            //obtener clave de refaccion
-            claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
-            
-            //obtener factura
-            factura = accesoFactura.obtenerFactura(folioFactura, numeroProveedor, true, true, true);
-            
-            //obtener orden de reparacion
-            ordenReparacion = accesoOrdenReparacion.obtenerOrdenReparacion(numeroOrdenReparacion, true, true, true);
             
             //validar que exista la clave de refaccion en el inventario
             refaccionReq = accesoRefaccion.obtenerRefaccion(claveRefaccion, true, true);
@@ -742,89 +765,84 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             }
             
             
-            //validar que nombre del beneficiario sea valido
-            if(nombreBeneficiario.equals("")){
-                JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de\nbeneficiario.",
-                    "Nombre de Beneficiario inválido!!!", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
             //Agregar los datos de cargo directo
             cargoDirecto.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
-            cargoDirecto.setFactura(fact);
+            cargoDirecto.setFactura(factura);
             cargoDirecto.setIva(Double.parseDouble(this.jTFIVA.getText()));
             //cargoDirecto.setNumeroCargoDirecto();//No se agrega el numero de cargo directo por que se genera automaticamente
-            cargoDirecto.setOrdenReparacion(accesoOrdenReparacion.
-                    obtenerOrdenReparacion(Integer.parseInt(this.jTFOrdenReparacion.getText()), true, true, true));
+            cargoDirecto.setOrdenReparacion(ordenReparacion);
             cargoDirecto.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
             cargoDirecto.setRefaccion(refaccionReq);
             cargoDirecto.setStatus(true);
             cargoDirecto.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             cargoDirecto.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             cargoDirecto.setUsuario(UserHome.getUsuario());
-            cargoDirecto.setNombreBeneficiario(nombreBeneficiario);
-
+            
             //Validar que la cantidad sea válida
             if(cargoDirecto.getCantidad() < 1){
                 JOptionPane.showMessageDialog(null, "La cantidad ingresada no es válida",
                     "Cantidad inválida!!!", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            agregarCargoEspecialExitoso = accesoCargoEspecial.agregarCargoEspecial(cargoDirecto);
             
+            //Agregar los datos de cargo operador
+            unidad = accesoUnidad.obtenerUnidad(claveUnidad, true, true, true);
+            cargoDirecto.setUnidad(unidad);
             
-            if(!agregarCargoEspecialExitoso){
+            agregarCargoUnidadExitoso = accesoCargoUnidad.agregarCargoUnidad(cargoDirecto);
+            
+            if(!agregarCargoUnidadExitoso){
                 boolean reparacionExitosa = false;
-                reparacionExitosa = accesoCargoEspecial.repararErrorAgregarCargoEspecial();
+                reparacionExitosa = accesoCargoUnidad.repararErrorAgregarCargoUnidad();
                 if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1279\n" + "No se pudo reparar la tabla",
+                    JOptionPane.showMessageDialog(null, "Código error: 1312\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1279, UserHome.getUsuario(), new Exception("#NA"));
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1312, UserHome.getUsuario(), new Exception("#NA"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
-                }
+                 }
             }
             
-            this.controlFacturas.actualizarTablas();
             this.limpiar();
+            this.controlFacturas.actualizarTablas();
         } catch (SQLException ex) {
             try {
-                JOptionPane.showMessageDialog(null, "Código error: 1280\n" + ex.getMessage(),
-                        "Error al guardar datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString(), 1280, UserHome.getUsuario(), ex);
+                JOptionPane.showMessageDialog(null, "Código error: 1313\n" + ex.getMessage(),
+                        "Error al guardar datos en la BD!!!", JOptionPane.ERROR_MESSAGE);
+                ErrorLogger.scribirLog(cargoDirecto.toString(), 1313, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
-                CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
-                reparacionExitosa = accesoCargoEspecial.repararErrorAgregarCargoEspecial();
+                CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
+                reparacionExitosa = accesoCargoUnidad.repararErrorAgregarCargoUnidad();
                 if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1281\n" + "No se pudo reparar la tabla",
+                    JOptionPane.showMessageDialog(null, "Código error: 1314\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1281, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1314, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException ex1) {
-                //Logger.getLogger(CargoEspecial.class.getName()).log(Level.SEVERE, null, ex1);
+                //Logger.getLogger(CargoUnidad.class.getName()).log(Level.SEVERE, null, ex1);
             }
         } catch (Exception ex){
             try {
-                JOptionPane.showMessageDialog(null, "Código error: 1282\n" + ex.getMessage(),
+                JOptionPane.showMessageDialog(null, "Código error: 1315\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoDirecto.toString(), 1282, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoDirecto.toString(), 1315, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
-                CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
-                reparacionExitosa = accesoCargoEspecial.repararErrorAgregarCargoEspecial();
+                CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
+                reparacionExitosa = accesoCargoUnidad.repararErrorAgregarCargoUnidad();
                 if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1283\n" + "No se pudo reparar la tabla",
+                    JOptionPane.showMessageDialog(null, "Código error: 1316\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1283, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoDirecto.toString(), 1316, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (SQLException ex1) {
-                //Logger.getLogger(CargoEspecial.class.getName()).log(Level.SEVERE, null, ex1);
+                //Logger.getLogger(CargoUnidad.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
         
@@ -832,17 +850,7 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
     
     public void limpiar(){
         try{
-            this.limpiarCampos();
-        } catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1284\n" + ex.getMessage(),
-                    "Error al limpiar los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo limpiar()", 1284, UserHome.getUsuario(), ex);
-        }
-    }
-    
-    private void limpiarCampos(){
-        try{
-            this.jTFBeneficiario.setText(null);
+            this.jCBClaveUnidad.removeAllItems();
             this.jTFCantidad.setText("0.000");
             this.jTFClaveRefaccion.setText(null);
             this.jTFIVA.setText("0.000");
@@ -850,14 +858,37 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             this.jTFPrecioUnitario.setText("0.000");
             this.jTFSubtotal.setText("0.000");
             this.jTFTotal.setText("0.000");
-            this.jTFOrdenReparacion.setText(null);
-            this.jTFProveedor.setText(null);
             this.jTFFolio.setText(null);
+            this.jTFProveedor.setText(null);
+            this.jTFOrdenReparacion.setText(null);
         } catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1285\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1317\n" + ex.getMessage(),
                     "Error al limpiar los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo limpiarCampos()", 1285, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo limpiar()", 1317, UserHome.getUsuario(), ex);
         }
+    }
+    
+    private boolean validarTransportesPReparacion(String claveTransporte, OrdenReparacionDTO reparacion){
+        try{
+            TransporteReparacionDAO accesoTransporteReparacion = new TransporteReparacionDAO();
+            List<TransporteReparacionDTO> transportes = accesoTransporteReparacion.
+                    obtenerTransportesPReparacion(reparacion, true, true, true, true);
+
+            for(TransporteReparacionDTO transporte : transportes){
+                if(claveTransporte.equals(transporte.getTransporte().getClave())){
+                    return true;
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1318\n" + ex.getMessage(),
+                    "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo validarTransportesPReparacion()", 1318, UserHome.getUsuario(), ex);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1319\n" + ex.getMessage(),
+                    "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo validarTransportesPReparacion()", 1319, UserHome.getUsuario(), ex);
+        }
+        return false;
     }
     
     private void onFormatErrorSetValue(javax.swing.JTextField campo, double value){
@@ -881,12 +912,12 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
     
     private void prepararCaptura(javax.swing.JTextField campo){
         try{
-        this.valorOriginal = ((campo != null && !"".equals(campo.getText())) ? campo.getText() : "");
-        campo.setText(null);
+            this.valorOriginal = ((campo != null && !"".equals(campo.getText())) ? campo.getText() : "");
+            campo.setText(null);
         } catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1286\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1320\n" + ex.getMessage(),
                     "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoEspecialExtemporaneo prepararCaptura()", 1286, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo prepararCaptura()", 1320, UserHome.getUsuario(), ex);
         }
     }
     
@@ -896,6 +927,52 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         buscarCampo.setRecibirTexto(this.jTFClaveRefaccion);
         buscarCampo.setLocationRelativeTo(null);
         buscarCampo.setVisible(true);
+    }
+    
+    private void mostrarUnidadesPOrdenReparacion(){
+        try{
+            this.jCBClaveUnidad.removeAllItems();
+            
+            if(this.jTFOrdenReparacion == null || "".equals(this.jTFOrdenReparacion.getText())){
+                return;
+            }
+            int numeroOrden = Integer.parseInt(((this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())) ? this.jTFOrdenReparacion.getText() : ""));
+            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
+            OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
+            TransporteReparacionDAO accesoTReparacion = new TransporteReparacionDAO();
+            ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, true, true);
+            List<TransporteReparacionDTO> transportes;
+            
+            if(ordenReparacion == null){
+                JOptionPane.showMessageDialog(null, "No existe la orden de reparación especificada.",
+                        "No existe la orden de reparación", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            transportes = accesoTReparacion.obtenerTransportesPReparacion(ordenReparacion, true, true, true, true);
+            
+            if(transportes == null){
+                JOptionPane.showMessageDialog(null, "No se encontraron unidades\nde transporte asociadas\na la orden de reparación.",
+                        "No se encontraron unidades de transporte", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            
+            if(this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())){
+                for(TransporteReparacionDTO transporte : transportes){
+                    this.jCBClaveUnidad.addItem(transporte.getTransporte().getClave());
+                }
+            }
+            
+        } catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1321\n" + ex.getMessage(),
+                        "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo mostrarUnidadesPOrdenReparacion()", 1321, UserHome.getUsuario(), ex);
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1322\n" + ex.getMessage(),
+                        "Error al obtener los datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo mostrarUnidadesPOrdenReparacion()", 1322, UserHome.getUsuario(), ex);
+        }
     }
     
     private void buscarProveedor(){
@@ -923,33 +1000,33 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CargoTallerExtemporaneo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CargoUnidadExtemporaneo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CargoTallerExtemporaneo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CargoUnidadExtemporaneo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CargoTallerExtemporaneo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CargoUnidadExtemporaneo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CargoTallerExtemporaneo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CargoUnidadExtemporaneo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CargoTallerExtemporaneo().setVisible(true);
+                new CargoUnidadExtemporaneo().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarCargo;
-    private javax.swing.JLabel jLBeneficiario;
+    private javax.swing.JComboBox jCBClaveUnidad;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
+    private javax.swing.JLabel jLClaveUnidad;
     private javax.swing.JLabel jLFolio;
     private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
-    private javax.swing.JLabel jLNumeroCargoEspecial;
+    private javax.swing.JLabel jLNumeroCargoTransporte;
     private javax.swing.JLabel jLOrdenReparacion;
     private javax.swing.JLabel jLPorcentajeIVA;
     private javax.swing.JLabel jLPrecioUnitario;
@@ -967,7 +1044,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMILimpiar;
     private javax.swing.JMenuItem jMISalir;
     private javax.swing.JMenuItem jMIVerManual;
-    private javax.swing.JTextField jTFBeneficiario;
     private javax.swing.JTextField jTFCantidad;
     private javax.swing.JTextField jTFCargoEspecial;
     private javax.swing.JTextField jTFClaveRefaccion;
