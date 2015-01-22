@@ -37,7 +37,10 @@ public class TrabajoExterno extends javax.swing.JFrame {
             initComponents();
             this.setLocationRelativeTo(null);
             this.jTFCantidad.setText("0.000");
+            this.jTFIVA.setText("0.000");
+            this.jTFPorcentajeIVA.setText("16.000");
             this.jTFPrecioUnitario.setText("0.000");
+            this.jTFSubtotal.setText("0.000");
             this.jTFTotal.setText("0.000");
             this.obtenerOrdenesReparacion();
         } catch (Exception ex) {
@@ -85,6 +88,12 @@ public class TrabajoExterno extends javax.swing.JFrame {
         jTFCantidad = new javax.swing.JTextField();
         jLPrecioUnitario = new javax.swing.JLabel();
         jTFPrecioUnitario = new javax.swing.JTextField();
+        jLSubtotal = new javax.swing.JLabel();
+        jTFSubtotal = new javax.swing.JTextField();
+        jLPorcentajeIVA = new javax.swing.JLabel();
+        jTFPorcentajeIVA = new javax.swing.JTextField();
+        jLIVA = new javax.swing.JLabel();
+        jTFIVA = new javax.swing.JTextField();
         jLTotal = new javax.swing.JLabel();
         jTFTotal = new javax.swing.JTextField();
         jBAgregarTrabajo = new javax.swing.JButton();
@@ -157,7 +166,62 @@ public class TrabajoExterno extends javax.swing.JFrame {
             }
         });
 
+        jLSubtotal.setText("Subtotal:");
+
+        jTFSubtotal.setEditable(false);
+        jTFSubtotal.setFocusable(false);
+        jTFSubtotal.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFSubtotalCaretUpdate(evt);
+            }
+        });
+        jTFSubtotal.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFSubtotalFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFSubtotalFocusLost(evt);
+            }
+        });
+
+        jLPorcentajeIVA.setText("% IVA:");
+
+        jTFPorcentajeIVA.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFPorcentajeIVACaretUpdate(evt);
+            }
+        });
+        jTFPorcentajeIVA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFPorcentajeIVAFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFPorcentajeIVAFocusLost(evt);
+            }
+        });
+
+        jLIVA.setText("IVA:");
+
+        jTFIVA.setEditable(false);
+        jTFIVA.setFocusable(false);
+        jTFIVA.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFIVACaretUpdate(evt);
+            }
+        });
+        jTFIVA.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTFIVAFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTFIVAFocusLost(evt);
+            }
+        });
+
         jLTotal.setText("Total:");
+
+        jTFTotal.setEditable(false);
+        jTFTotal.setFocusable(false);
 
         jBAgregarTrabajo.setText("Agregar Trabajo Externo");
         jBAgregarTrabajo.addActionListener(new java.awt.event.ActionListener() {
@@ -244,47 +308,56 @@ public class TrabajoExterno extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLTotal)
+                    .addComponent(jLClaveUnidad)
+                    .addComponent(jLIVA)
+                    .addComponent(jLSubtotal)
                     .addComponent(jLCantidad)
                     .addComponent(jLOrdenReparacion)
                     .addComponent(jLFolioFactura)
                     .addComponent(jLUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBAgregarTrabajo, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jTFCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                                        .addComponent(jCBOrdenReparacion, 0, 170, Short.MAX_VALUE)
-                                        .addComponent(jTFUsuario))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTFSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                                    .addComponent(jTFCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                                    .addComponent(jCBOrdenReparacion, 0, 170, Short.MAX_VALUE)
+                                    .addComponent(jTFUsuario))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(37, 37, 37)
-                                                .addComponent(jLPrecioUnitario))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLDescripcion)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(37, 37, 37)
+                                            .addComponent(jLPrecioUnitario))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLProveedor, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLClaveUnidad, javax.swing.GroupLayout.Alignment.TRAILING)))))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jTFFolioFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                                    .addComponent(jLNumeroTrabajo)))
-                            .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jLDescripcion)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLPorcentajeIVA, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLProveedor, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTFIVA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLTotal))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jTFFolioFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                                .addComponent(jLNumeroTrabajo)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFNumeroTrabajo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCBClaveUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTFProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jCBClaveUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBAgregarTrabajo)))
                 .addGap(27, 27, 27)
                 .addComponent(jLLogo)
                 .addContainerGap(11, Short.MAX_VALUE))
@@ -321,12 +394,21 @@ public class TrabajoExterno extends javax.swing.JFrame {
                     .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLPorcentajeIVA)
+                    .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLSubtotal)
+                    .addComponent(jTFSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLTotal)
                     .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLIVA)
+                    .addComponent(jTFIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBAgregarTrabajo)
                     .addComponent(jLClaveUnidad)
                     .addComponent(jCBClaveUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jBAgregarTrabajo)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -357,12 +439,20 @@ public class TrabajoExterno extends javax.swing.JFrame {
         DecimalFormat format = new DecimalFormat("0.000");
         try{
             
-            if(!"".equals(this.jTFCantidad.getText()) && 
-                    !"".equals(this.jTFTotal.getText()) && 
-                    !"".equals(this.jTFPrecioUnitario.getText())){
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
             
-                double total = Double.parseDouble(this.jTFCantidad.getText()) *
+                double subtotal = Double.parseDouble(this.jTFCantidad.getText()) * 
                         Double.parseDouble(this.jTFPrecioUnitario.getText());
+                this.jTFSubtotal.setText(format.format(subtotal));
+
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
@@ -376,12 +466,20 @@ public class TrabajoExterno extends javax.swing.JFrame {
         DecimalFormat format = new DecimalFormat("0.000");
         try{
             
-            if(!"".equals(this.jTFCantidad.getText()) && 
-                    !"".equals(this.jTFTotal.getText()) && 
-                    !"".equals(this.jTFPrecioUnitario.getText())){
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
             
-                double total = Double.parseDouble(this.jTFCantidad.getText()) *
+                double subtotal = Double.parseDouble(this.jTFCantidad.getText()) * 
                         Double.parseDouble(this.jTFPrecioUnitario.getText());
+                this.jTFSubtotal.setText(format.format(subtotal));
+
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
@@ -390,6 +488,75 @@ public class TrabajoExterno extends javax.swing.JFrame {
             ErrorLogger.scribirLog("TrabajoExterno jTFPrecioUnitarioCaretUpdate()", 1140, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
+
+    private void jTFSubtotalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFSubtotalCaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+                
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+                
+            }
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 1141\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("TrabajoExterno jTFSubtotalCaretUpdate()", 1141, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFSubtotalCaretUpdate
+
+    private void jTFPorcentajeIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVACaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+                
+            
+                double iva = (double)((Double.parseDouble(this.jTFSubtotal.getText()) * 
+                        Double.parseDouble(this.jTFPorcentajeIVA.getText())) / 100.0);
+                this.jTFIVA.setText(format.format(iva));
+
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+            
+            }
+            
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Código error: 1142\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("TrabajoExterno jTFPorcentajeIVACaretUpdate()", 1142, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFPorcentajeIVACaretUpdate
+
+    private void jTFIVACaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFIVACaretUpdate
+        DecimalFormat format = new DecimalFormat("0.000");
+        try{
+            
+            if(!"".equals(this.jTFCantidad.getText()) && !"".equals(this.jTFIVA.getText()) && 
+                    !"".equals(this.jTFTotal.getText()) && !"".equals(this.jTFPorcentajeIVA.getText()) && 
+                    !"".equals(this.jTFPrecioUnitario.getText()) && !"".equals(this.jTFSubtotal.getText())){
+            
+                double total = Double.parseDouble(this.jTFSubtotal.getText()) +
+                        Double.parseDouble(this.jTFIVA.getText());
+                this.jTFTotal.setText(format.format(total));
+            
+            }
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 1143\n" + ex.getMessage(),
+                    "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("TrabajoExterno jTFIVACaretUpdate()", 1143, UserHome.getUsuario(), ex);
+        }
+    }//GEN-LAST:event_jTFIVACaretUpdate
 
     private void jTFCantidadFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFCantidadFocusLost
         double cant = 0.00;
@@ -411,6 +578,36 @@ public class TrabajoExterno extends javax.swing.JFrame {
         this.onFormatErrorSetValue(this.jTFPrecioUnitario, cant);
     }//GEN-LAST:event_jTFPrecioUnitarioFocusLost
 
+    private void jTFSubtotalFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFSubtotalFocusLost
+        double cant = 0.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 0.00;
+        }
+        this.onFormatErrorSetValue(this.jTFSubtotal, cant);
+    }//GEN-LAST:event_jTFSubtotalFocusLost
+
+    private void jTFPorcentajeIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVAFocusLost
+        double cant = 16.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 16.00;
+        }
+        this.onFormatErrorSetValue(this.jTFPorcentajeIVA, cant);
+    }//GEN-LAST:event_jTFPorcentajeIVAFocusLost
+
+    private void jTFIVAFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFIVAFocusLost
+        double cant = 0.00;
+        try{
+            cant = Double.parseDouble(this.valorOriginal);
+        } catch(Exception ex) {
+            cant = 0.00;
+        }
+        this.onFormatErrorSetValue(this.jTFIVA, cant);
+    }//GEN-LAST:event_jTFIVAFocusLost
+
     private void jTFCantidadFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFCantidadFocusGained
         this.prepararCaptura(this.jTFCantidad);
     }//GEN-LAST:event_jTFCantidadFocusGained
@@ -418,6 +615,18 @@ public class TrabajoExterno extends javax.swing.JFrame {
     private void jTFPrecioUnitarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioFocusGained
         this.prepararCaptura(this.jTFPrecioUnitario);
     }//GEN-LAST:event_jTFPrecioUnitarioFocusGained
+
+    private void jTFSubtotalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFSubtotalFocusGained
+        this.prepararCaptura(this.jTFSubtotal);
+    }//GEN-LAST:event_jTFSubtotalFocusGained
+
+    private void jTFPorcentajeIVAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPorcentajeIVAFocusGained
+        this.prepararCaptura(this.jTFPorcentajeIVA);
+    }//GEN-LAST:event_jTFPorcentajeIVAFocusGained
+
+    private void jTFIVAFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFIVAFocusGained
+        this.prepararCaptura(this.jTFIVA);
+    }//GEN-LAST:event_jTFIVAFocusGained
 
     private void jCBOrdenReparacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBOrdenReparacionItemStateChanged
         this.mostrarUnidadesTransportePReparacion();
@@ -443,11 +652,11 @@ public class TrabajoExterno extends javax.swing.JFrame {
             trabajoExterno.setCantidad(Double.parseDouble(this.jTFCantidad.getText()));
             trabajoExterno.setDescripcion(this.jTFDescripcion.getText());
             trabajoExterno.setFactura(factura);
-            trabajoExterno.setIva(0.0);
+            trabajoExterno.setIva(Double.parseDouble(this.jTFIVA.getText()));
             trabajoExterno.setMonto(Double.parseDouble(this.jTFTotal.getText()));
             trabajoExterno.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
             trabajoExterno.setStatus(true);
-            trabajoExterno.setSubtotal(0.0);
+            trabajoExterno.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             trabajoExterno.setOrdenReparacion(ordenReparacion);
             trabajoExterno.setUnidadTransporte(unidadTransporte);
             trabajoExterno.setUsuario(UserHome.getUsuario());
@@ -540,7 +749,10 @@ public class TrabajoExterno extends javax.swing.JFrame {
     public void mostrarValores(){
         try{
             this.jTFCantidad.setText("0.000");
+            this.jTFIVA.setText("0.000");
+            this.jTFPorcentajeIVA.setText("16.000");
             this.jTFPrecioUnitario.setText("0.000");
+            this.jTFSubtotal.setText("0.000");
             this.jTFTotal.setText("0.000");
             this.jTFFolioFactura.setText(factura.getFolio());
             this.jTFProveedor.setText(factura.getProveedor().getNombre());
@@ -680,11 +892,14 @@ public class TrabajoExterno extends javax.swing.JFrame {
     private javax.swing.JLabel jLClaveUnidad;
     private javax.swing.JLabel jLDescripcion;
     private javax.swing.JLabel jLFolioFactura;
+    private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
     private javax.swing.JLabel jLNumeroTrabajo;
     private javax.swing.JLabel jLOrdenReparacion;
+    private javax.swing.JLabel jLPorcentajeIVA;
     private javax.swing.JLabel jLPrecioUnitario;
     private javax.swing.JLabel jLProveedor;
+    private javax.swing.JLabel jLSubtotal;
     private javax.swing.JLabel jLTotal;
     private javax.swing.JLabel jLUsuario;
     private javax.swing.JMenu jMArchivo;
@@ -698,9 +913,12 @@ public class TrabajoExterno extends javax.swing.JFrame {
     private javax.swing.JTextField jTFCantidad;
     private javax.swing.JTextField jTFDescripcion;
     private javax.swing.JTextField jTFFolioFactura;
+    private javax.swing.JTextField jTFIVA;
     private javax.swing.JTextField jTFNumeroTrabajo;
+    private javax.swing.JTextField jTFPorcentajeIVA;
     private javax.swing.JTextField jTFPrecioUnitario;
     private javax.swing.JTextField jTFProveedor;
+    private javax.swing.JTextField jTFSubtotal;
     private javax.swing.JTextField jTFTotal;
     private javax.swing.JTextField jTFUsuario;
     // End of variables declaration//GEN-END:variables

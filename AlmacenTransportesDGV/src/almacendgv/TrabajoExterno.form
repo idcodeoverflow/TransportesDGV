@@ -112,60 +112,70 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLTotal" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLClaveUnidad" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLIVA" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLSubtotal" min="-2" max="-2" attributes="0"/>
                   <Component id="jLCantidad" min="-2" max="-2" attributes="0"/>
                   <Component id="jLOrdenReparacion" min="-2" max="-2" attributes="0"/>
                   <Component id="jLFolioFactura" min="-2" max="-2" attributes="0"/>
                   <Component id="jLUsuario" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jBAgregarTrabajo" alignment="1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jTFCantidad" pref="170" max="32767" attributes="0"/>
-                                      <Component id="jCBOrdenReparacion" pref="170" max="32767" attributes="0"/>
-                                      <Component id="jTFUsuario" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jTFSubtotal" alignment="0" pref="170" max="32767" attributes="0"/>
+                                  <Component id="jTFCantidad" pref="170" max="32767" attributes="0"/>
+                                  <Component id="jCBOrdenReparacion" pref="170" max="32767" attributes="0"/>
+                                  <Component id="jTFUsuario" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                              <Component id="jLPrecioUnitario" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="1" attributes="0">
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jLDescripcion" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                          <Component id="jLPrecioUnitario" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLProveedor" alignment="1" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLClaveUnidad" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="jLDescripcion" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLPorcentajeIVA" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLProveedor" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jTFFolioFactura" min="-2" pref="170" max="-2" attributes="0"/>
-                                  <EmptySpace pref="17" max="32767" attributes="0"/>
-                                  <Component id="jLNumeroTrabajo" min="-2" max="-2" attributes="0"/>
-                              </Group>
                           </Group>
-                          <Component id="jTFTotal" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jTFIVA" min="-2" pref="170" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jLTotal" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jTFFolioFactura" min="-2" pref="170" max="-2" attributes="0"/>
+                              <EmptySpace pref="17" max="32767" attributes="0"/>
+                              <Component id="jLNumeroTrabajo" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jTFTotal" min="-2" pref="170" max="-2" attributes="0"/>
+                          <Component id="jTFPorcentajeIVA" min="-2" pref="170" max="-2" attributes="0"/>
                           <Component id="jTFPrecioUnitario" min="-2" pref="170" max="-2" attributes="0"/>
                           <Component id="jTFDescripcion" min="-2" pref="170" max="-2" attributes="0"/>
                           <Component id="jTFNumeroTrabajo" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
                           <Component id="jTFProveedor" min="-2" pref="170" max="-2" attributes="0"/>
-                          <Component id="jCBClaveUnidad" min="-2" pref="170" max="-2" attributes="0"/>
                       </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jCBClaveUnidad" min="-2" pref="170" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jBAgregarTrabajo" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
@@ -212,13 +222,24 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLPorcentajeIVA" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTFPorcentajeIVA" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLSubtotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTFSubtotal" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTFTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLIVA" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTFIVA" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jBAgregarTrabajo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLClaveUnidad" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jCBClaveUnidad" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jBAgregarTrabajo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -289,12 +310,60 @@
         <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTFPrecioUnitarioFocusLost"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JLabel" name="jLSubtotal">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Subtotal:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTFSubtotal">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="jTFSubtotalCaretUpdate"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTFSubtotalFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTFSubtotalFocusLost"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLPorcentajeIVA">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="% IVA:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTFPorcentajeIVA">
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="jTFPorcentajeIVACaretUpdate"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTFPorcentajeIVAFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTFPorcentajeIVAFocusLost"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLIVA">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="IVA:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="jTFIVA">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="jTFIVACaretUpdate"/>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTFIVAFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTFIVAFocusLost"/>
+      </Events>
+    </Component>
     <Component class="javax.swing.JLabel" name="jLTotal">
       <Properties>
         <Property name="text" type="java.lang.String" value="Total:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTFTotal">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jBAgregarTrabajo">
       <Properties>
