@@ -70,4 +70,41 @@
 2069 -> SalidaTaller private void mostrarUnidadesTransportePReparacion() SQLException
 2070 -> SalidaTaller private void mostrarUnidadesTransportePReparacion() Exception
 2071 -> ControlFacturasProveedor obtenerDetallesFactura() cargos a taller Exception
-
+2072 -> public CargoTaller() Exception
+2073 -> cargoTaller public void mostrarInformacion() Exception
+2074 -> cargoTaller private void jTFPrecioUnitarioCaretUpdate() Exception
+2075 -> cargoTaller private void jTFCantidadCaretUpdate() Exception
+2076 -> cargoTaller jTFSubtotalCaretUpdate() Exception
+2077 -> cargoTaller private void jTFPorcentajeIVACaretUpdate() Exception
+2078 -> CargoTaller private void jTFIVACaretUpdate() Exception
+2079 -> CargoTaller Error al reparar tabla cargos taller agregar()
+2080 -> CargoTaller agregar() SQLException
+2081 -> CargoTaller Error al reparar tabla cargos taller agregar()
+2082 -> CargoTaller agregar() Exception
+2083 -> CargoTaller Error al reparar tabla cargos taller agregar()
+2084 -> CargoTaller limpiar() Exception
+2085 -> CargoTaller obtenerOrdenesReparacion() SQLException
+2086 -> CargoTaller obtenerOrdenesReparacion() Exception
+2087 -> CargoTaller private boolean validarTransportesPReparacion() SQLException
+2088 -> CargoTaller private boolean validarTransportesPReparacion() Exception
+2089 -> CargoTaller private void prepararCaptura() Exception
+2090 -> CargoTaller private void mostrarUnidadesPOrdenReparacion() SQLException
+2091 -> CargoTaller private void mostrarUnidadesPOrdenReparacion() Exception
+2092 -> CargoTallerExtemporaneo public CargoTallerExtemporaneo() Exception
+2093 -> CargoTallerExtemporaneo public void mostrarInformacion() Exception
+2094 -> CargoTallerExtemporaneo private void jTFPrecioUnitarioCaretUpdate() Exception
+2095 -> CargoTallerExtemporaneo private void jTFCantidadCaretUpdate() Exception 
+2096 -> CargoTallerExtemporaneo private void jTFSubtotalCaretUpdate() Exception
+2097 -> CargoTallerExtemporaneo private void jTFSubtotalCaretUpdate() Exception
+2098 -> CargoTallerExtemporaneo private void jTFIVACaretUpdate() Exception
+2099 -> CargoTallerExtemporaneo Error al reparar tabla cargos taller agregar()
+2100 -> CargoTallerExtemporaneo agregar() SQLException
+2101 -> CargoTallerExtemporaneo Error al reparar tabla cargos taller 
+2102 -> CargoTallerExtemporaneo agregar() Exception
+2103 -> CargoTallerExtemporaneo Error al reparar tabla cargos taller
+2104 -> CargoTallerExtemporaneo limpiar() Exception
+2105 -> CargoTallerExtemporaneo validarTransportesReparacion() SQLException
+2106 -> CargoTallerExtemporaneo validarTransportesPReparacion() Exception
+2107 -> CargoTallerExtemporaneo preparaCaptura() Exception
+2108 -> CargoTallerExtemporaneo mostrarUnidadesPOrdenReparacion() SQLException
+2109 -> CargoTallerExtemporaneo mostrarUnidadesPOrdenReparacion() Exception
