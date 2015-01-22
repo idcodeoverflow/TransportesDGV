@@ -55,9 +55,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 return;
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1304\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2092\n" + ex.getMessage(),
                 "Error al iniciar ventana Cargo a Unidad\nde Transporte!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("Constructor CargoUnidadExtemporaneo()", 1304, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("Constructor CargoTallerExtemporaneo()", 2092, UserHome.getUsuario(), ex);
             this.dispose();
         }
     }
@@ -67,9 +67,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             this.jTFPorcentajeIVA.setText("16.000");
             this.jTFUsuario.setText(UserHome.getUsuario().getNombre() + " " + UserHome.getUsuario().getApellidos());
         } catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1305\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2093\n" + ex.getMessage(),
                     "Error al mostrar los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo mostrarInformacion()", 1305, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo mostrarInformacion()", 2093, UserHome.getUsuario(), ex);
         }
     }
 
@@ -486,9 +486,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1306\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2094\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFPrecioUnitarioCaretUpdate()", 1306, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo jTFPrecioUnitarioCaretUpdate()", 2094, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
 
@@ -513,9 +513,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 this.jTFTotal.setText(format.format(total));
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1307\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2095\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFCantidadCaretUpdate()", 1307, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo jTFCantidadCaretUpdate()", 2095, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFCantidadCaretUpdate
 
@@ -536,9 +536,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 
             }
         } catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1308\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2096\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFSubtotalCaretUpdate()", 1308, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo jTFSubtotalCaretUpdate()", 2096, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFSubtotalCaretUpdate
 
@@ -561,9 +561,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             }
             
         } catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1309\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2097\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFPorcentajeIVACaretUpdate()", 1309, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo jTFPorcentajeIVACaretUpdate()", 2097, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFPorcentajeIVACaretUpdate
 
@@ -582,9 +582,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             }
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1310\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2098\n" + ex.getMessage(),
                     "Error en el calculo de los valores!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo jTFIVACaretUpdate()", 1310, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo jTFIVACaretUpdate()", 2098, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jTFIVACaretUpdate
 
@@ -792,9 +792,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 boolean reparacionExitosa = false;
                 reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
                 if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1312\n" + "No se pudo reparar la tabla",
+                    JOptionPane.showMessageDialog(null, "Código error: 2099\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoTaller.toString(), 1312, UserHome.getUsuario(), new Exception("#NA"));
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 2099, UserHome.getUsuario(), new Exception("#NA"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -805,16 +805,16 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             this.controlFacturas.actualizarTablas();
         } catch (SQLException ex) {
             try {
-                JOptionPane.showMessageDialog(null, "Código error: 1313\n" + ex.getMessage(),
+                JOptionPane.showMessageDialog(null, "Código error: 2100\n" + ex.getMessage(),
                         "Error al guardar datos en la BD!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoTaller.toString(), 1313, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoTaller.toString(), 2100, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
                 CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
                 reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
                 if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1314\n" + "No se pudo reparar la tabla",
+                    JOptionPane.showMessageDialog(null, "Código error: 2101\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoTaller.toString(), 1314, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 2101, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -824,16 +824,16 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             }
         } catch (Exception ex){
             try {
-                JOptionPane.showMessageDialog(null, "Código error: 1315\n" + ex.getMessage(),
+                JOptionPane.showMessageDialog(null, "Código error: 2102\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(cargoTaller.toString(), 1315, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(cargoTaller.toString(), 2102, UserHome.getUsuario(), ex);
                 boolean reparacionExitosa = false;
                 CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
                 reparacionExitosa = accesoCargoTaller.repararErrorAgregarCargoTaller();
                 if(!reparacionExitosa){
-                    JOptionPane.showMessageDialog(null, "Código error: 1316\n" + "No se pudo reparar la tabla",
+                    JOptionPane.showMessageDialog(null, "Código error: 2103\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(cargoTaller.toString(), 1316, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(cargoTaller.toString(), 2103, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -859,9 +859,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             this.jTFProveedor.setText(null);
             this.jTFOrdenReparacion.setText(null);
         } catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1317\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2104\n" + ex.getMessage(),
                     "Error al limpiar los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo limpiar()", 1317, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo limpiar()", 2104, UserHome.getUsuario(), ex);
         }
     }
     
@@ -877,13 +877,13 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 }
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1318\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2105\n" + ex.getMessage(),
                     "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo validarTransportesPReparacion()", 1318, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo validarTransportesPReparacion()", 2105, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1319\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2106\n" + ex.getMessage(),
                     "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo validarTransportesPReparacion()", 1319, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo validarTransportesPReparacion()", 2106, UserHome.getUsuario(), ex);
         }
         return false;
     }
@@ -912,9 +912,9 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             this.valorOriginal = ((campo != null && !"".equals(campo.getText())) ? campo.getText() : "");
             campo.setText(null);
         } catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Código error: 1320\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2107\n" + ex.getMessage(),
                     "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo prepararCaptura()", 1320, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoUnidadExtemporaneo prepararCaptura()", 2107, UserHome.getUsuario(), ex);
         }
     }
     
@@ -962,13 +962,13 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             }
             
         } catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1321\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2108\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo mostrarUnidadesPOrdenReparacion()", 1321, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo mostrarUnidadesPOrdenReparacion()", 2108, UserHome.getUsuario(), ex);
         } catch(Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1322\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2109\n" + ex.getMessage(),
                         "Error al obtener los datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoUnidadExtemporaneo mostrarUnidadesPOrdenReparacion()", 1322, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("CargoTallerExtemporaneo mostrarUnidadesPOrdenReparacion()", 2109, UserHome.getUsuario(), ex);
         }
     }
     
