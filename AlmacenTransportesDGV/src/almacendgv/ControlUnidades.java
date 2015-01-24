@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logger.ErrorLogger;
@@ -38,6 +39,8 @@ import support.DBConnection;
  */
 public class ControlUnidades extends javax.swing.JFrame {
 
+    boolean permitirCambiarImagen;
+    
     /**
      * Creates new form ControlUnidades
      */
@@ -51,6 +54,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             this.obtenerMarcasMotores();
             this.estadoBotonesInicio();
             this.jTCatalogoUnidades.setSelectionMode(0);
+            this.permitirCambiarImagen = false;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1014\n" + ex.getMessage(),
                     "Error al iniciar ventana de\nControl de Unidades de Transporte!!!", JOptionPane.ERROR_MESSAGE);
@@ -579,7 +583,9 @@ public class ControlUnidades extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIReporteCostoReparacionesActionPerformed
 
     private void UnidadTransporteImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UnidadTransporteImagenMouseClicked
-        // TODO add your handling code here:
+        if(permitirCambiarImagen){
+            
+        }
     }//GEN-LAST:event_UnidadTransporteImagenMouseClicked
     
     public void agregar(){
@@ -795,6 +801,20 @@ public class ControlUnidades extends javax.swing.JFrame {
                                 "Error!!!", JOptionPane.ERROR_MESSAGE); 
                         ErrorLogger.scribirLog(transporte.toString() + "_clave_" + clave, 1026, UserHome.getUsuario(), ex);
                     }
+                    try {
+                        cargarImagenUnidadDB(transporte);
+                    } catch(SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Código error: 2110\n" + ex.getMessage()
+                                + "\nError al intentar obtener la imagen de la\nUnidad de Transporte de la BD.",
+                                "Error!!!", JOptionPane.ERROR_MESSAGE); 
+                        ErrorLogger.scribirLog(transporte.toString() + "_clave_" + clave, 2110, UserHome.getUsuario(), ex);
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Código error: 2111\n" + ex.getMessage()
+                                + "\nError al intentar convertir la Unidad de Transporte.",
+                                "Error!!!", JOptionPane.ERROR_MESSAGE); 
+                        ErrorLogger.scribirLog(transporte.toString() + "_clave_" + clave, 2111, UserHome.getUsuario(), ex);
+                    }
+                    
                     this.jTFCPL.setText(transporte.getCpl());
                     this.jTFClave.setText(transporte.getClave());
                     this.jTFColor.setText(transporte.getColor());
@@ -1041,6 +1061,22 @@ public class ControlUnidades extends javax.swing.JFrame {
             return false;
         }
         return true;
+    }
+    
+    private void cambiarImagenUnidad(){
+        JFileChooser jfc = new JFileChooser();
+        
+    }
+    
+    private void guardarImagenUnidad(){
+        
+    }
+    
+    private void cargarImagenUnidadDB(UnidadTransporteDTO unidadTransporte) throws Exception, SQLException {
+        Image imagen;
+        UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
+        imagen = accesoUnidad.getImagenUnidadTransporte(unidadTransporte);
+        
     }
     
     /**

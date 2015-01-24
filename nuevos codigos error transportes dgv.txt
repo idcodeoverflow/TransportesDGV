@@ -108,3 +108,5 @@
 2107 -> CargoTallerExtemporaneo preparaCaptura() Exception
 2108 -> CargoTallerExtemporaneo mostrarUnidadesPOrdenReparacion() SQLException
 2109 -> CargoTallerExtemporaneo mostrarUnidadesPOrdenReparacion() Exception
+2110 -> ControlUnidades obtenerUnidad() al cargar imagen camion SQLException
+2111 -> ControlUnidades obtenerUnidad() al cargar imagen camion Exception
