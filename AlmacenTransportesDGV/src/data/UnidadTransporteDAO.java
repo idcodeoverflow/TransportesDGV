@@ -69,7 +69,7 @@ public class UnidadTransporteDAO {
         byte []data = null;
         BufferedImage bfImage = null;
         ResultSet rs = null;
-        String query = "SELECT imagen FROM unidad_transporte WHERE clave = ?;";
+        String query = "SELECT imagen FROM unidad_transporte WHERE clave = ? AND imagen != NULL;";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();

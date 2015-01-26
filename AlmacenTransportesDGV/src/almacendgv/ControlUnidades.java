@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -39,7 +40,8 @@ import support.DBConnection;
  */
 public class ControlUnidades extends javax.swing.JFrame {
 
-    boolean permitirCambiarImagen;
+    private boolean permitirCambiarImagen;
+    private String imagePath;
     
     /**
      * Creates new form ControlUnidades
@@ -583,9 +585,7 @@ public class ControlUnidades extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIReporteCostoReparacionesActionPerformed
 
     private void UnidadTransporteImagenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UnidadTransporteImagenMouseClicked
-        if(permitirCambiarImagen){
-            
-        }
+        cambiarImagenUnidad();
     }//GEN-LAST:event_UnidadTransporteImagenMouseClicked
     
     public void agregar(){
@@ -1065,18 +1065,47 @@ public class ControlUnidades extends javax.swing.JFrame {
     
     private void cambiarImagenUnidad(){
         JFileChooser jfc = new JFileChooser();
-        
+        ImageIcon icon;
+        //Con esto solamente podamos abrir archivos
+        jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
+
+        int seleccion = jfc.showOpenDialog( this );
+
+        if( seleccion == JFileChooser.APPROVE_OPTION )
+        {
+            imagePath = jfc.getSelectedFile().getAbsolutePath();
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Image img = toolkit.getImage(imagePath);
+            img = img.getScaledInstance(jLImage.getHeight() - 10, jLImage.getWidth() - 10, java.awt.Image.SCALE_SMOOTH);
+            icon = new ImageIcon(img);
+            this.jLImage.setIcon(icon);
+        }
     }
     
     private void guardarImagenUnidad(){
-        
+        /*toolkit = Toolkit.getDefaultToolkit();
+        tracker = new MediaTracker(this);
+        Image image = toolkit.getImage("mandel.gif");
+        tracker.addImage(image, 0);
+        tracker.waitForAll();
+        */
     }
     
     private void cargarImagenUnidadDB(UnidadTransporteDTO unidadTransporte) throws Exception, SQLException {
         Image imagen;
+        Image img;
         UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
         imagen = accesoUnidad.getImagenUnidadTransporte(unidadTransporte);
-        
+        ImageIcon icon;
+        if(imagen == null){
+            icon = new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"));
+        } else {
+            icon = new ImageIcon(imagen);
+        }
+        img = icon.getImage();
+        img = img.getScaledInstance(jLImage.getHeight() - 10, jLImage.getWidth() - 10, java.awt.Image.SCALE_SMOOTH);
+        icon = new ImageIcon(img);
+        this.jLImage.setIcon(icon);
     }
     
     /**
