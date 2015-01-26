@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteReparacionesPUnidad" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="23c3cc9d-d643-4275-b2eb-0ba96252a909">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="LOGO" class="java.io.InputStream"/>
+	<parameter name="CLAVE_UNIDAD" class="java.lang.String"/>
+	<parameter name="INICIO" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FIN" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT numero_orden, fecha_entrada AS apertura, IFNULL(fecha_salida, "Abierta") AS cierre,
+
+(SELECT id_tipo FROM unidad_transporte WHERE clave = $P{CLAVE_UNIDAD}) AS tipo_unidad,
+
+(SELECT CONCAT(nombre, " ", apellidos) FROM operador WHERE operador.numero_operador = orden_reparacion.numero_operador) AS nombre_operador,
+
+(SELECT CONCAT(nombre, " ", apellidos) FROM usuario WHERE usuario.numero_usuario = orden_reparacion.numero_usuario) AS nombre_operador,
+
+(SELECT IFNULL(SUM(total), 0.0) FROM cargo_directo WHERE cargo_directo.numero_orden = orden_reparacion.numero_orden AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_unidad WHERE clave = $P{CLAVE_UNIDAD})) AS cargo_directo,
+
+(SELECT (SELECT IFNULL(SUM(iva), 0.0) FROM cargo_directo WHERE cargo_directo.numero_orden = orden_reparacion.numero_orden AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_unidad WHERE clave = $P{CLAVE_UNIDAD}))) AS cargo_directo_iva,
+
+(SELECT (SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_directo WHERE cargo_directo.numero_orden = orden_reparacion.numero_orden AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_unidad WHERE clave = $P{CLAVE_UNIDAD}))) AS cargo_directo_subtotal,
+
+(SELECT IFNULL(SUM(costo), 0.0) FROM salida_almacen WHERE salida_almacen.numero_orden = orden_reparacion.numero_orden AND numero_salida IN(SELECT numero_salida FROM salida_unidad WHERE clave = $P{CLAVE_UNIDAD})) AS salida_almacen,
+
+IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_almacen.clave_refaccion)) * (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_almacen.clave_refaccion))) FROM salida_almacen WHERE salida_almacen.numero_orden = orden_reparacion.numero_orden AND numero_salida IN(SELECT numero_salida FROM salida_unidad WHERE clave = $P{CLAVE_UNIDAD})), 0.0) AS salida_almacen_iva,
+
+(SELECT salida_almacen - salida_almacen_iva FROM dual) AS salida_almacen_subtotal,
+
+(SELECT IFNULL(SUM(monto), 0.0) FROM trabajo_externo WHERE trabajo_externo.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS total_trabajo,
+
+(SELECT IFNULL(SUM(iva), 0.0) FROM trabajo_externo WHERE trabajo_externo.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS total_trabajo_iva,
+
+(SELECT IFNULL(SUM(subtotal), 0.0) FROM trabajo_externo WHERE trabajo_externo.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS total_trabajo_subtotal,
+
+(SELECT cargo_directo_subtotal + salida_almacen_subtotal + total_trabajo_subtotal FROM dual) AS subtotales,
+
+(SELECT cargo_directo_iva + salida_almacen_iva + total_trabajo_iva FROM dual) AS ivas,
+
+(SELECT cargo_directo + salida_almacen + total_trabajo FROM dual) AS totales
+
+FROM orden_reparacion WHERE numero_orden IN (SELECT numero_orden FROM transporte_reparacion WHERE clave = $P{CLAVE_UNIDAD} AND status = TRUE) AND fecha_entrada >= $P{INICIO} AND fecha_salida <= $P{FIN} AND status = TRUE;]]>
+	</queryString>
+	<field name="numero_orden" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apertura" class="java.sql.Timestamp"/>
+	<field name="cierre" class="java.lang.String"/>
+	<field name="tipo_unidad" class="java.lang.Integer"/>
+	<field name="nombre_operador" class="java.lang.String"/>
+	<field name="cargo_directo" class="java.lang.Double"/>
+	<field name="cargo_directo_iva" class="java.lang.Double"/>
+	<field name="cargo_directo_subtotal" class="java.lang.Double"/>
+	<field name="salida_almacen" class="java.lang.Double"/>
+	<field name="salida_almacen_iva" class="java.lang.Double"/>
+	<field name="salida_almacen_subtotal" class="java.lang.Double"/>
+	<field name="total_trabajo" class="java.lang.Double"/>
+	<field name="total_trabajo_iva" class="java.lang.Double"/>
+	<field name="total_trabajo_subtotal" class="java.lang.Double"/>
+	<field name="subtotales" class="java.lang.Double"/>
+	<field name="ivas" class="java.lang.Double"/>
+	<field name="totales" class="java.lang.Double"/>
+	<variable name="SUMA_TOTAL" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{totales}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="SUMA_IVA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{ivas}]]></variableExpression>
+		<initialValueExpression><![CDATA[=0.0]]></initialValueExpression>
+	</variable>
+	<variable name="SUMA_SUBTOTALES" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{subtotales}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6b365a0d-54b5-42f0-b8e4-d992aa2fd374" x="0" y="10" width="396" height="69"/>
+				<textElement>
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reparaciones por Unidad - Grupo REMEX]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="2cfcdabd-489e-4737-a222-f3660de10384" x="408" y="10" width="147" height="69"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="ba8df3d9-f323-429b-ac00-d873bdc06301" x="455" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6a5eccf5-15a9-4dbc-8b21-9341177b941a" x="388" y="5" width="68" height="20"/>
+				<textElement/>
+				<text><![CDATA[Generado el:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="b68bc381-dbe8-450d-aa01-0de6f8ead5ff" x="1" y="2" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f465941d-e62a-4b79-bb90-20de04e340b7" x="50" y="2" width="93" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Apertura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d7b666fb-baf1-49f9-be0c-83421f2cc948" x="142" y="2" width="89" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Cierre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c06ea7f6-6af0-4c97-be15-f5e179d6d3ed" x="230" y="2" width="157" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Operador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="311f38cd-0acd-491c-a805-edc542014c4c" x="387" y="2" width="63" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e2e0d43e-e4e1-4a29-82d6-16a3c89d263a" x="449" y="2" width="48" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[I.V.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ff360982-914d-4279-a20d-52b340ec40bb" x="496" y="2" width="59" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="82" splitType="Stretch">
+			<textField>
+				<reportElement uuid="16bb56e2-79d4-40df-a43d-8fea45e55261" x="1" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numero_orden}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ba0aa134-5e7b-4515-95ec-0a5828893f44" x="50" y="0" width="93" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apertura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0bfa851e-6d42-4414-b34e-a37dd2799a61" x="142" y="0" width="89" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cierre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="736d9261-40af-4f25-b75f-29aba457b508" x="230" y="0" width="157" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="44f0a548-7409-475f-9a51-a6ceb3942f9c" x="387" y="0" width="63" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subtotales}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8d6e856e-9ffd-450d-9919-12b081cc0c42" x="449" y="0" width="48" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ivas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6368c564-56df-4938-9ef1-6b2a4f2ae7ca" x="496" y="0" width="59" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totales}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fcc0947f-3f44-4841-acac-58d54da067d4" x="0" y="20" width="122" height="20"/>
+				<textElement/>
+				<text><![CDATA[Subtotal Cargos Directos]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="e22887a1-4d20-4b9b-a4ec-7034afab0a61" x="123" y="20" width="71" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cargo_directo_subtotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="68ae847a-5317-421a-bbf2-e8c613c9e158" x="195" y="20" width="106" height="20"/>
+				<textElement/>
+				<text><![CDATA[I.V.A. Cargos Directos]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="7df415fa-4e07-494a-85fb-d57d008ace73" x="301" y="20" width="72" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cargo_directo_iva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e23c296f-f93d-4290-a990-322479184844" x="480" y="20" width="75" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cargo_directo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="4a6c4f94-9a10-4bf7-882d-f5b346cf69c0" x="373" y="20" width="105" height="20"/>
+				<textElement/>
+				<text><![CDATA[Total Cargos Directos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="23581264-8c46-4262-951e-876f253d3a77" x="195" y="40" width="106" height="20"/>
+				<textElement/>
+				<text><![CDATA[I.V.A. Salida Almacén]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d8b018f9-e08d-41e8-819d-b2293c161a3e" x="373" y="40" width="105" height="20"/>
+				<textElement/>
+				<text><![CDATA[Total Salida Almacén]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="234a144e-8bd0-4faf-b52d-a2ebcd8a4882" x="0" y="40" width="122" height="20"/>
+				<textElement/>
+				<text><![CDATA[Subtotal Salida Almacén]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="10697fcf-5a52-4e6d-8409-13146832d1cc" x="123" y="40" width="71" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{salida_almacen_subtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a812ff37-cd9a-41d0-9a7a-84716f9ac01f" x="301" y="40" width="72" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{salida_almacen_iva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ff943c77-8b83-4e6f-805e-1ce61afd432a" x="480" y="40" width="75" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{salida_almacen}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="41680b4c-6f8c-4a60-9bf4-640d6dde5ef1" x="195" y="61" width="106" height="20"/>
+				<textElement/>
+				<text><![CDATA[I.V.A. Trabajo Externo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4a76530f-a0d8-4f8a-9214-61119d49b8ce" x="373" y="61" width="105" height="20"/>
+				<textElement/>
+				<text><![CDATA[Total Trabajo Externo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9d945f61-d1dc-4a18-ab40-09d2871f2a01" x="0" y="61" width="122" height="20"/>
+				<textElement/>
+				<text><![CDATA[Subtotal Trabajo Externo]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="54434ce9-550c-4cdc-918b-7aa467da9a3a" x="123" y="61" width="72" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{total_trabajo_subtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="54491f28-3426-41ce-961a-6d37b4eb9da7" x="301" y="61" width="72" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{total_trabajo_iva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9a09ad88-f2ad-4387-aecc-1ef4cc7707de" x="480" y="61" width="76" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{total_trabajo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="9" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement uuid="8b7630a5-5c81-46a0-b43b-1cfda6f4f7b6" x="433" y="10" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="598a5064-acfb-4650-a1be-5f7f1cfd5540" x="513" y="10" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement uuid="6221ef22-85bd-4953-a955-76777db61ae7" x="479" y="4" width="77" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{SUMA_TOTAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

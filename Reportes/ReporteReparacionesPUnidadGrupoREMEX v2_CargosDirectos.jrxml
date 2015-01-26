@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteReparacionesPUnidadGrupoREMEX v2_CargosDirectos" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="03148054-6088-4ed1-88ff-6447bd9b8da1">
+	<queryString language="SQL">
+		<![CDATA[SELECT (SELECT nombre FROM refaccion WHERE clave_refaccion = (SELECT clave_refaccion FROM cargo_directo WHERE numero_orden = 0 AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_unidad WHERE clave = 0))) AS nombre_refaccion,
+(SELECT total FROM cargo_directo WHERE numero_orden = 0 AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_unidad WHERE clave = 0)) AS total_cargo,
+(SELECT cantidad FROM cargo_directo WHERE numero_orden = 0 AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_unidad WHERE clave = 0)) AS cantidad_parte
+FROM dual;]]>
+	</queryString>
+	<field name="nombre_refaccion" class="java.lang.String"/>
+	<field name="total_cargo" class="java.lang.Double"/>
+	<field name="cantidad_parte" class="java.lang.Double"/>
+	<group name="nombre_refaccion">
+		<groupExpression><![CDATA[$F{nombre_refaccion}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
