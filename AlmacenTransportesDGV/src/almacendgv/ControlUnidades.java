@@ -57,6 +57,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             this.estadoBotonesInicio();
             this.jTCatalogoUnidades.setSelectionMode(0);
             this.permitirCambiarImagen = false;
+            this.limpiar();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1014\n" + ex.getMessage(),
                     "Error al iniciar ventana de\nControl de Unidades de Transporte!!!", JOptionPane.ERROR_MESSAGE);
@@ -617,6 +618,7 @@ public class ControlUnidades extends javax.swing.JFrame {
         
             unidad.setUsuario(UserHome.getUsuario());
             acceso.altaUnidad(unidad);
+            guardarImagenUnidad(unidad);
         
             this.limpiar();
         } catch(SQLException ex) {
@@ -662,6 +664,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             unidad.setUsuario(UserHome.getUsuario());
         
             acceso.modificarUnidad(unidad);
+            guardarImagenUnidad(unidad);
         
             this.limpiar();
         } catch(SQLException ex) {
@@ -738,7 +741,15 @@ public class ControlUnidades extends javax.swing.JFrame {
             this.jCBMarca.setSelectedIndex(0);
             this.jCBTipoUnidad.setSelectedIndex(0);
             this.jCBMarcaMotor.setSelectedIndex(0);
+            
             this.estadoBotonesInicio();
+            imagePath = null;
+            Image img;
+            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"));
+            img = icon.getImage();
+            img = img.getScaledInstance(jLImage.getHeight() - 10, jLImage.getWidth() - 10, java.awt.Image.SCALE_SMOOTH);
+            icon = new ImageIcon(img);
+            this.jLImage.setIcon(icon);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1022\n" + ex.getMessage()
                     + "\nError al intentar limpiar los datos.",
@@ -810,7 +821,7 @@ public class ControlUnidades extends javax.swing.JFrame {
                         ErrorLogger.scribirLog(transporte.toString() + "_clave_" + clave, 2110, UserHome.getUsuario(), ex);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Código error: 2111\n" + ex.getMessage()
-                                + "\nError al intentar convertir la Unidad de Transporte.",
+                                + "\nError al intentar obtener\nla imagen de la Unidad de Transporte.",
                                 "Error!!!", JOptionPane.ERROR_MESSAGE); 
                         ErrorLogger.scribirLog(transporte.toString() + "_clave_" + clave, 2111, UserHome.getUsuario(), ex);
                     }
@@ -1082,13 +1093,11 @@ public class ControlUnidades extends javax.swing.JFrame {
         }
     }
     
-    private void guardarImagenUnidad(){
-        /*toolkit = Toolkit.getDefaultToolkit();
-        tracker = new MediaTracker(this);
-        Image image = toolkit.getImage("mandel.gif");
-        tracker.addImage(image, 0);
-        tracker.waitForAll();
-        */
+    private void guardarImagenUnidad(UnidadTransporteDTO unidadTransporte) throws SQLException {
+        if(imagePath != null && !imagePath.equals("")){
+            UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
+            accesoUnidad.guardarImagenTransporte(imagePath, unidadTransporte);
+        }
     }
     
     private void cargarImagenUnidadDB(UnidadTransporteDTO unidadTransporte) throws Exception, SQLException {
