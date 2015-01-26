@@ -1,0 +1,4 @@
+agregar en automatico el n de orden de rep
+*reporte periodo: numero de orden, fecha inicio, fecha fin, operador y monto y quitar tablas de descripcion
+*exportar a excel info de camiones y de refacciones
+*reporte de entradas y salidas por refaccion (separado el de entradas de el de salidas) [ver si agregar una columna extra para clasificar entradas de salidas]

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CatalogoRefaccionesRemex" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0008fcd0-44f0-40f9-9628-f4e5dd1a89a4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="LOGO" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT clave_refaccion, nombre, punto_reorden, maximo, minimo, status, (SELECT nombre FROM familia_refaccion WHERE familia_refaccion.id_familia_refaccion = refaccion.id_familia_refaccion) AS familia_refaccion, (SELECT nombre FROM grupo_refaccion WHERE grupo_refaccion.id_grupo_refaccion = (SELECT id_grupo_refaccion FROM familia_refaccion WHERE familia_refaccion.id_familia_refaccion = refaccion.id_familia_refaccion)) AS grupo_refaccion FROM refaccion WHERE status = TRUE;]]>
+	</queryString>
+	<field name="clave_refaccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="punto_reorden" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="maximo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="minimo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="familia_refaccion" class="java.lang.String"/>
+	<field name="grupo_refaccion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement uuid="dde10bff-dda2-414b-9620-d9a32e907235" x="426" y="1" width="146" height="78"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="da9d7eb8-d505-4d80-b171-11450d7db869" x="0" y="21" width="428" height="40"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catálogo de Refacciones - Grupo REMEX]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement uuid="ece4b31a-e395-45f3-aed3-261dcbec393e" x="466" y="10" width="106" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="460e4ed4-9ea3-411d-8a98-ce080b287927" x="400" y="10" width="66" height="20"/>
+				<textElement/>
+				<text><![CDATA[Generado el:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<line>
+				<reportElement uuid="ce0a3cd7-2c96-40ec-a3b4-c475fa301ea3" x="0" y="3" width="572" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="4b459f35-12e5-4cf4-a903-cd179652e6cb" x="1" y="2" width="52" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clave]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d1383e16-ff76-4613-a393-49409f75d2b0" x="53" y="2" width="154" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="4875091f-f1ef-4d48-a46d-d6e6d0e60e9f" x="207" y="2" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Familia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cf1c7b56-17d5-4e15-9945-0c1e89b4cf17" x="299" y="2" width="133" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c45cec7c-8f1a-4ccc-a541-f6266c494038" x="431" y="2" width="60" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reorden]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9b4ffca0-c8fa-4964-9ccc-9b77111d4a53" x="491" y="2" width="42" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Min.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d7e43f38-6701-413b-9095-52c6ce30e756" x="532" y="2" width="40" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Máx.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="f9371ed0-c099-475e-aa6a-97e714bf5eaf" x="1" y="1" width="52" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{clave_refaccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ae56abf9-1ee0-46bc-9a2c-8c9743df5a5f" x="53" y="1" width="154" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9e78c7cc-87f1-4716-939e-6323e5cb4ba5" x="207" y="1" width="92" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{familia_refaccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="39b5b673-d350-4ed3-9f97-22dad67d5fe4" x="299" y="1" width="133" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{grupo_refaccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="373618d2-b0a2-4852-86bd-1de429443fc0" x="431" y="1" width="60" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{punto_reorden}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3ebd2344-f0ac-4cd9-bca1-a27f55d4aa91" x="491" y="1" width="42" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{minimo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="95a79391-5465-448c-a854-b0add049769c" x="532" y="1" width="40" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{maximo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement uuid="21256f19-8b34-4ed3-b815-8185e82b0c8d" x="452" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="525df5d6-ed63-40e0-aff8-b062e26d3e39" x="532" y="0" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="10" splitType="Stretch"/>
+	</summary>
+</jasperReport>

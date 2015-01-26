@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteInventarioPartesRemex" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4dfb1f2-90ea-4c64-83f6-2e83b4f7fc8f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="LOGO" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT clave_refaccion, nombre, punto_reorden, maximo, minimo, status, (SELECT nombre FROM familia_refaccion WHERE familia_refaccion.id_familia_refaccion = refaccion.id_familia_refaccion) AS familia, (SELECT nombre FROM grupo_refaccion WHERE grupo_refaccion.id_grupo_refaccion = (SELECT id_grupo_refaccion FROM familia_refaccion WHERE familia_refaccion.id_familia_refaccion = refaccion.id_familia_refaccion)) AS grupo, (SELECT (SELECT SUM(IFNULL(cantidad,0.0)) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = refaccion.clave_refaccion AND status = TRUE) - (SELECT SUM(IFNULL(cantidad,0.0)) FROM salida_almacen WHERE salida_almacen.clave_refaccion = refaccion.clave_refaccion AND status = TRUE) FROM dual) AS existencia FROM refaccion WHERE status = TRUE HAVING existencia <= punto_reorden;
+]]>
+	</queryString>
+	<field name="clave_refaccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="punto_reorden" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="maximo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="minimo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="familia" class="java.lang.String"/>
+	<field name="grupo" class="java.lang.String"/>
+	<field name="existencia" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement uuid="e6792d78-9dc4-4d59-bdbd-b2cb8cda54f4" x="570" y="0" width="182" height="78"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="36a1bcd0-1296-4e21-8d5c-d4c8934d8d93" x="0" y="20" width="520" height="40"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Partes Bajas en Stock- Grupo REMEX]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="22" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement uuid="5bba5acc-c820-4fe3-b6e5-9edc1b33b119" x="657" y="0" width="95" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="581d4ba4-b7cc-4d8a-8cfc-7e80f55bad3b" x="588" y="0" width="69" height="20"/>
+				<textElement/>
+				<text><![CDATA[Generado el:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<line>
+				<reportElement uuid="f5486d67-9055-40b0-aca3-1b844ba401ce" x="-1" y="1" width="753" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="9b45d7ae-ae34-4add-a83a-b2e0d874beeb" x="0" y="2" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clave]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="48a28e77-38e6-4ac7-b84f-74ebb7c4549f" x="50" y="2" width="218" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ed669803-91f5-4767-b0c7-029bdfb334a0" x="268" y="2" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a15bd95c-dae4-4906-88ff-09ee179d53cb" x="406" y="2" width="143" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Familia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3395329a-0e77-43e9-a8c7-b25993125a5a" x="687" y="2" width="65" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Existencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="68fed94c-eda2-43dc-9804-e97911a4b7d7" x="549" y="2" width="68" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reorden]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="adac592c-c80e-445b-8d19-3339815151f6" x="617" y="2" width="70" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mínimo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="bab7b03b-4785-41f8-9f93-335b7654ab14" x="0" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{clave_refaccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="270960ac-1b88-45bd-bbbd-a4f730a21aa0" x="50" y="0" width="218" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b32f4010-7241-49c6-b6ec-eb55da42c829" x="268" y="0" width="138" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{grupo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9123c566-f4d9-4b0f-8bae-3075177a534c" x="406" y="0" width="143" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{familia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ab03a1bd-6050-4cee-b1d4-6989ea76d360" x="687" y="0" width="65" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{existencia}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0;(###0.0)">
+				<reportElement uuid="63258844-2288-475b-a195-b2b52f97ee9a" x="549" y="0" width="68" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{punto_reorden}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0">
+				<reportElement uuid="f3651566-1cb2-4b6f-92d4-1d18e8a19e89" x="617" y="0" width="70" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{minimo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<textField>
+				<reportElement uuid="6cf7c2d3-e954-4d63-b6ef-6d1b04efa46f" x="632" y="10" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="f1b21620-3ad9-4331-aa3f-2e2240c6f66a" x="712" y="10" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="11" splitType="Stretch"/>
+	</summary>
+</jasperReport>
