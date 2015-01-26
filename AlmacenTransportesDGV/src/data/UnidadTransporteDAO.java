@@ -69,7 +69,7 @@ public class UnidadTransporteDAO {
         byte []data = null;
         BufferedImage bfImage = null;
         ResultSet rs = null;
-        String query = "SELECT imagen FROM unidad_transporte WHERE clave = ? AND imagen != NULL;";
+        String query = "SELECT imagen FROM unidad_transporte WHERE clave = ?;";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -77,6 +77,9 @@ public class UnidadTransporteDAO {
             pstmt.setString(1, unidadTransporte.getClave());
             rs = pstmt.executeQuery();
             while(rs.next()){
+                if(rs.getBlob("imagen") == null){
+                    break;
+                }
                 blob = rs.getBlob("imagen");
                 data = blob.getBytes(1, (int)blob.length());
                 bfImage = ImageIO.read(new ByteArrayInputStream(data));
