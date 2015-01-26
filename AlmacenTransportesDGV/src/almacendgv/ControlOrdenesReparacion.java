@@ -7,12 +7,14 @@ package almacendgv;
 //import beans.CargoBodegaDTO;
 import beans.CargoEspecialDTO;
 import beans.CargoOperadorDTO;
+import beans.CargoTallerDTO;
 import beans.CargoUnidadDTO;
 import beans.OperadorDTO;
 import beans.OrdenReparacionDTO;
 import beans.SalidaAlmacenDTO;
 import beans.SalidaEspecialDTO;
 import beans.SalidaOperadorDTO;
+import beans.SalidaTallerDTO;
 import beans.SalidaUnidadDTO;
 import beans.TrabajoExternoDTO;
 import beans.TransporteReparacionDTO;
@@ -24,6 +26,7 @@ import bussines.SistemaBO;
 import data.CargoDirectoDAO;
 import data.CargoEspecialDAO;
 import data.CargoOperadorDAO;
+import data.CargoTallerDAO;
 import data.CargoUnidadDAO;
 import data.LazyQueryDAO;
 import data.OperadorDAO;
@@ -32,6 +35,7 @@ import data.SalidaAlmacenDAO;
 //import data.SalidaBodegaDAO;
 import data.SalidaEspecialDAO;
 import data.SalidaOperadorDAO;
+import data.SalidaTallerDAO;
 import data.SalidaUnidadDAO;
 import data.TrabajoExternoDAO;
 import data.TransporteReparacionDAO;
@@ -1152,7 +1156,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
     }
     
     public void obtenerCargosDirectos(){
-        String mensajeError = "", errorUnidades = "", errorEspeciales = "", errorOperadores = "", errorExternos = "";
+        String mensajeError = "", errorUnidades = "", errorEspeciales = "", errorOperadores = "", errorExternos = "", errorTaller = "";
         try{
             DecimalFormat formatD = new DecimalFormat("0.00");
             LazyQueryBO lazyQ = new LazyQueryBO();
@@ -1234,6 +1238,29 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 }
                 
                 mensajeError += errorUnidades;
+                
+                //Cargos Taller
+
+                List<CargoTallerDTO> cargosTaller = null;
+                try {
+                    cargosTaller = new CargoTallerDAO().obtenerCargosTallerPReparacion(this.ordenReparacion, true, false, false);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Código error: 2113\n" + ex.getMessage(),
+                            "Error al acceder a los detalles de la reparación!!!", JOptionPane.ERROR_MESSAGE);
+                    ErrorLogger.scribirLog(ordenReparacion.toString(), 2113, UserHome.getUsuario(), ex);
+                }
+
+                for(CargoTallerDTO cargoTaller : cargosTaller){
+                    errorTaller = cargoTaller.toString();
+                    Object datos[] = {cargoTaller.getIdCargoTaller(), cargoTaller.getFactura().getFolio(),
+                        cargoTaller.getFactura().getProveedor().getNombre(), 
+                        cargoTaller.getUnidad().getClave(), cargoTaller.getRefaccion().getClaveRefaccion(), 
+                        cargoTaller.getCantidad(), formatD.format(cargoTaller.getTotal()), "C. Taller"};
+                    modelo.addRow(datos);
+                }
+                
+                mensajeError += errorTaller;
+                
                 //Trabajos Externos
 
                 List<TrabajoExternoDTO> trabajosExternos = null;
@@ -1271,15 +1298,17 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
     }
     
     public void obtenerSalidasAlmacen(){
-        String mensajeError = "", errorUnidades = "", errorOperadores = "", errorEspeciales = "" /*,errorBodegas = ""*/;
+        String mensajeError = "", errorUnidades = "", errorOperadores = "", errorEspeciales = "", errorTaller = "";
         try{
             SalidaEspecialDAO accesoEspecial = new SalidaEspecialDAO();
             SalidaOperadorDAO accesoOperador = new SalidaOperadorDAO();
             SalidaUnidadDAO accesoUnidad = new SalidaUnidadDAO();
+            SalidaTallerDAO accesoTaller = new SalidaTallerDAO();
 
             List<SalidaEspecialDTO> salidasEspeciales = null;
             List<SalidaOperadorDTO> salidasOperador = null;
             List<SalidaUnidadDTO> salidasUnidad = null;
+            List<SalidaTallerDTO> salidasTaller = null;
 
             DecimalFormat formatD = new DecimalFormat("0.00");
             LazyQueryBO lazyQ = new LazyQueryBO();
@@ -1352,6 +1381,26 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 }
 
                 mensajeError += errorUnidades;
+                
+                //Salidas Taller
+                try {
+                    salidasTaller = accesoTaller.obtenerSalidasTallerPReparacion(this.ordenReparacion, true, false, false);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Código error: 2112\n" + ex.getMessage(),
+                            "Error al acceder a los detalles de la reparacion!!!", JOptionPane.ERROR_MESSAGE);
+                    ErrorLogger.scribirLog(ordenReparacion.toString(), 2112, UserHome.getUsuario(), ex);
+                }
+
+                for(SalidaTallerDTO salidaTaller : salidasTaller){
+                    errorTaller = salidaTaller.toString();
+                    Object datos[] = {salidaTaller.getNumeroSalida(), salidaTaller.getUnidadTransporte().getClave(),
+                        salidaTaller.getRefaccion().getClaveRefaccion(), salidaTaller.getCantidad(), 
+                        formatD.format(salidaTaller.getCosto() / salidaTaller.getCantidad()), 
+                        formatD.format(salidaTaller.getCosto()), "S. Taller"};
+                    modelo.addRow(datos);
+                }
+
+                mensajeError += errorTaller;
                 lazyQ.endLazyQuery();
 
             }
@@ -1451,12 +1500,12 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             SalidaUnidadDAO accesoSalidaUnidad = new SalidaUnidadDAO();
             SalidaOperadorDAO accesoSalidaOperador = new SalidaOperadorDAO();
             SalidaEspecialDAO accesoSalidaEspecial = new SalidaEspecialDAO();
-            //SalidaBodegaDAO accesoSalidaBodegas = new SalidaBodegaDAO();(Eliminado)
+            SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
             CargoDirectoDAO accesoCargoDirecto = new CargoDirectoDAO();
             CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
             CargoOperadorDAO accesoCargoOperador = new CargoOperadorDAO();
             CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
-            //CargoBodegaDAO accesoCargoBodega = new CargoBodegaDAO();(Eliminado)
+            CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
             TrabajoExternoDAO accesoTrabajoExterno = new TrabajoExternoDAO();
             
             double totalCargos = 0.0;
@@ -1471,8 +1520,8 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             double totalSalidasOperadores = 0.0;
             double totalCargosEspeciales = 0.0;
             double totalSalidasEspeciales = 0.0;
-            //double totalCargosBodegas = 0.0;
-            //double totalSalidasBodegas = 0.0;
+            double totalCargosTaller = 0.0;
+            double totalSalidasTaller = 0.0;
             double totalTrabajosExternos = 0.0;
             DecimalFormat formatD = new DecimalFormat("0.00");
             LazyQueryDAO lazyQ = new LazyQueryDAO();
@@ -1482,14 +1531,14 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             totalSalidasUnidades = accesoSalidaUnidad.obtenerTotalSalidasUnidadesPReparacion(ordenReparacion, false, false);
             totalSalidasOperadores = accesoSalidaOperador.obtenerTotalSalidasOperadorPReparacion(ordenReparacion, false, false);
             totalSalidasEspeciales = accesoSalidaEspecial.obtenerTotalSalidasEspecialesPReparacion(ordenReparacion, false, false);
-            //totalSalidasBodegas = accesoSalidaBodegas.obtenerTotalSalidasBodegaPReparacion(ordenReparacion, false, false);(Eliminado)
+            totalSalidasTaller = accesoSalidaTaller.obtenerTotalSalidasTallerPReparacion(ordenReparacion, false, false);
             totalCargosUnidades = accesoCargoUnidad.obtenerTotalCargosUnidadesPReparacion(ordenReparacion, false, false);
             totalCargosOperadores = accesoCargoOperador.obtenerTotalCargosOperadorPReparacion(ordenReparacion, false, false);
             totalCargosEspeciales = accesoCargoEspecial.obtenerTotalCargosEspecialesPReparacion(ordenReparacion, false, false);
-            //totalCargosBodegas = accesoCargoBodega.obtenerTotalCargosBodegaPReparacion(ordenReparacion, false, false);(Eliminado)
+            totalCargosTaller = accesoCargoTaller.obtenerTotalCargosTallerPReparacion(ordenReparacion, false, false);
             totalTrabajosExternos = accesoTrabajoExterno.obtenerTotalTrabajosExternoPReparacion(ordenReparacion, false, false);
-            totalCargos = totalCargosUnidades + totalCargosOperadores + totalCargosEspeciales /*+ totalCargosBodegas*/;
-            totalSalidas = totalSalidasUnidades + totalSalidasOperadores + totalSalidasEspeciales /*+ totalSalidasBodegas*/;
+            totalCargos = totalCargosUnidades + totalCargosOperadores + totalCargosEspeciales + totalCargosTaller;
+            totalSalidas = totalSalidasUnidades + totalSalidasOperadores + totalSalidasEspeciales + totalSalidasTaller;
             totalTracto = accesoCargoDirecto.obtenerTotalCargosDirectosTractoPReparacion(ordenReparacion, false, false) 
                     + accesoSalidaAlmacen.obtenerTotalSalidasTractoPReparacion(ordenReparacion, true, true) 
                     + accesoTrabajoExterno.obtenerTotalTrabajosExternosTractoPReparacion(ordenReparacion, true, true);
@@ -1508,8 +1557,8 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             totales += "Salidas Especiales  = " + formatD.format(totalSalidasEspeciales) + "\t\t";
             totales += "Cargos Especiales  = " + formatD.format(totalCargosEspeciales) + "\t\t";
             totales += "Plana  = " + formatD.format(totalPlana) + "\n";
-            //totales += "Salidas Bodegas      = " + formatD.format(totalSalidasBodegas) + "\t\t";(Eliminado)
-            //totales += "Cargos Bodegas      = " + formatD.format(totalCargosBodegas) + "\t\t";(Eliminado)
+            totales += "Salidas Taller      = " + formatD.format(totalSalidasTaller) + "\t\t";
+            totales += "Cargos Taller      = " + formatD.format(totalCargosTaller) + "\t\t";
             totales += "Orden Reparación = " + formatD.format(totalGeneral) + "\n";
             totales += "Salidas Almacén      = " + formatD.format(totalSalidas) + "\t\t";
             totales += "Cargos Directos       = " + formatD.format(totalCargos) + "\t\t";

@@ -7,13 +7,18 @@ package data;
 import static utilidades.FinallyHandler.closeQuietly;
 import almacendgv.UserHome;
 import beans.UnidadTransporteDTO;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.DataTruncation;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,6 +56,10 @@ public class UnidadTransporteDAO {
             pstmt.setString(2, unidad.getClave());
             pstmt.executeUpdate();
             
+        } catch(DataTruncation ex){
+            JOptionPane.showMessageDialog(null, "La imagen es demasiado grande.\nCódigo error: 2012\n" + ex.getMessage(),
+                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog(unidad.toString(), 2012, UserHome.getUsuario(), ex);
         } catch(Exception e){
             JOptionPane.showMessageDialog(null, "Código error: 2012\n" + e.getMessage(),
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
