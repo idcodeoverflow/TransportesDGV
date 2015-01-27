@@ -100,7 +100,7 @@ public class ErrorLogger implements ExceptionLogger {
     
     public static boolean scribirLog(String message, int codigo, UsuarioDTO usuario, Exception ex) {
         try{
-            final AccountAddress account = new AccountAddress("taller.remex@gmail.com","remex2013");
+            final AccountAddress account = new AccountAddress("mailer.transportesdgv@gmail.com","transportesdg");
             final Mailer mailer = new Mailer(account);
             ErrorLogger errorLogger = new ErrorLogger();
             String path = errorLogger.loggerPath + errorLogger.loggerName;
