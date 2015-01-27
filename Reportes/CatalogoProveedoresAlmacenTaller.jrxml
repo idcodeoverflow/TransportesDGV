@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2015-01-27T12:10:31 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CatalogoProveedoresAlmacenTaller" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f6821708-55ad-43db-a59b-20b4075a6947">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -73,14 +75,14 @@
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="56695c92-7fcd-47d6-b2e8-a8ee20d29bff" x="0" y="22" width="425" height="34"/>
+				<reportElement x="0" y="22" width="425" height="34" uuid="56695c92-7fcd-47d6-b2e8-a8ee20d29bff"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Taller Grupo REMEX - Catálogo de Proveedores]]></text>
+				<text><![CDATA[Transportes DGV - Catálogo de Proveedores]]></text>
 			</staticText>
 			<image>
-				<reportElement uuid="9b1452c4-95bd-4cd4-aec8-8e57c57ce563" x="425" y="0" width="147" height="79"/>
+				<reportElement x="425" y="0" width="147" height="79" uuid="9b1452c4-95bd-4cd4-aec8-8e57c57ce563"/>
 				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 			</image>
 		</band>
@@ -88,12 +90,12 @@
 	<pageHeader>
 		<band height="28" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement uuid="ec079a47-9cd5-482e-a3b2-4acb961e45b8" x="472" y="8" width="100" height="20"/>
+				<reportElement x="472" y="8" width="100" height="20" uuid="ec079a47-9cd5-482e-a3b2-4acb961e45b8"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="05166a77-a27d-4c7e-8faa-d5d71d723580" x="406" y="8" width="66" height="20"/>
+				<reportElement x="406" y="8" width="66" height="20" uuid="05166a77-a27d-4c7e-8faa-d5d71d723580"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Generado el:]]></text>
 			</staticText>
@@ -102,14 +104,14 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="cdf88f4f-f523-4215-b59c-5c5d3e5a86bd" x="0" y="0" width="34" height="20"/>
+				<reportElement x="0" y="0" width="34" height="20" uuid="cdf88f4f-f523-4215-b59c-5c5d3e5a86bd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="818641ba-bc8b-4533-bd92-36f4d7b1f7fd" x="34" y="0" width="268" height="20"/>
+				<reportElement x="34" y="0" width="268" height="20" uuid="818641ba-bc8b-4533-bd92-36f4d7b1f7fd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -120,21 +122,21 @@
 	<detail>
 		<band height="77" splitType="Stretch">
 			<textField>
-				<reportElement uuid="2701c53b-ba2b-4dda-827b-47dd5bf9c6aa" x="0" y="0" width="34" height="20"/>
+				<reportElement x="0" y="0" width="34" height="20" uuid="2701c53b-ba2b-4dda-827b-47dd5bf9c6aa"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id_proveedor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="4438bcf8-3e69-47d5-965d-13585f0f7153" x="33" y="0" width="269" height="20"/>
+				<reportElement x="33" y="0" width="269" height="20" uuid="4438bcf8-3e69-47d5-965d-13585f0f7153"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement uuid="b3801b26-2f48-46e8-abf5-484e6ce082a8" x="0" y="40" width="572" height="37"/>
+				<reportElement x="0" y="40" width="572" height="37" uuid="b3801b26-2f48-46e8-abf5-484e6ce082a8"/>
 				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="CONTACTO_PROVEEDOR" uuid="fc8f8439-a726-42b6-836e-6ca70e06c5cb">
 						<datasetParameter name="NUMERO_PROVEEDOR">
@@ -144,17 +146,17 @@
 					</datasetRun>
 					<jr:listContents height="37" width="572">
 						<textField>
-							<reportElement uuid="f14b7c18-eafe-40b1-9aa6-a7e4af0cc04b" x="34" y="0" width="169" height="20"/>
+							<reportElement x="34" y="0" width="169" height="20" uuid="f14b7c18-eafe-40b1-9aa6-a7e4af0cc04b"/>
 							<textElement verticalAlignment="Middle"/>
 							<textFieldExpression><![CDATA[$F{nombre}+" "+$F{apellidos}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement uuid="0647f5d7-c8e5-44bd-ab6d-d16c257d5156" x="203" y="0" width="100" height="20"/>
+							<reportElement x="203" y="0" width="100" height="20" uuid="0647f5d7-c8e5-44bd-ab6d-d16c257d5156"/>
 							<textElement verticalAlignment="Middle"/>
 							<textFieldExpression><![CDATA[$F{puesto}]]></textFieldExpression>
 						</textField>
 						<textField>
-							<reportElement uuid="3da5f5fb-3811-482d-8ad8-b5fab1e5d380" x="66" y="20" width="506" height="17"/>
+							<reportElement x="66" y="20" width="506" height="17" uuid="3da5f5fb-3811-482d-8ad8-b5fab1e5d380"/>
 							<textElement verticalAlignment="Middle"/>
 							<textFieldExpression><![CDATA[$F{contacto}]]></textFieldExpression>
 						</textField>
@@ -162,7 +164,7 @@
 				</jr:list>
 			</componentElement>
 			<staticText>
-				<reportElement uuid="d96f13b8-73af-4641-9adb-c0173588a676" x="33" y="20" width="100" height="20"/>
+				<reportElement x="33" y="20" width="100" height="20" uuid="d96f13b8-73af-4641-9adb-c0173588a676"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Contactos:]]></text>
 			</staticText>
@@ -174,13 +176,12 @@
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="2dc8cb3e-02c6-449b-b630-893ce06089ba" x="452" y="0" width="80" height="20"/>
+				<reportElement x="452" y="0" width="80" height="20" uuid="2dc8cb3e-02c6-449b-b630-893ce06089ba"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="096e1c67-0620-4616-b668-f7242b8bbdde" x="532" y="0" width="40" height="20"/>
-				<textElement/>
+				<reportElement x="532" y="0" width="40" height="20" uuid="096e1c67-0620-4616-b668-f7242b8bbdde"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>

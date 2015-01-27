@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2015-01-27T12:26:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReporteOperadoresRemex" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e1c77bb3-6e1b-46d4-9531-e27ba1a769de">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -31,14 +33,14 @@
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="7519b187-08a2-4423-94c0-06cb5d2c3b31" x="0" y="21" width="428" height="40"/>
+				<reportElement x="0" y="21" width="428" height="40" uuid="7519b187-08a2-4423-94c0-06cb5d2c3b31"/>
 				<textElement>
-					<font size="22" isBold="true"/>
+					<font size="19" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Catálogo de Operadores - Grupo REMEX]]></text>
+				<text><![CDATA[Catálogo de Operadores - Transportes DGV]]></text>
 			</staticText>
 			<image>
-				<reportElement uuid="40f4b52f-7c51-4a23-abe8-bdf3dbb39d34" x="426" y="1" width="146" height="78"/>
+				<reportElement x="426" y="1" width="146" height="78" uuid="40f4b52f-7c51-4a23-abe8-bdf3dbb39d34"/>
 				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 			</image>
 		</band>
@@ -46,13 +48,11 @@
 	<pageHeader>
 		<band height="29" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy h.mm a">
-				<reportElement uuid="7c04f93d-ba16-45a3-b719-e72b2700a52f" x="472" y="9" width="100" height="20"/>
-				<textElement/>
+				<reportElement x="472" y="9" width="100" height="20" uuid="7c04f93d-ba16-45a3-b719-e72b2700a52f"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="d79bcd8e-b18a-4084-acd2-57925d579f10" x="405" y="9" width="67" height="20"/>
-				<textElement/>
+				<reportElement x="405" y="9" width="67" height="20" uuid="d79bcd8e-b18a-4084-acd2-57925d579f10"/>
 				<text><![CDATA[Generado el :]]></text>
 			</staticText>
 		</band>
@@ -60,57 +60,57 @@
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="3e237fe1-c782-429a-a0fd-0c024a073395" x="1" y="1" width="90" height="20"/>
+				<reportElement x="1" y="1" width="90" height="20" uuid="3e237fe1-c782-429a-a0fd-0c024a073395"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[N° Operador]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="0f1eb350-20d8-42ae-8b48-4677477f5934" x="91" y="1" width="238" height="20"/>
+				<reportElement x="91" y="1" width="238" height="20" uuid="0f1eb350-20d8-42ae-8b48-4677477f5934"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="6e288ace-cd20-4720-a7d0-24ba0906f5e6" x="328" y="1" width="124" height="20"/>
+				<reportElement x="328" y="1" width="124" height="20" uuid="6e288ace-cd20-4720-a7d0-24ba0906f5e6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha Ingreso]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1fc55b46-f572-4e07-98b8-f80b51a90996" x="451" y="1" width="121" height="20"/>
+				<reportElement x="451" y="1" width="121" height="20" uuid="1fc55b46-f572-4e07-98b8-f80b51a90996"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha Egreso]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="04f47f90-2cf5-416d-acab-2697f3b2eb25" x="1" y="1" width="571" height="1"/>
+				<reportElement x="1" y="1" width="571" height="1" uuid="04f47f90-2cf5-416d-acab-2697f3b2eb25"/>
 			</line>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="ad56d88e-313e-4165-af09-ba5a8e4033d6" x="0" y="0" width="90" height="20"/>
+				<reportElement x="0" y="0" width="90" height="20" uuid="ad56d88e-313e-4165-af09-ba5a8e4033d6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{numero_operador}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="68776842-3c09-4d46-8ca6-b9da66d706fa" x="90" y="0" width="238" height="20"/>
+				<reportElement x="90" y="0" width="238" height="20" uuid="68776842-3c09-4d46-8ca6-b9da66d706fa"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nombre}+" "+$F{apellidos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="72cb6d0a-c90c-40cc-a5c8-f2f2746f69c6" x="328" y="0" width="124" height="20"/>
+				<reportElement x="328" y="0" width="124" height="20" uuid="72cb6d0a-c90c-40cc-a5c8-f2f2746f69c6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fecha_ingreso}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="99567011-2ed1-4d9b-a1c6-8f51e544c04d" x="451" y="0" width="121" height="20"/>
+				<reportElement x="451" y="0" width="121" height="20" uuid="99567011-2ed1-4d9b-a1c6-8f51e544c04d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fecha_egreso}]]></textFieldExpression>
 			</textField>
@@ -122,13 +122,12 @@
 	<pageFooter>
 		<band height="28" splitType="Stretch">
 			<textField>
-				<reportElement uuid="06399002-a5a1-4899-88e0-f6498801c655" x="452" y="8" width="80" height="20"/>
+				<reportElement x="452" y="8" width="80" height="20" uuid="06399002-a5a1-4899-88e0-f6498801c655"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="10449b3d-265f-42af-aeca-bc93cf561371" x="532" y="8" width="40" height="20"/>
-				<textElement/>
+				<reportElement x="532" y="8" width="40" height="20" uuid="10449b3d-265f-42af-aeca-bc93cf561371"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>

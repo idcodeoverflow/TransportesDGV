@@ -1677,7 +1677,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
     private void enviarReportePorMail(int tipo){
         exportarReporteReparacionPDF();
-        Mailer mailer = new Mailer(new AccountAddress("taller.remex@gmail.com","remex2013"));
+        Mailer mailer = new Mailer(new AccountAddress("mailer.transportesdgv@gmail.com","transportesdg"));
         MailData mailData = new MailData();
         mailer.send(((tipo == ABRIR_ORDEN) ? "Reporte apertura orden de reparación" : 
                 "Reporte cierre de orden de reparacion"), mailData.getRelativeMailerPath(), 
