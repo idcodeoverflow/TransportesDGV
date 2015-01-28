@@ -2,6 +2,10 @@ SELECT
 
 (SELECT IF(status,"","CANCELADA") FROM orden_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS situacion,
 
+(SELECT IFNULL(descripcion, "") FROM transporte_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND ((SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) = 2 OR (SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) = 8) AND status = TRUE) AS descripcion_plana,
+
+(SELECT IFNULL(descripcion, "") FROM transporte_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND ((SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) != 2 AND (SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) != 8) AND status = TRUE) AS descripcion_tracto,
+
 (SELECT fecha_entrada FROM orden_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS apertura,
 
 (SELECT IFNULL(fecha_salida, "Abierta") FROM orden_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS cierre,
