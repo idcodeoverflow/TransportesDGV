@@ -1,6 +1,8 @@
 SELECT
 
-(IF(status,"","CANCELADA")) AS situacion,
+(SELECT IFNULL(descripcion, "") FROM transporte_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND ((SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) = 2 OR (SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) = 8) AND status = TRUE) AS descripcion_plana,
+
+(SELECT IFNULL(descripcion, "") FROM transporte_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND ((SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) != 2 AND (SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) != 8) AND status = TRUE) AS descripcion_tracto,
 
 (SELECT fecha_entrada FROM orden_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS apertura,
 
@@ -52,7 +54,7 @@ IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 
 
 IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_almacen.clave_refaccion)) * (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_almacen.clave_refaccion))) FROM salida_almacen WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND numero_salida IN(SELECT numero_salida FROM salida_especial)), 0.0) AS total_especial_salidas_iva,
 
-((SELECT IFNULL(SUM(total), 0.0) FROM cargo_directo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_especial)) + (SELECT IFNULL(SUM(costo), 0.0) FROM salida_almacen WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND numero_salida IN(SELECT numero_salida FROM salida_especial))) AS total_especial_subtotal,
+((SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_directo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_especial)) + (SELECT IFNULL(SUM(costo), 0.0) FROM salida_almacen WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND numero_salida IN(SELECT numero_salida FROM salida_especial))) AS total_especial_subtotal,
 
 ((SELECT IFNULL(SUM(total), 0.0) FROM cargo_directo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND numero_cargo_directo IN(SELECT numero_cargo_directo FROM cargo_bodega)) + (SELECT IFNULL(SUM(costo), 0.0) FROM salida_almacen WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND numero_salida IN(SELECT numero_salida FROM salida_bodega))) AS total_bodega,
 

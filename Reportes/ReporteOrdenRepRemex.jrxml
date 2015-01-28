@@ -959,11 +959,11 @@ FROM dual;]]>
 	<title>
 		<band height="69" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="7d8cc896-1acc-4a2c-a149-d009a05b521a" x="0" y="18" width="416" height="40"/>
+				<reportElement uuid="7d8cc896-1acc-4a2c-a149-d009a05b521a" x="0" y="18" width="453" height="40"/>
 				<textElement>
 					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Orden de Reparación Grupo REMEX]]></text>
+				<text><![CDATA[Orden de Reparación Transportes DGV]]></text>
 			</staticText>
 			<image>
 				<reportElement uuid="b571a48d-de89-4111-9098-749c3756df5c" x="605" y="0" width="147" height="69"/>
