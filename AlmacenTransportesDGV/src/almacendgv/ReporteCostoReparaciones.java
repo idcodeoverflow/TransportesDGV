@@ -56,7 +56,6 @@ public class ReporteCostoReparaciones extends javax.swing.JFrame {
         jBGenerar = new javax.swing.JButton();
         jCCBAl = new de.wannawork.jcalendar.JCalendarComboBox();
         jCCBDel = new de.wannawork.jcalendar.JCalendarComboBox();
-        jCBIncluirRegistrosEnCero = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Costo Reparaciones");
@@ -73,9 +72,6 @@ public class ReporteCostoReparaciones extends javax.swing.JFrame {
             }
         });
 
-        jCBIncluirRegistrosEnCero.setSelected(true);
-        jCBIncluirRegistrosEnCero.setText("Incluir registros en cero");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -84,12 +80,9 @@ public class ReporteCostoReparaciones extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jLDel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCCBDel, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLAl))
-                    .addComponent(jCBIncluirRegistrosEnCero))
+                .addComponent(jCCBDel, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLAl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -109,9 +102,7 @@ public class ReporteCostoReparaciones extends javax.swing.JFrame {
                     .addComponent(jCCBAl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCCBDel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBGenerar)
-                    .addComponent(jCBIncluirRegistrosEnCero))
+                .addComponent(jBGenerar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -124,7 +115,6 @@ public class ReporteCostoReparaciones extends javax.swing.JFrame {
 
     private void generarReporteCostoReparaciones(){
         try {
-            boolean incluirRegistrosEnCero = this.jCBIncluirRegistrosEnCero.isSelected();
             String reportPath = "/reports/ReporteCostoReparacionesGrupoREMEX.jasper";
             String logoPath = "/icons/Logo Efectivo Negro.png";
             Locale locale = new Locale("en", "US");
@@ -204,7 +194,6 @@ public class ReporteCostoReparaciones extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGenerar;
-    private javax.swing.JCheckBox jCBIncluirRegistrosEnCero;
     private de.wannawork.jcalendar.JCalendarComboBox jCCBAl;
     private de.wannawork.jcalendar.JCalendarComboBox jCCBDel;
     private javax.swing.JLabel jLAl;

@@ -29,14 +29,9 @@
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Component id="jLDel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="jCCBDel" linkSize="1" pref="133" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jLAl" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jCBIncluirRegistrosEnCero" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jCCBDel" linkSize="1" pref="133" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jLAl" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jBGenerar" min="-2" pref="133" max="-2" attributes="0"/>
@@ -57,10 +52,7 @@
                   <Component id="jCCBDel" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jBGenerar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jCBIncluirRegistrosEnCero" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jBGenerar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -88,12 +80,6 @@
     <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCBAl">
     </Component>
     <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCBDel">
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="jCBIncluirRegistrosEnCero">
-      <Properties>
-        <Property name="selected" type="boolean" value="true"/>
-        <Property name="text" type="java.lang.String" value="Incluir registros en cero"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

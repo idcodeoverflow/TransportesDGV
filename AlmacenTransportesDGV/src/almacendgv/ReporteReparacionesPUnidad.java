@@ -59,7 +59,6 @@ public class ReporteReparacionesPUnidad extends javax.swing.JFrame {
         jBGenerar = new javax.swing.JButton();
         jCCBAl = new de.wannawork.jcalendar.JCalendarComboBox();
         jCCBDel = new de.wannawork.jcalendar.JCalendarComboBox();
-        jCBIncluirRegistrosEnCero = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reparaciones por Unidad");
@@ -78,34 +77,26 @@ public class ReporteReparacionesPUnidad extends javax.swing.JFrame {
             }
         });
 
-        jCBIncluirRegistrosEnCero.setSelected(true);
-        jCBIncluirRegistrosEnCero.setText("Incluir registros en cero");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLUnidad)
+                    .addComponent(jLDel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jCCBDel, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+                    .addComponent(jTFUnidad))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLUnidad)
-                            .addComponent(jLDel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jCCBDel, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                            .addComponent(jTFUnidad))
+                        .addComponent(jLAl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLAl)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCCBAl, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
-                            .addComponent(jCBIncluirRegistrosEnCero, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jBGenerar, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jCCBAl, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
+                    .addComponent(jBGenerar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -123,12 +114,9 @@ public class ReporteReparacionesPUnidad extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLUnidad)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTFUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jCBIncluirRegistrosEnCero)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
-                .addComponent(jBGenerar)
-                .addContainerGap())
+                    .addComponent(jTFUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBGenerar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -140,9 +128,8 @@ public class ReporteReparacionesPUnidad extends javax.swing.JFrame {
 
     private void generarReporteReparacionesPUnidad(){
         try {
-            boolean incluirRegistrosEnCero = this.jCBIncluirRegistrosEnCero.isSelected();
             UnidadTransporteDAO accesoTransporte = new UnidadTransporteDAO();
-            String reportPath = "/reports/ReporteReparacionesPUnidadGrupoREMEX.jasper";
+            String reportPath = "/reports/ReporteReparacionesPUnidad.jasper";
             String logoPath = "/icons/Logo Efectivo Negro.png";
             Locale locale = new Locale("en", "US");
             if("".equals(this.jTFUnidad.getText()) || this.jTFUnidad == null){
@@ -232,7 +219,6 @@ public class ReporteReparacionesPUnidad extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGenerar;
-    private javax.swing.JCheckBox jCBIncluirRegistrosEnCero;
     private de.wannawork.jcalendar.JCalendarComboBox jCCBAl;
     private de.wannawork.jcalendar.JCalendarComboBox jCCBDel;
     private javax.swing.JLabel jLAl;

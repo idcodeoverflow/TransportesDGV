@@ -27,31 +27,23 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jLUnidad" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLDel" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="jCCBDel" linkSize="1" pref="133" max="32767" attributes="0"/>
+                  <Component id="jTFUnidad" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLUnidad" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLDel" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jCCBDel" linkSize="1" pref="133" max="32767" attributes="0"/>
-                          <Component id="jTFUnidad" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="jLAl" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jLAl" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jCCBAl" linkSize="1" pref="127" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="jCBIncluirRegistrosEnCero" alignment="1" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jCCBAl" linkSize="1" pref="127" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jBGenerar" min="-2" pref="133" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jBGenerar" alignment="1" min="-2" pref="133" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -70,14 +62,10 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLUnidad" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="jTFUnidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jCBIncluirRegistrosEnCero" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jTFUnidad" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jBGenerar" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="6" max="32767" attributes="0"/>
-              <Component id="jBGenerar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -111,12 +99,6 @@
     <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCBAl">
     </Component>
     <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCBDel">
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="jCBIncluirRegistrosEnCero">
-      <Properties>
-        <Property name="selected" type="boolean" value="true"/>
-        <Property name="text" type="java.lang.String" value="Incluir registros en cero"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>
