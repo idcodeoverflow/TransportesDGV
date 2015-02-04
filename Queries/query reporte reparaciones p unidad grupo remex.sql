@@ -36,4 +36,4 @@ clave = $P{CLAVE_UNIDAD}), 0.0) AS salida_almacen_iva,
 (SELECT cargo_directo + salida_almacen + total_trabajo FROM dual) AS totales
 
 FROM orden_reparacion WHERE numero_orden IN (SELECT numero_orden FROM transporte_reparacion WHERE clave = $P{CLAVE_UNIDAD} AND status = TRUE) 
-AND fecha_entrada >= $P{INICIO} AND (fecha_salida <= $P{FIN} OR fecha_salida = NULL) AND status = TRUE;
+AND fecha_entrada >= $P{INICIO} AND (fecha_salida <= $P{FIN} OR IFNULL(fecha_salida, "1") = "1") AND status = TRUE;
