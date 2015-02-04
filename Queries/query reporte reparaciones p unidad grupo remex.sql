@@ -1,39 +1,42 @@
-SELECT numero_orden, fecha_entrada AS apertura, IFNULL(fecha_salida, "Abierta") AS cierre,
+SELECT clave, 
+(SELECT nombre FROM tipo_unidad WHERE tipo_unidad.id_tipo = unidad_transporte.id_tipo) AS tipo_transporte,
 
-(SELECT id_tipo FROM unidad_transporte WHERE clave = $P{CLAVE_UNIDAD}) AS tipo_unidad,
+modelo,
 
-(SELECT CONCAT(nombre, " ", apellidos) FROM operador WHERE operador.numero_operador = orden_reparacion.numero_operador) AS nombre_operador,
+(SELECT nombre FROM marca_unidad WHERE marca_unidad.id_marca = unidad_transporte.id_marca) AS marca,
 
-(SELECT CONCAT(nombre, " ", apellidos) FROM usuario WHERE usuario.numero_usuario = orden_reparacion.numero_usuario) AS nombre_operador,
+(SELECT IFNULL(SUM(subtotal), 0.0) FROM trabajo_externo WHERE status = TRUE AND trabajo_externo.clave = unidad_transporte.clave 
+AND fecha_registro >= $P{INICIO} AND fecha_registro <= $P{FIN}) AS subtotal_trabajos,
 
-(SELECT IFNULL(SUM(total), 0.0) FROM cargo_unidad WHERE cargo_unidad.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS cargo_directo,
+(SELECT IFNULL(SUM(iva), 0.0) FROM trabajo_externo WHERE status = TRUE AND trabajo_externo.clave = unidad_transporte.clave 
+AND fecha_registro >= $P{INICIO} AND fecha_registro <= $P{FIN}) AS iva_trabajos,
 
-(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_unidad WHERE cargo_unidad.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS cargo_directo_iva,
+(SELECT subtotal_trabajos + iva_trabajos FROM dual) AS total_trabajos,
 
-(SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_unidad WHERE cargo_unidad.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS cargo_directo_subtotal,
+(SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_unidad WHERE status = TRUE AND fecha_registro <= $P{FIN} AND fecha_registro >= $P{INICIO} 
+AND cargo_unidad.clave = unidad_transporte.clave) AS subtotal_cargos,
 
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_unidad WHERE salida_unidad.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS salida_almacen,
+(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_unidad WHERE status = TRUE AND fecha_registro <= $P{FIN} AND fecha_registro >= $P{INICIO} 
+AND cargo_unidad.clave = unidad_transporte.clave) AS iva_cargos,
 
-IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = 
-(SELECT MAX(numero_entrada) 
-FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion)) * (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) 
-FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = 
-salida_unidad.clave_refaccion))) FROM salida_unidad WHERE salida_unidad.numero_orden = orden_reparacion.numero_orden AND 
-clave = $P{CLAVE_UNIDAD}), 0.0) AS salida_almacen_iva,
+(SELECT subtotal_cargos + iva_cargos FROM dual) AS total_cargos,
 
-(SELECT salida_almacen - salida_almacen_iva FROM dual) AS salida_almacen_subtotal,
+(IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE 
+numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion)) * 
+(SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen 
+WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion AND status = TRUE))) FROM salida_unidad WHERE fecha_registro <= $P{FIN} 
+AND fecha_registro >= $P{INICIO} AND status = TRUE AND salida_unidad.clave = 
+unidad_transporte.clave), 0.0)) AS iva_salidas,
 
-(SELECT IFNULL(SUM(monto), 0.0) FROM trabajo_externo WHERE trabajo_externo.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS total_trabajo,
+(SELECT IFNULL(SUM(costo), 0.0) FROM salida_unidad WHERE fecha_registro <= $P{FIN} AND fecha_registro >= $P{INICIO} AND status = TRUE 
+AND salida_unidad.clave = unidad_transporte.clave) AS total_salidas,
 
-(SELECT IFNULL(SUM(iva), 0.0) FROM trabajo_externo WHERE trabajo_externo.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS total_trabajo_iva,
+(SELECT total_salidas - iva_salidas FROM dual) AS subtotal_salidas,
 
-(SELECT IFNULL(SUM(subtotal), 0.0) FROM trabajo_externo WHERE trabajo_externo.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS total_trabajo_subtotal,
+(SELECT subtotal_trabajos + subtotal_cargos + subtotal_salidas FROM dual) AS subtotales,
 
-(SELECT cargo_directo_subtotal + salida_almacen_subtotal + total_trabajo_subtotal FROM dual) AS subtotales,
+(SELECT iva_trabajos + iva_cargos + iva_salidas FROM dual) AS ivas,
 
-(SELECT cargo_directo_iva + salida_almacen_iva + total_trabajo_iva FROM dual) AS ivas,
+(SELECT total_trabajos + total_cargos + total_salidas FROM dual) AS totales
 
-(SELECT cargo_directo + salida_almacen + total_trabajo FROM dual) AS totales
-
-FROM orden_reparacion WHERE numero_orden IN (SELECT numero_orden FROM transporte_reparacion WHERE clave = $P{CLAVE_UNIDAD} AND status = TRUE) 
-AND fecha_entrada >= $P{INICIO} AND (fecha_salida <= $P{FIN} OR IFNULL(fecha_salida, "1") = "1") AND status = TRUE;
+FROM unidad_transporte WHERE status = TRUE;
