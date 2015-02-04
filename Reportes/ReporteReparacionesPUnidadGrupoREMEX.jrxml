@@ -95,7 +95,7 @@ AND fecha_entrada >= $P{INICIO} AND (fecha_salida <= $P{FIN} OR IFNULL(fecha_sal
 				<textElement>
 					<font size="24" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reparaciones por Unidad - Grupo REMEX]]></text>
+				<text><![CDATA[Reparaciones por Unidad - Transportes DGV]]></text>
 			</staticText>
 			<image>
 				<reportElement uuid="7b25d014-9261-48f7-92fe-8553fba20967" x="425" y="10" width="147" height="69"/>
