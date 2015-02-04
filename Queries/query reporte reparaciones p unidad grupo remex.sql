@@ -14,7 +14,12 @@ SELECT numero_orden, fecha_entrada AS apertura, IFNULL(fecha_salida, "Abierta") 
 
 (SELECT IFNULL(SUM(costo), 0.0) FROM salida_unidad WHERE salida_unidad.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}) AS salida_almacen,
 
-IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion)) * (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion))) FROM salida_unidad WHERE salida_unidad.numero_orden = orden_reparacion.numero_orden AND clave = $P{CLAVE_UNIDAD}), 0.0) AS salida_almacen_iva,
+IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = 
+(SELECT MAX(numero_entrada) 
+FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion)) * (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) 
+FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = 
+salida_unidad.clave_refaccion))) FROM salida_unidad WHERE salida_unidad.numero_orden = orden_reparacion.numero_orden AND 
+clave = $P{CLAVE_UNIDAD}), 0.0) AS salida_almacen_iva,
 
 (SELECT salida_almacen - salida_almacen_iva FROM dual) AS salida_almacen_subtotal,
 
@@ -30,4 +35,5 @@ IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 
 
 (SELECT cargo_directo + salida_almacen + total_trabajo FROM dual) AS totales
 
-FROM orden_reparacion WHERE numero_orden IN (SELECT numero_orden FROM transporte_reparacion WHERE clave = $P{CLAVE_UNIDAD} AND status = TRUE) AND fecha_entrada >= $P{INICIO} AND fecha_salida <= $P{FIN} AND status = TRUE;
+FROM orden_reparacion WHERE numero_orden IN (SELECT numero_orden FROM transporte_reparacion WHERE clave = $P{CLAVE_UNIDAD} AND status = TRUE) 
+AND fecha_entrada >= $P{INICIO} AND (fecha_salida <= $P{FIN} OR fecha_salida = NULL) AND status = TRUE;
