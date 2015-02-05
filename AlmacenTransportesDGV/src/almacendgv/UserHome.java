@@ -7,6 +7,7 @@ package almacendgv;
 import beans.FacturaDTO;
 import beans.RefaccionDTO;
 import beans.UsuarioDTO;
+import bussines.InventaryReport;
 import bussines.LazyQueryBO;
 import data.FacturaDAO;
 import data.LazyQueryDAO;
@@ -1068,29 +1069,9 @@ public class UserHome extends javax.swing.JFrame {
     
     private void generarReporteInventarioBajoStock(){
         try {
-            String reportPath = "/reports/ReporteInventarioPartesBajoStockRemex.jasper";
-            String logoPath = "/icons/Logo Efectivo Negro.png";
-            Locale locale = new Locale("en", "US");
-            InputStream jasperStream = getClass().getResourceAsStream(reportPath);
-            JasperReport jReport = (JasperReport) JRLoader.loadObject(jasperStream);
-            JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
-            LazyQueryDAO lazyQ = new LazyQueryDAO();
-            parameters.put(JRParameter.REPORT_LOCALE, locale);
-            parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
-            lazyQ.startLazyQuery();
-            jPrint = JasperFillManager.fillReport(jReport, parameters, DBConnection.getConn());
-            JasperViewer.viewReport(jPrint, false);
-            lazyQ.endLazyQuery();
-        } catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1231\n" + ex.getMessage(),
-                            "Error al acceder a los datos en la BD de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarReporteInventarioBajoStock()", 1231, UserHome.getUsuario(), ex);
-        } catch (JRException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1232\n" + ex.getMessage(),
-                            "Error al generar el reporte de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarReporteInventarioBajoStock()", 1232, UserHome.getUsuario(), ex);
-            //Logger.getLogger(ControlOrdenesReparacion.class.getName()).log(Level.SEVERE, null, ex);
+            InventaryReport report = new InventaryReport(this);
+            report.setSoloBajoStock(true);
+            report.generarReporte();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1233\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
@@ -1100,29 +1081,8 @@ public class UserHome extends javax.swing.JFrame {
     
     private void generarReporteInventario(){
         try {
-            String reportPath = "/reports/ReporteInventarioPartesRemex.jasper";
-            String logoPath = "/icons/Logo Efectivo Negro.png";
-            Locale locale = new Locale("en", "US");
-            InputStream jasperStream = getClass().getResourceAsStream(reportPath);
-            JasperReport jReport = (JasperReport) JRLoader.loadObject(jasperStream);
-            JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
-            LazyQueryDAO lazyQ = new LazyQueryDAO();
-            parameters.put(JRParameter.REPORT_LOCALE, locale);
-            parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
-            lazyQ.startLazyQuery();
-            jPrint = JasperFillManager.fillReport(jReport, parameters, DBConnection.getConn());
-            JasperViewer.viewReport(jPrint, false);
-            lazyQ.endLazyQuery();
-        } catch(SQLException ex) { 
-            JOptionPane.showMessageDialog(null, "Código error: 1234\n" + ex.getMessage(),
-                            "Error al acceder a los datos en la BD de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 1234, UserHome.getUsuario(), ex);
-        } catch (JRException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1235\n" + ex.getMessage(),
-                            "Error al generar el reporte de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 1235, UserHome.getUsuario(), ex);
-            //Logger.getLogger(ControlOrdenesReparacion.class.getName()).log(Level.SEVERE, null, ex);
+            InventaryReport report = new InventaryReport(this);
+            report.generarReporte();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1236\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
