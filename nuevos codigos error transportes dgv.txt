@@ -112,3 +112,4 @@
 2111 -> ControlUnidades obtenerUnidad() al cargar imagen camion Exception
 2112 -> ControlOrdenesRpearacion obtenerSalidasAlmacen() SQLException
 2113 -> ControlOrdenesRpearacion obtenerCargosAlmacen() SQLException
+2114 -> InventaryReportBO constructor() IOException
