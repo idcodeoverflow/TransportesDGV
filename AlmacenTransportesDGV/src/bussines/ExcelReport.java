@@ -34,8 +34,7 @@ public abstract class ExcelReport {
             jfc.showSaveDialog(form);
             file = jfc.getSelectedFile();
             if (file != null) {
-                file = new File(file.getAbsolutePath() + "\\" + file.getName() + ".xls");
-                
+                file = new File(file.getAbsolutePath() + ".xls");
                 if(file.exists()){
                     file.delete(); 
                 }
