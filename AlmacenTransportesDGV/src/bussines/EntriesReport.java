@@ -6,7 +6,9 @@
 package bussines;
 
 import almacendgv.UserHome;
+import beans.EntradaAlmacenDTO;
 import beans.RefaccionDTO;
+import data.EntradaAlmacenDAO;
 import data.RefaccionDAO;
 import excelutils.ExcelImage;
 import excelutils.ExcelStyles;
@@ -42,88 +44,126 @@ public class EntriesReport extends ExcelReport{
         String mensajeError = "";
         Row fila;
         int nFila = 1;
-        int max1 = 20;
+        int max1 = 11;
         int max2 = 0;
-        int max3 = 11;
+        int max3 = 0;
         int max4 = 11;
-        int max5 = 11;
-        int max6 = 11;
-        int max7 = 16;
+        int max5 = 16;
+        int max6 = 0;
+        int max7 = 11;
+        int max8 = 11;
+        int max9 = 11;
+        int max10 = 11;
+        int max11 = 11;
         
         DecimalFormat formatD = new DecimalFormat("0.00");
-        List<RefaccionDTO> refacciones = null;
-        RefaccionDAO accesoRefaccion = new RefaccionDAO();
+        List<EntradaAlmacenDTO> entradas = null;
+        EntradaAlmacenDAO accesoEntradas = new EntradaAlmacenDAO();
         LazyQueryBO lazyQ = new LazyQueryBO();
         double existencia = 0.00;
         
         fila = sheet.createRow(0);
         fila.setHeightInPoints(70);
         Cell cel = fila.createCell(0);
-        cel.setCellValue("Inventario");
-        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$D$1"));
+        cel.setCellValue("Entradas de Almacén");
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$H$1"));
         cel.setCellStyle(ExcelStyles.titleStyle(book, "Reporte"));
 
         ExcelStyles.titleStyle(book, "Reporte");
-        ExcelImage ei = new ExcelImage(0,4);
+        ExcelImage ei = new ExcelImage(0,8);
         ei.insertImage("/icons/Logo Efectivo Negro Chico.png", "Reporte", book, fStream);
         fila = sheet.createRow(nFila++);
         
         Cell celda = fila.createCell(0);
-        celda.setCellValue("Clave Refacción");
+        celda.setCellValue("N° Entrada");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(1);
-        celda.setCellValue("Nombre");
+        celda.setCellValue("Fecha");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(2);
-        celda.setCellValue("Máximo");
+        celda.setCellValue("Proveedor");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(3);
-        celda.setCellValue("Mínimo");
+        celda.setCellValue("Factura");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(4);
-        celda.setCellValue("Punto Re-orden");
+        celda.setCellValue("Clave Refaccion");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(5);
-        celda.setCellValue("Existencia");
+        celda.setCellValue("Refaccion");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(6);
+        celda.setCellValue("Cantidad");
+        celda.setCellStyle(ExcelStyles.headerStyle(book));
+        celda = fila.createCell(7);
         celda.setCellValue("Precio Unitario");
+        celda.setCellStyle(ExcelStyles.headerStyle(book));
+        celda = fila.createCell(8);
+        celda.setCellValue("Subtotal");
+        celda.setCellStyle(ExcelStyles.headerStyle(book));
+        celda = fila.createCell(9);
+        celda.setCellValue("Iva");
+        celda.setCellStyle(ExcelStyles.headerStyle(book));
+        celda = fila.createCell(10);
+        celda.setCellValue("Total");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         
         try {
-            refacciones = accesoRefaccion.obtenerRefacciones();
+            entradas = accesoEntradas.obtenerEntradasAlmacen(true);
             lazyQ.startLazyQuery();
-            for (RefaccionDTO refaccion : refacciones) {
+            for (EntradaAlmacenDTO entrada : entradas) {
                 fila = sheet.createRow(nFila++);
 
-                existencia = accesoRefaccion.obtenerExistenciaRefaccion(refaccion.getClaveRefaccion(), false, false);
-                mensajeError = refaccion.toString() + "_existencia_" + existencia;
+                mensajeError = entrada.toString() + "_existencia_" + existencia;
 
                 Cell celdaT = fila.createCell(0);
-                celdaT.setCellValue(refaccion.getClaveRefaccion());
+                celdaT.setCellValue(entrada.getNumeroEntrada());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 celdaT = fila.createCell(1);
-                celdaT.setCellValue(refaccion.getNombre());
+                celdaT.setCellValue(entrada.getFechaRegistro().toString());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if(refaccion.getNombre().length() > max2){
-                    max2 = refaccion.getNombre().length();
+                if(entrada.getFechaRegistro().toString().length() > max2){
+                    max2 = entrada.getFechaRegistro().toString().length();
                 }
                 celdaT = fila.createCell(2);
-                celdaT.setCellValue(refaccion.getMaximo());
+                celdaT.setCellValue(entrada.getFactura().getProveedor().getNombre());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                if(entrada.getFactura().getProveedor().getNombre().length() > max3){
+                    max3 = entrada.getFactura().getProveedor().getNombre().length();
+                }
                 celdaT = fila.createCell(3);
-                celdaT.setCellValue(refaccion.getMinimo());
+                celdaT.setCellValue(entrada.getFactura().getFolio());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                if(entrada.getFactura().getFolio().length() > max4){
+                    max4 = entrada.getFactura().getFolio().length();
+                }
                 celdaT = fila.createCell(4);
-                celdaT.setCellValue(refaccion.getPuntoReorden());
+                celdaT.setCellValue(entrada.getRefaccion().getClaveRefaccion());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 celdaT = fila.createCell(5);
-                celdaT.setCellValue(existencia);
+                celdaT.setCellValue(entrada.getRefaccion().getNombre());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                if(entrada.getRefaccion().getNombre().length() > max6){
+                    max6 = entrada.getRefaccion().getNombre().length();
+                }
                 celdaT = fila.createCell(6);
+                celdaT.setCellValue(entrada.getCantidad());
+                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                celdaT = fila.createCell(7);
                 celdaT.setCellValue(Double.parseDouble(formatD.
-                        format(accesoRefaccion.obtenerPrecioRefaccion(refaccion.
-                                getClaveRefaccion(), false, false))));
+                        format(entrada.getPrecioUnitario())));
+                celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
+                celdaT = fila.createCell(8);
+                celdaT.setCellValue(Double.parseDouble(formatD.
+                        format(entrada.getSubtotal())));
+                celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
+                celdaT = fila.createCell(9);
+                celdaT.setCellValue(Double.parseDouble(formatD.
+                        format(entrada.getIva())));
+                celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
+                celdaT = fila.createCell(10);
+                celdaT.setCellValue(Double.parseDouble(formatD.
+                        format(entrada.getMonto())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
             }
             lazyQ.endLazyQuery();
@@ -134,6 +174,10 @@ public class EntriesReport extends ExcelReport{
             sheet.setColumnWidth(4, 256 * max5);
             sheet.setColumnWidth(5, 256 * max6);
             sheet.setColumnWidth(6, 256 * max7);
+            sheet.setColumnWidth(7, 256 * max8);
+            sheet.setColumnWidth(8, 256 * max9);
+            sheet.setColumnWidth(9, 256 * max10);
+            sheet.setColumnWidth(10, 256 * max11);
 
             book.write(fStream);
             fStream.close();

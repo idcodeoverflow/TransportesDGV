@@ -7,6 +7,7 @@ package almacendgv;
 import beans.FacturaDTO;
 import beans.RefaccionDTO;
 import beans.UsuarioDTO;
+import bussines.EntriesReport;
 import bussines.InventaryReport;
 import bussines.LazyQueryBO;
 import data.FacturaDAO;
@@ -98,10 +99,15 @@ public class UserHome extends javax.swing.JFrame {
         jMICatalogoProveedores = new javax.swing.JMenuItem();
         jMRefacciones = new javax.swing.JMenu();
         jMICatalogoRefacciones = new javax.swing.JMenuItem();
-        jMIReporteInventario = new javax.swing.JMenuItem();
-        jMIReporteInventarioBajoStock = new javax.swing.JMenuItem();
         jMICatalogoOperadores = new javax.swing.JMenuItem();
         jMICatalogoOperadoresCBajas = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMIReporteCargosDirectos = new javax.swing.JMenuItem();
+        jMIReporteEntradas = new javax.swing.JMenuItem();
+        jMIReporteInventario = new javax.swing.JMenuItem();
+        jMIReporteInventarioBajoStock = new javax.swing.JMenuItem();
+        jMIReporteSalidas = new javax.swing.JMenuItem();
+        jMIReporteTrabajosExternos = new javax.swing.JMenuItem();
         jMIReporteOrdenReparacion = new javax.swing.JMenuItem();
         jMIReporteCostoReparaciones = new javax.swing.JMenuItem();
         jMIReporteReparacionesPUnidad = new javax.swing.JMenuItem();
@@ -368,22 +374,6 @@ public class UserHome extends javax.swing.JFrame {
         });
         jMRefacciones.add(jMICatalogoRefacciones);
 
-        jMIReporteInventario.setText("Reporte Inventario");
-        jMIReporteInventario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMIReporteInventarioActionPerformed(evt);
-            }
-        });
-        jMRefacciones.add(jMIReporteInventario);
-
-        jMIReporteInventarioBajoStock.setText("Reporte Inventrario Bajo en Stock");
-        jMIReporteInventarioBajoStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMIReporteInventarioBajoStockActionPerformed(evt);
-            }
-        });
-        jMRefacciones.add(jMIReporteInventarioBajoStock);
-
         jMReportes.add(jMRefacciones);
 
         jMICatalogoOperadores.setText("Catálogo de Operadores");
@@ -401,6 +391,58 @@ public class UserHome extends javax.swing.JFrame {
             }
         });
         jMReportes.add(jMICatalogoOperadoresCBajas);
+
+        jMenu1.setText("Inventarios");
+
+        jMIReporteCargosDirectos.setText("Reporte de Cargos Directos");
+        jMIReporteCargosDirectos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteCargosDirectosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteCargosDirectos);
+
+        jMIReporteEntradas.setText("Reporte de Entradas");
+        jMIReporteEntradas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteEntradasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteEntradas);
+
+        jMIReporteInventario.setText("Reporte Inventario");
+        jMIReporteInventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteInventarioActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteInventario);
+
+        jMIReporteInventarioBajoStock.setText("Reporte Inventrario Bajo en Stock");
+        jMIReporteInventarioBajoStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteInventarioBajoStockActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteInventarioBajoStock);
+
+        jMIReporteSalidas.setText("Reporte de Salidas");
+        jMIReporteSalidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteSalidasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteSalidas);
+
+        jMIReporteTrabajosExternos.setText("Reporte Trabajos Externos");
+        jMIReporteTrabajosExternos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteTrabajosExternosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteTrabajosExternos);
+
+        jMReportes.add(jMenu1);
 
         jMIReporteOrdenReparacion.setText("Reporte Orden de Reparación");
         jMIReporteOrdenReparacion.addActionListener(new java.awt.event.ActionListener() {
@@ -738,6 +780,22 @@ public class UserHome extends javax.swing.JFrame {
         this.marcasMotores();
     }//GEN-LAST:event_jMIMarcasMotoresActionPerformed
 
+    private void jMIReporteEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteEntradasActionPerformed
+        this.generarReporteEntradas();
+    }//GEN-LAST:event_jMIReporteEntradasActionPerformed
+
+    private void jMIReporteSalidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteSalidasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMIReporteSalidasActionPerformed
+
+    private void jMIReporteCargosDirectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteCargosDirectosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMIReporteCargosDirectosActionPerformed
+
+    private void jMIReporteTrabajosExternosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteTrabajosExternosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMIReporteTrabajosExternosActionPerformed
+
     private void usuarios(){
         try{
             ControlUsuarios users = new ControlUsuarios();
@@ -971,38 +1029,6 @@ public class UserHome extends javax.swing.JFrame {
         }
     }
     
-    private void generarCatalogoBodegas(){
-        try {
-            String reportPath = "/reports/CatalogoBodegasRemex.jasper";
-            String logoPath = "/icons/Logo Efectivo Negro.png";
-            Locale locale = new Locale("en", "US");
-            InputStream jasperStream = getClass().getResourceAsStream(reportPath);
-            JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
-            JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
-            LazyQueryDAO lazyQ = new LazyQueryDAO();
-            parameters.put(JRParameter.REPORT_LOCALE, locale);
-            parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
-            lazyQ.startLazyQuery();
-            jPrint = JasperFillManager.fillReport(jReport, parameters, DBConnection.getConn());
-            JasperViewer.viewReport(jPrint, false);
-            lazyQ.endLazyQuery();
-        } catch(SQLException ex) { 
-            JOptionPane.showMessageDialog(null, "Código error: 1218\n" + ex.getMessage(),
-                            "Error al acceder a los datos en la BD de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarCatalogoBodegas()", 1218, UserHome.getUsuario(), ex);
-        } catch (JRException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1219\n" + ex.getMessage(),
-                            "Error al generar el reporte de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarCatalogoBodegas()", 1219, UserHome.getUsuario(), ex);
-            //Logger.getLogger(ControlOrdenesReparacion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1220\n" + ex.getMessage(),
-                            "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarCatalogoBodegas()", 1220, UserHome.getUsuario(), ex);
-        }
-    }
-    
     private void generarCatalogoProveedores(){
         try {
             String reportPath = "/reports/CatalogoProveedoresAlmacenTaller.jasper";
@@ -1224,6 +1250,17 @@ public class UserHome extends javax.swing.JFrame {
         }
     }
     
+    private void generarReporteEntradas(){
+        try {
+            EntriesReport report = new EntriesReport(this);
+            report.generarReporte();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2120\n" + ex.getMessage(),
+                            "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2120, UserHome.getUsuario(), ex);
+        }
+    }
+    
     private void cerrarSesion(){
         try{
             UserHome.setUsuario(null);
@@ -1300,11 +1337,15 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIRefacciones;
     private javax.swing.JMenuItem jMIRegistroFacturas;
     private javax.swing.JMenuItem jMIReparaciones;
+    private javax.swing.JMenuItem jMIReporteCargosDirectos;
     private javax.swing.JMenuItem jMIReporteCostoReparaciones;
+    private javax.swing.JMenuItem jMIReporteEntradas;
     private javax.swing.JMenuItem jMIReporteInventario;
     private javax.swing.JMenuItem jMIReporteInventarioBajoStock;
     private javax.swing.JMenuItem jMIReporteOrdenReparacion;
     private javax.swing.JMenuItem jMIReporteReparacionesPUnidad;
+    private javax.swing.JMenuItem jMIReporteSalidas;
+    private javax.swing.JMenuItem jMIReporteTrabajosExternos;
     private javax.swing.JMenuItem jMISalidasAlmacen;
     private javax.swing.JMenuItem jMISalir;
     private javax.swing.JMenuItem jMIUnidadesTransporte;
@@ -1314,6 +1355,7 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JMenu jMModulos;
     private javax.swing.JMenu jMRefacciones;
     private javax.swing.JMenu jMReportes;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPModulosPrincipales;
     private javax.swing.JPanel jPNotificacionesPendientes;
     private javax.swing.JPanel jPPartesBajasInventario;
