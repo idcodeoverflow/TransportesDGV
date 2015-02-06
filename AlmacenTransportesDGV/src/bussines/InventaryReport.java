@@ -44,7 +44,7 @@ public class InventaryReport extends ExcelReport {
     public void generarReporte() {
         String mensajeError = "";
         Row fila;
-        int nFila = 2;
+        int nFila = 1;
         int max1 = 20;
         int max2 = 0;
         int max3 = 11;
@@ -64,6 +64,7 @@ public class InventaryReport extends ExcelReport {
         Cell cel = fila.createCell(0);
         cel.setCellValue("Inventario");
         sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$D$1"));
+        cel.setCellStyle(ExcelStyles.titleStyle(book, "Reporte"));
 
         ExcelStyles.titleStyle(book, "Reporte");
         ExcelImage ei = new ExcelImage(0,4);
