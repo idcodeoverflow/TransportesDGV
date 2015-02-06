@@ -117,3 +117,6 @@
 2116 -> InventaryReport generarReporte() Exception
 2117 -> InventaryReport generarReporte() SQLException
 2118 -> InventaryReport generarReporte() Exception
+2119 -> EntriesReport generarReporte() SQLException
+2120 -> EntriesReport generarReporte() Exception
+2120 -> UserHome generarReporteEntradas() Exception

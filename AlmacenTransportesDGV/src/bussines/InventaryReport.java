@@ -8,6 +8,7 @@ package bussines;
 import almacendgv.UserHome;
 import beans.RefaccionDTO;
 import data.RefaccionDAO;
+import excelutils.ExcelImage;
 import excelutils.ExcelStyles;
 import java.awt.Desktop;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import javax.swing.JOptionPane;
 import logger.ErrorLogger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  *
@@ -42,7 +44,7 @@ public class InventaryReport extends ExcelReport {
     public void generarReporte() {
         String mensajeError = "";
         Row fila;
-        int nFila = 0;
+        int nFila = 1;
         int max1 = 20;
         int max2 = 0;
         int max3 = 11;
@@ -56,7 +58,19 @@ public class InventaryReport extends ExcelReport {
         RefaccionDAO accesoRefaccion = new RefaccionDAO();
         LazyQueryBO lazyQ = new LazyQueryBO();
         double existencia = 0.00;
+        
+        fila = sheet.createRow(0);
+        fila.setHeightInPoints(70);
+        Cell cel = fila.createCell(0);
+        cel.setCellValue("Inventario");
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$D$1"));
+        cel.setCellStyle(ExcelStyles.titleStyle(book, "Reporte"));
+
+        ExcelStyles.titleStyle(book, "Reporte");
+        ExcelImage ei = new ExcelImage(0,4);
+        ei.insertImage("/icons/Logo Efectivo Negro Chico.png", "Reporte", book, fStream);
         fila = sheet.createRow(nFila++);
+        
         Cell celda = fila.createCell(0);
         celda.setCellValue("Clave Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
@@ -76,8 +90,10 @@ public class InventaryReport extends ExcelReport {
         celda.setCellValue("Existencia");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(6);
-        celda.setCellValue("PrecioUnitario");
+        celda.setCellValue("Precio Unitario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
+        
+        
         if (soloBajoStock) {
             try {
                 refacciones = accesoRefaccion.obtenerRefacciones();
@@ -141,6 +157,7 @@ public class InventaryReport extends ExcelReport {
                 lazyQ.startLazyQuery();
                 for (RefaccionDTO refaccion : refacciones) {
                     fila = sheet.createRow(nFila++);
+
                     existencia = accesoRefaccion.obtenerExistenciaRefaccion(refaccion.getClaveRefaccion(), false, false);
                     mensajeError = refaccion.toString() + "_existencia_" + existencia;
                     
@@ -179,6 +196,7 @@ public class InventaryReport extends ExcelReport {
                 sheet.setColumnWidth(4, 256 * max5);
                 sheet.setColumnWidth(5, 256 * max6);
                 sheet.setColumnWidth(6, 256 * max7);
+                
                 book.write(fStream);
                 fStream.close();
                 Desktop.getDesktop().open(file);
