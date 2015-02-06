@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import logger.ErrorLogger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  *
@@ -43,7 +44,7 @@ public class InventaryReport extends ExcelReport {
     public void generarReporte() {
         String mensajeError = "";
         Row fila;
-        int nFila = 1;
+        int nFila = 2;
         int max1 = 20;
         int max2 = 0;
         int max3 = 11;
@@ -58,8 +59,14 @@ public class InventaryReport extends ExcelReport {
         LazyQueryBO lazyQ = new LazyQueryBO();
         double existencia = 0.00;
         
-        sheet.createRow(0).setHeightInPoints(70);
-        ExcelImage ei = new ExcelImage(1,5);
+        fila = sheet.createRow(0);
+        fila.setHeightInPoints(70);
+        Cell cel = fila.createCell(0);
+        cel.setCellValue("Inventario");
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$D$1"));
+
+        ExcelStyles.titleStyle(book, "Reporte");
+        ExcelImage ei = new ExcelImage(0,4);
         ei.insertImage("/icons/Logo Efectivo Negro Chico.png", "Reporte", book, fStream);
         fila = sheet.createRow(nFila++);
         
@@ -82,8 +89,9 @@ public class InventaryReport extends ExcelReport {
         celda.setCellValue("Existencia");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(6);
-        celda.setCellValue("PrecioUnitario");
+        celda.setCellValue("Precio Unitario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
+        
         
         if (soloBajoStock) {
             try {

@@ -36,11 +36,13 @@ public class ExcelImage {
     
     public void insertImage(String path, String sName, Workbook wb, FileOutputStream fileOut) {
         try {
-            InputStream inputStream = new FileInputStream(path);
-            Sheet sheet = wb.getSheet(sName);
-            byte[] bytes = IOUtils.toByteArray(getClass().getResourceAsStream(path));
-            int pictureIdx = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
-            inputStream.close();
+            Sheet sheet;
+            int pictureIdx;
+            InputStream inputStream = getClass().getResourceAsStream(path);
+            sheet = wb.getSheet(sName);
+            byte[] bytes = IOUtils.toByteArray(inputStream);
+            pictureIdx = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
+            
             CreationHelper helper = wb.getCreationHelper();
             Drawing drawing = sheet.createDrawingPatriarch();
             ClientAnchor anchor = helper.createClientAnchor();
@@ -49,8 +51,8 @@ public class ExcelImage {
             anchor.setRow1(topUpperRow);
             Picture pict = drawing.createPicture(anchor, pictureIdx);
             pict.resize();
-            wb.write(fileOut);
-            fileOut.close();
+            //wb.write(fileOut);
+            //fileOut.close();
 
         } catch (Exception e) {
             System.out.println(e);

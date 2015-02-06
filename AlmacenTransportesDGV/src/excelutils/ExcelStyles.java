@@ -8,7 +8,9 @@ package excelutils;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
  *
@@ -44,7 +46,7 @@ public class ExcelStyles {
     }
     
     public static CellStyle contabilityStyle(Workbook wb){
-         CellStyle style = wb.createCellStyle();
+        CellStyle style = wb.createCellStyle();
         style.setBorderRight(CellStyle.BORDER_THIN);
         style.setRightBorderColor(IndexedColors.BLACK.getIndex());
         style.setBorderBottom(CellStyle.BORDER_THIN);
@@ -55,6 +57,19 @@ public class ExcelStyles {
         style.setTopBorderColor(IndexedColors.BLACK.getIndex());
         style.setWrapText(true);
         style.setDataFormat(wb.createDataFormat().getFormat("$##,##0.00"));
+        return style;
+    }
+    
+    public static CellStyle titleStyle(Workbook wb, String name){
+        CellStyle style;
+        Font titleFont = wb.createFont();
+        titleFont.setFontHeightInPoints((short)20);
+        titleFont.setColor(IndexedColors.DARK_BLUE.getIndex());
+        style = wb.createCellStyle();
+        style.setAlignment(CellStyle.ALIGN_CENTER);
+        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        style.setFont(titleFont);
+        
         return style;
     }
     
