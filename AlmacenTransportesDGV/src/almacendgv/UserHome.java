@@ -107,7 +107,7 @@ public class UserHome extends javax.swing.JFrame {
         jMIReporteEntradas = new javax.swing.JMenuItem();
         jMIReporteInventario = new javax.swing.JMenuItem();
         jMIReporteInventarioBajoStock = new javax.swing.JMenuItem();
-        jMIReporteSalidas = new javax.swing.JMenuItem();
+        jMIReporteSalidasUnidad = new javax.swing.JMenuItem();
         jMIReporteTrabajosExternos = new javax.swing.JMenuItem();
         jMIReporteOrdenReparacion = new javax.swing.JMenuItem();
         jMIReporteCostoReparaciones = new javax.swing.JMenuItem();
@@ -427,13 +427,13 @@ public class UserHome extends javax.swing.JFrame {
         });
         jMenu1.add(jMIReporteInventarioBajoStock);
 
-        jMIReporteSalidas.setText("Reporte de Salidas");
-        jMIReporteSalidas.addActionListener(new java.awt.event.ActionListener() {
+        jMIReporteSalidasUnidad.setText("Reporte de Salidas a Unidad");
+        jMIReporteSalidasUnidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMIReporteSalidasActionPerformed(evt);
+                jMIReporteSalidasUnidadActionPerformed(evt);
             }
         });
-        jMenu1.add(jMIReporteSalidas);
+        jMenu1.add(jMIReporteSalidasUnidad);
 
         jMIReporteTrabajosExternos.setText("Reporte Trabajos Externos");
         jMIReporteTrabajosExternos.addActionListener(new java.awt.event.ActionListener() {
@@ -785,9 +785,9 @@ public class UserHome extends javax.swing.JFrame {
         this.generarReporteEntradas();
     }//GEN-LAST:event_jMIReporteEntradasActionPerformed
 
-    private void jMIReporteSalidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteSalidasActionPerformed
+    private void jMIReporteSalidasUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteSalidasUnidadActionPerformed
         this.generarReporteSalidaTransporte();
-    }//GEN-LAST:event_jMIReporteSalidasActionPerformed
+    }//GEN-LAST:event_jMIReporteSalidasUnidadActionPerformed
 
     private void jMIReporteCargosDirectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteCargosDirectosActionPerformed
         // TODO add your handling code here:
@@ -1356,7 +1356,7 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIReporteInventarioBajoStock;
     private javax.swing.JMenuItem jMIReporteOrdenReparacion;
     private javax.swing.JMenuItem jMIReporteReparacionesPUnidad;
-    private javax.swing.JMenuItem jMIReporteSalidas;
+    private javax.swing.JMenuItem jMIReporteSalidasUnidad;
     private javax.swing.JMenuItem jMIReporteTrabajosExternos;
     private javax.swing.JMenuItem jMISalidasAlmacen;
     private javax.swing.JMenuItem jMISalir;

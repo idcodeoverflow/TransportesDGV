@@ -6,16 +6,16 @@
 package bussines;
 
 import almacendgv.UserHome;
-import beans.EntradaAlmacenDTO;
 import beans.SalidaUnidadDTO;
-import data.EntradaAlmacenDAO;
 import data.SalidaUnidadDAO;
 import excelutils.ExcelImage;
 import excelutils.ExcelStyles;
 import java.awt.Desktop;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.apache.poi.ss.usermodel.Cell;
@@ -55,6 +55,7 @@ public class TransportExitReport extends ExcelReport{
         int max9 = 11;
         int max10 = 11;
         
+        DateFormat formatoFecha = DateFormat.getDateInstance(DateFormat.MEDIUM);
         DecimalFormat formatD = new DecimalFormat("0.00");
         List<SalidaUnidadDTO> salidas = null;
         SalidaUnidadDAO accesoSalidas = new SalidaUnidadDAO();
@@ -64,11 +65,11 @@ public class TransportExitReport extends ExcelReport{
         fila.setHeightInPoints(70);
         Cell cel = fila.createCell(0);
         cel.setCellValue("Salidas de Almacén a Transporte");
-        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$H$1"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$G$1"));
         cel.setCellStyle(ExcelStyles.titleStyle(book, "Reporte"));
 
         ExcelStyles.titleStyle(book, "Reporte");
-        ExcelImage ei = new ExcelImage(0,8);
+        ExcelImage ei = new ExcelImage(0,7);
         ei.insertImage("/icons/Logo Efectivo Negro Chico.png", "Reporte", book, fStream);
         fila = sheet.createRow(nFila++);
         
@@ -84,22 +85,22 @@ public class TransportExitReport extends ExcelReport{
         celda = fila.createCell(3);
         celda.setCellValue("Clave");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(5);
+        celda = fila.createCell(4);
         celda.setCellValue("Clave Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(6);
-        celda.setCellValue("Refaccion");
+        celda = fila.createCell(5);
+        celda.setCellValue("Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(7);
+        celda = fila.createCell(6);
         celda.setCellValue("Cantidad");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(8);
+        celda = fila.createCell(7);
         celda.setCellValue("Precio Unitario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(9);
+        celda = fila.createCell(8);
         celda.setCellValue("Total");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(10);
+        celda = fila.createCell(9);
         celda.setCellValue("Usuario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         
@@ -115,8 +116,8 @@ public class TransportExitReport extends ExcelReport{
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 
                 celdaT = fila.createCell(1);
-                celdaT.setCellValue(salida.getFechaRegistro().toString());
-                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                celdaT.setCellValue(formatoFecha.format(new Date(salida.getFechaRegistro().getTime())));
+                celdaT.setCellStyle(ExcelStyles.dateStyle(book));
                 if(salida.getFechaRegistro().toString().length() > max2){
                     max2 = salida.getFechaRegistro().toString().length();
                 }
@@ -154,9 +155,12 @@ public class TransportExitReport extends ExcelReport{
                         format(salida.getCosto())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
                 
-               celdaT = fila.createCell(9);
-                celdaT.setCellValue(salida.getRefaccion().getClaveRefaccion());
+                celdaT = fila.createCell(9);
+                celdaT.setCellValue(salida.getUsuario().getNombre() + " " + salida.getUsuario().getApellidos());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                if((salida.getUsuario().getNombre() + " " + salida.getUsuario().getApellidos()).length() > max10){
+                    max10 = (salida.getUsuario().getNombre() + " " + salida.getUsuario().getApellidos()).length();
+                }
             }
             lazyQ.endLazyQuery();
             sheet.setColumnWidth(0, 256 * max1);

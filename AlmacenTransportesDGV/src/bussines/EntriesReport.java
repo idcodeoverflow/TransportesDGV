@@ -7,15 +7,15 @@ package bussines;
 
 import almacendgv.UserHome;
 import beans.EntradaAlmacenDTO;
-import beans.RefaccionDTO;
 import data.EntradaAlmacenDAO;
-import data.RefaccionDAO;
 import excelutils.ExcelImage;
 import excelutils.ExcelStyles;
 import java.awt.Desktop;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.apache.poi.ss.usermodel.Cell;
@@ -56,6 +56,7 @@ public class EntriesReport extends ExcelReport{
         int max10 = 11;
         int max11 = 11;
         
+        DateFormat formatoFecha = DateFormat.getDateInstance(DateFormat.MEDIUM);
         DecimalFormat formatD = new DecimalFormat("0.00");
         List<EntradaAlmacenDTO> entradas = null;
         EntradaAlmacenDAO accesoEntradas = new EntradaAlmacenDAO();
@@ -120,8 +121,8 @@ public class EntriesReport extends ExcelReport{
                 celdaT.setCellValue(entrada.getNumeroEntrada());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 celdaT = fila.createCell(1);
-                celdaT.setCellValue(entrada.getFechaRegistro().toString());
-                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                celdaT.setCellValue(formatoFecha.format(new Date(entrada.getFechaRegistro().getTime())));
+                celdaT.setCellStyle(ExcelStyles.dateStyle(book));
                 if(entrada.getFechaRegistro().toString().length() > max2){
                     max2 = entrada.getFechaRegistro().toString().length();
                 }
