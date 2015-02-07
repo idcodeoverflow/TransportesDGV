@@ -10,6 +10,7 @@ import beans.UsuarioDTO;
 import bussines.EntriesReport;
 import bussines.InventaryReport;
 import bussines.LazyQueryBO;
+import bussines.TransportExitReport;
 import data.FacturaDAO;
 import data.LazyQueryDAO;
 import data.RefaccionDAO;
@@ -785,7 +786,7 @@ public class UserHome extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIReporteEntradasActionPerformed
 
     private void jMIReporteSalidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteSalidasActionPerformed
-        // TODO add your handling code here:
+        this.generarReporteSalidaTransporte();
     }//GEN-LAST:event_jMIReporteSalidasActionPerformed
 
     private void jMIReporteCargosDirectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteCargosDirectosActionPerformed
@@ -1258,6 +1259,17 @@ public class UserHome extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Código error: 2120\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2120, UserHome.getUsuario(), ex);
+        }
+    }
+    
+    private void generarReporteSalidaTransporte(){
+        try {
+            TransportExitReport report = new TransportExitReport(this);
+            report.generarReporte();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2123\n" + ex.getMessage(),
+                            "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2123, UserHome.getUsuario(), ex);
         }
     }
     

@@ -176,11 +176,11 @@ public class TransportExitReport extends ExcelReport{
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2117\n" + ex.getMessage(),
                     "Error al obtener inventarios de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            logger.ErrorLogger.scribirLog(mensajeError, 2117, UserHome.getUsuario(), ex);
+            logger.ErrorLogger.scribirLog(mensajeError, 2121, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2118\n" + ex.getMessage(),
                     "Error al obtener inventarios!!!", JOptionPane.ERROR_MESSAGE);
-            logger.ErrorLogger.scribirLog(mensajeError, 2118, UserHome.getUsuario(), ex);
+            logger.ErrorLogger.scribirLog(mensajeError, 2122, UserHome.getUsuario(), ex);
         }
         
     }

@@ -122,3 +122,4 @@
 2120 -> UserHome generarReporteEntradas() Exception
 2121 -> TransportExitReport generarReporte() SQLException
 2122 -> TransportExitReport generarReporte() Exception
+2123 -> UserHome generarReporteSalidasTransporte() Exception
