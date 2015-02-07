@@ -120,3 +120,5 @@
 2119 -> EntriesReport generarReporte() SQLException
 2120 -> EntriesReport generarReporte() Exception
 2120 -> UserHome generarReporteEntradas() Exception
+2121 -> TransportExitReport generarReporte() SQLException
+2122 -> TransportExitReport generarReporte() Exception
