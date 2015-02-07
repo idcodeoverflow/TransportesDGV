@@ -10,6 +10,7 @@ import beans.UsuarioDTO;
 import bussines.EntriesReport;
 import bussines.InventaryReport;
 import bussines.LazyQueryBO;
+import bussines.SpecialExitReport;
 import bussines.TransportExitReport;
 import data.FacturaDAO;
 import data.LazyQueryDAO;
@@ -107,6 +108,7 @@ public class UserHome extends javax.swing.JFrame {
         jMIReporteEntradas = new javax.swing.JMenuItem();
         jMIReporteInventario = new javax.swing.JMenuItem();
         jMIReporteInventarioBajoStock = new javax.swing.JMenuItem();
+        jMIReporteSalidasEspeciales = new javax.swing.JMenuItem();
         jMIReporteSalidasUnidad = new javax.swing.JMenuItem();
         jMIReporteTrabajosExternos = new javax.swing.JMenuItem();
         jMIReporteOrdenReparacion = new javax.swing.JMenuItem();
@@ -426,6 +428,14 @@ public class UserHome extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMIReporteInventarioBajoStock);
+
+        jMIReporteSalidasEspeciales.setText("Reporte de Salidas Especiales");
+        jMIReporteSalidasEspeciales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteSalidasEspecialesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteSalidasEspeciales);
 
         jMIReporteSalidasUnidad.setText("Reporte de Salidas a Unidad");
         jMIReporteSalidasUnidad.addActionListener(new java.awt.event.ActionListener() {
@@ -796,6 +806,10 @@ public class UserHome extends javax.swing.JFrame {
     private void jMIReporteTrabajosExternosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteTrabajosExternosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMIReporteTrabajosExternosActionPerformed
+
+    private void jMIReporteSalidasEspecialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteSalidasEspecialesActionPerformed
+        this.generarReporteSalidaEspecial();
+    }//GEN-LAST:event_jMIReporteSalidasEspecialesActionPerformed
 
     private void usuarios(){
         try{
@@ -1273,6 +1287,17 @@ public class UserHome extends javax.swing.JFrame {
         }
     }
     
+    private void generarReporteSalidaEspecial(){
+        try {
+            SpecialExitReport report = new SpecialExitReport(this);
+            report.generarReporte();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2124\n" + ex.getMessage(),
+                            "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2124, UserHome.getUsuario(), ex);
+        }
+    }
+    
     private void cerrarSesion(){
         try{
             UserHome.setUsuario(null);
@@ -1356,6 +1381,7 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIReporteInventarioBajoStock;
     private javax.swing.JMenuItem jMIReporteOrdenReparacion;
     private javax.swing.JMenuItem jMIReporteReparacionesPUnidad;
+    private javax.swing.JMenuItem jMIReporteSalidasEspeciales;
     private javax.swing.JMenuItem jMIReporteSalidasUnidad;
     private javax.swing.JMenuItem jMIReporteTrabajosExternos;
     private javax.swing.JMenuItem jMISalidasAlmacen;

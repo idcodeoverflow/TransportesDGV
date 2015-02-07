@@ -123,3 +123,6 @@
 2121 -> TransportExitReport generarReporte() SQLException
 2122 -> TransportExitReport generarReporte() Exception
 2123 -> UserHome generarReporteSalidasTransporte() Exception
+2124 -> UserHome generarReporteSalidaEspecial() Exception
+2125 -> SpecialExitReport generarReporte() SQLException
+2126 -> SpecialExitReport generarReporte() Exception
