@@ -47,11 +47,11 @@ public class SpecialExitReport extends ExcelReport{
         Row fila;
         int nFila = 1;
         int max1 = 11;
-        int max2 = 0;
+        int max2 = 11;
         int max3 = 11;
         int max4 = 11;
         int max5 = 16;
-        int max6 = 0;
+        int max6 = 11;
         int max7 = 11;
         int max8 = 11;
         int max9 = 11;
