@@ -6,9 +6,7 @@
 package bussines;
 
 import almacendgv.UserHome;
-import beans.EntradaAlmacenDTO;
 import beans.SalidaUnidadDTO;
-import data.EntradaAlmacenDAO;
 import data.SalidaUnidadDAO;
 import excelutils.ExcelImage;
 import excelutils.ExcelStyles;
