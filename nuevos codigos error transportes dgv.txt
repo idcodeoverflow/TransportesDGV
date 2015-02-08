@@ -126,3 +126,9 @@
 2124 -> UserHome generarReporteSalidaEspecial() Exception
 2125 -> SpecialExitReport generarReporte() SQLException
 2126 -> SpecialExitReport generarReporte() Exception
+2127 -> UserHome generarReporteSalidasOperador() Exception
+2128 -> UserHome generarReporteSalidasTaller() Exception
+2129 -> DriverExitReport generarReporte() SQLException
+2130 -> DriverExitReport generarReporte() Exception
+2131 -> TallerExitReport generarReporte() SQLException
+2132 -> TallerExitReport generarReporte() Exception

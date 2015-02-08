@@ -7,10 +7,12 @@ package almacendgv;
 import beans.FacturaDTO;
 import beans.RefaccionDTO;
 import beans.UsuarioDTO;
+import bussines.DriverExitReport;
 import bussines.EntriesReport;
 import bussines.InventaryReport;
 import bussines.LazyQueryBO;
 import bussines.SpecialExitReport;
+import bussines.TallerExitReport;
 import bussines.TransportExitReport;
 import data.FacturaDAO;
 import data.LazyQueryDAO;
@@ -110,6 +112,8 @@ public class UserHome extends javax.swing.JFrame {
         jMIReporteInventarioBajoStock = new javax.swing.JMenuItem();
         jMIReporteSalidasEspeciales = new javax.swing.JMenuItem();
         jMIReporteSalidasUnidad = new javax.swing.JMenuItem();
+        jMIReporteSalidasOperador = new javax.swing.JMenuItem();
+        jMIReporteSalidasTaller = new javax.swing.JMenuItem();
         jMIReporteTrabajosExternos = new javax.swing.JMenuItem();
         jMIReporteOrdenReparacion = new javax.swing.JMenuItem();
         jMIReporteCostoReparaciones = new javax.swing.JMenuItem();
@@ -444,6 +448,22 @@ public class UserHome extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMIReporteSalidasUnidad);
+
+        jMIReporteSalidasOperador.setText("Reporte de Salidas a Operador");
+        jMIReporteSalidasOperador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteSalidasOperadorActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteSalidasOperador);
+
+        jMIReporteSalidasTaller.setText("Reporte de Salidas a Taller");
+        jMIReporteSalidasTaller.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIReporteSalidasTallerActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMIReporteSalidasTaller);
 
         jMIReporteTrabajosExternos.setText("Reporte Trabajos Externos");
         jMIReporteTrabajosExternos.addActionListener(new java.awt.event.ActionListener() {
@@ -810,6 +830,14 @@ public class UserHome extends javax.swing.JFrame {
     private void jMIReporteSalidasEspecialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteSalidasEspecialesActionPerformed
         this.generarReporteSalidaEspecial();
     }//GEN-LAST:event_jMIReporteSalidasEspecialesActionPerformed
+
+    private void jMIReporteSalidasOperadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteSalidasOperadorActionPerformed
+        this.generarReporteSalidasOperador();
+    }//GEN-LAST:event_jMIReporteSalidasOperadorActionPerformed
+
+    private void jMIReporteSalidasTallerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReporteSalidasTallerActionPerformed
+        this.generarReporteSalidasTaller();
+    }//GEN-LAST:event_jMIReporteSalidasTallerActionPerformed
 
     private void usuarios(){
         try{
@@ -1298,6 +1326,28 @@ public class UserHome extends javax.swing.JFrame {
         }
     }
     
+    private void generarReporteSalidasOperador(){
+        try {
+            DriverExitReport report = new DriverExitReport(this);
+            report.generarReporte();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2127\n" + ex.getMessage(),
+                            "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2127, UserHome.getUsuario(), ex);
+        }
+    }
+    
+    private void generarReporteSalidasTaller(){
+        try {
+            TallerExitReport report = new TallerExitReport(this);
+            report.generarReporte();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Código error: 2128\n" + ex.getMessage(),
+                            "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
+            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2128, UserHome.getUsuario(), ex);
+        }
+    }
+    
     private void cerrarSesion(){
         try{
             UserHome.setUsuario(null);
@@ -1382,6 +1432,8 @@ public class UserHome extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIReporteOrdenReparacion;
     private javax.swing.JMenuItem jMIReporteReparacionesPUnidad;
     private javax.swing.JMenuItem jMIReporteSalidasEspeciales;
+    private javax.swing.JMenuItem jMIReporteSalidasOperador;
+    private javax.swing.JMenuItem jMIReporteSalidasTaller;
     private javax.swing.JMenuItem jMIReporteSalidasUnidad;
     private javax.swing.JMenuItem jMIReporteTrabajosExternos;
     private javax.swing.JMenuItem jMISalidasAlmacen;

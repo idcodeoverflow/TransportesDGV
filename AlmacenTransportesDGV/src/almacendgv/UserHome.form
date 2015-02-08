@@ -147,6 +147,22 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasUnidadActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteSalidasOperador">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reporte de Salidas a Operador"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasOperadorActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteSalidasTaller">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reporte de Salidas a Taller"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasTallerActionPerformed"/>
+                  </Events>
+                </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMIReporteTrabajosExternos">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Reporte Trabajos Externos"/>

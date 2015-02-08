@@ -6,8 +6,8 @@
 package bussines;
 
 import almacendgv.UserHome;
-import beans.SalidaUnidadDTO;
-import data.SalidaUnidadDAO;
+import beans.SalidaOperadorDTO;
+import data.SalidaOperadorDAO;
 import excelutils.ExcelImage;
 import excelutils.ExcelStyles;
 import java.awt.Desktop;
@@ -26,16 +26,16 @@ import org.apache.poi.ss.util.CellRangeAddress;
  *
  * @author David
  */
-public class TransportExitReport extends ExcelReport{
+public class DriverExitReport extends ExcelReport{
     
     private Timestamp fechaInicio;
     private Timestamp fechaFin;
 
-    public TransportExitReport(javax.swing.JFrame form){
+    public DriverExitReport(javax.swing.JFrame form){
         super(form);
     }
     
-    public TransportExitReport(){
+    public DriverExitReport(){
         super(null);
     }
     
@@ -57,14 +57,14 @@ public class TransportExitReport extends ExcelReport{
         
         DateFormat formatoFecha = DateFormat.getDateInstance(DateFormat.MEDIUM);
         DecimalFormat formatD = new DecimalFormat("0.00");
-        List<SalidaUnidadDTO> salidas = null;
-        SalidaUnidadDAO accesoSalidas = new SalidaUnidadDAO();
+        List<SalidaOperadorDTO> salidas = null;
+        SalidaOperadorDAO accesoSalidas = new SalidaOperadorDAO();
         LazyQueryBO lazyQ = new LazyQueryBO();
         
         fila = sheet.createRow(0);
         fila.setHeightInPoints(70);
         Cell cel = fila.createCell(0);
-        cel.setCellValue("Salidas de Almacén a Transporte");
+        cel.setCellValue("Salidas de Almacén a Operador");
         sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$G$1"));
         cel.setCellStyle(ExcelStyles.titleStyle(book, "Reporte"));
 
@@ -83,7 +83,7 @@ public class TransportExitReport extends ExcelReport{
         celda.setCellValue("N° Orden");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(3);
-        celda.setCellValue("Clave");
+        celda.setCellValue("Operador");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(4);
         celda.setCellValue("Clave Refacción");
@@ -105,14 +105,14 @@ public class TransportExitReport extends ExcelReport{
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         
         try {
-            salidas = accesoSalidas.obtenerSalidasUnidadSinCanceladas(true, true, false);
+            salidas = accesoSalidas.obtenerSalidasOperadoresSinCanceladas(true, true, false);
             lazyQ.startLazyQuery();
-            for (SalidaUnidadDTO salida : salidas) {
+            for (SalidaOperadorDTO salida : salidas) {
                 fila = sheet.createRow(nFila++);
 
 
                 Cell celdaT = fila.createCell(0);
-                celdaT.setCellValue(salida.getIdSalidaUnidad());
+                celdaT.setCellValue(salida.getIdSalidaOperador());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 
                 celdaT = fila.createCell(1);
@@ -127,8 +127,11 @@ public class TransportExitReport extends ExcelReport{
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 
                 celdaT = fila.createCell(3);
-                celdaT.setCellValue(salida.getTransporte().getClave());
+                celdaT.setCellValue(salida.getOperador().getNombre() + " " + salida.getOperador().getApellidos());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                if((salida.getOperador().getNombre() + " " + salida.getOperador().getApellidos()).length() > max4){
+                    max4 = (salida.getOperador().getNombre() + " " + salida.getOperador().getApellidos()).length();
+                }
                 
                 celdaT = fila.createCell(4);
                 celdaT.setCellValue(salida.getRefaccion().getClaveRefaccion());
@@ -178,13 +181,13 @@ public class TransportExitReport extends ExcelReport{
             fStream.close();
             Desktop.getDesktop().open(file);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2121\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2129\n" + ex.getMessage(),
                     "Error al obtener inventarios de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            logger.ErrorLogger.scribirLog(mensajeError, 2121, UserHome.getUsuario(), ex);
+            logger.ErrorLogger.scribirLog(mensajeError, 2129, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2122\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2130\n" + ex.getMessage(),
                     "Error al obtener inventarios!!!", JOptionPane.ERROR_MESSAGE);
-            logger.ErrorLogger.scribirLog(mensajeError, 2122, UserHome.getUsuario(), ex);
+            logger.ErrorLogger.scribirLog(mensajeError, 2130, UserHome.getUsuario(), ex);
         }
         
     }
