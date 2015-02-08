@@ -25,6 +25,7 @@ public class ExcelStyles {
         style.setLeftBorderColor(IndexedColors.BLACK.getIndex());
         style.setBorderTop(CellStyle.BORDER_THIN);
         style.setTopBorderColor(IndexedColors.BLACK.getIndex());
+        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
         style.setWrapText(true);
         
         return style;
@@ -39,6 +40,7 @@ public class ExcelStyles {
         style.setAlignment(CellStyle.ALIGN_CENTER);
         style.setFillForegroundColor(IndexedColors.BLUE.getIndex());
         style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
         style.setFont(headerFont);
         return style;
     }

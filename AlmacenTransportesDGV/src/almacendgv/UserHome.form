@@ -99,12 +99,36 @@
                 <Property name="text" type="java.lang.String" value="Inventarios"/>
               </Properties>
               <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteCargosDirectos">
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteCargosEspeciales">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Reporte de Cargos Directos"/>
+                    <Property name="text" type="java.lang.String" value="Reporte de Cargos Especiales"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteCargosDirectosActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteCargosEspecialesActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteCargoUnidad">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reporte de Cargos Unidad"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteCargoUnidadActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteCargoOperador">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reporte de Cargos Operador"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteCargoOperadorActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteCargosTaller">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reporte de Cargos Taller"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteCargosTallerActionPerformed"/>
                   </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMIReporteEntradas">
@@ -145,6 +169,22 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasUnidadActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteSalidasOperador">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reporte de Salidas a Operador"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasOperadorActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteSalidasTaller">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reporte de Salidas a Taller"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasTallerActionPerformed"/>
                   </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMIReporteTrabajosExternos">

@@ -6,8 +6,8 @@
 package bussines;
 
 import almacendgv.UserHome;
-import beans.EntradaAlmacenDTO;
-import data.EntradaAlmacenDAO;
+import beans.CargoOperadorDTO;
+import data.CargoOperadorDAO;
 import excelutils.ExcelImage;
 import excelutils.ExcelStyles;
 import java.awt.Desktop;
@@ -26,16 +26,16 @@ import org.apache.poi.ss.util.CellRangeAddress;
  *
  * @author David
  */
-public class EntriesReport extends ExcelReport{
+public class CargoOperadorReport extends ExcelReport{
     
     private Timestamp fechaInicio;
     private Timestamp fechaFin;
 
-    public EntriesReport(javax.swing.JFrame form){
+    public CargoOperadorReport(javax.swing.JFrame form){
         super(form);
     }
     
-    public EntriesReport(){
+    public CargoOperadorReport(){
         super(null);
     }
     
@@ -55,117 +55,150 @@ public class EntriesReport extends ExcelReport{
         int max9 = 11;
         int max10 = 11;
         int max11 = 11;
+        int max12 = 11;
+        int max13 = 11;
+        int max14 = 11;
         
         DateFormat formatoFecha = DateFormat.getDateInstance(DateFormat.MEDIUM);
         DecimalFormat formatD = new DecimalFormat("0.00");
-        List<EntradaAlmacenDTO> entradas = null;
-        EntradaAlmacenDAO accesoEntradas = new EntradaAlmacenDAO();
+        List<CargoOperadorDTO> cargos = null;
+        CargoOperadorDAO accesoCargos = new CargoOperadorDAO();
         LazyQueryBO lazyQ = new LazyQueryBO();
-        double existencia = 0.00;
         
         fila = sheet.createRow(0);
         fila.setHeightInPoints(70);
         Cell cel = fila.createCell(0);
-        cel.setCellValue("Entradas de Almacén");
-        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$H$1"));
+        cel.setCellValue("Cargos Directos a Operador");
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$K$1"));
         cel.setCellStyle(ExcelStyles.titleStyle(book, "Reporte"));
 
         ExcelStyles.titleStyle(book, "Reporte");
-        ExcelImage ei = new ExcelImage(0,8);
+        ExcelImage ei = new ExcelImage(0,11);
         ei.insertImage("/icons/Logo Efectivo Negro Chico.png", "Reporte", book, fStream);
         fila = sheet.createRow(nFila++);
         
         Cell celda = fila.createCell(0);
-        celda.setCellValue("N° Entrada");
+        celda.setCellValue("Id Cargo");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(1);
         celda.setCellValue("Fecha");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(2);
-        celda.setCellValue("Proveedor");
+        celda.setCellValue("N° Orden");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(3);
-        celda.setCellValue("Factura");
+        celda.setCellValue("Operador");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(4);
-        celda.setCellValue("Clave Refaccion");
+        celda.setCellValue("Proveedor");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(5);
-        celda.setCellValue("Refaccion");
+        celda.setCellValue("Factura");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(6);
-        celda.setCellValue("Cantidad");
+        celda.setCellValue("Clave Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(7);
-        celda.setCellValue("Precio Unitario");
+        celda.setCellValue("Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(8);
-        celda.setCellValue("Subtotal");
+        celda.setCellValue("Cantidad");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(9);
-        celda.setCellValue("Iva");
+        celda.setCellValue("Precio Unitario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(10);
+        celda.setCellValue("Subtotal");
+        celda.setCellStyle(ExcelStyles.headerStyle(book));
+        celda = fila.createCell(11);
+        celda.setCellValue("Iva");
+        celda.setCellStyle(ExcelStyles.headerStyle(book));
+        celda = fila.createCell(12);
         celda.setCellValue("Total");
+        celda.setCellStyle(ExcelStyles.headerStyle(book));
+        celda = fila.createCell(13);
+        celda.setCellValue("Usuario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         
         try {
-            entradas = accesoEntradas.obtenerEntradasAlmacen(true);
+            cargos = accesoCargos.obtenerCargosOperadores(true);
             lazyQ.startLazyQuery();
-            for (EntradaAlmacenDTO entrada : entradas) {
+            for (CargoOperadorDTO cargo : cargos) {
                 fila = sheet.createRow(nFila++);
 
-                mensajeError = entrada.toString() + "_existencia_" + existencia;
+                mensajeError = cargo.toString();
 
                 Cell celdaT = fila.createCell(0);
-                celdaT.setCellValue(entrada.getNumeroEntrada());
+                celdaT.setCellValue(cargo.getIdCargoOperador());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 celdaT = fila.createCell(1);
-                celdaT.setCellValue(formatoFecha.format(new Date(entrada.getFechaRegistro().getTime())));
+                celdaT.setCellValue(formatoFecha.format(new Date(cargo.getFechaRegistro().getTime())));
                 celdaT.setCellStyle(ExcelStyles.dateStyle(book));
-                if(entrada.getFechaRegistro().toString().length() > max2){
-                    max2 = entrada.getFechaRegistro().toString().length();
+                if(cargo.getFechaRegistro().toString().length() > max2){
+                    max2 = cargo.getFechaRegistro().toString().length();
                 }
+                
                 celdaT = fila.createCell(2);
-                celdaT.setCellValue(entrada.getFactura().getProveedor().getNombre());
+                celdaT.setCellValue(cargo.getOrdenReparacion().getNumeroOrden());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if(entrada.getFactura().getProveedor().getNombre().length() > max3){
-                    max3 = entrada.getFactura().getProveedor().getNombre().length();
-                }
+                
                 celdaT = fila.createCell(3);
-                celdaT.setCellValue(entrada.getFactura().getFolio());
+                celdaT.setCellValue(cargo.getOperador().getNombre() + " " + cargo.getOperador().getApellidos());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if(entrada.getFactura().getFolio().length() > max4){
-                    max4 = entrada.getFactura().getFolio().length();
+                if((cargo.getOperador().getNombre() + " " + cargo.getOperador().getApellidos()).length() > max4){
+                    max4 = (cargo.getOperador().getNombre() + " " + cargo.getOperador().getApellidos()).length();
                 }
+                
                 celdaT = fila.createCell(4);
-                celdaT.setCellValue(entrada.getRefaccion().getClaveRefaccion());
+                celdaT.setCellValue(cargo.getFactura().getProveedor().getNombre());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                if(cargo.getFactura().getProveedor().getNombre().length() > max4){
+                    max4 = cargo.getFactura().getProveedor().getNombre().length();
+                }
                 celdaT = fila.createCell(5);
-                celdaT.setCellValue(entrada.getRefaccion().getNombre());
+                celdaT.setCellValue(cargo.getFactura().getFolio());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if(entrada.getRefaccion().getNombre().length() > max6){
-                    max6 = entrada.getRefaccion().getNombre().length();
+                if(cargo.getFactura().getFolio().length() > max6){
+                    max6 = cargo.getFactura().getFolio().length();
                 }
                 celdaT = fila.createCell(6);
-                celdaT.setCellValue(entrada.getCantidad());
+                celdaT.setCellValue(cargo.getRefaccion().getClaveRefaccion());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                if(cargo.getRefaccion().getNombre().length() > max7){
+                    max7 = cargo.getRefaccion().getNombre().length();
+                }
+                
                 celdaT = fila.createCell(7);
-                celdaT.setCellValue(Double.parseDouble(formatD.
-                        format(entrada.getPrecioUnitario())));
-                celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
+                celdaT.setCellValue(cargo.getRefaccion().getNombre());
+                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                
                 celdaT = fila.createCell(8);
-                celdaT.setCellValue(Double.parseDouble(formatD.
-                        format(entrada.getSubtotal())));
-                celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
+                celdaT.setCellValue(cargo.getCantidad());
+                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 celdaT = fila.createCell(9);
                 celdaT.setCellValue(Double.parseDouble(formatD.
-                        format(entrada.getIva())));
+                        format(cargo.getPrecioUnitario())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
                 celdaT = fila.createCell(10);
                 celdaT.setCellValue(Double.parseDouble(formatD.
-                        format(entrada.getMonto())));
+                        format(cargo.getSubtotal())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
+                celdaT = fila.createCell(11);
+                celdaT.setCellValue(Double.parseDouble(formatD.
+                        format(cargo.getIva())));
+                celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
+                celdaT = fila.createCell(12);
+                celdaT.setCellValue(Double.parseDouble(formatD.
+                        format(cargo.getTotal())));
+                celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
+                
+                celdaT = fila.createCell(13);
+                celdaT.setCellValue(cargo.getUsuario().getNombre() + " " + cargo.getUsuario().getApellidos());
+                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
+                if((cargo.getUsuario().getNombre() + " " + cargo.getUsuario().getApellidos()).length() > max14){
+                    max14 = (cargo.getUsuario().getNombre() + " " + cargo.getUsuario().getApellidos()).length();
+                }
+                
             }
             lazyQ.endLazyQuery();
             sheet.setColumnWidth(0, 256 * max1);
@@ -179,18 +212,22 @@ public class EntriesReport extends ExcelReport{
             sheet.setColumnWidth(8, 256 * max9);
             sheet.setColumnWidth(9, 256 * max10);
             sheet.setColumnWidth(10, 256 * max11);
+            sheet.setColumnWidth(11, 256 * max12);
+            sheet.setColumnWidth(12, 256 * max13);
+            sheet.setColumnWidth(13, 256 * max14);
 
+            
             book.write(fStream);
             fStream.close();
             Desktop.getDesktop().open(file);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2117\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2143\n" + ex.getMessage(),
                     "Error al obtener inventarios de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            logger.ErrorLogger.scribirLog(mensajeError, 2117, UserHome.getUsuario(), ex);
+            logger.ErrorLogger.scribirLog(mensajeError, 2143, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2118\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2144\n" + ex.getMessage(),
                     "Error al obtener inventarios!!!", JOptionPane.ERROR_MESSAGE);
-            logger.ErrorLogger.scribirLog(mensajeError, 2118, UserHome.getUsuario(), ex);
+            logger.ErrorLogger.scribirLog(mensajeError, 2144, UserHome.getUsuario(), ex);
         }
         
     }

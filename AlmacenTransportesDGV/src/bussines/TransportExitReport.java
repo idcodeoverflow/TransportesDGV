@@ -45,11 +45,11 @@ public class TransportExitReport extends ExcelReport{
         Row fila;
         int nFila = 1;
         int max1 = 11;
-        int max2 = 0;
+        int max2 = 11;
         int max3 = 11;
         int max4 = 11;
         int max5 = 16;
-        int max6 = 0;
+        int max6 = 11;
         int max7 = 11;
         int max8 = 11;
         int max9 = 11;
@@ -178,11 +178,11 @@ public class TransportExitReport extends ExcelReport{
             fStream.close();
             Desktop.getDesktop().open(file);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2117\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2121\n" + ex.getMessage(),
                     "Error al obtener inventarios de la BD!!!", JOptionPane.ERROR_MESSAGE);
             logger.ErrorLogger.scribirLog(mensajeError, 2121, UserHome.getUsuario(), ex);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2118\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 2122\n" + ex.getMessage(),
                     "Error al obtener inventarios!!!", JOptionPane.ERROR_MESSAGE);
             logger.ErrorLogger.scribirLog(mensajeError, 2122, UserHome.getUsuario(), ex);
         }
