@@ -215,7 +215,7 @@ public class SalidaUnidadDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_unidad, clave, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, tipo FROM salida_unidad"
+                + "clave_refaccion, numero_usuario, numero_orden, tipo FROM salida_unidad "
                 + "WHERE status = ?;";
         try{
             if(abrir){

@@ -131,12 +131,20 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteInventarioBajoStockActionPerformed"/>
                   </Events>
                 </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteSalidas">
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteSalidasEspeciales">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Reporte de Salidas"/>
+                    <Property name="text" type="java.lang.String" value="Reporte de Salidas Especiales"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasEspecialesActionPerformed"/>
+                  </Events>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMIReporteSalidasUnidad">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reporte de Salidas a Unidad"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteSalidasUnidadActionPerformed"/>
                   </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMIReporteTrabajosExternos">
