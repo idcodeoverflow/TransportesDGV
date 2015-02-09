@@ -123,11 +123,6 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMReportes">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Reportes"/>
-          </Properties>
-        </Menu>
         <Menu class="javax.swing.JMenu" name="jMAyuda">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ayuda"/>

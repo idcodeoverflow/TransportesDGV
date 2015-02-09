@@ -134,11 +134,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMICatalogoRefaccionesActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMIGraficaCostoPieza">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Gr&#xe1;fica Historial Costo p / Pieza"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMIReporteInventario">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reporte de Inventario"/>
@@ -146,11 +141,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReporteInventarioActionPerformed"/>
               </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="JMIReportePiezaProveedor">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Reporte Pieza / Proveedor"/>
-              </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMIReportePiezasBajoStock">
               <Properties>
@@ -374,9 +364,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Cat&#xe1;logo de Partes">
-              <Color PropertyName="color" blue="0" green="0" red="0" type="rgb"/>
-            </TitledBorder>
+            <TitledBorder title="Cat&#xe1;logo de Partes"/>
           </Border>
         </Property>
       </Properties>

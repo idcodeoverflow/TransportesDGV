@@ -100,7 +100,6 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
         jMEditar = new javax.swing.JMenu();
         jMILimpiar = new javax.swing.JMenuItem();
         jMIBuscar = new javax.swing.JMenuItem();
-        jMReportes = new javax.swing.JMenu();
         jMAyuda = new javax.swing.JMenu();
         jMIVerManual = new javax.swing.JMenuItem();
 
@@ -350,9 +349,6 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
         jMEditar.add(jMIBuscar);
 
         jMBMenu.add(jMEditar);
-
-        jMReportes.setText("Reportes");
-        jMBMenu.add(jMReportes);
 
         jMAyuda.setText("Ayuda");
 
@@ -954,7 +950,6 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMISalidaTransporte;
     private javax.swing.JMenuItem jMISalir;
     private javax.swing.JMenuItem jMIVerManual;
-    private javax.swing.JMenu jMReportes;
     private javax.swing.JMenu jMSalidasAlmacén;
     private javax.swing.JPanel jPSalidasAlmacen;
     private javax.swing.JScrollPane jScrollPane1;

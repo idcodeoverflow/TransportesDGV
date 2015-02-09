@@ -129,7 +129,6 @@ public class ControlProveedores extends javax.swing.JFrame {
         jMEditar = new javax.swing.JMenu();
         jMILimpiarProveedor = new javax.swing.JMenuItem();
         jMReportes = new javax.swing.JMenu();
-        jMIReportePartesProveedor = new javax.swing.JMenuItem();
         jMIReporteProveedoresActivos = new javax.swing.JMenuItem();
         jMAyuda = new javax.swing.JMenu();
         jMIVerManual = new javax.swing.JMenuItem();
@@ -315,9 +314,6 @@ public class ControlProveedores extends javax.swing.JFrame {
         jMBMenu.add(jMEditar);
 
         jMReportes.setText("Reportes");
-
-        jMIReportePartesProveedor.setText("Reporte Partes p / Proveedor");
-        jMReportes.add(jMIReportePartesProveedor);
 
         jMIReporteProveedoresActivos.setText("Reporte Proveedores");
         jMIReporteProveedoresActivos.addActionListener(new java.awt.event.ActionListener() {
@@ -1053,7 +1049,6 @@ public class ControlProveedores extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIEliminar;
     private javax.swing.JMenuItem jMILimpiarProveedor;
     private javax.swing.JMenuItem jMIModificar;
-    private javax.swing.JMenuItem jMIReportePartesProveedor;
     private javax.swing.JMenuItem jMIReporteProveedoresActivos;
     private javax.swing.JMenuItem jMISalir;
     private javax.swing.JMenuItem jMIVerManual;
