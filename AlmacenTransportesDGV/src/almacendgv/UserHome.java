@@ -1329,7 +1329,6 @@ public class UserHome extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Código error: 1247\n" + ex.getMessage(),
                             "Error al generar el reporte de la reparación!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog("UserHome generarCatalogoUnidadesTransporteCBajas()", 1247, UserHome.getUsuario(), ex);
-            //Logger.getLogger(ControlOrdenesReparacion.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1248\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
@@ -1399,7 +1398,7 @@ public class UserHome extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2133\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2133, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("UserHome generarReporteSalidasTaller()", 2133, UserHome.getUsuario(), ex);
         }
     }
     
@@ -1421,7 +1420,7 @@ public class UserHome extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2142\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarReporteCargoEspecial()", 2142, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("UserHome generarReporteCargosOperador()", 2142, UserHome.getUsuario(), ex);
         }
     }
     
@@ -1432,7 +1431,7 @@ public class UserHome extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2128\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2128, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("UserHome generarReporteTrabajoExterno()", 2128, UserHome.getUsuario(), ex);
         }
     }
     
@@ -1443,7 +1442,7 @@ public class UserHome extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2147\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("UserHome generarReporteInventario()", 2147, UserHome.getUsuario(), ex);
+            ErrorLogger.scribirLog("UserHome generarReporteCargoTaller()", 2147, UserHome.getUsuario(), ex);
         }
     }
     
