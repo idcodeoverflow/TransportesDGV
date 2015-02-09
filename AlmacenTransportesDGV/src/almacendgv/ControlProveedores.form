@@ -107,11 +107,6 @@
             <Property name="text" type="java.lang.String" value="Reportes"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMIReportePartesProveedor">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Reporte Partes p / Proveedor"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMIReporteProveedoresActivos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reporte Proveedores"/>

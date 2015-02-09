@@ -6,6 +6,7 @@ package almacendgv;
 
 import beans.FamiliaRefaccionDTO;
 import beans.RefaccionDTO;
+import bussines.InventaryReport;
 import data.FamiliaRefaccionDAO;
 import data.LazyQueryDAO;
 import data.RefaccionDAO;
@@ -112,9 +113,7 @@ public class ControlPartes extends javax.swing.JFrame {
         jMILimpiar = new javax.swing.JMenuItem();
         jMReportes = new javax.swing.JMenu();
         jMICatalogoRefacciones = new javax.swing.JMenuItem();
-        jMIGraficaCostoPieza = new javax.swing.JMenuItem();
         jMIReporteInventario = new javax.swing.JMenuItem();
-        JMIReportePiezaProveedor = new javax.swing.JMenuItem();
         jMIReportePiezasBajoStock = new javax.swing.JMenuItem();
         jMAyuda = new javax.swing.JMenu();
         jMIVerManual = new javax.swing.JMenuItem();
@@ -156,7 +155,7 @@ public class ControlPartes extends javax.swing.JFrame {
             }
         });
 
-        jPCatalogoPartes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Catálogo de Partes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, null, new java.awt.Color(0, 0, 0)));
+        jPCatalogoPartes.setBorder(javax.swing.BorderFactory.createTitledBorder("Catálogo de Partes"));
 
         jTPartes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -306,9 +305,6 @@ public class ControlPartes extends javax.swing.JFrame {
         });
         jMReportes.add(jMICatalogoRefacciones);
 
-        jMIGraficaCostoPieza.setText("Gráfica Historial Costo p / Pieza");
-        jMReportes.add(jMIGraficaCostoPieza);
-
         jMIReporteInventario.setText("Reporte de Inventario");
         jMIReporteInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,9 +312,6 @@ public class ControlPartes extends javax.swing.JFrame {
             }
         });
         jMReportes.add(jMIReporteInventario);
-
-        JMIReportePiezaProveedor.setText("Reporte Pieza / Proveedor");
-        jMReportes.add(JMIReportePiezaProveedor);
 
         jMIReportePiezasBajoStock.setText("Reporte Piezas c / Bajo Stock");
         jMIReportePiezasBajoStock.addActionListener(new java.awt.event.ActionListener() {
@@ -866,29 +859,8 @@ public class ControlPartes extends javax.swing.JFrame {
     
     private void generarReporteInventario(){
         try {
-            String reportPath = "/reports/ReporteInventarioPartesRemex.jasper";
-            String logoPath = "/icons/Logo Efectivo Negro.png";
-            Locale locale = new Locale("en", "US");
-            InputStream jasperStream = getClass().getResourceAsStream(reportPath);
-            JasperReport jReport = (JasperReport) JRLoader.loadObject(jasperStream);
-            JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
-            LazyQueryDAO lazyQ = new LazyQueryDAO();
-            parameters.put(JRParameter.REPORT_LOCALE, locale);
-            parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
-            lazyQ.startLazyQuery();
-            jPrint = JasperFillManager.fillReport(jReport, parameters, DBConnection.getConn());
-            JasperViewer.viewReport(jPrint, false);
-            lazyQ.endLazyQuery();
-        } catch(SQLException ex) { 
-            JOptionPane.showMessageDialog(null, "Código error: 1196\n" + ex.getMessage(),
-                            "Error al acceder a los datos en la BD de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("ControlPartes generarReporteInventario()", 1196, UserHome.getUsuario(), ex);
-        } catch (JRException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1197\n" + ex.getMessage(),
-                            "Error al generar el reporte de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("ControlPartes generarReporteInventario()", 1197, UserHome.getUsuario(), ex);
-            //Logger.getLogger(ControlOrdenesReparacion.class.getName()).log(Level.SEVERE, null, ex);
+            InventaryReport report = new InventaryReport(this);
+            report.generarReporte();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1198\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
@@ -898,29 +870,9 @@ public class ControlPartes extends javax.swing.JFrame {
     
     private void generarReporteInventarioBajoStock(){
         try {
-            String reportPath = "/reports/ReporteInventarioPartesBajoStockRemex.jasper";
-            String logoPath = "/icons/Logo Efectivo Negro.png";
-            Locale locale = new Locale("en", "US");
-            InputStream jasperStream = getClass().getResourceAsStream(reportPath);
-            JasperReport jReport = (JasperReport) JRLoader.loadObject(jasperStream);
-            JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
-            LazyQueryDAO lazyQ = new LazyQueryDAO();
-            parameters.put(JRParameter.REPORT_LOCALE, locale);
-            parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
-            lazyQ.startLazyQuery();
-            jPrint = JasperFillManager.fillReport(jReport, parameters, DBConnection.getConn());
-            JasperViewer.viewReport(jPrint, false);
-            lazyQ.endLazyQuery();
-        } catch(SQLException ex) { 
-            JOptionPane.showMessageDialog(null, "Código error: 1199\n" + ex.getMessage(),
-                            "Error al acceder a los datos en la BD de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("ControlPartes generarReporteInventarioBajoStock()", 1199, UserHome.getUsuario(), ex);
-        } catch (JRException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1200\n" + ex.getMessage(),
-                            "Error al generar el reporte de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("ControlPartes generarReporteInventarioBajoStock()", 1200, UserHome.getUsuario(), ex);
-            //Logger.getLogger(ControlOrdenesReparacion.class.getName()).log(Level.SEVERE, null, ex);
+            InventaryReport report = new InventaryReport(this);
+            report.setSoloBajoStock(true);
+            report.generarReporte();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1201\n" + ex.getMessage(),
                             "Error error al ver el reporte!!!", JOptionPane.ERROR_MESSAGE);
@@ -963,7 +915,6 @@ public class ControlPartes extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem JMIReportePiezaProveedor;
     private javax.swing.JMenuItem JMISalir;
     private javax.swing.JButton jBAgregar;
     private javax.swing.JButton jBEliminar;
@@ -985,7 +936,6 @@ public class ControlPartes extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIBuscarNombre;
     private javax.swing.JMenuItem jMICatalogoRefacciones;
     private javax.swing.JMenuItem jMIEliminar;
-    private javax.swing.JMenuItem jMIGraficaCostoPieza;
     private javax.swing.JMenuItem jMILimpiar;
     private javax.swing.JMenuItem jMIModificar;
     private javax.swing.JMenuItem jMIReporteInventario;
