@@ -10,3 +10,8 @@ Crear archivos "C:\Users\$USER_HOME$\remex_mail\lista_mail.txt" y
 
 Ejecutar los queries para agregar el tipo de transporte, las marcas de transporte y 
 el usuario principal.
+
+El tamaño máximo para la imagen de una unidad de transporte es de 16 mb.
+
+Para instalarse unicamente copiar los archivos distributables en la unidad del sistema y 
+crear un acceso directo al .jar.
