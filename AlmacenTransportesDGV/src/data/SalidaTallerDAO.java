@@ -30,7 +30,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         String query = "INSERT INTO salida_taller(id_salida_taller, costo, status, "
                 + "cantidad, fecha_registro, clave_refaccion, numero_usuario, "
-                + "numero_orden, clave, tipo) VALUES(NULL,?,?,?,NOW(),?,?,?,?,?);";
+                + "tipo) VALUES(NULL,?,?,?,NOW(),?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -40,9 +40,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
             pstmt.setDouble(3, salida.getCantidad());
             pstmt.setString(4, salida.getRefaccion().getClaveRefaccion());
             pstmt.setInt(5, salida.getUsuario().getNumeroUsuario());
-            pstmt.setInt(6, salida.getOrdenReparacion().getNumeroOrden());
-            pstmt.setString(7, salida.getUnidadTransporte().getClave());
-            pstmt.setInt(8, salida.getTipo());
+            pstmt.setInt(6, salida.getTipo());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2039\n" + ex.getMessage(),
@@ -108,7 +106,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo FROM salida_taller "
+                + "clave_refaccion, numero_usuario, tipo FROM salida_taller "
                 + "WHERE id_salida_taller = ?;";
         try{
             if(abrir) {
@@ -131,10 +129,8 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setUsuario(null);
                 salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
-                    salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
                     salidaTaller.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    salidaTaller.setUnidadTransporte(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
                 }
             }
         } catch(Exception e){
@@ -158,7 +154,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo FROM salida_taller;";
+                + "clave_refaccion, numero_usuario, tipo FROM salida_taller;";
         
         try{
             if(abrir){
@@ -181,10 +177,8 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setUsuario(null);
                 salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
-                    salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
                     salidaTaller.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    salidaTaller.setUnidadTransporte(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
                 }
                 salidasTaller.add(salidaTaller);
             }
@@ -211,7 +205,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo FROM salida_taller WHERE status = ?;";
+                + "clave_refaccion, numero_usuario, tipo FROM salida_taller WHERE status = ?;";
         
         try{
             if(abrir){
@@ -235,10 +229,8 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setUsuario(null);
                 salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
-                    salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
                     salidaTaller.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    salidaTaller.setUnidadTransporte(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
                 }
                 salidasTaller.add(salidaTaller);
             }
@@ -247,63 +239,6 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
             JOptionPane.showMessageDialog(null, "Código error: 2043\n" + e.getMessage(),
                     "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog(salidaTaller.toString(), 2043, UserHome.getUsuario(), e);
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        
-        return salidasTaller;
-    }
-    
-    public List<SalidaTallerDTO> obtenerSalidasTallerPReparacion(OrdenReparacionDTO ordenReparacion, 
-            boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
-        List<SalidaTallerDTO> salidasTaller = null;
-        SalidaTallerDTO salidaTaller = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT id_salida_taller, costo, "
-                + "status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo "
-                + "FROM salida_taller WHERE numero_orden = ? AND status = ?;";
-        
-        try{
-            if(abrir){
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            rs = pstmt.executeQuery();
-            salidasTaller = new ArrayList<SalidaTallerDTO>();
-            while (rs.next()) {
-                salidaTaller = new SalidaTallerDTO();
-                salidaTaller.setIdSalidaTaller(rs.getInt("id_salida_taller"));
-                salidaTaller.setCantidad(rs.getDouble("cantidad"));
-                salidaTaller.setCosto(rs.getDouble("costo"));
-                salidaTaller.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaTaller.setNumeroSalida(rs.getInt("id_salida_taller"));
-                salidaTaller.setOrdenReparacion(null);
-                salidaTaller.setRefaccion(null);
-                salidaTaller.setStatus(rs.getBoolean("status"));
-                salidaTaller.setUsuario(null);
-                salidaTaller.setTipo(rs.getInt("tipo"));
-                if(persistence){
-                    salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
-                    salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
-                    salidaTaller.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    salidaTaller.setUnidadTransporte(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
-                }
-                salidasTaller.add(salidaTaller);
-            }
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 2044\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(salidaTaller.toString(), 2044, UserHome.getUsuario(), e);
         } finally {
             if(cerrar){
                 closeQuietly(conn);
@@ -323,7 +258,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         PreparedStatement pstmt = null;
         String query = "SELECT id_salida_taller, costo, "
                 + "status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, numero_orden, clave, tipo "
+                + "clave_refaccion, numero_usuario, tipo "
                 + "FROM salida_taller WHERE clave_refaccion = ? AND status = ?;";
         
         try{
@@ -349,10 +284,8 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
                 salidaTaller.setUsuario(null);
                 salidaTaller.setTipo(rs.getInt("tipo"));
                 if(persistence){
-                    salidaTaller.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
                     salidaTaller.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    salidaTaller.setUnidadTransporte(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
                 }
                 salidasTaller.add(salidaTaller);
             }
@@ -369,40 +302,6 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         }
         
         return salidasTaller;
-    }
-    
-    public double obtenerTotalSalidasTallerPReparacion(OrdenReparacionDTO ordenReparacion, boolean abrir, boolean cerrar) throws SQLException{
-        double totalSalidasTaller = 0.0;
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT IFNULL(SUM(costo), 0.0) AS salidas_taller FROM "
-                + "salida_taller WHERE numero_orden = ? AND status = ?;";
-        try{
-            if(abrir){
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalSalidasTaller = rs.getDouble("salidas_taller");
-            }
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 2046\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("obtenerTotalSalidasTallerPReparacion " + totalSalidasTaller, 2046, UserHome.getUsuario(), e);
-            return 0.0;
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        return totalSalidasTaller;
     }
     
     public int obtenerUltimoIdSalidaTallerCCanceladas() throws SQLException{

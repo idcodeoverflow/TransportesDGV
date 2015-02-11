@@ -126,37 +126,35 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLClaveTransporte" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLPrecioUnitario" min="-2" max="-2" attributes="0"/>
                   <Component id="jLClaveRefaccion" min="-2" max="-2" attributes="0"/>
                   <Component id="jLNumeroSalida" min="-2" max="-2" attributes="0"/>
                   <Component id="jLUsuario" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLTotal" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jTFUsuario" pref="200" max="32767" attributes="0"/>
                   <Component id="jTFNumeroSalida" max="32767" attributes="0"/>
                   <Component id="jTFClaveRefaccion" max="32767" attributes="0"/>
-                  <Component id="jTFPrecioUnitario" max="32767" attributes="0"/>
-                  <Component id="jCBClaveTransporte" max="32767" attributes="0"/>
+                  <Component id="jTFTotal" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jLFecha" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLOrdenReparacion" min="-2" max="-2" attributes="0"/>
                           <Component id="jLCantidad" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLTotal" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLPrecioUnitario" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTFFecha" max="32767" attributes="0"/>
-                          <Component id="jCBOrdenReparacion" pref="200" max="32767" attributes="0"/>
-                          <Component id="jTFCantidad" max="32767" attributes="0"/>
-                          <Component id="jTFTotal" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jTFFecha" pref="200" max="32767" attributes="0"/>
+                              <Component id="jTFCantidad" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jTFPrecioUnitario" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jBAgregarSalida" min="-2" max="-2" attributes="0"/>
@@ -184,28 +182,21 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLNumeroSalida" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTFNumeroSalida" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLOrdenReparacion" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCBOrdenReparacion" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTFCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTFClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLPrecioUnitario" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTFPrecioUnitario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLTotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLClaveTransporte" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTFTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jBAgregarSalida" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCBClaveTransporte" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -248,21 +239,6 @@
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLOrdenReparacion">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Orden de Reparaci&#xf3;n:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="jCBOrdenReparacion">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCBOrdenReparacionItemStateChanged"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLClaveRefaccion">
       <Properties>
         <Property name="text" type="java.lang.String" value="Clave Refacci&#xf3;n:"/>
@@ -295,6 +271,9 @@
         <Property name="editable" type="boolean" value="false"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="jTFPrecioUnitarioCaretUpdate"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLTotal">
       <Properties>
@@ -305,11 +284,6 @@
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="focusable" type="boolean" value="false"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLClaveTransporte">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Clave Transporte:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jBAgregarSalida">
@@ -324,13 +298,6 @@
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/icons/Logo Efectivo Negro chico.png"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="jCBClaveTransporte">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
         </Property>
       </Properties>
     </Component>

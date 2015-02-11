@@ -47,7 +47,6 @@ public class SalidaTaller extends javax.swing.JFrame {
             this.total = 0.0;
             this.precioUnitario = 0.0;
 
-            this.actualizarListas();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2051\n" + ex.getMessage(),
                     "Error al iniciar ventana Salida a Unidad de Transporte!!!", JOptionPane.ERROR_MESSAGE);
@@ -87,8 +86,6 @@ public class SalidaTaller extends javax.swing.JFrame {
         jTFFecha = new javax.swing.JTextField();
         jLNumeroSalida = new javax.swing.JLabel();
         jTFNumeroSalida = new javax.swing.JTextField();
-        jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
         jLCantidad = new javax.swing.JLabel();
@@ -97,10 +94,8 @@ public class SalidaTaller extends javax.swing.JFrame {
         jTFPrecioUnitario = new javax.swing.JTextField();
         jLTotal = new javax.swing.JLabel();
         jTFTotal = new javax.swing.JTextField();
-        jLClaveTransporte = new javax.swing.JLabel();
         jBAgregarSalida = new javax.swing.JButton();
         jLLogo = new javax.swing.JLabel();
-        jCBClaveTransporte = new javax.swing.JComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregarSalida = new javax.swing.JMenuItem();
@@ -128,14 +123,6 @@ public class SalidaTaller extends javax.swing.JFrame {
 
         jTFNumeroSalida.setEditable(false);
         jTFNumeroSalida.setFocusable(false);
-
-        jLOrdenReparacion.setText("Orden de Reparación:");
-
-        jCBOrdenReparacion.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jCBOrdenReparacionItemStateChanged(evt);
-            }
-        });
 
         jLClaveRefaccion.setText("Clave Refacción:");
 
@@ -165,13 +152,16 @@ public class SalidaTaller extends javax.swing.JFrame {
 
         jTFPrecioUnitario.setEditable(false);
         jTFPrecioUnitario.setFocusable(false);
+        jTFPrecioUnitario.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFPrecioUnitarioCaretUpdate(evt);
+            }
+        });
 
         jLTotal.setText("Total:");
 
         jTFTotal.setEditable(false);
         jTFTotal.setFocusable(false);
-
-        jLClaveTransporte.setText("Clave Transporte:");
 
         jBAgregarSalida.setText("Agregar Salida a Taller");
         jBAgregarSalida.addActionListener(new java.awt.event.ActionListener() {
@@ -251,34 +241,31 @@ public class SalidaTaller extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLClaveTransporte)
-                    .addComponent(jLPrecioUnitario)
                     .addComponent(jLClaveRefaccion)
                     .addComponent(jLNumeroSalida)
-                    .addComponent(jLUsuario))
+                    .addComponent(jLUsuario)
+                    .addComponent(jLTotal))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTFUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(jTFNumeroSalida)
                     .addComponent(jTFClaveRefaccion)
-                    .addComponent(jTFPrecioUnitario)
-                    .addComponent(jCBClaveTransporte, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jTFTotal))
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLFecha)
-                            .addComponent(jLOrdenReparacion)
                             .addComponent(jLCantidad)
-                            .addComponent(jLTotal))
+                            .addComponent(jLPrecioUnitario))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTFFecha)
-                            .addComponent(jCBOrdenReparacion, 0, 200, Short.MAX_VALUE)
-                            .addComponent(jTFCantidad)
-                            .addComponent(jTFTotal)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTFFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                .addComponent(jTFCantidad))
+                            .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jBAgregarSalida))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLLogo)
@@ -300,25 +287,19 @@ public class SalidaTaller extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLNumeroSalida)
                             .addComponent(jTFNumeroSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLOrdenReparacion)
-                            .addComponent(jCBOrdenReparacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLClaveRefaccion)
-                            .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLCantidad)
                             .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLClaveRefaccion)
+                            .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLPrecioUnitario)
-                            .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLTotal)
-                            .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLClaveTransporte)
-                            .addComponent(jBAgregarSalida)
-                            .addComponent(jCBClaveTransporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLTotal)
+                            .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBAgregarSalida))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -373,21 +354,14 @@ public class SalidaTaller extends javax.swing.JFrame {
         this.calcularTotal();
     }//GEN-LAST:event_jTFCantidadCaretUpdate
 
-    private void jCBOrdenReparacionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBOrdenReparacionItemStateChanged
-        if(jCBOrdenReparacion.getSelectedIndex() > -1){
-            this.mostrarUnidadesTransportePReparacion();
-        }
-    }//GEN-LAST:event_jCBOrdenReparacionItemStateChanged
+    private void jTFPrecioUnitarioCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioCaretUpdate
+        this.calcularTotal();
+    }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
 
     private void agregar(){
-        SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
         SalidaTallerDTO salidaTaller = new SalidaTallerDTO();
         try{
             SalidaTallerDAO accesoAlmacen = new SalidaTallerDAO();
-            UnidadTransporteDTO unidadTransporte = new UnidadTransporteDTO();
-            UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
-            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
-            OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
             RefaccionDTO refaccionReq = new RefaccionDTO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             
@@ -397,13 +371,9 @@ public class SalidaTaller extends javax.swing.JFrame {
             double precioUnitarioRef = Double.parseDouble(this.jTFPrecioUnitario.getText());
             double costo = cantidadPiezas * precioUnitarioRef;
             String claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
-            String claveTransporte = ((this.jCBClaveTransporte.getSelectedItem() != null & !"".equals(this.jCBClaveTransporte.getSelectedItem().toString())) ? this.jCBClaveTransporte.getSelectedItem().toString() : "");
-            double existenciaPiezas = accesoRefaccion.obtenerExistenciaRefaccion(claveRefaccion, true, true);
-            int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
+            double existenciaPiezas = accesoRefaccion.obtenerExistenciaRefaccion(claveRefaccion, true, false);
              
-            unidadTransporte = accesoUnidad.obtenerUnidad(claveTransporte, true, true, false);
             refaccionReq = accesoRefaccion.obtenerRefaccion(claveRefaccion, false, false);
-            ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, false, true);
             
             //validar existencia de la clave de refaccion en el inventario
             if(refaccionReq == null){
@@ -419,30 +389,21 @@ public class SalidaTaller extends javax.swing.JFrame {
                 return;
             }
             
-            //Validar que la unidad se encuentre en la orden de reparacion
-            if(!this.validarTransportesPReparacion(claveTransporte, ordenReparacion)){
-                JOptionPane.showMessageDialog(null, "La clave de Unidad de Transporte\nno pertenece "
-                        + "a la orden de\nreparación indicada.\nVerifique los datos e inténtelo\notra vez."
-                        , "Datos Erroneos!!!", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
             
-            salidaAlmacen.setCantidad(cantidadPiezas);
-            salidaAlmacen.setCosto(costo);
-            salidaAlmacen.setOrdenReparacion(ordenReparacion);
-            salidaAlmacen.setRefaccion(refaccionReq);
-            salidaAlmacen.setStatus(true);
-            salidaAlmacen.setTipo(5);
-            salidaAlmacen.setUsuario(UserHome.getUsuario());
+            salidaTaller.setCantidad(cantidadPiezas);
+            salidaTaller.setCosto(costo);
+            salidaTaller.setRefaccion(refaccionReq);
+            salidaTaller.setStatus(true);
+            salidaTaller.setTipo(5);
+            salidaTaller.setUsuario(UserHome.getUsuario());
             
             //Validar que la cantidad sea un valor válido
-            if(salidaAlmacen.getCantidad() < 1){
+            if(salidaTaller.getCantidad() < 1){
                 JOptionPane.showMessageDialog(null, "La cantidad ingresada no es válida",
                     "Cantidad inválida!!!", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             
-            salidaTaller = new SalidaTallerDTO(0, unidadTransporte, salidaAlmacen);
             
             agregarSalidaTallerExitoso = accesoAlmacen.agregarSalidaTaller(salidaTaller);
             
@@ -452,7 +413,7 @@ public class SalidaTaller extends javax.swing.JFrame {
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 2052\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 2052, UserHome.getUsuario(), new Exception("#NA"));
+                    ErrorLogger.scribirLog(salidaTaller.toString() + salidaTaller.toString(), 2052, UserHome.getUsuario(), new Exception("#NA"));
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -467,7 +428,7 @@ public class SalidaTaller extends javax.swing.JFrame {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 2053\n" + ex.getMessage(),
                         "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 2053, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(salidaTaller.toString() + salidaTaller.toString(), 2053, UserHome.getUsuario(), ex);
 
                 boolean reparacionExitosa = false;
                 SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
@@ -475,7 +436,7 @@ public class SalidaTaller extends javax.swing.JFrame {
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 2054\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 2054, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(salidaTaller.toString() + salidaTaller.toString(), 2054, UserHome.getUsuario(), ex);
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
                     "La tabla se reparó correctamente.", JOptionPane.INFORMATION_MESSAGE);
@@ -487,7 +448,7 @@ public class SalidaTaller extends javax.swing.JFrame {
             try {
                 JOptionPane.showMessageDialog(null, "Código error: 2055\n" + ex.getMessage(),
                         "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-                ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 2055, UserHome.getUsuario(), ex);
+                ErrorLogger.scribirLog(salidaTaller.toString() + salidaTaller.toString(), 2055, UserHome.getUsuario(), ex);
 
                 boolean reparacionExitosa = false;
                 SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
@@ -495,7 +456,7 @@ public class SalidaTaller extends javax.swing.JFrame {
                 if(!reparacionExitosa){
                     JOptionPane.showMessageDialog(null, "Código error: 2056\n" + "No se pudo reparar la tabla",
                     "Error en acceso a datos!!!\nError al reparar la tabla.", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(salidaAlmacen.toString() + salidaTaller.toString(), 2056, UserHome.getUsuario(), ex);
+                    ErrorLogger.scribirLog(salidaTaller.toString() + salidaTaller.toString(), 2056, UserHome.getUsuario(), ex);
 
                 } else {
                     JOptionPane.showMessageDialog(null, "Reparación exitosa!!!",
@@ -513,10 +474,7 @@ public class SalidaTaller extends javax.swing.JFrame {
             this.jTFClaveRefaccion.setText(null);
             this.jTFFecha.setText(null);
             this.jTFNumeroSalida.setText(null);
-            this.jCBOrdenReparacion.setSelectedIndex(0);
-            this.jCBClaveTransporte.removeAllItems();
             this.mostrarValores();
-            this.actualizarListas();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2057\n"
                     + "Error al limpiar los datos.", "Error!!!",
@@ -608,25 +566,6 @@ public class SalidaTaller extends javax.swing.JFrame {
         }
     }
     
-    private void obtenerOrdenesReparacionPendientes(){
-        try {
-            List<OrdenReparacionDTO> ordenesReparacion = new OrdenReparacionDAO().
-                    obtenerOrdenesReparacionPendientes(true);
-            this.jCBOrdenReparacion.removeAllItems();
-            for(OrdenReparacionDTO ordenReparacion : ordenesReparacion){
-                this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2064\n" + ex.getMessage(),
-                    "Error al obtener datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaUnidad obtenerOrdenesReparacionPendientes()", 2064, UserHome.getUsuario(), ex);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2065\n" + ex.getMessage(),
-                    "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("SalidaUnidad obtenerOrdenesReparacionPendientes()", 2065, UserHome.getUsuario(), ex);
-        }
-    }
-    
     private void onFormatErrorSetValue(javax.swing.JTextField campo, double value){
         DecimalFormat formatD  = new DecimalFormat("0.000");
         try{
@@ -669,10 +608,6 @@ public class SalidaTaller extends javax.swing.JFrame {
         return false;
     }
     
-    private void actualizarListas(){
-        this.obtenerOrdenesReparacionPendientes();
-    }
-    
     private void mostrarPrecioRefaccion(){
         try {
             DecimalFormat formatD = new DecimalFormat("0.000");
@@ -684,34 +619,6 @@ public class SalidaTaller extends javax.swing.JFrame {
                         JOptionPane.ERROR_MESSAGE);
             ErrorLogger.scribirLog("SalidaUnidad mostrarPrecioRefaccion()", 2068, UserHome.getUsuario(), ex);
             this.limpiar();
-        }
-    }
-    
-    private void mostrarUnidadesTransportePReparacion(){
-        String mensajeError = "";
-        try{
-            int numeroOrden = Integer.parseInt(this.jCBOrdenReparacion.getSelectedItem().toString());
-            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
-            OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
-            TransporteReparacionDAO accesoTReparacion = new TransporteReparacionDAO();
-            ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, true, true);
-            List<TransporteReparacionDTO> transportes = accesoTReparacion.obtenerTransportesPReparacion(ordenReparacion, true, true, true, true);
-            
-            this.jCBClaveTransporte.removeAllItems();
-            
-            for(TransporteReparacionDTO transporte : transportes){
-                this.jCBClaveTransporte.addItem(transporte.getTransporte().getClave());
-                mensajeError = transporte.toString();
-            }
-            
-        } catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2069\n" + ex.getMessage(),
-                        "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(mensajeError, 2069, UserHome.getUsuario(), ex);
-        } catch(Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2070\n" + ex.getMessage(),
-                        "Error al obtener los datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(mensajeError, 2070, UserHome.getUsuario(), ex);
         }
     }
     
@@ -752,15 +659,11 @@ public class SalidaTaller extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarSalida;
-    private javax.swing.JComboBox jCBClaveTransporte;
-    private javax.swing.JComboBox jCBOrdenReparacion;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
-    private javax.swing.JLabel jLClaveTransporte;
     private javax.swing.JLabel jLFecha;
     private javax.swing.JLabel jLLogo;
     private javax.swing.JLabel jLNumeroSalida;
-    private javax.swing.JLabel jLOrdenReparacion;
     private javax.swing.JLabel jLPrecioUnitario;
     private javax.swing.JLabel jLTotal;
     private javax.swing.JLabel jLUsuario;

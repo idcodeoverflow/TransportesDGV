@@ -6,14 +6,11 @@ package data;
 
 import static utilidades.FinallyHandler.*;
 import almacendgv.UserHome;
-import beans.CargoDirectoDTO;
 import beans.OrdenReparacionDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 import logger.ErrorLogger;
 import support.DBConnection;

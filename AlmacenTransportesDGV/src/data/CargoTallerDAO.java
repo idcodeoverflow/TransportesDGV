@@ -30,8 +30,8 @@ public class CargoTallerDAO extends CargoDirectoDAO {
         Connection conn = null;
         String query = "INSERT INTO cargo_taller(id_cargo_taller, "
                 + "fecha_registro, precio_unitario, cantidad, subtotal, iva, total, status,"
-                + "clave_refaccion, id_proveedor, folio, numero_usuario, numero_orden, clave) "
-                + "VALUES(NULL,NOW(),?,?,?,?,?,?,?,?,?,?,?,?);";
+                + "clave_refaccion, id_proveedor, folio, numero_usuario) "
+                + "VALUES(NULL,NOW(),?,?,?,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -46,8 +46,6 @@ public class CargoTallerDAO extends CargoDirectoDAO {
             pstmt.setInt(8, cargo.getFactura().getProveedor().getIdProveedor());
             pstmt.setString(9, cargo.getFactura().getFolio());
             pstmt.setInt(10, cargo.getUsuario().getNumeroUsuario());
-            pstmt.setInt(11, cargo.getOrdenReparacion().getNumeroOrden());
-            pstmt.setString(12, cargo.getUnidad().getClave());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2029\n" + ex.getMessage(),
@@ -124,7 +122,7 @@ public class CargoTallerDAO extends CargoDirectoDAO {
         PreparedStatement pstmt = null;
         String query = "SELECT id_cargo_taller, fecha_registro, precio_unitario, cantidad, "
                 + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
-                + "folio, numero_usuario, numero_orden, clave FROM cargo_taller WHERE "
+                + "folio, numero_usuario FROM cargo_taller WHERE "
                 + "id_cargo_taller = ?;";
         try{
             if(abrir) {
@@ -153,10 +151,8 @@ public class CargoTallerDAO extends CargoDirectoDAO {
                         );
                 if(persistence){
                     cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
-                    cargo.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
                     cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    cargo.setUnidad(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
                 }
             }
             
@@ -181,7 +177,7 @@ public class CargoTallerDAO extends CargoDirectoDAO {
         PreparedStatement pstmt = null;
         String query = "SELECT id_cargo_taller, fecha_registro, precio_unitario, cantidad, "
                 + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
-                + "folio, numero_usuario, numero_orden, clave  FROM cargo_taller WHERE "
+                + "folio, numero_usuario FROM cargo_taller WHERE "
                 + "status = ?;";
         
         try{
@@ -210,10 +206,8 @@ public class CargoTallerDAO extends CargoDirectoDAO {
                         );
                 if(persistence){
                     cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
-                    cargo.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
                     cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    cargo.setUnidad(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
                 }
                 cargos.add(cargo);
             }
@@ -241,7 +235,7 @@ public class CargoTallerDAO extends CargoDirectoDAO {
         PreparedStatement pstmt = null;
         String query = "SELECT id_cargo_taller, fecha_registro, precio_unitario, cantidad, "
                 + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
-                + "folio, numero_usuario, numero_orden, clave FROM cargo_taller WHERE"
+                + "folio, numero_usuario FROM cargo_taller WHERE"
                 + " id_proveedor = ? AND folio = ? AND status = ?;";
         
         try{
@@ -274,10 +268,8 @@ public class CargoTallerDAO extends CargoDirectoDAO {
                         );
                 if(persistence){
                     cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
-                    cargo.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
                     cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
                     cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    cargo.setUnidad(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
                 }
                 cargos.add(cargo);
             }
@@ -298,104 +290,6 @@ public class CargoTallerDAO extends CargoDirectoDAO {
         return null;
     }
     
-    public List<CargoTallerDTO> obtenerCargosTallerPReparacion(OrdenReparacionDTO ordenReparacion, 
-            boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
-        List<CargoTallerDTO> cargos = null;
-        CargoTallerDTO cargo = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT id_cargo_taller, fecha_registro, precio_unitario, cantidad, "
-                + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
-                + "folio, numero_usuario, numero_orden, clave FROM cargo_taller WHERE "
-                + "numero_orden = ? AND status = ?;";
-        
-        try{
-            if(abrir) {
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            rs = pstmt.executeQuery();
-            cargos = new ArrayList<CargoTallerDTO>();
-            while (rs.next()) {
-                cargo = new CargoTallerDTO(
-                        rs.getInt("id_cargo_taller"),
-                        null,//unidad transporte
-                        0,//numero cargo directo
-                        rs.getTimestamp("fecha_registro"),
-                        rs.getDouble("precio_unitario"),
-                        rs.getInt("cantidad"),
-                        rs.getDouble("subtotal"),
-                        rs.getDouble("iva"),
-                        rs.getDouble("total"),
-                        rs.getBoolean("status"),
-                        null,//refaccion
-                        null,//factura
-                        null,//usuario
-                        null//orden reparacion
-                        );
-                if(persistence){
-                    cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
-                    cargo.setOrdenReparacion(new OrdenReparacionDAO().obtenerOrdenReparacion(rs.getInt("numero_orden"), true, false, false));
-                    cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
-                    cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                    cargo.setUnidad(new UnidadTransporteDAO().obtenerUnidad(rs.getString("clave"), true, false, false));
-                }
-                cargos.add(cargo);
-            }
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 2035\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(ordenReparacion.toString(), 2035, UserHome.getUsuario(), e);
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        if(cargos != null){
-            return cargos;
-        }
-        return null;
-    }
-    
-    public double obtenerTotalCargosTallerPReparacion(OrdenReparacionDTO ordenReparacion, boolean abrir, boolean cerrar) throws SQLException{
-        double totalCargosEspeciales = 0.0;
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT IFNULL(SUM(total), 0.0) AS cargos_taller FROM "
-                + "cargo_taller WHERE numero_orden = ? AND status = ?;";
-        try{
-            if(abrir){
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                totalCargosEspeciales = rs.getDouble("cargos_taller");
-            }
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 2036\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(ordenReparacion.toString(), 2036, UserHome.getUsuario(), e);
-            return 0.0;
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        return totalCargosEspeciales;
-    }
     
     public int obtenerUltimoIdCargoTallerCCanceladas() throws SQLException{
         int maxIdCargoEspecial = 0;
