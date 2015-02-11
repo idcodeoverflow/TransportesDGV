@@ -165,6 +165,11 @@ public class SalidaOperador extends javax.swing.JFrame {
 
         jTFPrecioUnitario.setEditable(false);
         jTFPrecioUnitario.setFocusable(false);
+        jTFPrecioUnitario.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFPrecioUnitarioCaretUpdate(evt);
+            }
+        });
 
         jLTotal.setText("Total:");
 
@@ -322,7 +327,7 @@ public class SalidaOperador extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getAccessibleContext().setAccessibleName("Salida Especial de Almacén - Sistema de Administración Mantenimiento");
+        getAccessibleContext().setAccessibleName("Salida Especial de Almacén - Grupo REMEX");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -394,6 +399,10 @@ public class SalidaOperador extends javax.swing.JFrame {
             ErrorLogger.scribirLog("SalidaOperador jCBOrdenReparacionFocusLost()", 1102, UserHome.getUsuario(), ex);
         }
     }//GEN-LAST:event_jCBOrdenReparacionFocusLost
+
+    private void jTFPrecioUnitarioCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioCaretUpdate
+        this.calcularTotal();
+    }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
 
     private void agregar(){
         SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();
@@ -630,7 +639,9 @@ public class SalidaOperador extends javax.swing.JFrame {
                     obtenerOrdenesReparacionPendientes(true);
             this.jCBOrdenReparacion.removeAllItems();
             for(OrdenReparacionDTO ordenReparacion : ordenesReparacion){
-                this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
+                if(ordenReparacion.getOperador().getNumeroOperador() != 0){
+                    this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
+                }
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1115\n" + ex.getMessage(),

@@ -156,6 +156,11 @@ public class SalidaEspecial extends javax.swing.JFrame {
 
         jTFPrecioUnitario.setEditable(false);
         jTFPrecioUnitario.setFocusable(false);
+        jTFPrecioUnitario.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFPrecioUnitarioCaretUpdate(evt);
+            }
+        });
 
         jLTotal.setText("Total:");
 
@@ -310,7 +315,7 @@ public class SalidaEspecial extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getAccessibleContext().setAccessibleName("Salida Especial de Almacén - Sistema de Administración Mantenimiento");
+        getAccessibleContext().setAccessibleName("Salida Especial de Almacén - Grupo REMEX");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -360,6 +365,10 @@ public class SalidaEspecial extends javax.swing.JFrame {
     private void jTFCantidadCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFCantidadCaretUpdate
         this.calcularTotal();
     }//GEN-LAST:event_jTFCantidadCaretUpdate
+
+    private void jTFPrecioUnitarioCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioCaretUpdate
+        this.calcularTotal();
+    }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
 
     private void agregar(){
         SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();

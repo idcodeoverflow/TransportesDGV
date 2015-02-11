@@ -761,7 +761,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             UnidadTransporteDTO plana = null;
             LazyQueryBO lazyQ = new LazyQueryBO();
             OrdenReparacionDAO acceso = new OrdenReparacionDAO();
-            OperadorDTO operador;
+            OperadorDTO operador = null;
             OperadorDAO accesoOperador = new OperadorDAO();
             UnidadTransporteDAO accesoTransporte = new UnidadTransporteDAO();
             TransporteReparacionDAO accesoTransporteReparacion = new TransporteReparacionDAO();
@@ -799,16 +799,18 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 tracto = accesoTransporte.obtenerUnidad(this.jTFClaveTracto.getText(), true, false, false);
             }
             
-            operador = accesoOperador.obtenerOperador(Integer.parseInt(this.jTFNumeroOperador.getText()), false, false);
+            if(this.jTFNumeroOperador != null && !this.jTFNumeroOperador.getText().equals("")){
+                operador = accesoOperador.obtenerOperador(Integer.parseInt(this.jTFNumeroOperador.getText()), false, false);
+            }
             
-            if(!operador.isStatus() || (plana != null && !plana.isStatus()) || (tracto != null && !tracto.isStatus())){
+            if(null != operador && !operador.isStatus() || (plana != null && !plana.isStatus()) || (tracto != null && !tracto.isStatus())){
                 JOptionPane.showMessageDialog(null, "Código error: 916\nAl menos un Operador o "
                         + "Transporte está dado de baja.", "Error!!!", JOptionPane.ERROR_MESSAGE);
                 ErrorLogger.scribirLog(operador.toString() + plana.toString() + tracto.toString(), 916, UserHome.getUsuario(), new Exception("#NA"));
                 return;
             }
             
-            if(null == operador){
+            if(null == operador && !this.jTFNumeroOperador.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "El operador que ha ingresado "
                         + "no esta dado de alta en la base de datos.", "Advertencia!!!", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -1498,12 +1500,10 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             SalidaUnidadDAO accesoSalidaUnidad = new SalidaUnidadDAO();
             SalidaOperadorDAO accesoSalidaOperador = new SalidaOperadorDAO();
             SalidaEspecialDAO accesoSalidaEspecial = new SalidaEspecialDAO();
-            SalidaTallerDAO accesoSalidaTaller = new SalidaTallerDAO();
             CargoDirectoDAO accesoCargoDirecto = new CargoDirectoDAO();
             CargoUnidadDAO accesoCargoUnidad = new CargoUnidadDAO();
             CargoOperadorDAO accesoCargoOperador = new CargoOperadorDAO();
             CargoEspecialDAO accesoCargoEspecial = new CargoEspecialDAO();
-            CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
             TrabajoExternoDAO accesoTrabajoExterno = new TrabajoExternoDAO();
             
             double totalCargos = 0.0;
@@ -1529,11 +1529,9 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             totalSalidasUnidades = accesoSalidaUnidad.obtenerTotalSalidasUnidadesPReparacion(ordenReparacion, false, false);
             totalSalidasOperadores = accesoSalidaOperador.obtenerTotalSalidasOperadorPReparacion(ordenReparacion, false, false);
             totalSalidasEspeciales = accesoSalidaEspecial.obtenerTotalSalidasEspecialesPReparacion(ordenReparacion, false, false);
-            totalSalidasTaller = accesoSalidaTaller.obtenerTotalSalidasTallerPReparacion(ordenReparacion, false, false);
             totalCargosUnidades = accesoCargoUnidad.obtenerTotalCargosUnidadesPReparacion(ordenReparacion, false, false);
             totalCargosOperadores = accesoCargoOperador.obtenerTotalCargosOperadorPReparacion(ordenReparacion, false, false);
             totalCargosEspeciales = accesoCargoEspecial.obtenerTotalCargosEspecialesPReparacion(ordenReparacion, false, false);
-            totalCargosTaller = accesoCargoTaller.obtenerTotalCargosTallerPReparacion(ordenReparacion, false, false);
             totalTrabajosExternos = accesoTrabajoExterno.obtenerTotalTrabajosExternoPReparacion(ordenReparacion, false, false);
             totalCargos = totalCargosUnidades + totalCargosOperadores + totalCargosEspeciales + totalCargosTaller;
             totalSalidas = totalSalidasUnidades + totalSalidasOperadores + totalSalidasEspeciales + totalSalidasTaller;
@@ -1555,8 +1553,8 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             totales += "Salidas Especiales  = " + formatD.format(totalSalidasEspeciales) + "\t\t";
             totales += "Cargos Especiales  = " + formatD.format(totalCargosEspeciales) + "\t\t";
             totales += "Plana  = " + formatD.format(totalPlana) + "\n";
-            totales += "Salidas Taller      = " + formatD.format(totalSalidasTaller) + "\t\t";
-            totales += "Cargos Taller      = " + formatD.format(totalCargosTaller) + "\t\t";
+            //totales += "Salidas Taller      = " + formatD.format(totalSalidasTaller) + "\t\t";
+            //totales += "Cargos Taller      = " + formatD.format(totalCargosTaller) + "\t\t";
             totales += "Orden Reparación = " + formatD.format(totalGeneral) + "\n";
             totales += "Salidas Almacén      = " + formatD.format(totalSalidas) + "\t\t";
             totales += "Cargos Directos       = " + formatD.format(totalCargos) + "\t\t";

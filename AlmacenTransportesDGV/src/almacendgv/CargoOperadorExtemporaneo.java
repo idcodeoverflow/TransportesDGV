@@ -664,13 +664,13 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
         this.buscar();
     }//GEN-LAST:event_jMIBuscarParteActionPerformed
 
-    private void jTFOrdenReparacionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFOrdenReparacionFocusLost
-        this.obtenerOperador();
-    }//GEN-LAST:event_jTFOrdenReparacionFocusLost
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.buscarProveedor();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jTFOrdenReparacionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFOrdenReparacionFocusLost
+        this.obtenerOperador();
+    }//GEN-LAST:event_jTFOrdenReparacionFocusLost
 
     public void agregar(){
         CargoOperadorDTO cargoDirecto =  new CargoOperadorDTO();
@@ -693,6 +693,7 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
             int numeroProveedor = Integer.parseInt(nProveedor);
             int numeroOrdenReparacion = Integer.parseInt(nOrdenReparacion);
             
+            
             //obtener clave de refaccion
             claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
             
@@ -701,6 +702,13 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
             
             //obtener orden de reparacion
             ordenReparacion = accesoOrdenReparacion.obtenerOrdenReparacion(numeroOrdenReparacion, true, true, true);
+            
+            //verificar que la orden de rep sea valida
+            if(ordenReparacion.getOperador().getNombre() == null){
+                JOptionPane.showMessageDialog(null, "La orden de reparación no\n"
+                        + "cuenta con un operador.", "Orden de Reparación invalida", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             
             //verificar que el usuario tenga los privilegios para ejecutar la acción
             if(UserHome.getUsuario().getPrivilegio() != 1){

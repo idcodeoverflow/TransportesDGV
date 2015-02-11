@@ -112,7 +112,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         jTFProveedor = new javax.swing.JTextField();
         jLFolio = new javax.swing.JLabel();
         jTFFolio = new javax.swing.JTextField();
-        jLOrdenReparacion = new javax.swing.JLabel();
         jLNumeroCargoTransporte = new javax.swing.JLabel();
         jTFCargoEspecial = new javax.swing.JTextField();
         jLClaveRefaccion = new javax.swing.JLabel();
@@ -131,9 +130,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         jTFTotal = new javax.swing.JTextField();
         jLLogo = new javax.swing.JLabel();
         jBAgregarCargo = new javax.swing.JButton();
-        jLClaveUnidad = new javax.swing.JLabel();
-        jCBClaveUnidad = new javax.swing.JComboBox();
-        jTFOrdenReparacion = new javax.swing.JTextField();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregar = new javax.swing.JMenuItem();
@@ -156,8 +152,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         jLProveedor.setText("Proveedor:");
 
         jLFolio.setText("Folio:");
-
-        jLOrdenReparacion.setText("Orden de Reparación:");
 
         jLNumeroCargoTransporte.setText("# Cargo Transporte:");
 
@@ -264,14 +258,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             }
         });
 
-        jLClaveUnidad.setText("Clave de Unidad:");
-
-        jTFOrdenReparacion.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTFOrdenReparacionFocusLost(evt);
-            }
-        });
-
         jMArchivo.setText("Archivo");
 
         jMIAgregar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
@@ -351,44 +337,42 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLClaveUnidad)
-                    .addComponent(jLIVA)
+                    .addComponent(jLTotal)
                     .addComponent(jLSubtotal)
-                    .addComponent(jLPrecioUnitario)
-                    .addComponent(jLNumeroCargoTransporte)
                     .addComponent(jLFolio)
-                    .addComponent(jLUsuario))
+                    .addComponent(jLUsuario)
+                    .addComponent(jLClaveRefaccion)
+                    .addComponent(jLCantidad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTFUsuario)
-                    .addComponent(jTFFolio)
-                    .addComponent(jTFCargoEspecial)
-                    .addComponent(jTFPrecioUnitario)
-                    .addComponent(jTFSubtotal)
-                    .addComponent(jTFIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                    .addComponent(jCBClaveUnidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTFUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jTFFolio)
+                            .addComponent(jTFSubtotal)
+                            .addComponent(jTFClaveRefaccion)
+                            .addComponent(jTFCantidad))
+                        .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLProveedor)
-                            .addComponent(jLOrdenReparacion)
-                            .addComponent(jLClaveRefaccion)
-                            .addComponent(jLCantidad)
                             .addComponent(jLPorcentajeIVA)
-                            .addComponent(jLTotal))
+                            .addComponent(jLNumeroCargoTransporte)
+                            .addComponent(jLPrecioUnitario)
+                            .addComponent(jLIVA))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTFProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(jTFClaveRefaccion)
-                            .addComponent(jTFCantidad)
                             .addComponent(jTFPorcentajeIVA)
-                            .addComponent(jTFTotal)
-                            .addComponent(jTFOrdenReparacion)))
-                    .addComponent(jBAgregarCargo, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 34, Short.MAX_VALUE)
+                            .addComponent(jTFCargoEspecial)
+                            .addComponent(jTFPrecioUnitario)
+                            .addComponent(jTFIVA)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(171, 171, 171)
+                        .addComponent(jBAgregarCargo)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(jLLogo)
                 .addContainerGap())
         );
@@ -396,49 +380,48 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLUsuario)
+                                    .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLProveedor)
+                                    .addComponent(jTFProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLFolio)
+                                    .addComponent(jTFFolio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLNumeroCargoTransporte)
+                                    .addComponent(jTFCargoEspecial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLClaveRefaccion)
+                                    .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLPrecioUnitario)
+                                    .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLLogo))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLCantidad)
+                            .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLSubtotal)
+                            .addComponent(jTFSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLIVA)
+                            .addComponent(jTFIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLUsuario)
-                            .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLProveedor)
-                            .addComponent(jTFProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLFolio)
-                            .addComponent(jTFFolio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLOrdenReparacion)
-                            .addComponent(jTFOrdenReparacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLNumeroCargoTransporte)
-                            .addComponent(jTFCargoEspecial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLClaveRefaccion)
-                            .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLLogo))
+                            .addComponent(jLPorcentajeIVA)
+                            .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLPrecioUnitario)
-                    .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLCantidad)
-                    .addComponent(jTFCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLSubtotal)
-                    .addComponent(jTFSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLPorcentajeIVA)
-                    .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLIVA)
-                    .addComponent(jTFIVA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLTotal)
-                    .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLClaveUnidad)
-                    .addComponent(jBAgregarCargo)
-                    .addComponent(jCBClaveUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jBAgregarCargo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -662,14 +645,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         this.buscar();
     }//GEN-LAST:event_jMIBuscarParteActionPerformed
 
-    private void jTFOrdenReparacionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFOrdenReparacionFocusLost
-        if(this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())){
-            this.mostrarUnidadesPOrdenReparacion();
-        } else if(this.jCBClaveUnidad != null) {
-            this.jCBClaveUnidad.removeAllItems();
-        }
-    }//GEN-LAST:event_jTFOrdenReparacionFocusLost
-
     private void jMIBuscarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIBuscarProveedorActionPerformed
         this.buscarProveedor();
     }//GEN-LAST:event_jMIBuscarProveedorActionPerformed
@@ -680,36 +655,18 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             CargoTallerDAO accesoCargoTaller = new CargoTallerDAO();
             RefaccionDAO accesoRefaccion = new RefaccionDAO();
             RefaccionDTO refaccionReq = new RefaccionDTO();
-            OrdenReparacionDAO accesoOrdenReparacion = new OrdenReparacionDAO();
-            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
-            UnidadTransporteDTO unidad = new UnidadTransporteDTO();
-            UnidadTransporteDAO accesoUnidad = new UnidadTransporteDAO();
             FacturaDAO accesoFactura = new FacturaDAO();
             String nProveedor = ((this.jTFProveedor != null && !"".equals(this.jTFProveedor.getText())) ? this.jTFProveedor.getText() : "");
-            String nOrdenReparacion = ((this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())) ? this.jTFOrdenReparacion.getText() : "");
             String folio = ((this.jTFFolio != null && !"".equals(this.jTFFolio.getText())) ? this.jTFFolio.getText() : "");
             String claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
-            String claveUnidad = this.jCBClaveUnidad.getSelectedItem().toString();
             boolean agregarCargoTallerExitoso = false;
             int numeroProveedor = Integer.parseInt(nProveedor);
-            int numeroOrdenReparacion = Integer.parseInt(nOrdenReparacion);
             
             //obtener clave de refaccion
             claveRefaccion = ((this.jTFClaveRefaccion != null && !"".equals(this.jTFClaveRefaccion.getText())) ? this.jTFClaveRefaccion.getText() : "");
             
             //obtener factura
             factura = accesoFactura.obtenerFactura(folio, numeroProveedor, true, true, true);
-            
-            //obtener orden de reparacion
-            ordenReparacion = accesoOrdenReparacion.obtenerOrdenReparacion(numeroOrdenReparacion, true, true, true);
-            
-            //Validar que la unidad se encuentre en la orden de reparacion
-            if(!this.validarTransportesPReparacion(this.jCBClaveUnidad.getSelectedItem().toString(), ordenReparacion)){
-                JOptionPane.showMessageDialog(null, "La clave de Unidad de Transporte\nno pertenece "
-                        + "a la orden de\nreparación indicada.\nVerifique los datos e inténtelo\notra vez."
-                        , "Datos Erroneos!!!", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
             
             //verificar que el usuario tenga los privilegios para ejecutar la acción
             if(UserHome.getUsuario().getPrivilegio() != 1){
@@ -733,26 +690,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                 return;
             }
             
-            //validar que la orden de reparacion exista
-            if(ordenReparacion == null){
-                JOptionPane.showMessageDialog(null, "La orden de reparación seleccionada\n"
-                        + "no existe.", "Operación no válida", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            //validar que la orden de reparacion no este cancelada
-            if(!ordenReparacion.isStatus()){
-                JOptionPane.showMessageDialog(null, "La orden de reparación seleccionada\n"
-                        + "se encuentra cancelada.", "Operación no válida", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            //validar que el campo de orden de reparación no se encuentre vacío
-            if(this.jTFOrdenReparacion.getText() == null || "".equals(this.jTFOrdenReparacion.getText())){
-                JOptionPane.showMessageDialog(null, "El campo de número de orden\nde reparación no contiene datos.", 
-                        "Faltan datos", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
             
             //validar que el campo de folio de factura no se encuentre vacío
             if(this.jTFFolio.getText() == null || "".equals(this.jTFFolio.getText())){
@@ -767,7 +704,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             cargoTaller.setFactura(factura);
             cargoTaller.setIva(Double.parseDouble(this.jTFIVA.getText()));
             //cargoDirecto.setNumeroCargoDirecto();//No se agrega el numero de cargo directo por que se genera automaticamente
-            cargoTaller.setOrdenReparacion(ordenReparacion);
             cargoTaller.setPrecioUnitario(Double.parseDouble(this.jTFPrecioUnitario.getText()));
             cargoTaller.setRefaccion(refaccionReq);
             cargoTaller.setStatus(true);
@@ -781,10 +717,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
                     "Cantidad inválida!!!", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
-            //Agregar los datos de cargo operador
-            unidad = accesoUnidad.obtenerUnidad(claveUnidad, true, true, true);
-            cargoTaller.setUnidad(unidad);
             
             agregarCargoTallerExitoso = accesoCargoTaller.agregarCargoTaller(cargoTaller);
             
@@ -847,7 +779,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
     
     public void limpiar(){
         try{
-            this.jCBClaveUnidad.removeAllItems();
             this.jTFCantidad.setText("0.000");
             this.jTFClaveRefaccion.setText(null);
             this.jTFIVA.setText("0.000");
@@ -857,7 +788,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
             this.jTFTotal.setText("0.000");
             this.jTFFolio.setText(null);
             this.jTFProveedor.setText(null);
-            this.jTFOrdenReparacion.setText(null);
         } catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Código error: 2104\n" + ex.getMessage(),
                     "Error al limpiar los datos!!!", JOptionPane.ERROR_MESSAGE);
@@ -926,52 +856,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
         buscarCampo.setVisible(true);
     }
     
-    private void mostrarUnidadesPOrdenReparacion(){
-        try{
-            this.jCBClaveUnidad.removeAllItems();
-            
-            if(this.jTFOrdenReparacion == null || "".equals(this.jTFOrdenReparacion.getText())){
-                return;
-            }
-            int numeroOrden = Integer.parseInt(((this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())) ? this.jTFOrdenReparacion.getText() : ""));
-            OrdenReparacionDTO ordenReparacion = new OrdenReparacionDTO();
-            OrdenReparacionDAO accesoReparacion = new OrdenReparacionDAO();
-            TransporteReparacionDAO accesoTReparacion = new TransporteReparacionDAO();
-            ordenReparacion = accesoReparacion.obtenerOrdenReparacion(numeroOrden, true, true, true);
-            List<TransporteReparacionDTO> transportes;
-            
-            if(ordenReparacion == null){
-                JOptionPane.showMessageDialog(null, "No existe la orden de reparación especificada.",
-                        "No existe la orden de reparación", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            transportes = accesoTReparacion.obtenerTransportesPReparacion(ordenReparacion, true, true, true, true);
-            
-            if(transportes == null){
-                JOptionPane.showMessageDialog(null, "No se encontraron unidades\nde transporte asociadas\na la orden de reparación.",
-                        "No se encontraron unidades de transporte", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            
-            if(this.jTFOrdenReparacion != null && !"".equals(this.jTFOrdenReparacion.getText())){
-                for(TransporteReparacionDTO transporte : transportes){
-                    this.jCBClaveUnidad.addItem(transporte.getTransporte().getClave());
-                }
-            }
-            
-        } catch(SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2108\n" + ex.getMessage(),
-                        "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoTallerExtemporaneo mostrarUnidadesPOrdenReparacion()", 2108, UserHome.getUsuario(), ex);
-        } catch(Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 2109\n" + ex.getMessage(),
-                        "Error al obtener los datos de la BD!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("CargoTallerExtemporaneo mostrarUnidadesPOrdenReparacion()", 2109, UserHome.getUsuario(), ex);
-        }
-    }
-    
     private void buscarProveedor(){
         BuscarCampoSimple buscarCampo = new BuscarCampoSimple();
         buscarCampo.setTipoRespuesta(3);
@@ -1017,15 +901,12 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarCargo;
-    private javax.swing.JComboBox jCBClaveUnidad;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
-    private javax.swing.JLabel jLClaveUnidad;
     private javax.swing.JLabel jLFolio;
     private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
     private javax.swing.JLabel jLNumeroCargoTransporte;
-    private javax.swing.JLabel jLOrdenReparacion;
     private javax.swing.JLabel jLPorcentajeIVA;
     private javax.swing.JLabel jLPrecioUnitario;
     private javax.swing.JLabel jLProveedor;
@@ -1047,7 +928,6 @@ public class CargoTallerExtemporaneo extends javax.swing.JFrame {
     private javax.swing.JTextField jTFClaveRefaccion;
     private javax.swing.JTextField jTFFolio;
     private javax.swing.JTextField jTFIVA;
-    private javax.swing.JTextField jTFOrdenReparacion;
     private javax.swing.JTextField jTFPorcentajeIVA;
     private javax.swing.JTextField jTFPrecioUnitario;
     private javax.swing.JTextField jTFProveedor;

@@ -703,7 +703,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                 salidasAlmacen.addAll(salidasTaller);
                 Collections.sort(salidasAlmacen);
                 for(SalidaAlmacenDTO salidaAlmacen : salidasAlmacen){
-                    Object datos[] = {salidaAlmacen.getNumeroSalida(), salidaAlmacen.getOrdenReparacion().getNumeroOrden(), 
+                    Object datos[] = {salidaAlmacen.getNumeroSalida(), (salidaAlmacen.getOrdenReparacion() != null ? salidaAlmacen.getOrdenReparacion().getNumeroOrden() : "Taller"), 
                         salidaAlmacen.getFechaRegistro(), salidaAlmacen.getRefaccion().getClaveRefaccion(), 
                         salidaAlmacen.getRefaccion().getNombre(), salidaAlmacen.getCantidad(),
                         formatD.format(salidaAlmacen.getCosto()), tiposSalidas[salidaAlmacen.getTipo()],((salidaAlmacen.isStatus()) ? "Vigente" : "Cancelada")};

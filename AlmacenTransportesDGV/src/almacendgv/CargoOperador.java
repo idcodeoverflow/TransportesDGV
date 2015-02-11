@@ -812,7 +812,9 @@ public class CargoOperador extends javax.swing.JFrame {
             List<OrdenReparacionDTO> ordenesReparacion = new OrdenReparacionDAO().
                     obtenerOrdenesReparacionPendientes(true);
             for(OrdenReparacionDTO ordenReparacion : ordenesReparacion){
-                this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
+                if(ordenReparacion.getOperador().getNumeroOperador() != 0){
+                    this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
+                }
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 752\n" + ex.getMessage(),

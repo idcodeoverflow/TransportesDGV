@@ -166,6 +166,11 @@ public class SalidaUnidad extends javax.swing.JFrame {
 
         jTFPrecioUnitario.setEditable(false);
         jTFPrecioUnitario.setFocusable(false);
+        jTFPrecioUnitario.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTFPrecioUnitarioCaretUpdate(evt);
+            }
+        });
 
         jLTotal.setText("Total:");
 
@@ -379,6 +384,10 @@ public class SalidaUnidad extends javax.swing.JFrame {
             this.mostrarUnidadesTransportePReparacion();
         }
     }//GEN-LAST:event_jCBOrdenReparacionItemStateChanged
+
+    private void jTFPrecioUnitarioCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTFPrecioUnitarioCaretUpdate
+        this.calcularTotal();
+    }//GEN-LAST:event_jTFPrecioUnitarioCaretUpdate
 
     private void agregar(){
         SalidaAlmacenDTO salidaAlmacen = new SalidaAlmacenDTO();

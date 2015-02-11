@@ -29,16 +29,25 @@ public class OrdenReparacionDAO {
     public void agregarOrdenReparacion(OrdenReparacionDTO orden) throws SQLException{
         PreparedStatement pstmt = null;
         Connection conn = null;
-        String query = "INSERT INTO orden_reparacion(numero_orden, fecha_entrada, "
+        String query = "";
+        if(orden.getOperador() != null){
+            query = "INSERT INTO orden_reparacion(numero_orden, fecha_entrada, "
                 + "fecha_salida, status, numero_operador, numero_usuario) VALUES(NULL,?,NULL,?,?,?);";
+        } else {
+            query = "INSERT INTO orden_reparacion(numero_orden, fecha_entrada, "
+                + "fecha_salida, status, numero_operador, numero_usuario) VALUES(NULL,?,NULL,?,NULL,?);";
+        }
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
             pstmt.setTimestamp(1, orden.getFechaEntrada());
             pstmt.setBoolean(2, true);
-            pstmt.setInt(3, orden.getOperador().getNumeroOperador());
-            pstmt.setInt(4, orden.getUsuario().getNumeroUsuario());
+            
+            if(orden.getOperador() != null)
+                pstmt.setInt(3, orden.getOperador().getNumeroOperador());
+            
+            pstmt.setInt((orden.getOperador() != null ? 4 : 3), orden.getUsuario().getNumeroUsuario());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 511\n" + ex.getMessage(),
