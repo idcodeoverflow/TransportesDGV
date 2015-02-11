@@ -52,8 +52,6 @@ public class TallerExitReport extends ExcelReport{
         int max6 = 11;
         int max7 = 11;
         int max8 = 11;
-        int max9 = 11;
-        int max10 = 11;
         
         DateFormat formatoFecha = DateFormat.getDateInstance(DateFormat.MEDIUM);
         DecimalFormat formatD = new DecimalFormat("0.00");
@@ -65,11 +63,11 @@ public class TallerExitReport extends ExcelReport{
         fila.setHeightInPoints(70);
         Cell cel = fila.createCell(0);
         cel.setCellValue("Salidas de Almacén a Taller");
-        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$G$1"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$E$1"));
         cel.setCellStyle(ExcelStyles.titleStyle(book, "Reporte"));
 
         ExcelStyles.titleStyle(book, "Reporte");
-        ExcelImage ei = new ExcelImage(0,7);
+        ExcelImage ei = new ExcelImage(0,5);
         ei.insertImage("/icons/Logo Efectivo Negro Chico.png", "Reporte", book, fStream);
         fila = sheet.createRow(nFila++);
         
@@ -80,27 +78,21 @@ public class TallerExitReport extends ExcelReport{
         celda.setCellValue("Fecha");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(2);
-        celda.setCellValue("N° Orden");
-        celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(3);
-        celda.setCellValue("Clave");
-        celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(4);
         celda.setCellValue("Clave Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(5);
+        celda = fila.createCell(3);
         celda.setCellValue("Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(6);
+        celda = fila.createCell(4);
         celda.setCellValue("Cantidad");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(7);
+        celda = fila.createCell(5);
         celda.setCellValue("Precio Unitario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(8);
+        celda = fila.createCell(6);
         celda.setCellValue("Total");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(9);
+        celda = fila.createCell(7);
         celda.setCellValue("Usuario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         
@@ -123,43 +115,35 @@ public class TallerExitReport extends ExcelReport{
                 }
                 
                 celdaT = fila.createCell(2);
-                celdaT.setCellValue(salida.getOrdenReparacion().getNumeroOrden());
-                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                
-                celdaT = fila.createCell(3);
-                celdaT.setCellValue(salida.getUnidadTransporte().getClave());
-                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                
-                celdaT = fila.createCell(4);
                 celdaT.setCellValue(salida.getRefaccion().getClaveRefaccion());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 
-                celdaT = fila.createCell(5);
+                celdaT = fila.createCell(3);
                 celdaT.setCellValue(salida.getRefaccion().getNombre());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if(salida.getRefaccion().getNombre().length() > max6){
-                    max6 = salida.getRefaccion().getNombre().length();
+                if(salida.getRefaccion().getNombre().length() > max4){
+                    max4 = salida.getRefaccion().getNombre().length();
                 }
                 
-                celdaT = fila.createCell(6);
+                celdaT = fila.createCell(4);
                 celdaT.setCellValue(salida.getCantidad());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 
-                celdaT = fila.createCell(7);
+                celdaT = fila.createCell(5);
                 celdaT.setCellValue(Double.parseDouble(formatD.
                         format((double)(salida.getCosto() / salida.getCantidad()))));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
                 
-                celdaT = fila.createCell(8);
+                celdaT = fila.createCell(6);
                 celdaT.setCellValue(Double.parseDouble(formatD.
                         format(salida.getCosto())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
                 
-                celdaT = fila.createCell(9);
+                celdaT = fila.createCell(7);
                 celdaT.setCellValue(salida.getUsuario().getNombre() + " " + salida.getUsuario().getApellidos());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if((salida.getUsuario().getNombre() + " " + salida.getUsuario().getApellidos()).length() > max10){
-                    max10 = (salida.getUsuario().getNombre() + " " + salida.getUsuario().getApellidos()).length();
+                if((salida.getUsuario().getNombre() + " " + salida.getUsuario().getApellidos()).length() > max8){
+                    max8 = (salida.getUsuario().getNombre() + " " + salida.getUsuario().getApellidos()).length();
                 }
             }
             lazyQ.endLazyQuery();
@@ -171,8 +155,6 @@ public class TallerExitReport extends ExcelReport{
             sheet.setColumnWidth(5, 256 * max6);
             sheet.setColumnWidth(6, 256 * max7);
             sheet.setColumnWidth(7, 256 * max8);
-            sheet.setColumnWidth(8, 256 * max9);
-            sheet.setColumnWidth(9, 256 * max10);
 
             book.write(fStream);
             fStream.close();

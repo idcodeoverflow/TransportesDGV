@@ -1239,27 +1239,6 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                 
                 mensajeError += errorUnidades;
                 
-                //Cargos Taller
-
-                List<CargoTallerDTO> cargosTaller = null;
-                try {
-                    cargosTaller = new CargoTallerDAO().obtenerCargosTallerPReparacion(this.ordenReparacion, true, false, false);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Código error: 2113\n" + ex.getMessage(),
-                            "Error al acceder a los detalles de la reparación!!!", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(ordenReparacion.toString(), 2113, UserHome.getUsuario(), ex);
-                }
-
-                for(CargoTallerDTO cargoTaller : cargosTaller){
-                    errorTaller = cargoTaller.toString();
-                    Object datos[] = {cargoTaller.getIdCargoTaller(), cargoTaller.getFactura().getFolio(),
-                        cargoTaller.getFactura().getProveedor().getNombre(), 
-                        cargoTaller.getUnidad().getClave(), cargoTaller.getRefaccion().getClaveRefaccion(), 
-                        cargoTaller.getCantidad(), formatD.format(cargoTaller.getTotal()), "C. Taller"};
-                    modelo.addRow(datos);
-                }
-                
-                mensajeError += errorTaller;
                 
                 //Trabajos Externos
 
@@ -1382,25 +1361,6 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
                 mensajeError += errorUnidades;
                 
-                //Salidas Taller
-                try {
-                    salidasTaller = accesoTaller.obtenerSalidasTallerPReparacion(this.ordenReparacion, true, false, false);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Código error: 2112\n" + ex.getMessage(),
-                            "Error al acceder a los detalles de la reparacion!!!", JOptionPane.ERROR_MESSAGE);
-                    ErrorLogger.scribirLog(ordenReparacion.toString(), 2112, UserHome.getUsuario(), ex);
-                }
-
-                for(SalidaTallerDTO salidaTaller : salidasTaller){
-                    errorTaller = salidaTaller.toString();
-                    Object datos[] = {salidaTaller.getNumeroSalida(), salidaTaller.getUnidadTransporte().getClave(),
-                        salidaTaller.getRefaccion().getClaveRefaccion(), salidaTaller.getCantidad(), 
-                        formatD.format(salidaTaller.getCosto() / salidaTaller.getCantidad()), 
-                        formatD.format(salidaTaller.getCosto()), "S. Taller"};
-                    modelo.addRow(datos);
-                }
-
-                mensajeError += errorTaller;
                 lazyQ.endLazyQuery();
 
             }

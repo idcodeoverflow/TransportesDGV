@@ -69,11 +69,11 @@ public class CargoTallerReport extends ExcelReport{
         fila.setHeightInPoints(70);
         Cell cel = fila.createCell(0);
         cel.setCellValue("Cargos Directos a Taller");
-        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$K$1"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("$A$1:$I$1"));
         cel.setCellStyle(ExcelStyles.titleStyle(book, "Reporte"));
 
         ExcelStyles.titleStyle(book, "Reporte");
-        ExcelImage ei = new ExcelImage(0,11);
+        ExcelImage ei = new ExcelImage(0,9);
         ei.insertImage("/icons/Logo Efectivo Negro Chico.png", "Reporte", book, fStream);
         fila = sheet.createRow(nFila++);
         
@@ -84,39 +84,33 @@ public class CargoTallerReport extends ExcelReport{
         celda.setCellValue("Fecha");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         celda = fila.createCell(2);
-        celda.setCellValue("N° Orden");
-        celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(3);
-        celda.setCellValue("Clave");
-        celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(4);
         celda.setCellValue("Proveedor");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(5);
+        celda = fila.createCell(3);
         celda.setCellValue("Factura");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(6);
+        celda = fila.createCell(4);
         celda.setCellValue("Clave Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(7);
+        celda = fila.createCell(5);
         celda.setCellValue("Refacción");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(8);
+        celda = fila.createCell(6);
         celda.setCellValue("Cantidad");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(9);
+        celda = fila.createCell(7);
         celda.setCellValue("Precio Unitario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(10);
+        celda = fila.createCell(8);
         celda.setCellValue("Subtotal");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(11);
+        celda = fila.createCell(9);
         celda.setCellValue("Iva");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(12);
+        celda = fila.createCell(10);
         celda.setCellValue("Total");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
-        celda = fila.createCell(13);
+        celda = fila.createCell(11);
         celda.setCellValue("Usuario");
         celda.setCellStyle(ExcelStyles.headerStyle(book));
         
@@ -139,57 +133,49 @@ public class CargoTallerReport extends ExcelReport{
                 }
                 
                 celdaT = fila.createCell(2);
-                celdaT.setCellValue(cargo.getOrdenReparacion().getNumeroOrden());
-                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                
-                celdaT = fila.createCell(3);
-                celdaT.setCellValue(cargo.getUnidad().getClave());
-                celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                
-                celdaT = fila.createCell(4);
                 celdaT.setCellValue(cargo.getFactura().getProveedor().getNombre());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if(cargo.getFactura().getProveedor().getNombre().length() > max4){
-                    max4 = cargo.getFactura().getProveedor().getNombre().length();
+                if(cargo.getFactura().getProveedor().getNombre().length() > max3){
+                    max3 = cargo.getFactura().getProveedor().getNombre().length();
                 }
-                celdaT = fila.createCell(5);
+                celdaT = fila.createCell(3);
                 celdaT.setCellValue(cargo.getFactura().getFolio());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if(cargo.getFactura().getFolio().length() > max6){
-                    max6 = cargo.getFactura().getFolio().length();
+                if(cargo.getFactura().getFolio().length() > max4){
+                    max4 = cargo.getFactura().getFolio().length();
                 }
-                celdaT = fila.createCell(6);
+                celdaT = fila.createCell(4);
                 celdaT.setCellValue(cargo.getRefaccion().getClaveRefaccion());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                if(cargo.getRefaccion().getNombre().length() > max7){
-                    max7 = cargo.getRefaccion().getNombre().length();
+                if(cargo.getRefaccion().getNombre().length() > max5){
+                    max5 = cargo.getRefaccion().getNombre().length();
                 }
                 
-                celdaT = fila.createCell(7);
+                celdaT = fila.createCell(5);
                 celdaT.setCellValue(cargo.getRefaccion().getNombre());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 
-                celdaT = fila.createCell(8);
+                celdaT = fila.createCell(6);
                 celdaT.setCellValue(cargo.getCantidad());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
-                celdaT = fila.createCell(9);
+                celdaT = fila.createCell(7);
                 celdaT.setCellValue(Double.parseDouble(formatD.
                         format(cargo.getPrecioUnitario())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
-                celdaT = fila.createCell(10);
+                celdaT = fila.createCell(8);
                 celdaT.setCellValue(Double.parseDouble(formatD.
                         format(cargo.getSubtotal())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
-                celdaT = fila.createCell(11);
+                celdaT = fila.createCell(9);
                 celdaT.setCellValue(Double.parseDouble(formatD.
                         format(cargo.getIva())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
-                celdaT = fila.createCell(12);
+                celdaT = fila.createCell(10);
                 celdaT.setCellValue(Double.parseDouble(formatD.
                         format(cargo.getTotal())));
                 celdaT.setCellStyle(ExcelStyles.contabilityStyle(book));
                 
-                celdaT = fila.createCell(13);
+                celdaT = fila.createCell(11);
                 celdaT.setCellValue(cargo.getUsuario().getNombre() + " " + cargo.getUsuario().getApellidos());
                 celdaT.setCellStyle(ExcelStyles.createBorderedStyle(book));
                 if((cargo.getUsuario().getNombre() + " " + cargo.getUsuario().getApellidos()).length() > max14){

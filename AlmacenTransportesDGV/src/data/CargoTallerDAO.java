@@ -290,68 +290,6 @@ public class CargoTallerDAO extends CargoDirectoDAO {
         return null;
     }
     
-    public List<CargoTallerDTO> obtenerCargosTallerPReparacion(OrdenReparacionDTO ordenReparacion, 
-            boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
-        List<CargoTallerDTO> cargos = null;
-        CargoTallerDTO cargo = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT id_cargo_taller, fecha_registro, precio_unitario, cantidad, "
-                + "subtotal, iva, total, status, clave_refaccion, id_proveedor, "
-                + "folio, numero_usuario FROM cargo_taller WHERE "
-                + "numero_orden = ? AND status = ?;";
-        
-        try{
-            if(abrir) {
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            rs = pstmt.executeQuery();
-            cargos = new ArrayList<CargoTallerDTO>();
-            while (rs.next()) {
-                cargo = new CargoTallerDTO(
-                        rs.getInt("id_cargo_taller"),
-                        null,//unidad transporte
-                        0,//numero cargo directo
-                        rs.getTimestamp("fecha_registro"),
-                        rs.getDouble("precio_unitario"),
-                        rs.getInt("cantidad"),
-                        rs.getDouble("subtotal"),
-                        rs.getDouble("iva"),
-                        rs.getDouble("total"),
-                        rs.getBoolean("status"),
-                        null,//refaccion
-                        null,//factura
-                        null,//usuario
-                        null//orden reparacion
-                        );
-                if(persistence){
-                    cargo.setFactura(new FacturaDAO().obtenerFactura(rs.getString("folio"), rs.getInt("id_proveedor"), true, false, false));
-                    cargo.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
-                    cargo.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                }
-                cargos.add(cargo);
-            }
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 2035\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(ordenReparacion.toString(), 2035, UserHome.getUsuario(), e);
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        if(cargos != null){
-            return cargos;
-        }
-        return null;
-    }
     
     public int obtenerUltimoIdCargoTallerCCanceladas() throws SQLException{
         int maxIdCargoEspecial = 0;

@@ -249,61 +249,6 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         return salidasTaller;
     }
     
-    public List<SalidaTallerDTO> obtenerSalidasTallerPReparacion(OrdenReparacionDTO ordenReparacion, 
-            boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
-        List<SalidaTallerDTO> salidasTaller = null;
-        SalidaTallerDTO salidaTaller = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String query = "SELECT id_salida_taller, costo, "
-                + "status, cantidad, fecha_registro, "
-                + "clave_refaccion, numero_usuario, tipo "
-                + "FROM salida_taller WHERE numero_orden = ? AND status = ?;";
-        
-        try{
-            if(abrir){
-                DBConnection.createConnection();
-            }
-            conn = DBConnection.getConn();
-            pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1, ordenReparacion.getNumeroOrden());
-            pstmt.setBoolean(2, true);
-            rs = pstmt.executeQuery();
-            salidasTaller = new ArrayList<SalidaTallerDTO>();
-            while (rs.next()) {
-                salidaTaller = new SalidaTallerDTO();
-                salidaTaller.setIdSalidaTaller(rs.getInt("id_salida_taller"));
-                salidaTaller.setCantidad(rs.getDouble("cantidad"));
-                salidaTaller.setCosto(rs.getDouble("costo"));
-                salidaTaller.setFechaRegistro(rs.getTimestamp("fecha_registro"));
-                salidaTaller.setNumeroSalida(rs.getInt("id_salida_taller"));
-                salidaTaller.setOrdenReparacion(null);
-                salidaTaller.setRefaccion(null);
-                salidaTaller.setStatus(rs.getBoolean("status"));
-                salidaTaller.setUsuario(null);
-                salidaTaller.setTipo(rs.getInt("tipo"));
-                if(persistence){
-                    salidaTaller.setRefaccion(new RefaccionDAO().obtenerRefaccion(rs.getString("clave_refaccion"), false, false));
-                    salidaTaller.setUsuario(new UsuarioDAO().obtenerUsuario(rs.getInt("numero_usuario"), false, false));
-                }
-                salidasTaller.add(salidaTaller);
-            }
-            
-        } catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Código error: 2044\n" + e.getMessage(),
-                    "Error en acceso a datos!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog(salidaTaller.toString(), 2044, UserHome.getUsuario(), e);
-        } finally {
-            if(cerrar){
-                closeQuietly(conn);
-                closeQuietly(pstmt);
-            }
-        }
-        
-        return salidasTaller;
-    }
-    
     public List<SalidaTallerDTO> obtenerSalidasTallerPRefaccionSinCanceladas(RefaccionDTO refaccion, 
             boolean persistence, boolean abrir, boolean cerrar) throws SQLException{
         List<SalidaTallerDTO> salidasTaller = null;
