@@ -205,7 +205,7 @@ AND fecha_entrada >= $P{INICIO} AND (fecha_salida <= $P{FIN} OR IFNULL(fecha_sal
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="91" splitType="Stretch">
+		<band height="25" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy HH.mm.ss">
 				<reportElement uuid="3704d8f4-adf6-4cac-b28d-b1174b960897" x="50" y="1" width="100" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -234,11 +234,6 @@ AND fecha_entrada >= $P{INICIO} AND (fecha_salida <= $P{FIN} OR IFNULL(fecha_sal
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre_operador}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement uuid="748b5147-26d2-472c-8952-01958f671a16" x="206" y="62" width="106" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[I.V.A. Trabajo Externo]]></text>
-			</staticText>
 			<textField pattern="¤ #,##0.00">
 				<reportElement uuid="a8297dba-01f9-4664-a0b3-f6a71d95337f" x="510" y="1" width="60" height="20"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -260,98 +255,13 @@ AND fecha_entrada >= $P{INICIO} AND (fecha_salida <= $P{FIN} OR IFNULL(fecha_sal
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ivas}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="6bbac108-3a67-4a84-b736-96744377be59" x="495" y="62" width="76" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{total_trabajo}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="14ac76f9-e1bd-4edb-a5c1-33417c105aaf" x="8" y="22" width="122" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Subtotal Cargos Directos]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="685aae53-a7dd-486d-a671-d27a9df809dd" x="130" y="62" width="72" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{total_trabajo_subtotal}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="7cbb0e13-7536-4f8e-aded-9200d60b9c5a" x="206" y="42" width="106" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[I.V.A. Salida Almacén]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="1a2efd91-af1e-4e63-a374-439781c93dcf" x="390" y="42" width="105" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Total Salida Almacén]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="cae7cee7-f191-4de4-965a-56e77604f6c7" x="130" y="22" width="71" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{cargo_directo_subtotal}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="d5ce83a4-c363-4817-937e-a6256b3fa552" x="206" y="22" width="106" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[I.V.A. Cargos Directos]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="e3eb0357-7886-46fb-add5-dad648397f22" x="389" y="22" width="105" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Total Cargos Directos]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="ade0e0f6-01a3-4b42-b4e1-f809bc5830ce" x="312" y="22" width="72" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{cargo_directo_iva}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="f2b4ad9f-5b11-440a-890d-248bb679fe06" x="8" y="42" width="122" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Subtotal Salida Almacén]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="c02d259e-f41e-4995-a759-695413bb4005" x="495" y="22" width="75" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{cargo_directo}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="3b73f32b-6d88-460b-b8e7-9acfc348e80d" x="130" y="42" width="71" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{salida_almacen_subtotal}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="802c375e-0551-42a7-8090-b360a7b4aaa8" x="312" y="42" width="72" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{salida_almacen_iva}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="5aadeddd-79b7-4607-9dad-31328fcc0ed4" x="495" y="42" width="75" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{salida_almacen}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="3fefb791-6ccb-41c1-8a4b-4872ba38118d" x="8" y="62" width="122" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Subtotal Trabajo Externo]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement uuid="d69fd628-1b03-4fa3-948b-961bf6ad80ea" x="312" y="62" width="72" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{total_trabajo_iva}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="7c16ddfa-c25a-4c4a-a5e1-a0d637638519" x="390" y="62" width="105" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Total Trabajo Externo]]></text>
-			</staticText>
 			<line>
-				<reportElement uuid="ee3d513f-3f42-41c8-a8f1-c60238ffbabd" x="2" y="87" width="570" height="1"/>
+				<reportElement uuid="ee3d513f-3f42-41c8-a8f1-c60238ffbabd" x="2" y="21" width="570" height="1"/>
 			</line>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="9" splitType="Stretch"/>
+		<band height="8" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="28" splitType="Stretch">
