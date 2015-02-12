@@ -127,7 +127,7 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="jLSubtotal" min="-2" max="-2" attributes="0"/>
                   <Component id="jLPrecioUnitario" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLNumeroCargoTransporte" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLFecha" min="-2" max="-2" attributes="0"/>
                   <Component id="jLFolio" min="-2" max="-2" attributes="0"/>
                   <Component id="jLUsuario" min="-2" max="-2" attributes="0"/>
                   <Component id="jLTotal" min="-2" max="-2" attributes="0"/>
@@ -136,10 +136,10 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jTFUsuario" pref="170" max="32767" attributes="0"/>
                   <Component id="jTFFolio" max="32767" attributes="0"/>
-                  <Component id="jTFCargoEspecial" max="32767" attributes="0"/>
                   <Component id="jTFPrecioUnitario" max="32767" attributes="0"/>
                   <Component id="jTFSubtotal" max="32767" attributes="0"/>
                   <Component id="jTFTotal" alignment="1" max="32767" attributes="0"/>
+                  <Component id="jCCFecha" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -162,7 +162,7 @@
                   </Group>
                   <Component id="jBAgregarCargo" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" pref="34" max="32767" attributes="0"/>
+              <EmptySpace type="separate" pref="61" max="32767" attributes="0"/>
               <Component id="jLLogo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -189,11 +189,13 @@
                           <Component id="jTFClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLNumeroCargoTransporte" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFCargoEspecial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTFCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jCCFecha" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -258,15 +260,9 @@
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLNumeroCargoTransporte">
+    <Component class="javax.swing.JLabel" name="jLFecha">
       <Properties>
-        <Property name="text" type="java.lang.String" value="# Cargo Transporte:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTFCargoEspecial">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" value="Fecha:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLClaveRefaccion">
@@ -369,6 +365,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBAgregarCargoActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCFecha">
     </Component>
   </SubComponents>
 </Form>

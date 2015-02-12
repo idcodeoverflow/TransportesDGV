@@ -149,12 +149,10 @@
                           <Component id="jLPrecioUnitario" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jTFFecha" pref="200" max="32767" attributes="0"/>
-                              <Component id="jTFCantidad" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="jTFPrecioUnitario" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jTFCantidad" pref="200" max="32767" attributes="0"/>
+                          <Component id="jTFPrecioUnitario" alignment="0" pref="200" max="32767" attributes="0"/>
+                          <Component id="jCCFecha" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jBAgregarSalida" min="-2" max="-2" attributes="0"/>
@@ -172,11 +170,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLLogo" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLFecha" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTFUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jCCFecha" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -220,12 +220,6 @@
     <Component class="javax.swing.JLabel" name="jLFecha">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTFFecha">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLNumeroSalida">
@@ -300,6 +294,8 @@
           <Image iconType="3" name="/icons/Logo Efectivo Negro chico.png"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCFecha">
     </Component>
   </SubComponents>
 </Form>

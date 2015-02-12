@@ -17,6 +17,7 @@ import data.SalidaUnidadDAO;
 import data.TransporteReparacionDAO;
 import data.UnidadTransporteDAO;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -85,7 +86,6 @@ public class SalidaUnidad extends javax.swing.JFrame {
         jLUsuario = new javax.swing.JLabel();
         jTFUsuario = new javax.swing.JTextField();
         jLFecha = new javax.swing.JLabel();
-        jTFFecha = new javax.swing.JTextField();
         jLNumeroSalida = new javax.swing.JLabel();
         jTFNumeroSalida = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
@@ -102,6 +102,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
         jBAgregarSalida = new javax.swing.JButton();
         jLLogo = new javax.swing.JLabel();
         jCBClaveTransporte = new javax.swing.JComboBox();
+        jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregarSalida = new javax.swing.JMenuItem();
@@ -121,9 +122,6 @@ public class SalidaUnidad extends javax.swing.JFrame {
         jTFUsuario.setFocusable(false);
 
         jLFecha.setText("Fecha:");
-
-        jTFFecha.setEditable(false);
-        jTFFecha.setFocusable(false);
 
         jLNumeroSalida.setText("Número Salida:");
 
@@ -281,10 +279,10 @@ public class SalidaUnidad extends javax.swing.JFrame {
                             .addComponent(jLTotal))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTFFecha)
                             .addComponent(jCBOrdenReparacion, 0, 200, Short.MAX_VALUE)
                             .addComponent(jTFCantidad)
-                            .addComponent(jTFTotal)))
+                            .addComponent(jTFTotal)
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jBAgregarSalida))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLLogo)
@@ -297,11 +295,12 @@ public class SalidaUnidad extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLLogo)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLUsuario)
-                            .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFecha)
-                            .addComponent(jTFFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLUsuario)
+                                .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLFecha))
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLNumeroSalida)
@@ -444,7 +443,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
             salidaAlmacen.setStatus(true);
             salidaAlmacen.setTipo(4);
             salidaAlmacen.setUsuario(UserHome.getUsuario());
-            
+            salidaAlmacen.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
             
             //Validar que la cantidad sea un valor válido
             if(salidaAlmacen.getCantidad() < 1){
@@ -524,7 +523,6 @@ public class SalidaUnidad extends javax.swing.JFrame {
     private void limpiar(){
         try {
             this.jTFClaveRefaccion.setText(null);
-            this.jTFFecha.setText(null);
             this.jTFNumeroSalida.setText(null);
             this.jCBOrdenReparacion.setSelectedIndex(0);
             this.jCBClaveTransporte.removeAllItems();
@@ -766,6 +764,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
     private javax.swing.JButton jBAgregarSalida;
     private javax.swing.JComboBox jCBClaveTransporte;
     private javax.swing.JComboBox jCBOrdenReparacion;
+    private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
     private javax.swing.JLabel jLClaveTransporte;
@@ -787,7 +786,6 @@ public class SalidaUnidad extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JTextField jTFCantidad;
     private javax.swing.JTextField jTFClaveRefaccion;
-    private javax.swing.JTextField jTFFecha;
     private javax.swing.JTextField jTFNumeroSalida;
     private javax.swing.JTextField jTFPrecioUnitario;
     private javax.swing.JTextField jTFTotal;

@@ -15,6 +15,7 @@ import data.TrabajoExternoDAO;
 import data.TransporteReparacionDAO;
 import data.UnidadTransporteDAO;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -82,8 +83,7 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
         jTFProveedor = new javax.swing.JTextField();
         jLFolioFactura = new javax.swing.JLabel();
         jTFFolioFactura = new javax.swing.JTextField();
-        jLNumeroTrabajo = new javax.swing.JLabel();
-        jTFNumeroTrabajo = new javax.swing.JTextField();
+        jLFecha = new javax.swing.JLabel();
         jLDescripcion = new javax.swing.JLabel();
         jTFDescripcion = new javax.swing.JTextField();
         jLCantidad = new javax.swing.JLabel();
@@ -106,6 +106,7 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
         jTFUsuario = new javax.swing.JTextField();
         jCBClaveUnidad = new javax.swing.JComboBox();
         jTFOrdenReparacion = new javax.swing.JTextField();
+        jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregar = new javax.swing.JMenuItem();
@@ -124,10 +125,7 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
 
         jLFolioFactura.setText("Folio Factura:");
 
-        jLNumeroTrabajo.setText("# Trabajo Externo:");
-
-        jTFNumeroTrabajo.setEditable(false);
-        jTFNumeroTrabajo.setFocusable(false);
+        jLFecha.setText("Fecha:");
 
         jLDescripcion.setText("Descripción:");
 
@@ -351,19 +349,19 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
                                 .addComponent(jLTotal))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jTFFolioFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                                .addComponent(jLNumeroTrabajo)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                                .addComponent(jLFecha)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFNumeroTrabajo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTFTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jTFPorcentajeIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jTFDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jTFProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jCBClaveUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                         .addComponent(jBAgregarTrabajo)))
                 .addGap(27, 27, 27)
                 .addComponent(jLLogo)
@@ -381,11 +379,12 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
                             .addComponent(jLUsuario)
                             .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLNumeroTrabajo)
-                            .addComponent(jTFNumeroTrabajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFolioFactura)
-                            .addComponent(jTFFolioFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLFecha)
+                                .addComponent(jLFolioFactura)
+                                .addComponent(jTFFolioFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLDescripcion)
@@ -725,6 +724,7 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
             trabajoExterno.setOrdenReparacion(ordenReparacion);
             trabajoExterno.setUnidadTransporte(unidadTransporte);
             trabajoExterno.setUsuario(UserHome.getUsuario());
+            trabajoExterno.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
             
             //Validar que la cantidad sea un valor válido
             if(trabajoExterno.getCantidad() < 1){
@@ -954,13 +954,14 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarTrabajo;
     private javax.swing.JComboBox jCBClaveUnidad;
+    private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveUnidad;
     private javax.swing.JLabel jLDescripcion;
+    private javax.swing.JLabel jLFecha;
     private javax.swing.JLabel jLFolioFactura;
     private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
-    private javax.swing.JLabel jLNumeroTrabajo;
     private javax.swing.JLabel jLOrdenReparacion;
     private javax.swing.JLabel jLPorcentajeIVA;
     private javax.swing.JLabel jLPrecioUnitario;
@@ -981,7 +982,6 @@ public class TrabajoExternoExtemporaneo extends javax.swing.JFrame {
     private javax.swing.JTextField jTFDescripcion;
     private javax.swing.JTextField jTFFolioFactura;
     private javax.swing.JTextField jTFIVA;
-    private javax.swing.JTextField jTFNumeroTrabajo;
     private javax.swing.JTextField jTFOrdenReparacion;
     private javax.swing.JTextField jTFPorcentajeIVA;
     private javax.swing.JTextField jTFPrecioUnitario;

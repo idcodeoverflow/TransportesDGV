@@ -211,10 +211,10 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jTFNumeroOrden" max="32767" attributes="0"/>
-                          <Component id="jTFFechaEntrada" max="32767" attributes="0"/>
                           <Component id="jTFNumeroOperador" max="32767" attributes="0"/>
                           <Component id="jTFClaveTracto" pref="200" max="32767" attributes="0"/>
                           <Component id="jTFKilometrajeTracto" max="32767" attributes="0"/>
+                          <Component id="jCCFecha" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -275,13 +275,15 @@
                           <Component id="jTFUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLFechaEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFFechaEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLFechaSalida" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFFechaSalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLFechaEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLFechaSalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTFFechaSalida" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jCCFecha" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLNumeroOperador" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTFNumeroOperador" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -349,12 +351,6 @@
     <Component class="javax.swing.JLabel" name="jLFechaEntrada">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha de Entrada:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTFFechaEntrada">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLFechaSalida">
@@ -796,5 +792,7 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCFecha">
+    </Component>
   </SubComponents>
 </Form>

@@ -27,7 +27,9 @@ import data.ProveedorDAO;
 import data.SalidaAlmacenDAO;
 import data.TrabajoExternoDAO;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -116,7 +118,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         jLFolio = new javax.swing.JLabel();
         jTFFolioFactura = new javax.swing.JTextField();
         jLFechaRegistro = new javax.swing.JLabel();
-        jTFFechaRegistro = new javax.swing.JTextField();
         jLFechaPago = new javax.swing.JLabel();
         jTFFechaPago = new javax.swing.JTextField();
         jLSubtotal = new javax.swing.JLabel();
@@ -144,6 +145,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         jBCargoDirecto = new javax.swing.JButton();
         jBTrabajoExterno = new javax.swing.JButton();
         jBEntradaAlmacen = new javax.swing.JButton();
+        jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregar = new javax.swing.JMenuItem();
@@ -175,9 +177,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
         jLFolio.setText("Folio:");
 
         jLFechaRegistro.setText("Fecha de Registro:");
-
-        jTFFechaRegistro.setEditable(false);
-        jTFFechaRegistro.setFocusable(false);
 
         jLFechaPago.setText("Fecha de Pago:");
 
@@ -642,11 +641,11 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                                     .addComponent(jLIdProveedor))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTFFechaRegistro)
                                     .addComponent(jTFSubtotal)
                                     .addComponent(jTFIVA)
                                     .addComponent(jTFIdProveedor)
-                                    .addComponent(jTFUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
+                                    .addComponent(jTFUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                                    .addComponent(jCCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLFolio)
@@ -683,11 +682,12 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                             .addComponent(jLFolio)
                             .addComponent(jTFFolioFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLFechaRegistro)
-                            .addComponent(jTFFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFechaPago)
-                            .addComponent(jTFFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLFechaRegistro)
+                                .addComponent(jLFechaPago)
+                                .addComponent(jTFFechaPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLSubtotal)
@@ -954,6 +954,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             factura.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             factura.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             factura.setUsuario(UserHome.getUsuario());
+            factura.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
+
 
             acceso.agregarFacturaCredito(factura);
             this.estadoBotonesAgregar();
@@ -1001,6 +1003,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             factura.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             factura.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             factura.setUsuario(factura.getUsuario());
+            factura.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
 
             acceso.modificarFactura(factura);
             this.estadoBotonesInicio();
@@ -1042,7 +1045,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             factura.setSubtotal(factura.getSubtotal());
             factura.setTotal(factura.getTotal());
             factura.setUsuario(factura.getUsuario());
-            
+            factura.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
+
             if(guardarCambios){
                 String folioF = ((this.jTFFolioFactura != null && !"".equals(this.jTFFolioFactura.getText())) ? this.jTFFolioFactura.getText() : "");
                 double ivaF = Double.parseDouble(((this.jTFIVA != null && !"".equals(this.jTFIVA.getText())) ? this.jTFIVA.getText() : "0.00"));
@@ -1100,7 +1104,9 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             factura.setStatus(factura.isStatus());
             factura.setSubtotal(factura.getSubtotal());
             factura.setTotal(factura.getTotal());
-            factura.setUsuario(factura.getUsuario());
+            factura.setUsuario(factura.getUsuario());            
+            factura.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
+
 
             //verificar que los elementos de la factura no tengan problemas al eliminarse
             int rowNumberTable = this.jTConceptosFactura.getRowCount();
@@ -1306,6 +1312,8 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             factura.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             factura.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             factura.setUsuario(UserHome.getUsuario());
+            factura.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
+
 
             acceso.agregarFacturaContado(factura);
             //no manipula el estado de los botones
@@ -1467,7 +1475,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     public void limpiar(){
         try{
             this.jTFFechaPago.setText(null);
-            this.jTFFechaRegistro.setText(null);
             this.jTFFolioFactura.setText(null);
             this.jTFIVA.setText(null);
             this.jTFIdProveedor.setText(null);
@@ -1556,7 +1563,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                 
                 this.factura = new FacturaDAO().obtenerFactura(folio, Integer.parseInt(idProveedor), true, true, true);
                 this.jTFFechaPago.setText(((factura.getFechaPago() != null) ? factura.getFechaPago().toString() : ""));
-                this.jTFFechaRegistro.setText(factura.getFechaRegistro().toString());
+                this.jCCFecha.setDate(new Date(factura.getFechaRegistro().getTime()));
                 this.jTFFolioFactura.setText(factura.getFolio());
                 this.jTFIVA.setText(Double.toString(factura.getIva()));
                 this.jTFIdProveedor.setText(Integer.toString(factura.getProveedor().getIdProveedor()));
@@ -1564,6 +1571,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
                 this.jTFSubtotal.setText(Double.toString(factura.getSubtotal()));
                 this.jTFTotal.setText(Double.toString(factura.getTotal()));
                 this.jTFUsuario.setText(factura.getUsuario().getNombre() + " " + factura.getUsuario().getApellidos());
+
                 
                 this.estadoBotonesClicFactura();
                 
@@ -1994,7 +2002,10 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             if(factura != null){
                 this.deshabilitarTodosBotonesMenus();
                 this.jTFFechaPago.setText(((factura.getFechaPago() != null) ? factura.getFechaPago().toString() : ""));
-                this.jTFFechaRegistro.setText(((factura.getFechaRegistro() != null) ? factura.getFechaRegistro().toString() : ""));
+                if(factura.getFechaRegistro() != null)
+                    this.jCCFecha.setDate(new Date(factura.getFechaRegistro().getTime()));
+                else
+                    JOptionPane.showMessageDialog(this, "No hay fecha de registro", "No hay fecha de registro", JOptionPane.ERROR_MESSAGE);
                 this.jTFFolioFactura.setText(((factura.getFolio() != null) ? factura.getFolio() : ""));
                 this.jTFIVA.setText(formatD.format(factura.getIva()));
                 this.jTFIdProveedor.setText(Integer.toString(factura.getProveedor().getIdProveedor()));
@@ -2068,6 +2079,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     private javax.swing.JButton jBModificar;
     private javax.swing.JButton jBPagar;
     private javax.swing.JButton jBTrabajoExterno;
+    private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLFechaPago;
     private javax.swing.JLabel jLFechaRegistro;
     private javax.swing.JLabel jLFolio;
@@ -2104,7 +2116,6 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTConceptosFactura;
     private javax.swing.JTextField jTFFechaPago;
-    private javax.swing.JTextField jTFFechaRegistro;
     private javax.swing.JTextField jTFFolioFactura;
     private javax.swing.JTextField jTFIVA;
     private javax.swing.JTextField jTFIdProveedor;

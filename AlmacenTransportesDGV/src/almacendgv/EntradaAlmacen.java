@@ -9,6 +9,7 @@ import beans.FacturaDTO;
 import data.EntradaAlmacenDAO;
 import data.RefaccionDAO;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import logger.ErrorLogger;
@@ -22,6 +23,7 @@ public class EntradaAlmacen extends javax.swing.JFrame {
     private FacturaDTO factura;
     private ControlFacturasProveedor controlFacturas;
     private String valorOriginal;
+    
     
     /**
      * Creates new form EntradaAlmacen
@@ -65,7 +67,6 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         try{
             this.jTFFolio.setText(factura.getFolio());
             this.jTFProveedor.setText(factura.getProveedor().getNombre());
-            this.jTFNumeroEntrada.setText(null);
             this.jTFPorcentajeIVA.setText("16.000");
             this.jTFIVA.setText("0.000");
             this.jTFPrecioUnitario.setText("0.000");
@@ -94,8 +95,7 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         jTFProveedor = new javax.swing.JTextField();
         jLFolio = new javax.swing.JLabel();
         jTFFolio = new javax.swing.JTextField();
-        jLNumeroEntrada = new javax.swing.JLabel();
-        jTFNumeroEntrada = new javax.swing.JTextField();
+        jLFecha = new javax.swing.JLabel();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
         jLCantidad = new javax.swing.JLabel();
@@ -114,6 +114,7 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         jTFTotal = new javax.swing.JTextField();
         jLUsuario = new javax.swing.JLabel();
         jTFUsuario = new javax.swing.JTextField();
+        jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregar = new javax.swing.JMenuItem();
@@ -138,10 +139,7 @@ public class EntradaAlmacen extends javax.swing.JFrame {
         jTFFolio.setEditable(false);
         jTFFolio.setFocusable(false);
 
-        jLNumeroEntrada.setText("# Entrada:");
-
-        jTFNumeroEntrada.setEditable(false);
-        jTFNumeroEntrada.setFocusable(false);
+        jLFecha.setText("Fecha:");
 
         jLClaveRefaccion.setText("Clave de Refacción:");
 
@@ -346,15 +344,15 @@ public class EntradaAlmacen extends javax.swing.JFrame {
                             .addComponent(jLIVA)
                             .addComponent(jLSubtotal)
                             .addComponent(jLCantidad)
-                            .addComponent(jLNumeroEntrada)
+                            .addComponent(jLFecha)
                             .addComponent(jLProveedor))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTFIVA)
                             .addComponent(jTFSubtotal)
                             .addComponent(jTFCantidad)
-                            .addComponent(jTFNumeroEntrada)
-                            .addComponent(jTFProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTFProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTFTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -375,11 +373,12 @@ public class EntradaAlmacen extends javax.swing.JFrame {
                             .addComponent(jLUsuario)
                             .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLNumeroEntrada)
-                            .addComponent(jTFNumeroEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFolio)
-                            .addComponent(jTFFolio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLFecha)
+                                .addComponent(jLFolio)
+                                .addComponent(jTFFolio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLCantidad)
@@ -642,6 +641,7 @@ public class EntradaAlmacen extends javax.swing.JFrame {
             entrada.setStatus(true);
             entrada.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             entrada.setUsuario(UserHome.getUsuario());
+            entrada.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
             
             acceso.agregarEntradaAlmacen(entrada);
             this.limpiar();
@@ -765,12 +765,13 @@ public class EntradaAlmacen extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarEntrada;
+    private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
+    private javax.swing.JLabel jLFecha;
     private javax.swing.JLabel jLFolio;
     private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
-    private javax.swing.JLabel jLNumeroEntrada;
     private javax.swing.JLabel jLPorcentajeIVA;
     private javax.swing.JLabel jLPrecioUnitario;
     private javax.swing.JLabel jLProveedor;
@@ -790,7 +791,6 @@ public class EntradaAlmacen extends javax.swing.JFrame {
     private javax.swing.JTextField jTFClaveRefaccion;
     private javax.swing.JTextField jTFFolio;
     private javax.swing.JTextField jTFIVA;
-    private javax.swing.JTextField jTFNumeroEntrada;
     private javax.swing.JTextField jTFPorcentajeIVA;
     private javax.swing.JTextField jTFPrecioUnitario;
     private javax.swing.JTextField jTFProveedor;
