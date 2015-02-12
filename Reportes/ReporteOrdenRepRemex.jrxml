@@ -740,116 +740,99 @@ numero_orden, tipo, nombre_beneficiario AS beneficiario FROM salida_especial WHE
 	<queryString>
 		<![CDATA[SELECT
 
-(SELECT IF(status,"","CANCELADA") FROM orden_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS situacion,
+(SELECT IF(status,"","CANCELADA") FROM orden_reparacion WHERE numero_orden = 1 AND status = TRUE) AS situacion,
 
-(SELECT IFNULL(descripcion, "") FROM transporte_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND ((SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) = 2 OR (SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) = 8) AND status = TRUE) AS descripcion_plana,
+(SELECT IFNULL(descripcion, "") FROM transporte_reparacion WHERE numero_orden = 1 AND ((SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) = 2 OR (SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) = 8) AND status = TRUE) AS descripcion_plana,
 
-(SELECT IFNULL(descripcion, "") FROM transporte_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND ((SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) != 2 AND (SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) != 8) AND status = TRUE) AS descripcion_tracto,
+(SELECT IFNULL(descripcion, "") FROM transporte_reparacion WHERE numero_orden = 1 AND ((SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) != 2 AND (SELECT id_tipo FROM unidad_transporte WHERE unidad_transporte.clave = transporte_reparacion.clave) != 8) AND status = TRUE) AS descripcion_tracto,
 
-(SELECT fecha_entrada FROM orden_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS apertura,
+(SELECT fecha_entrada FROM orden_reparacion WHERE numero_orden = 1 AND status = TRUE) AS apertura,
 
-(SELECT IFNULL(fecha_salida, "Abierta") FROM orden_reparacion WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS cierre,
+(SELECT IFNULL(fecha_salida, "Abierta") FROM orden_reparacion WHERE numero_orden = 1 AND status = TRUE) AS cierre,
 
-(SELECT IFNULL(SUM(total), 0.0) FROM cargo_unidad WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave IN
+(SELECT IFNULL(SUM(total), 0.0) FROM cargo_unidad WHERE numero_orden = 1 AND status = TRUE AND clave IN
 (SELECT clave FROM unidad_transporte WHERE id_tipo != 2)) AS cargo_directo_tracto,
 
-(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_unidad WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave IN
+(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_unidad WHERE numero_orden = 1 AND status = TRUE AND clave IN
 (SELECT clave FROM unidad_transporte WHERE id_tipo != 2)) AS cargo_directo_tracto_iva,
 
-(SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_unidad WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave IN
+(SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_unidad WHERE numero_orden = 1 AND status = TRUE AND clave IN
 (SELECT clave FROM unidad_transporte WHERE id_tipo != 2)) AS cargo_directo_tracto_subtotal,
 
-(SELECT IFNULL(SUM(total), 0.0) FROM cargo_unidad WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave IN
+(SELECT IFNULL(SUM(total), 0.0) FROM cargo_unidad WHERE numero_orden = 1 AND status = TRUE AND clave IN
 (SELECT clave FROM unidad_transporte WHERE id_tipo = 2)) AS cargo_directo_plana,
 
-(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_unidad WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave IN
+(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_unidad WHERE numero_orden = 1 AND status = TRUE AND clave IN
 (SELECT clave FROM unidad_transporte WHERE id_tipo = 2)) AS cargo_directo_plana_iva,
 
-(SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_unidad WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave IN
+(SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_unidad WHERE numero_orden = 1 AND status = TRUE AND clave IN
 (SELECT clave FROM unidad_transporte WHERE id_tipo = 2)) AS cargo_directo_plana_subtotal,
 
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_unidad WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave
+(SELECT IFNULL(SUM(costo), 0.0) FROM salida_unidad WHERE numero_orden = 1 AND status = TRUE AND clave
 IN (SELECT clave FROM unidad_transporte WHERE id_tipo != 2)) AS salida_almacen_tracto,
 
 IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE
 numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion)) *
 (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen
-WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion))) FROM salida_unidad WHERE numero_orden = $P{NUMERO_ORDEN}
+WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion))) FROM salida_unidad WHERE numero_orden = 1
 AND status = TRUE AND clave IN(SELECT clave FROM unidad_transporte WHERE id_tipo != 2)), 0.0) AS salida_almacen_tracto_iva,
 
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_unidad WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave
+(SELECT IFNULL(SUM(costo), 0.0) FROM salida_unidad WHERE numero_orden = 1 AND status = TRUE AND clave
 IN (SELECT clave FROM unidad_transporte WHERE id_tipo = 2)) AS salida_almacen_plana,
 
 IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE
 numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion)) *
 (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen
-WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion))) FROM salida_unidad WHERE numero_orden = $P{NUMERO_ORDEN}
+WHERE entrada_almacen.clave_refaccion = salida_unidad.clave_refaccion))) FROM salida_unidad WHERE numero_orden = 1
 AND status = TRUE AND clave IN(SELECT clave FROM unidad_transporte WHERE id_tipo = 2)), 0.0) AS salida_almacen_plana_iva,
 
-(SELECT IFNULL(SUM(monto), 0.0) FROM trabajo_externo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave IN(SELECT clave FROM
+(SELECT IFNULL(SUM(monto), 0.0) FROM trabajo_externo WHERE numero_orden = 1 AND status = TRUE AND clave IN(SELECT clave FROM
 unidad_transporte WHERE id_tipo = 2)) AS total_trabajo_plana,
 
-(SELECT IFNULL(SUM(iva), 0.0) FROM trabajo_externo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave IN(SELECT clave
+(SELECT IFNULL(SUM(iva), 0.0) FROM trabajo_externo WHERE numero_orden = 1 AND status = TRUE AND clave IN(SELECT clave
 FROM unidad_transporte WHERE id_tipo = 2)) AS total_trabajo_plana_iva,
 
-(SELECT IFNULL(SUM(subtotal), 0.0) FROM trabajo_externo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave
+(SELECT IFNULL(SUM(subtotal), 0.0) FROM trabajo_externo WHERE numero_orden = 1 AND status = TRUE AND clave
 IN(SELECT clave FROM unidad_transporte WHERE id_tipo = 2)) AS total_trabajo_plana_subtotal,
 
-(SELECT IFNULL(SUM(monto), 0.0) FROM trabajo_externo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave
+(SELECT IFNULL(SUM(monto), 0.0) FROM trabajo_externo WHERE numero_orden = 1 AND status = TRUE AND clave
 IN(SELECT clave FROM unidad_transporte WHERE id_tipo != 2)) AS total_trabajo_tracto,
 
-(SELECT IFNULL(SUM(iva), 0.0) FROM trabajo_externo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave
+(SELECT IFNULL(SUM(iva), 0.0) FROM trabajo_externo WHERE numero_orden = 1 AND status = TRUE AND clave
 IN(SELECT clave FROM unidad_transporte WHERE id_tipo != 2)) AS total_trabajo_tracto_iva,
 
-(SELECT IFNULL(SUM(subtotal), 0.0) FROM trabajo_externo WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE AND clave
+(SELECT IFNULL(SUM(subtotal), 0.0) FROM trabajo_externo WHERE numero_orden = 1 AND status = TRUE AND clave
 IN(SELECT clave FROM unidad_transporte WHERE id_tipo != 2)) AS total_trabajo_tracto_subtotal,
 
-((SELECT IFNULL(SUM(total), 0.0) FROM cargo_operador WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) +
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_operador WHERE numero_orden = $P{NUMERO_ORDEN}
+((SELECT IFNULL(SUM(total), 0.0) FROM cargo_operador WHERE numero_orden = 1 AND status = TRUE) +
+(SELECT IFNULL(SUM(costo), 0.0) FROM salida_operador WHERE numero_orden = 1
 AND status = TRUE)) AS total_operador,
 
-(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_operador WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS total_operador_iva,
+(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_operador WHERE numero_orden = 1 AND status = TRUE) AS total_operador_iva,
 
 IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada =
 (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_operador.clave_refaccion)) *
 (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen
-WHERE entrada_almacen.clave_refaccion = salida_operador.clave_refaccion))) FROM salida_operador WHERE numero_orden = $P{NUMERO_ORDEN}
+WHERE entrada_almacen.clave_refaccion = salida_operador.clave_refaccion))) FROM salida_operador WHERE numero_orden = 1
 AND status = TRUE), 0.0) AS total_operador_salidas_iva,
 
-((SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_operador WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) +
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_operador WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE)) AS total_operador_subtotal,
+((SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_operador WHERE numero_orden = 1 AND status = TRUE) +
+(SELECT IFNULL(SUM(costo), 0.0) FROM salida_operador WHERE numero_orden = 1 AND status = TRUE)) AS total_operador_subtotal,
 
-((SELECT IFNULL(SUM(total), 0.0) FROM cargo_especial WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) +
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_especial WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE)) AS total_especial,
+((SELECT IFNULL(SUM(total), 0.0) FROM cargo_especial WHERE numero_orden = 1 AND status = TRUE) +
+(SELECT IFNULL(SUM(costo), 0.0) FROM salida_especial WHERE numero_orden = 1 AND status = TRUE)) AS total_especial,
 
-(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_especial WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS total_especial_iva,
+(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_especial WHERE numero_orden = 1 AND status = TRUE) AS total_especial_iva,
 
 IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada =
 (SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_especial.clave_refaccion)) *
 (SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen
-WHERE entrada_almacen.clave_refaccion = salida_especial.clave_refaccion))) FROM salida_especial WHERE numero_orden = $P{NUMERO_ORDEN} AND
+WHERE entrada_almacen.clave_refaccion = salida_especial.clave_refaccion))) FROM salida_especial WHERE numero_orden = 1 AND
 status = TRUE), 0.0) AS total_especial_salidas_iva,
 
-((SELECT IFNULL(SUM(total), 0.0) FROM cargo_especial WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) +
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_especial WHERE numero_orden = $P{NUMERO_ORDEN}
-AND status = TRUE)) AS total_especial_subtotal,
-
-((SELECT IFNULL(SUM(total), 0.0) FROM cargo_taller WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) +
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_taller WHERE numero_orden = $P{NUMERO_ORDEN}
-AND status = TRUE)) AS total_bodega,
-
-(SELECT IFNULL(SUM(iva), 0.0) FROM cargo_taller WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) AS total_bodega_iva,
-
-IFNULL((SELECT SUM(IFNULL(costo, 0.0) / (SELECT 100.0 + (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada =
-(SELECT MAX(numero_entrada) FROM entrada_almacen WHERE entrada_almacen.clave_refaccion = salida_taller.clave_refaccion)) *
-(SELECT (IFNULL(iva / subtotal, 0.0) * 100.0) FROM entrada_almacen WHERE numero_entrada = (SELECT MAX(numero_entrada) FROM entrada_almacen
-WHERE entrada_almacen.clave_refaccion = salida_taller.clave_refaccion))) FROM salida_taller WHERE numero_orden = $P{NUMERO_ORDEN} AND
-status = TRUE), 0.0) AS total_bodega_salidas_iva,
-
-((SELECT IFNULL(SUM(subtotal), 0.0) FROM cargo_taller WHERE numero_orden = $P{NUMERO_ORDEN} AND status = TRUE) +
-(SELECT IFNULL(SUM(costo), 0.0) FROM salida_taller WHERE numero_orden = $P{NUMERO_ORDEN}
-AND status = TRUE)) AS total_bodega_subtotal
-
+((SELECT IFNULL(SUM(total), 0.0) FROM cargo_especial WHERE numero_orden = 1 AND status = TRUE) +
+(SELECT IFNULL(SUM(costo), 0.0) FROM salida_especial WHERE numero_orden = 1
+AND status = TRUE)) AS total_especial_subtotal
 FROM dual;]]>
 	</queryString>
 	<field name="situacion" class="java.lang.String"/>
@@ -881,10 +864,6 @@ FROM dual;]]>
 	<field name="total_especial_iva" class="java.lang.Double"/>
 	<field name="total_especial_salidas_iva" class="java.lang.Double"/>
 	<field name="total_especial_subtotal" class="java.lang.Double"/>
-	<field name="total_bodega" class="java.lang.Double"/>
-	<field name="total_bodega_iva" class="java.lang.Double"/>
-	<field name="total_bodega_salidas_iva" class="java.lang.Double"/>
-	<field name="total_bodega_subtotal" class="java.lang.Double"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -2560,7 +2539,7 @@ FROM dual;]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cargo_directo_tracto}+$F{cargo_directo_plana}+$F{salida_almacen_tracto}+$F{salida_almacen_plana}+$F{total_trabajo_tracto}+$F{total_trabajo_plana}+$F{total_operador}+$F{total_especial}+$F{total_bodega}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cargo_directo_tracto}+$F{cargo_directo_plana}+$F{salida_almacen_tracto}+$F{salida_almacen_plana}+$F{total_trabajo_tracto}+$F{total_trabajo_plana}+$F{total_operador}+$F{total_especial}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="1f12c98b-f599-453c-a557-03d00d8ddb48" x="552" y="90" width="100" height="20"/>
@@ -2649,7 +2628,7 @@ FROM dual;]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cargo_directo_tracto_iva}+$F{cargo_directo_plana_iva}+$F{total_trabajo_tracto_iva}+$F{total_trabajo_plana_iva}+$F{total_operador_iva}+$F{total_especial_iva}+$F{total_bodega_iva}+$F{salida_almacen_tracto_iva}+$F{salida_almacen_plana_iva}+$F{total_operador_salidas_iva}+$F{total_especial_salidas_iva}+$F{total_bodega_salidas_iva}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cargo_directo_tracto_iva}+$F{cargo_directo_plana_iva}+$F{total_trabajo_tracto_iva}+$F{total_trabajo_plana_iva}+$F{total_operador_iva}+$F{total_especial_iva}+$F{salida_almacen_tracto_iva}+$F{salida_almacen_plana_iva}+$F{total_operador_salidas_iva}+$F{total_especial_salidas_iva}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="d0dfda33-eb1e-4a4f-94a4-e21bacd9c80e" x="0" y="0" width="117" height="20"/>
@@ -2725,7 +2704,7 @@ FROM dual;]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cargo_directo_tracto_subtotal}+$F{cargo_directo_plana_subtotal}+$F{salida_almacen_tracto}+$F{salida_almacen_plana}+$F{total_trabajo_tracto_subtotal}+$F{total_trabajo_plana_subtotal}+$F{total_operador_subtotal}+$F{total_especial_subtotal}+$F{total_bodega_subtotal}-$F{salida_almacen_plana_iva}-$F{salida_almacen_tracto_iva}-$F{total_operador_salidas_iva}-$F{total_especial_salidas_iva}-$F{total_bodega_salidas_iva}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{cargo_directo_tracto_subtotal}+$F{cargo_directo_plana_subtotal}+$F{salida_almacen_tracto}+$F{salida_almacen_plana}+$F{total_trabajo_tracto_subtotal}+$F{total_trabajo_plana_subtotal}+$F{total_operador_subtotal}+$F{total_especial_subtotal}-$F{salida_almacen_plana_iva}-$F{salida_almacen_tracto_iva}-$F{total_operador_salidas_iva}-$F{total_especial_salidas_iva}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>
