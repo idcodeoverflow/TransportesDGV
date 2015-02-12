@@ -160,7 +160,7 @@
                           <Component id="jLIVA" min="-2" max="-2" attributes="0"/>
                           <Component id="jLSubtotal" min="-2" max="-2" attributes="0"/>
                           <Component id="jLCantidad" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLNumeroEntrada" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLFecha" min="-2" max="-2" attributes="0"/>
                           <Component id="jLProveedor" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -168,8 +168,8 @@
                           <Component id="jTFIVA" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTFSubtotal" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTFCantidad" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jTFNumeroEntrada" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jTFProveedor" min="-2" pref="190" max="-2" attributes="0"/>
+                          <Component id="jTFProveedor" pref="190" max="32767" attributes="0"/>
+                          <Component id="jCCFecha" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
@@ -197,11 +197,13 @@
                           <Component id="jTFUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLNumeroEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFNumeroEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLFolio" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFFolio" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLFolio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTFFolio" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jCCFecha" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -261,15 +263,9 @@
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLNumeroEntrada">
+    <Component class="javax.swing.JLabel" name="jLFecha">
       <Properties>
-        <Property name="text" type="java.lang.String" value="# Entrada:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTFNumeroEntrada">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" value="Fecha:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLClaveRefaccion">
@@ -383,6 +379,8 @@
         <Property name="editable" type="boolean" value="false"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
+    </Component>
+    <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCFecha">
     </Component>
   </SubComponents>
 </Form>

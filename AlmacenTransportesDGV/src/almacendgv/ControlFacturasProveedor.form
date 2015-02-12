@@ -285,11 +285,11 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jTFFechaRegistro" max="32767" attributes="0"/>
                                   <Component id="jTFSubtotal" max="32767" attributes="0"/>
                                   <Component id="jTFIVA" max="32767" attributes="0"/>
                                   <Component id="jTFIdProveedor" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jTFUsuario" pref="194" max="32767" attributes="0"/>
+                                  <Component id="jCCFecha" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
@@ -334,11 +334,13 @@
                           <Component id="jTFFolioFactura" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLFechaRegistro" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFFechaRegistro" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLFechaPago" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFFechaPago" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLFechaRegistro" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLFechaPago" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTFFechaPago" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jCCFecha" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -392,12 +394,6 @@
     <Component class="javax.swing.JLabel" name="jLFechaRegistro">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fecha de Registro:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTFFechaRegistro">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLFechaPago">
@@ -782,5 +778,7 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCFecha">
+    </Component>
   </SubComponents>
 </Form>

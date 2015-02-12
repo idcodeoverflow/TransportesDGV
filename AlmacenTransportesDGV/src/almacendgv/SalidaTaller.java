@@ -6,16 +6,13 @@ package almacendgv;
 
 import beans.OrdenReparacionDTO;
 import beans.RefaccionDTO;
-import beans.SalidaAlmacenDTO;
 import beans.SalidaTallerDTO;
 import beans.TransporteReparacionDTO;
-import beans.UnidadTransporteDTO;
-import data.OrdenReparacionDAO;
 import data.RefaccionDAO;
 import data.SalidaTallerDAO;
 import data.TransporteReparacionDAO;
-import data.UnidadTransporteDAO;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -83,7 +80,6 @@ public class SalidaTaller extends javax.swing.JFrame {
         jLUsuario = new javax.swing.JLabel();
         jTFUsuario = new javax.swing.JTextField();
         jLFecha = new javax.swing.JLabel();
-        jTFFecha = new javax.swing.JTextField();
         jLNumeroSalida = new javax.swing.JLabel();
         jTFNumeroSalida = new javax.swing.JTextField();
         jLClaveRefaccion = new javax.swing.JLabel();
@@ -96,6 +92,7 @@ public class SalidaTaller extends javax.swing.JFrame {
         jTFTotal = new javax.swing.JTextField();
         jBAgregarSalida = new javax.swing.JButton();
         jLLogo = new javax.swing.JLabel();
+        jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregarSalida = new javax.swing.JMenuItem();
@@ -115,9 +112,6 @@ public class SalidaTaller extends javax.swing.JFrame {
         jTFUsuario.setFocusable(false);
 
         jLFecha.setText("Fecha:");
-
-        jTFFecha.setEditable(false);
-        jTFFecha.setFocusable(false);
 
         jLNumeroSalida.setText("Número Salida:");
 
@@ -261,11 +255,10 @@ public class SalidaTaller extends javax.swing.JFrame {
                             .addComponent(jLCantidad)
                             .addComponent(jLPrecioUnitario))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTFFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jTFCantidad))
-                            .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTFCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jTFPrecioUnitario, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jBAgregarSalida))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLLogo)
@@ -278,11 +271,12 @@ public class SalidaTaller extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLLogo)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLUsuario)
-                            .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFecha)
-                            .addComponent(jTFFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLUsuario)
+                                .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLFecha))
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLNumeroSalida)
@@ -396,6 +390,7 @@ public class SalidaTaller extends javax.swing.JFrame {
             salidaTaller.setStatus(true);
             salidaTaller.setTipo(5);
             salidaTaller.setUsuario(UserHome.getUsuario());
+            salidaTaller.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
             
             //Validar que la cantidad sea un valor válido
             if(salidaTaller.getCantidad() < 1){
@@ -472,7 +467,6 @@ public class SalidaTaller extends javax.swing.JFrame {
     private void limpiar(){
         try {
             this.jTFClaveRefaccion.setText(null);
-            this.jTFFecha.setText(null);
             this.jTFNumeroSalida.setText(null);
             this.mostrarValores();
         } catch (Exception ex) {
@@ -659,6 +653,7 @@ public class SalidaTaller extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarSalida;
+    private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
     private javax.swing.JLabel jLFecha;
@@ -678,7 +673,6 @@ public class SalidaTaller extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JTextField jTFCantidad;
     private javax.swing.JTextField jTFClaveRefaccion;
-    private javax.swing.JTextField jTFFecha;
     private javax.swing.JTextField jTFNumeroSalida;
     private javax.swing.JTextField jTFPrecioUnitario;
     private javax.swing.JTextField jTFTotal;

@@ -30,7 +30,7 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         String query = "INSERT INTO salida_operador(id_salida_operador, numero_operador, costo, status, "
                 + "cantidad, fecha_registro, clave_refaccion, numero_usuario, "
-                + "numero_orden, tipo) VALUES(NULL,?,?,?,?,NOW(),?,?,?,?);";
+                + "numero_orden, tipo) VALUES(NULL,?,?,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -39,10 +39,11 @@ public class SalidaOperadorDAO extends SalidaAlmacenDAO {
             pstmt.setDouble(2, salida.getCosto());
             pstmt.setBoolean(3, true);
             pstmt.setDouble(4, salida.getCantidad());
-            pstmt.setString(5, salida.getRefaccion().getClaveRefaccion());
-            pstmt.setInt(6, salida.getUsuario().getNumeroUsuario());
-            pstmt.setInt(7, salida.getOrdenReparacion().getNumeroOrden());
-            pstmt.setInt(8, salida.getTipo());
+            pstmt.setTimestamp(5, salida.getFechaRegistro());
+            pstmt.setString(6, salida.getRefaccion().getClaveRefaccion());
+            pstmt.setInt(7, salida.getUsuario().getNumeroUsuario());
+            pstmt.setInt(8, salida.getOrdenReparacion().getNumeroOrden());
+            pstmt.setInt(9, salida.getTipo());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 579\n" + ex.getMessage(),

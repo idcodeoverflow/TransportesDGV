@@ -30,19 +30,20 @@ public class FacturaDAO {
         Connection conn = null;
         String query = "INSERT INTO factura(id_proveedor, folio, fecha_registro, "
                 + "fecha_pago, subtotal, iva, total, pagada, status, numero_usuario) "
-                + "VALUES(?,?,NOW(),NULL,?,?,?,?,?,?);";
+                + "VALUES(?,?,?,NULL,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, factura.getProveedor().getIdProveedor());
             pstmt.setString(2, factura.getFolio());
-            pstmt.setDouble(3, factura.getSubtotal());
-            pstmt.setDouble(4, factura.getIva());
-            pstmt.setDouble(5, factura.getTotal());
-            pstmt.setBoolean(6, false);
-            pstmt.setBoolean(7, true);
-            pstmt.setInt(8, factura.getUsuario().getNumeroUsuario());
+            pstmt.setTimestamp(3, factura.getFechaRegistro());
+            pstmt.setDouble(4, factura.getSubtotal());
+            pstmt.setDouble(5, factura.getIva());
+            pstmt.setDouble(6, factura.getTotal());
+            pstmt.setBoolean(7, false);
+            pstmt.setBoolean(8, true);
+            pstmt.setInt(9, factura.getUsuario().getNumeroUsuario());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 480\n" + ex.getMessage(),
@@ -59,19 +60,20 @@ public class FacturaDAO {
         Connection conn = null;
         String query = "INSERT INTO factura(id_proveedor, folio, fecha_registro, "
                 + "fecha_pago, subtotal, iva, total, pagada, status, numero_usuario) "
-                + "VALUES(?,?,NOW(),NOW(),?,?,?,?,?,?);";
+                + "VALUES(?,?,?,NOW(),?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, factura.getProveedor().getIdProveedor());
             pstmt.setString(2, factura.getFolio());
-            pstmt.setDouble(3, factura.getSubtotal());
-            pstmt.setDouble(4, factura.getIva());
-            pstmt.setDouble(5, factura.getTotal());
-            pstmt.setBoolean(6, true);
+            pstmt.setTimestamp(3, factura.getFechaRegistro());
+            pstmt.setDouble(4, factura.getSubtotal());
+            pstmt.setDouble(5, factura.getIva());
+            pstmt.setDouble(6, factura.getTotal());
             pstmt.setBoolean(7, true);
-            pstmt.setInt(8, factura.getUsuario().getNumeroUsuario());
+            pstmt.setBoolean(8, true);
+            pstmt.setInt(9, factura.getUsuario().getNumeroUsuario());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 481\n" + ex.getMessage(),

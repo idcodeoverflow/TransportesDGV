@@ -146,8 +146,8 @@
                   <Component id="jLClaveRefaccion" min="-2" max="-2" attributes="0"/>
                   <Component id="jLCantidad" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jTFUsuario" pref="170" max="32767" attributes="0"/>
@@ -160,7 +160,7 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jLProveedor" min="-2" max="-2" attributes="0"/>
                           <Component id="jLPorcentajeIVA" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLNumeroCargoTransporte" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLFecha" min="-2" max="-2" attributes="0"/>
                           <Component id="jLPrecioUnitario" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="jLIVA" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -168,14 +168,14 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jTFProveedor" pref="170" max="32767" attributes="0"/>
                           <Component id="jTFPorcentajeIVA" max="32767" attributes="0"/>
-                          <Component id="jTFCargoEspecial" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTFPrecioUnitario" alignment="0" max="32767" attributes="0"/>
                           <Component id="jTFIVA" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jCCFecha" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jTFTotal" min="-2" pref="170" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="171" max="-2" attributes="0"/>
+                      <EmptySpace pref="144" max="32767" attributes="0"/>
                       <Component id="jBAgregarCargo" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -200,11 +200,13 @@
                                   <Component id="jTFProveedor" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLFolio" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTFFolio" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLNumeroCargoTransporte" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTFCargoEspecial" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLFolio" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jTFFolio" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="jCCFecha" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -237,9 +239,10 @@
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTFTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTFTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jBAgregarCargo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -273,15 +276,9 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTFFolio">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLNumeroCargoTransporte">
+    <Component class="javax.swing.JLabel" name="jLFecha">
       <Properties>
-        <Property name="text" type="java.lang.String" value="# Cargo Transporte:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTFCargoEspecial">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" value="Fecha:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLClaveRefaccion">
@@ -384,6 +381,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBAgregarCargoActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCFecha">
     </Component>
   </SubComponents>
 </Form>

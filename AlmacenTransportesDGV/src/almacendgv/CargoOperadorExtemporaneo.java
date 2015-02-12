@@ -18,6 +18,7 @@ import data.OperadorDAO;
 import data.OrdenReparacionDAO;
 import data.RefaccionDAO;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import logger.ErrorLogger;
@@ -112,8 +113,7 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
         jLFolio = new javax.swing.JLabel();
         jTFFolio = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jLNumeroCargoEspecial = new javax.swing.JLabel();
-        jTFCargoEspecial = new javax.swing.JTextField();
+        jLFecha = new javax.swing.JLabel();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
         jLPrecioUnitario = new javax.swing.JLabel();
@@ -133,6 +133,7 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
         jLNumeroOperador = new javax.swing.JLabel();
         jTFNumeroOperador = new javax.swing.JTextField();
         jTFOrdenReparacion = new javax.swing.JTextField();
+        jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregar = new javax.swing.JMenuItem();
@@ -158,10 +159,7 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
 
         jLOrdenReparacion.setText("Orden de Reparación:");
 
-        jLNumeroCargoEspecial.setText("# Cargo Especial:");
-
-        jTFCargoEspecial.setEditable(false);
-        jTFCargoEspecial.setFocusable(false);
+        jLFecha.setText("Fecha:");
 
         jLClaveRefaccion.setText("Clave de Refacción:");
 
@@ -359,7 +357,7 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
                     .addComponent(jLIVA)
                     .addComponent(jLSubtotal)
                     .addComponent(jLPrecioUnitario)
-                    .addComponent(jLNumeroCargoEspecial)
+                    .addComponent(jLFecha)
                     .addComponent(jLFolio)
                     .addComponent(jLUsuario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -367,10 +365,10 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
                     .addComponent(jTFNumeroOperador, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                     .addComponent(jTFUsuario)
                     .addComponent(jTFFolio)
-                    .addComponent(jTFCargoEspecial)
                     .addComponent(jTFPrecioUnitario)
                     .addComponent(jTFSubtotal)
-                    .addComponent(jTFIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                    .addComponent(jTFIVA, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(jCCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -390,7 +388,7 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
                             .addComponent(jTFTotal)
                             .addComponent(jTFOrdenReparacion)))
                     .addComponent(jBAgregarCargo, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 49, Short.MAX_VALUE)
+                .addGap(18, 61, Short.MAX_VALUE)
                 .addComponent(jLLogo)
                 .addContainerGap())
         );
@@ -413,10 +411,10 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
                             .addComponent(jTFOrdenReparacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLNumeroCargoEspecial)
-                            .addComponent(jTFCargoEspecial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLFecha)
                             .addComponent(jLClaveRefaccion)
-                            .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTFClaveRefaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLLogo))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -773,6 +771,8 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
             cargoDirecto.setSubtotal(Double.parseDouble(this.jTFSubtotal.getText()));
             cargoDirecto.setTotal(Double.parseDouble(this.jTFTotal.getText()));
             cargoDirecto.setUsuario(UserHome.getUsuario());
+            cargoDirecto.setFechaRegistro(new Timestamp(jCCFecha.getDate().getTime()));
+            
                         
             //Validar que la cantidad sea válida
             if(cargoDirecto.getCantidad() < 1){
@@ -975,12 +975,13 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarCargo;
+    private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
+    private javax.swing.JLabel jLFecha;
     private javax.swing.JLabel jLFolio;
     private javax.swing.JLabel jLIVA;
     private javax.swing.JLabel jLLogo;
-    private javax.swing.JLabel jLNumeroCargoEspecial;
     private javax.swing.JLabel jLNumeroOperador;
     private javax.swing.JLabel jLOrdenReparacion;
     private javax.swing.JLabel jLPorcentajeIVA;
@@ -1000,7 +1001,6 @@ public class CargoOperadorExtemporaneo extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIVerManual;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JTextField jTFCantidad;
-    private javax.swing.JTextField jTFCargoEspecial;
     private javax.swing.JTextField jTFClaveRefaccion;
     private javax.swing.JTextField jTFFolio;
     private javax.swing.JTextField jTFIVA;

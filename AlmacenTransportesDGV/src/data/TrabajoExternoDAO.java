@@ -30,23 +30,24 @@ public class TrabajoExternoDAO {
         Connection conn = null;
         String query = "INSERT INTO trabajo_externo(numero_trabajo_externo, fecha_registro, descripcion, "
                 + "cantidad, precio_unitario, subtotal, iva, monto, status, id_proveedor, "
-                + "folio, numero_orden, clave, numero_usuario) VALUES(NULL,NOW(),?,?,?,?,?,?,?,?,?,?,?,?);";
+                + "folio, numero_orden, clave, numero_usuario) VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, trabajo.getDescripcion());
-            pstmt.setDouble(2, trabajo.getCantidad());
-            pstmt.setDouble(3, trabajo.getPrecioUnitario());
-            pstmt.setDouble(4, trabajo.getSubtotal());
-            pstmt.setDouble(5, trabajo.getIva());
-            pstmt.setDouble(6, trabajo.getMonto());
-            pstmt.setBoolean(7, true);
-            pstmt.setInt(8, trabajo.getFactura().getProveedor().getIdProveedor());
-            pstmt.setString(9, trabajo.getFactura().getFolio());
-            pstmt.setInt(10, trabajo.getOrdenReparacion().getNumeroOrden());
-            pstmt.setString(11, trabajo.getUnidadTransporte().getClave());
-            pstmt.setInt(12, trabajo.getUsuario().getNumeroUsuario());
+            pstmt.setTimestamp(1, trabajo.getFechaRegistro());
+            pstmt.setString(2, trabajo.getDescripcion());
+            pstmt.setDouble(3, trabajo.getCantidad());
+            pstmt.setDouble(4, trabajo.getPrecioUnitario());
+            pstmt.setDouble(5, trabajo.getSubtotal());
+            pstmt.setDouble(6, trabajo.getIva());
+            pstmt.setDouble(7, trabajo.getMonto());
+            pstmt.setBoolean(8, true);
+            pstmt.setInt(9, trabajo.getFactura().getProveedor().getIdProveedor());
+            pstmt.setString(10, trabajo.getFactura().getFolio());
+            pstmt.setInt(11, trabajo.getOrdenReparacion().getNumeroOrden());
+            pstmt.setString(12, trabajo.getUnidadTransporte().getClave());
+            pstmt.setInt(13, trabajo.getUsuario().getNumeroUsuario());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 602\n" + ex.getMessage(),

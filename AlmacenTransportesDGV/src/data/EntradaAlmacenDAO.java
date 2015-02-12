@@ -31,21 +31,22 @@ public class EntradaAlmacenDAO {
         Connection conn = null;
         String query = "INSERT INTO entrada_almacen(numero_entrada, fecha_registro, cantidad, "
                 + "precio_unitario, subtotal, iva, monto, status, clave_refaccion, "
-                + "id_proveedor, folio, numero_usuario) VALUES(NULL,NOW(),?,?,?,?,?,?,?,?,?,?);";
+                + "id_proveedor, folio, numero_usuario) VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
-            pstmt.setDouble(1, entrada.getCantidad());
-            pstmt.setDouble(2, entrada.getPrecioUnitario());
-            pstmt.setDouble(3, entrada.getSubtotal());
-            pstmt.setDouble(4, entrada.getIva());
-            pstmt.setDouble(5, entrada.getMonto());
-            pstmt.setBoolean(6, true);
-            pstmt.setString(7, entrada.getRefaccion().getClaveRefaccion());
-            pstmt.setInt(8, entrada.getFactura().getProveedor().getIdProveedor());
-            pstmt.setString(9, entrada.getFactura().getFolio());
-            pstmt.setInt(10, entrada.getUsuario().getNumeroUsuario());
+            pstmt.setTimestamp(1, entrada.getFechaRegistro());
+            pstmt.setDouble(2, entrada.getCantidad());
+            pstmt.setDouble(3, entrada.getPrecioUnitario());
+            pstmt.setDouble(4, entrada.getSubtotal());
+            pstmt.setDouble(5, entrada.getIva());
+            pstmt.setDouble(6, entrada.getMonto());
+            pstmt.setBoolean(7, true);
+            pstmt.setString(8, entrada.getRefaccion().getClaveRefaccion());
+            pstmt.setInt(9, entrada.getFactura().getProveedor().getIdProveedor());
+            pstmt.setString(10, entrada.getFactura().getFolio());
+            pstmt.setInt(11, entrada.getUsuario().getNumeroUsuario());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 471\n" + ex.getMessage(),

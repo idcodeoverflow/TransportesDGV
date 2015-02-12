@@ -141,7 +141,6 @@ public class ReporteReparacionesPUnidad extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Las fechas seleccionadas no son válidas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
             String claveUnidad = this.jTFUnidad.getText();
             Timestamp inicio = new Timestamp(this.jCCBDel.getDate().getTime());
             Timestamp fin = new Timestamp(this.jCCBAl.getDate().getTime());

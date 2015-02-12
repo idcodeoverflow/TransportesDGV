@@ -30,7 +30,7 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
         Connection conn = null;
         String query = "INSERT INTO salida_taller(id_salida_taller, costo, status, "
                 + "cantidad, fecha_registro, clave_refaccion, numero_usuario, "
-                + "tipo) VALUES(NULL,?,?,?,NOW(),?,?,?);";
+                + "tipo) VALUES(NULL,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
@@ -38,9 +38,10 @@ public class SalidaTallerDAO extends SalidaAlmacenDAO {
             pstmt.setDouble(1, salida.getCosto());
             pstmt.setBoolean(2, true);
             pstmt.setDouble(3, salida.getCantidad());
-            pstmt.setString(4, salida.getRefaccion().getClaveRefaccion());
-            pstmt.setInt(5, salida.getUsuario().getNumeroUsuario());
-            pstmt.setInt(6, salida.getTipo());
+            pstmt.setTimestamp(4, salida.getFechaRegistro());
+            pstmt.setString(5, salida.getRefaccion().getClaveRefaccion());
+            pstmt.setInt(6, salida.getUsuario().getNumeroUsuario());
+            pstmt.setInt(7, salida.getTipo());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2039\n" + ex.getMessage(),

@@ -8,7 +8,6 @@ import static utilidades.FinallyHandler.*;
 import almacendgv.UserHome;
 import beans.CargoTallerDTO;
 import beans.FacturaDTO;
-import beans.OrdenReparacionDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,21 +30,22 @@ public class CargoTallerDAO extends CargoDirectoDAO {
         String query = "INSERT INTO cargo_taller(id_cargo_taller, "
                 + "fecha_registro, precio_unitario, cantidad, subtotal, iva, total, status,"
                 + "clave_refaccion, id_proveedor, folio, numero_usuario) "
-                + "VALUES(NULL,NOW(),?,?,?,?,?,?,?,?,?,?);";
+                + "VALUES(NULL,?,?,?,?,?,?,?,?,?,?,?);";
         try{
             DBConnection.createConnection();
             conn = DBConnection.getConn();
             pstmt = conn.prepareStatement(query);
-            pstmt.setDouble(1, cargo.getPrecioUnitario());
-            pstmt.setDouble(2, cargo.getCantidad());
-            pstmt.setDouble(3, cargo.getSubtotal());
-            pstmt.setDouble(4, cargo.getIva());
-            pstmt.setDouble(5, cargo.getTotal());
-            pstmt.setBoolean(6, true);
-            pstmt.setString(7, cargo.getRefaccion().getClaveRefaccion());
-            pstmt.setInt(8, cargo.getFactura().getProveedor().getIdProveedor());
-            pstmt.setString(9, cargo.getFactura().getFolio());
-            pstmt.setInt(10, cargo.getUsuario().getNumeroUsuario());
+            pstmt.setTimestamp(1, cargo.getFechaRegistro());
+            pstmt.setDouble(2, cargo.getPrecioUnitario());            
+            pstmt.setDouble(3, cargo.getCantidad());
+            pstmt.setDouble(4, cargo.getSubtotal());
+            pstmt.setDouble(5, cargo.getIva());
+            pstmt.setDouble(6, cargo.getTotal());
+            pstmt.setBoolean(7, true);
+            pstmt.setString(8, cargo.getRefaccion().getClaveRefaccion());
+            pstmt.setInt(9, cargo.getFactura().getProveedor().getIdProveedor());
+            pstmt.setString(10, cargo.getFactura().getFolio());
+            pstmt.setInt(11, cargo.getUsuario().getNumeroUsuario());
             pstmt.executeUpdate();
         } catch(Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 2029\n" + ex.getMessage(),

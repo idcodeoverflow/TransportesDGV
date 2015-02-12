@@ -143,7 +143,7 @@
                   <Component id="jLIVA" min="-2" max="-2" attributes="0"/>
                   <Component id="jLSubtotal" min="-2" max="-2" attributes="0"/>
                   <Component id="jLPrecioUnitario" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLNumeroCargoEspecial" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLFecha" min="-2" max="-2" attributes="0"/>
                   <Component id="jLFolio" min="-2" max="-2" attributes="0"/>
                   <Component id="jLUsuario" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -152,10 +152,10 @@
                   <Component id="jTFBeneficiario" pref="170" max="32767" attributes="0"/>
                   <Component id="jTFUsuario" max="32767" attributes="0"/>
                   <Component id="jTFFolio" max="32767" attributes="0"/>
-                  <Component id="jTFCargoEspecial" max="32767" attributes="0"/>
                   <Component id="jTFPrecioUnitario" max="32767" attributes="0"/>
                   <Component id="jTFSubtotal" max="32767" attributes="0"/>
                   <Component id="jTFIVA" pref="170" max="32767" attributes="0"/>
+                  <Component id="jCCFecha" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -207,10 +207,10 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLNumeroCargoEspecial" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFCargoEspecial" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLFecha" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTFClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jCCFecha" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jLLogo" min="-2" max="-2" attributes="0"/>
@@ -278,15 +278,9 @@
         <Property name="text" type="java.lang.String" value="Orden de Reparaci&#xf3;n:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLNumeroCargoEspecial">
+    <Component class="javax.swing.JLabel" name="jLFecha">
       <Properties>
-        <Property name="text" type="java.lang.String" value="# Cargo Especial:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTFCargoEspecial">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
+        <Property name="text" type="java.lang.String" value="Fecha:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLClaveRefaccion">
@@ -398,6 +392,8 @@
     <Component class="javax.swing.JTextField" name="jTFBeneficiario">
     </Component>
     <Component class="javax.swing.JTextField" name="jTFOrdenReparacion">
+    </Component>
+    <Component class="de.wannawork.jcalendar.JCalendarComboBox" name="jCCFecha">
     </Component>
   </SubComponents>
 </Form>

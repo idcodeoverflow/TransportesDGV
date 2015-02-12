@@ -7,7 +7,6 @@ package almacendgv;
 //import beans.CargoBodegaDTO;
 import beans.CargoEspecialDTO;
 import beans.CargoOperadorDTO;
-import beans.CargoTallerDTO;
 import beans.CargoUnidadDTO;
 import beans.OperadorDTO;
 import beans.OrdenReparacionDTO;
@@ -25,7 +24,6 @@ import bussines.SistemaBO;
 import data.CargoDirectoDAO;
 import data.CargoEspecialDAO;
 import data.CargoOperadorDAO;
-import data.CargoTallerDAO;
 import data.CargoUnidadDAO;
 import data.LazyQueryDAO;
 import data.OperadorDAO;
@@ -41,6 +39,7 @@ import data.TransporteReparacionDAO;
 import data.UnidadTransporteDAO;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +136,6 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
         jLUsuario = new javax.swing.JLabel();
         jTFUsuario = new javax.swing.JTextField();
         jLFechaEntrada = new javax.swing.JLabel();
-        jTFFechaEntrada = new javax.swing.JTextField();
         jLFechaSalida = new javax.swing.JLabel();
         jTFFechaSalida = new javax.swing.JTextField();
         jLNumeroOperador = new javax.swing.JLabel();
@@ -170,6 +168,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
         jLDescripcionPlana = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTADescripcionPlana = new javax.swing.JTextArea();
+        jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregarOrden = new javax.swing.JMenuItem();
@@ -199,9 +198,6 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
         jTFUsuario.setFocusable(false);
 
         jLFechaEntrada.setText("Fecha de Entrada:");
-
-        jTFFechaEntrada.setEditable(false);
-        jTFFechaEntrada.setFocusable(false);
 
         jLFechaSalida.setText("Fecha de Salida:");
 
@@ -577,10 +573,10 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTFNumeroOrden)
-                            .addComponent(jTFFechaEntrada)
                             .addComponent(jTFNumeroOperador)
                             .addComponent(jTFClaveTracto, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(jTFKilometrajeTracto))
+                            .addComponent(jTFKilometrajeTracto)
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -631,11 +627,12 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                             .addComponent(jLUsuario)
                             .addComponent(jTFUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLFechaEntrada)
-                            .addComponent(jTFFechaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLFechaSalida)
-                            .addComponent(jTFFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLFechaEntrada)
+                                .addComponent(jLFechaSalida)
+                                .addComponent(jTFFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLNumeroOperador)
@@ -863,6 +860,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
             ordenReparacionLocal.setStatus(true);
             ordenReparacionLocal.setTracto(tracto);
             ordenReparacionLocal.setUsuario(UserHome.getUsuario());
+            ordenReparacionLocal.setFechaEntrada(new Timestamp(jCCFecha.getDate().getTime()));
             
             acceso.agregarOrdenReparacion(ordenReparacionLocal);
             max = acceso.obtenerUltimaOrdenReparacion(true, false); 
@@ -1128,7 +1126,12 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
                     mensajeError += ordenRep.toString();                    
                 }
                 
-                this.jTFFechaEntrada.setText(((ordenRep.getFechaEntrada() != null) ? ordenRep.getFechaEntrada().toString() : "" ));
+                if(ordenRep.getFechaEntrada() != null){
+                    jCCFecha.setDate(new Timestamp(ordenRep.getFechaEntrada().getTime()));
+                    
+                } else {
+                    JOptionPane.showMessageDialog(this, "No hay fecha de entrada.", "No hay fecha de entrada.", JOptionPane.ERROR_MESSAGE);
+                }
                 this.jTFFechaSalida.setText(((ordenRep.getFechaSalida() != null) ? ordenRep.getFechaSalida().toString() : "" ));
                 this.jTFClavePlana.setText(((ordenRep.getPlana() != null) ? ordenRep.getPlana().getClave() : ""));
                 this.jTFClaveTracto.setText(((ordenRep.getTracto() != null) ? ordenRep.getTracto().getClave() : ""));
@@ -1387,7 +1390,6 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
 
             this.jTFClavePlana.setText(null);
             this.jTFClaveTracto.setText(null);
-            this.jTFFechaEntrada.setText(null);
             this.jTFFechaSalida.setText(null);
             this.jTFKilometrajePlana.setText(null);
             this.jTFKilometrajeTracto.setText(null);
@@ -1678,6 +1680,7 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
     private javax.swing.JButton jBAgregarOrden;
     private javax.swing.JButton jBCancelarOrden;
     private javax.swing.JButton jBFinalizar;
+    private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLClavePlana;
     private javax.swing.JLabel jLClaveTracto;
     private javax.swing.JLabel jLDescripcionPlana;
@@ -1720,7 +1723,6 @@ public class ControlOrdenesReparacion extends javax.swing.JFrame {
     private javax.swing.JTable jTCargosDirectos;
     private javax.swing.JTextField jTFClavePlana;
     private javax.swing.JTextField jTFClaveTracto;
-    private javax.swing.JTextField jTFFechaEntrada;
     private javax.swing.JTextField jTFFechaSalida;
     private javax.swing.JTextField jTFKilometrajePlana;
     private javax.swing.JTextField jTFKilometrajeTracto;
