@@ -85,7 +85,7 @@ public class SalidaEspecial extends javax.swing.JFrame {
         jLNumeroSalida = new javax.swing.JLabel();
         jTFNumeroSalida = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox();
+        jCBOrdenReparacion = new javax.swing.JComboBox<String>();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
         jLCantidad = new javax.swing.JLabel();
@@ -613,7 +613,7 @@ public class SalidaEspecial extends javax.swing.JFrame {
                     obtenerOrdenesReparacionPendientes(true);
             this.jCBOrdenReparacion.removeAllItems();
             for(OrdenReparacionDTO ordenReparacion : ordenesReparacion){
-                this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
+                this.jCBOrdenReparacion.addItem(Integer.toString(ordenReparacion.getNumeroOrden()));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1097\n" + ex.getMessage(),
@@ -699,7 +699,7 @@ public class SalidaEspecial extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarSalida;
-    private javax.swing.JComboBox jCBOrdenReparacion;
+    private javax.swing.JComboBox<String> jCBOrdenReparacion;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLBeneficiario;
     private javax.swing.JLabel jLCantidad;

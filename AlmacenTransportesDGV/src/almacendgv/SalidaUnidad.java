@@ -89,7 +89,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
         jLNumeroSalida = new javax.swing.JLabel();
         jTFNumeroSalida = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox();
+        jCBOrdenReparacion = new javax.swing.JComboBox<String>();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
         jLCantidad = new javax.swing.JLabel();
@@ -101,7 +101,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
         jLClaveTransporte = new javax.swing.JLabel();
         jBAgregarSalida = new javax.swing.JButton();
         jLLogo = new javax.swing.JLabel();
-        jCBClaveTransporte = new javax.swing.JComboBox();
+        jCBClaveTransporte = new javax.swing.JComboBox<String>();
         jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
@@ -625,7 +625,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
                     obtenerOrdenesReparacionPendientes(true);
             this.jCBOrdenReparacion.removeAllItems();
             for(OrdenReparacionDTO ordenReparacion : ordenesReparacion){
-                this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
+                this.jCBOrdenReparacion.addItem(Integer.toString(ordenReparacion.getNumeroOrden()));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 1131\n" + ex.getMessage(),
@@ -762,8 +762,8 @@ public class SalidaUnidad extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarSalida;
-    private javax.swing.JComboBox jCBClaveTransporte;
-    private javax.swing.JComboBox jCBOrdenReparacion;
+    private javax.swing.JComboBox<String> jCBClaveTransporte;
+    private javax.swing.JComboBox<String> jCBOrdenReparacion;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;

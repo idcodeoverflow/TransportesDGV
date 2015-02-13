@@ -74,6 +74,7 @@ public class ControlFacturasProveedor extends javax.swing.JFrame {
             } else {
                 this.jMMovimientosExtemporaneos.setEnabled(false);                
             }
+            this.setAlwaysOnTop(false);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Código error: 815\n" + ex.getMessage(),
                 "Error al obtener los datos!!!", JOptionPane.ERROR_MESSAGE);

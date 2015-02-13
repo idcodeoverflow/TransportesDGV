@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logger.ErrorLogger;
@@ -587,7 +588,7 @@ public class ControlOperadores extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -619,7 +620,7 @@ public class ControlOperadores extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));

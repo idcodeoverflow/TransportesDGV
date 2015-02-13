@@ -60,7 +60,7 @@ public class ControlFamiliaRefacciones extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTFamiliasRefacciones = new javax.swing.JTable();
         jLGrupo = new javax.swing.JLabel();
-        jCBGrupo = new javax.swing.JComboBox();
+        jCBGrupo = new javax.swing.JComboBox<String>();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
         jMIAgregar = new javax.swing.JMenuItem();
@@ -498,7 +498,7 @@ public class ControlFamiliaRefacciones extends javax.swing.JFrame {
             }
             for(GrupoRefaccionDTO grupo : grupos){
                 mensajeError = "";
-                Object datos = Integer.toString(grupo.getIdGrupoRefaccion()) + "#" + grupo.getNombre();
+                String datos = Integer.toString(grupo.getIdGrupoRefaccion()) + "#" + grupo.getNombre();
                 this.jCBGrupo.addItem(datos);
             }
         } catch(SQLException ex) {
@@ -584,7 +584,7 @@ public class ControlFamiliaRefacciones extends javax.swing.JFrame {
     private javax.swing.JButton jBAgregar;
     private javax.swing.JButton jBDarBaja;
     private javax.swing.JButton jBModificar;
-    private javax.swing.JComboBox jCBGrupo;
+    private javax.swing.JComboBox<String> jCBGrupo;
     private javax.swing.JLabel jLGrupo;
     private javax.swing.JLabel jLIdFamilia;
     private javax.swing.JLabel jLNombreFamilia;
