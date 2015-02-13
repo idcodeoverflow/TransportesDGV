@@ -109,7 +109,7 @@ public class CargoOperador extends javax.swing.JFrame {
         jLFolio = new javax.swing.JLabel();
         jTFFolio = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox();
+        jCBOrdenReparacion = new javax.swing.JComboBox<String>();
         jLFecha = new javax.swing.JLabel();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
@@ -813,7 +813,7 @@ public class CargoOperador extends javax.swing.JFrame {
                     obtenerOrdenesReparacionPendientes(true);
             for(OrdenReparacionDTO ordenReparacion : ordenesReparacion){
                 if(ordenReparacion.getOperador().getNumeroOperador() != 0){
-                    this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
+                    this.jCBOrdenReparacion.addItem(Integer.toString(ordenReparacion.getNumeroOrden()));
                 }
             }
         } catch (SQLException ex) {
@@ -901,7 +901,7 @@ public class CargoOperador extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarCargo;
-    private javax.swing.JComboBox jCBOrdenReparacion;
+    private javax.swing.JComboBox<String> jCBOrdenReparacion;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;

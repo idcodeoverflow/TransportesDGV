@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logger.ErrorLogger;
@@ -69,9 +70,14 @@ public class UserHome extends javax.swing.JFrame {
             this.jTNotificaciones.setSelectionMode(0);
             this.jTPartesBajas.setSelectionMode(0);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Código error: 1155\n" + ex.getMessage(),
+            JOptionPane.showMessageDialog(null, "Código error: 1155\n" + ex.getMessage() ,
                     "Error al iniciar ventana HomeUser!!!", JOptionPane.ERROR_MESSAGE);
-            ErrorLogger.scribirLog("Constructor UserHome()", 1155, UserHome.getUsuario(), ex);
+            String s = "";
+            StackTraceElement c[] = ex.getStackTrace();
+            for(StackTraceElement e : c){
+                s += e.toString();
+            }
+            ErrorLogger.scribirLog("Constructor UserHome()"+s, 1155, UserHome.getUsuario(), ex);
             this.dispose();
         }
     }
@@ -1124,7 +1130,7 @@ public class UserHome extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -1156,7 +1162,7 @@ public class UserHome extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -1211,7 +1217,7 @@ public class UserHome extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -1243,7 +1249,7 @@ public class UserHome extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -1281,7 +1287,7 @@ public class UserHome extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -1313,7 +1319,7 @@ public class UserHome extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<String,Object>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));

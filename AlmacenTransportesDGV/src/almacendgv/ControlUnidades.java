@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -114,11 +115,11 @@ public class ControlUnidades extends javax.swing.JFrame {
         jPCatalogoUnidades = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTCatalogoUnidades = new javax.swing.JTable();
-        jCBMarca = new javax.swing.JComboBox();
-        jCBTipoUnidad = new javax.swing.JComboBox();
+        jCBMarca = new javax.swing.JComboBox<String>();
+        jCBTipoUnidad = new javax.swing.JComboBox<String>();
         jLColor = new javax.swing.JLabel();
         jTFColor = new javax.swing.JTextField();
-        jCBMarcaMotor = new javax.swing.JComboBox();
+        jCBMarcaMotor = new javax.swing.JComboBox<String>();
         jLMarcaMotor = new javax.swing.JLabel();
         jLModeloMotor = new javax.swing.JLabel();
         jTFModeloMotor = new javax.swing.JTextField();
@@ -745,7 +746,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             this.estadoBotonesInicio();
             imagePath = null;
             Image img;
-            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"));
+            ImageIcon icon = new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"));
             img = icon.getImage();
             img = img.getScaledInstance(jLImage.getHeight() - 10, jLImage.getWidth() - 10, java.awt.Image.SCALE_SMOOTH);
             icon = new ImageIcon(img);
@@ -754,7 +755,12 @@ public class ControlUnidades extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Código error: 1022\n" + ex.getMessage()
                     + "\nError al intentar limpiar los datos.",
                     "Error!!!", JOptionPane.ERROR_MESSAGE); 
-            ErrorLogger.scribirLog("ControlUnidades limpiar()", 1022, UserHome.getUsuario(), ex);
+            String s = "";
+            StackTraceElement c[] = ex.getStackTrace();
+            for(StackTraceElement e : c){
+                s += e.toString();
+            }
+            ErrorLogger.scribirLog("ControlUnidades limpiar()"+s, 1022, UserHome.getUsuario(), ex);
         }
     }
     
@@ -881,7 +887,7 @@ public class ControlUnidades extends javax.swing.JFrame {
                 this.jCBMarca.removeItemAt(this.jCBMarca.getItemCount() - 1);
             }
             for(MarcaUnidadDTO marca : marcas){
-                Object datos = Integer.toString(marca.getIdMarca()) + "#" + marca.getNombre();
+                String datos = Integer.toString(marca.getIdMarca()) + "#" + marca.getNombre();
                 mensajeError = marca.toString();
                 this.jCBMarca.addItem(datos);
             }
@@ -906,7 +912,7 @@ public class ControlUnidades extends javax.swing.JFrame {
                 this.jCBMarcaMotor.removeItemAt(this.jCBMarcaMotor.getItemCount() - 1);
             }
             for(MarcaMotorDTO marca : marcas){
-                Object datos = Integer.toString(marca.getIdMarcaMotor()) + "#" + marca.getNombre();
+                String datos = Integer.toString(marca.getIdMarcaMotor()) + "#" + marca.getNombre();
                 mensajeError = marca.toString();
                 this.jCBMarcaMotor.addItem(datos);
             }
@@ -963,7 +969,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -995,7 +1001,7 @@ public class ControlUnidades extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -1155,9 +1161,9 @@ public class ControlUnidades extends javax.swing.JFrame {
     private javax.swing.JButton jBAgregar;
     private javax.swing.JButton jBDarBaja;
     private javax.swing.JButton jBModificar;
-    private javax.swing.JComboBox jCBMarca;
-    private javax.swing.JComboBox jCBMarcaMotor;
-    private javax.swing.JComboBox jCBTipoUnidad;
+    private javax.swing.JComboBox<String> jCBMarca;
+    private javax.swing.JComboBox<String> jCBMarcaMotor;
+    private javax.swing.JComboBox<String> jCBTipoUnidad;
     private javax.swing.JLabel jLAno;
     private javax.swing.JLabel jLCPL;
     private javax.swing.JLabel jLClave;

@@ -109,7 +109,7 @@ public class CargoUnidad extends javax.swing.JFrame {
         jLFolio = new javax.swing.JLabel();
         jTFFolio = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox();
+        jCBOrdenReparacion = new javax.swing.JComboBox<String>();
         jLFecha = new javax.swing.JLabel();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
@@ -128,7 +128,7 @@ public class CargoUnidad extends javax.swing.JFrame {
         jLLogo = new javax.swing.JLabel();
         jBAgregarCargo = new javax.swing.JButton();
         jLClaveUnidad = new javax.swing.JLabel();
-        jCBClaveUnidad = new javax.swing.JComboBox();
+        jCBClaveUnidad = new javax.swing.JComboBox<String>();
         jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
@@ -796,7 +796,7 @@ public class CargoUnidad extends javax.swing.JFrame {
             List<OrdenReparacionDTO> ordenesReparacion = new OrdenReparacionDAO().
                     obtenerOrdenesReparacionPendientes(true);
             for(OrdenReparacionDTO ordenReparacion : ordenesReparacion){
-                this.jCBOrdenReparacion.addItem(ordenReparacion.getNumeroOrden());
+                this.jCBOrdenReparacion.addItem(Integer.toString(ordenReparacion.getNumeroOrden()));
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Código error: 768\n" + ex.getMessage(),
@@ -933,8 +933,8 @@ public class CargoUnidad extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarCargo;
-    private javax.swing.JComboBox jCBClaveUnidad;
-    private javax.swing.JComboBox jCBOrdenReparacion;
+    private javax.swing.JComboBox<String> jCBClaveUnidad;
+    private javax.swing.JComboBox<String> jCBOrdenReparacion;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;

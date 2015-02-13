@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logger.ErrorLogger;
@@ -86,7 +87,7 @@ public class ControlPartes extends javax.swing.JFrame {
         jTFNumeroParte = new javax.swing.JTextField();
         jTFNombreParte = new javax.swing.JTextField();
         jLGrupo = new javax.swing.JLabel();
-        jCBGrupoPartes = new javax.swing.JComboBox();
+        jCBGrupoPartes = new javax.swing.JComboBox<String>();
         jLPuntoReorden = new javax.swing.JLabel();
         jTFPuntoReorden = new javax.swing.JTextField();
         jLMaximo = new javax.swing.JLabel();
@@ -761,7 +762,7 @@ public class ControlPartes extends javax.swing.JFrame {
                 this.jCBGrupoPartes.removeItemAt(this.jCBGrupoPartes.getItemCount() - 1);
             }
             for(FamiliaRefaccionDTO familia : familias){
-                Object datos = Integer.toString(familia.getIdFamiliaRefaccion()) + "#" + familia.getNombre();
+                String datos = Integer.toString(familia.getIdFamiliaRefaccion()) + "#" + familia.getNombre();
                 this.jCBGrupoPartes.addItem(datos);
             }
         } catch(SQLException ex) {
@@ -833,7 +834,7 @@ public class ControlPartes extends javax.swing.JFrame {
             InputStream jasperStream = getClass().getResourceAsStream(reportPath);
             JasperReport jReport = (JasperReport)JRLoader.loadObject(jasperStream);
             JasperPrint jPrint = null;
-            HashMap parameters = new HashMap();
+            Map<String,Object> parameters = new HashMap<>();
             LazyQueryDAO lazyQ = new LazyQueryDAO();
             parameters.put(JRParameter.REPORT_LOCALE, locale);
             parameters.put("LOGO", this.getClass().getResourceAsStream(logoPath));
@@ -919,7 +920,7 @@ public class ControlPartes extends javax.swing.JFrame {
     private javax.swing.JButton jBAgregar;
     private javax.swing.JButton jBEliminar;
     private javax.swing.JButton jBModificar;
-    private javax.swing.JComboBox jCBGrupoPartes;
+    private javax.swing.JComboBox<String> jCBGrupoPartes;
     private javax.swing.JCheckBox jCBNotificarBajoStock;
     private javax.swing.JLabel jLGrupo;
     private javax.swing.JLabel jLMaximo;

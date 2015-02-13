@@ -134,7 +134,7 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
         jLLogo = new javax.swing.JLabel();
         jBAgregarCargo = new javax.swing.JButton();
         jLClaveUnidad = new javax.swing.JLabel();
-        jCBClaveUnidad = new javax.swing.JComboBox();
+        jCBClaveUnidad = new javax.swing.JComboBox<String>();
         jTFOrdenReparacion = new javax.swing.JTextField();
         jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMBMenu = new javax.swing.JMenuBar();
@@ -1018,7 +1018,7 @@ public class CargoUnidadExtemporaneo extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarCargo;
-    private javax.swing.JComboBox jCBClaveUnidad;
+    private javax.swing.JComboBox<String> jCBClaveUnidad;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;
