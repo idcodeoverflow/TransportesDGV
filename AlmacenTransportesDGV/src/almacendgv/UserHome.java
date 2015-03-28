@@ -294,7 +294,7 @@ public class UserHome extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro mediano.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Mediano.png"))); // NOI18N
 
         jPNotificacionesPendientes.setBorder(javax.swing.BorderFactory.createTitledBorder("Notificaciones Pendientes"));
 

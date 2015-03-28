@@ -164,7 +164,7 @@ public class SalidaTaller extends javax.swing.JFrame {
             }
         });
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"))); // NOI18N
 
         jMArchivo.setText("Archivo");
 

@@ -65,7 +65,7 @@ public class ControlSistema extends javax.swing.JFrame {
         setTitle("Configuración del Sistema");
         setResizable(false);
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"))); // NOI18N
 
         jPOrdenesReparacion.setBorder(javax.swing.BorderFactory.createTitledBorder("Órdenes de Reparación"));
 

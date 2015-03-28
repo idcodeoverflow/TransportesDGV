@@ -239,7 +239,7 @@ public class CargoTaller extends javax.swing.JFrame {
         jTFTotal.setEditable(false);
         jTFTotal.setFocusable(false);
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"))); // NOI18N
 
         jBAgregarCargo.setText("Agregar Cargo Taller");
         jBAgregarCargo.addActionListener(new java.awt.event.ActionListener() {

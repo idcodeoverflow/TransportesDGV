@@ -315,7 +315,7 @@
     <Component class="javax.swing.JLabel" name="jLLogo">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/Logo Efectivo Negro chico.png"/>
+          <Image iconType="3" name="/icons/Logo Efectivo Negro Chico.png"/>
         </Property>
       </Properties>
     </Component>

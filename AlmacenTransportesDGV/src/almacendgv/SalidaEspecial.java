@@ -85,7 +85,7 @@ public class SalidaEspecial extends javax.swing.JFrame {
         jLNumeroSalida = new javax.swing.JLabel();
         jTFNumeroSalida = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox<String>();
+        jCBOrdenReparacion = new javax.swing.JComboBox();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
         jLCantidad = new javax.swing.JLabel();
@@ -171,7 +171,7 @@ public class SalidaEspecial extends javax.swing.JFrame {
             }
         });
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"))); // NOI18N
 
         jMArchivo.setText("Archivo");
 
@@ -699,7 +699,7 @@ public class SalidaEspecial extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarSalida;
-    private javax.swing.JComboBox<String> jCBOrdenReparacion;
+    private javax.swing.JComboBox jCBOrdenReparacion;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLBeneficiario;
     private javax.swing.JLabel jLCantidad;

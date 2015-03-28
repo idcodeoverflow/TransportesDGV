@@ -253,7 +253,7 @@ public class ControlSalidasAlmacen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro mediano.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Mediano.png"))); // NOI18N
 
         jLNumeroOrden.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLNumeroOrden.setText("Orden de Reparación:");

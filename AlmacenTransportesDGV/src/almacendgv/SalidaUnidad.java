@@ -89,7 +89,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
         jLNumeroSalida = new javax.swing.JLabel();
         jTFNumeroSalida = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox<String>();
+        jCBOrdenReparacion = new javax.swing.JComboBox();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
         jLCantidad = new javax.swing.JLabel();
@@ -101,7 +101,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
         jLClaveTransporte = new javax.swing.JLabel();
         jBAgregarSalida = new javax.swing.JButton();
         jLLogo = new javax.swing.JLabel();
-        jCBClaveTransporte = new javax.swing.JComboBox<String>();
+        jCBClaveTransporte = new javax.swing.JComboBox();
         jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
@@ -184,7 +184,7 @@ public class SalidaUnidad extends javax.swing.JFrame {
             }
         });
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"))); // NOI18N
 
         jMArchivo.setText("Archivo");
 
@@ -762,8 +762,8 @@ public class SalidaUnidad extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarSalida;
-    private javax.swing.JComboBox<String> jCBClaveTransporte;
-    private javax.swing.JComboBox<String> jCBOrdenReparacion;
+    private javax.swing.JComboBox jCBClaveTransporte;
+    private javax.swing.JComboBox jCBOrdenReparacion;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveRefaccion;

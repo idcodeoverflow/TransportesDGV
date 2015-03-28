@@ -16,7 +16,7 @@ public final class DBConnection {
 
          private static Connection conn = null;
 	 private static final String userName = "root";
-	 private static final String password = "TransportesDGV2015";
+	 private static final String password = "transportesDGV2015";
 	 private static final String url = "jdbc:mysql://localhost/inventario";
 	 
 	 public static void createConnection(){

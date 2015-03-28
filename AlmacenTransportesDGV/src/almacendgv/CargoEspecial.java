@@ -102,7 +102,7 @@ public class CargoEspecial extends javax.swing.JFrame {
         jLFolio = new javax.swing.JLabel();
         jTFFolio = new javax.swing.JTextField();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox<String>();
+        jCBOrdenReparacion = new javax.swing.JComboBox();
         jLFecha = new javax.swing.JLabel();
         jLClaveRefaccion = new javax.swing.JLabel();
         jTFClaveRefaccion = new javax.swing.JTextField();
@@ -246,7 +246,7 @@ public class CargoEspecial extends javax.swing.JFrame {
         jTFTotal.setEditable(false);
         jTFTotal.setFocusable(false);
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"))); // NOI18N
 
         jBAgregarCargo.setText("Agregar Cargo Especial");
         jBAgregarCargo.addActionListener(new java.awt.event.ActionListener() {
@@ -881,7 +881,7 @@ public class CargoEspecial extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarCargo;
-    private javax.swing.JComboBox<String> jCBOrdenReparacion;
+    private javax.swing.JComboBox jCBOrdenReparacion;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLBeneficiario;
     private javax.swing.JLabel jLCantidad;

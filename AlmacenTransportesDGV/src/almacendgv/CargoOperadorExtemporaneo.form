@@ -206,11 +206,13 @@
                           <Component id="jTFOrdenReparacion" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLFecha" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTFClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jCCFecha" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTFClaveRefaccion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <Component id="jLLogo" min="-2" max="-2" attributes="0"/>
@@ -372,7 +374,7 @@
     <Component class="javax.swing.JLabel" name="jLLogo">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icons/Logo Efectivo Negro chico.png"/>
+          <Image iconType="3" name="/icons/Logo Efectivo Negro Chico.png"/>
         </Property>
       </Properties>
     </Component>

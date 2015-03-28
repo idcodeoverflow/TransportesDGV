@@ -99,11 +99,11 @@ public class TrabajoExterno extends javax.swing.JFrame {
         jBAgregarTrabajo = new javax.swing.JButton();
         jLLogo = new javax.swing.JLabel();
         jLOrdenReparacion = new javax.swing.JLabel();
-        jCBOrdenReparacion = new javax.swing.JComboBox<String>();
+        jCBOrdenReparacion = new javax.swing.JComboBox();
         jLClaveUnidad = new javax.swing.JLabel();
         jLUsuario = new javax.swing.JLabel();
         jTFUsuario = new javax.swing.JTextField();
-        jCBClaveUnidad = new javax.swing.JComboBox<String>();
+        jCBClaveUnidad = new javax.swing.JComboBox();
         jCCFecha = new de.wannawork.jcalendar.JCalendarComboBox();
         jMBMenu = new javax.swing.JMenuBar();
         jMArchivo = new javax.swing.JMenu();
@@ -228,7 +228,7 @@ public class TrabajoExterno extends javax.swing.JFrame {
             }
         });
 
-        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro chico.png"))); // NOI18N
+        jLLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logo Efectivo Negro Chico.png"))); // NOI18N
 
         jLOrdenReparacion.setText("Orden de Reparación:");
 
@@ -886,8 +886,8 @@ public class TrabajoExterno extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAgregarTrabajo;
-    private javax.swing.JComboBox<String> jCBClaveUnidad;
-    private javax.swing.JComboBox<String> jCBOrdenReparacion;
+    private javax.swing.JComboBox jCBClaveUnidad;
+    private javax.swing.JComboBox jCBOrdenReparacion;
     private de.wannawork.jcalendar.JCalendarComboBox jCCFecha;
     private javax.swing.JLabel jLCantidad;
     private javax.swing.JLabel jLClaveUnidad;
